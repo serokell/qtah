@@ -1,15 +1,14 @@
 #include "shim_qstring.h"
-#include <QString>
+
 #include <string>
-#include "buffers.h"
 
 namespace qtpi {
 
-QString decodeQString(::cppop::BufferReader* reader) {
+QString decodeQString(::cppop::SizedBufferReader* reader) {
     return QString::fromStdString(decodeStdString(reader));
 }
 
-void encodeQString(const QString& str, ::cppop::WritableBuffer* buf) {
+void encodeQString(const QString& str, ::cppop::SizedBufferWriter* buf) {
     encodeStdString(str.toStdString(), buf);
 }
 

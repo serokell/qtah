@@ -1,4 +1,5 @@
 #include "shim_qapplication.h"
+
 #include <QApplication>
 
 namespace {

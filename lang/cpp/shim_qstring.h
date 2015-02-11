@@ -2,13 +2,13 @@
 #define SHIM_QSTRING_H
 
 #include <QString>
-#include "buffers.h"
+#include "buffer.h"
 
 namespace qtpi {
 
-QString decodeQString(::cppop::BufferReader* reader);
+QString decodeQString(::cppop::SizedBufferReader* reader);
 
-void encodeQString(const QString& str, ::cppop::WritableBuffer* buf);
+void encodeQString(const QString& str, ::cppop::SizedBufferWriter* buf);
 
 }
 
