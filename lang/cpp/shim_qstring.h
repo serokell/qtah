@@ -6,9 +6,9 @@
 
 namespace qtpi {
 
-QString decodeQString(::cppop::SizedBufferReader* reader);
+QString decodeQString(::cppop::SizedBufferReader& reader);
 
-void encodeQString(const QString& str, ::cppop::SizedBufferWriter* buf);
+void encodeQString(const QString& str, ::cppop::SizedBufferWriter& buf);
 
 }
 
