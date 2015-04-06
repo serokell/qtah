@@ -17,13 +17,16 @@ SOURCES += main.cpp\
     generichandler.cpp \
     qtpi_interface.cpp \
     shim_qapplication.cpp \
-    shim_qstring.cpp
+    shim_qstring.cpp \
+    shim_cbtest.cpp
 
 HEADERS  += mainwindow.h \
     generichandler.h \
     qtpi_interface.h \
     shim_qapplication.h \
-    shim_qstring.h
+    shim_qstring.h \
+    event.h \
+    shim_cbtest.h
 
 FORMS    += mainwindow.ui
 

@@ -37,6 +37,8 @@ executable qtpi-generator
 
 executable qtpi-demo
   build-depends:        base >=4 && <5,
+                        binary >=0.7 && <0.8,
+                        bytestring >=0.10 && <0.11,
                         cppop,
                         qtpi
   hs-source-dirs:       src-demo

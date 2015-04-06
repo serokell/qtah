@@ -17,12 +17,15 @@ interfaceResult =
   , includeStd "QPushButton"
   , includeStd "QString"
   , includeStd "QWidget"
+  , includeLocal "shim_cbtest.h"
   , includeLocal "shim_qapplication.h"
   , includeLocal "shim_qstring.h"
   ]
   [ ExportClass cls_std__string
   --, ExportFn f_sin
   --, ExportFn f_sinf
+  , ExportFn f_shim_cbtest_set
+  , ExportFn f_shim_cbtest_call
   , ExportClass c_QAbstractButton
   , ExportFn f_QApplication_new
   , ExportClass c_QApplication
@@ -39,6 +42,16 @@ interfaceResult =
 --f_sin = Function (ident "sin") (toExtName "sin") Pure [TDouble] TDouble
 --
 --f_sinf = Function (ident "sinf") (toExtName "sinf") Pure [TFloat] TFloat
+
+f_shim_cbtest_set =
+  Function (ident1 "qtpi" "shim_cbtest_set") (toExtName "cbtest_set") Nonpure
+  [ TObj cls_cppop__Callback ]
+  TVoid
+
+f_shim_cbtest_call =
+  Function (ident1 "qtpi" "shim_cbtest_call") (toExtName "cbtest_call") Nonpure
+  [ TObj cls_std__string ] $
+  TObj cls_std__string
 
 c_QAbstractButton =
   makeClass (ident "QAbstractButton")

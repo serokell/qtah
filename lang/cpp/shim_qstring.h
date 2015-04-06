@@ -4,9 +4,15 @@
 #include <QString>
 #include "buffer.h"
 
+namespace cppop {
+
+class Server;
+
+}
+
 namespace qtpi {
 
-QString decodeQString(::cppop::SizedBufferReader& reader);
+QString decodeQString(::cppop::Server& server, ::cppop::SizedBufferReader& reader);
 
 void encodeQString(const QString& str, ::cppop::SizedBufferWriter& buf);
 
