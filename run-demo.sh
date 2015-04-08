@@ -4,4 +4,5 @@ set -euo pipefail
 . "$(dirname "$(realpath "$0")")/common.sh"
 
 cd "$projectDir/lang/hs"
-cabal run qtpi-demo -- "$@"
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}${buildDir}" \
+    cabal run qtpi-demo -- "$@"

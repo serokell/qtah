@@ -1,4 +1,4 @@
-#include "shim_qapplication.h"
+#include "shim_qapplication.hpp"
 
 #include <QApplication>
 

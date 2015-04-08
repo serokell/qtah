@@ -12,14 +12,9 @@ run() {
 }
 
 declare -r projectDir="$(dirname "$(realpath "$0")")"
-declare -r buildDir="$projectDir/../build-qtpi-Desktop-Debug"
+declare -r buildDir="$projectDir/build-cpp"
 
-declare -r cppopProjectDir="$projectDir/../cppop"
-declare -r cppopObjDir="$projectDir/../build-cppop-Desktop-Debug"
-
-declare -r serverInFifo="/tmp/serverin"
-declare -r serverOutFifo="/tmp/serverout"
-declare -r serverLogFile="/tmp/serverlog"
+declare -r cppopProjectDir="$projectDir/../../cppop/git"
 
 if ! [[ -d $cppopProjectDir ]]; then
     echo "Cppop project directory doesn't exist ($cppopProjectDir), aborting."
