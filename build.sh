@@ -18,11 +18,11 @@ msg "Generating bindings."
 run mkdir -p "$projectDir/lang/hs/src/Foreign/Cppop/Generated"
 run cd "$projectDir/lang/hs"
 run cabal configure
-run cabal build qtpi-generator
-run dist/build/qtpi-generator/qtpi-generator \
+run cabal build qtah-generator
+run dist/build/qtah-generator/qtah-generator \
     --gen-cpp-cpp "$projectDir/lang/cpp/bindings.cpp" \
     --gen-cpp-h "$projectDir/lang/cpp/bindings.hpp" \
-    --gen-hs "$projectDir/lang/hs/src/Foreign/Cppop/Generated/Qtpi.hs"
+    --gen-hs "$projectDir/lang/hs/src/Foreign/Cppop/Generated/Qtah.hs"
 
 echo
 msg "Building the C++ library."
@@ -30,7 +30,7 @@ if ! [[ -d $buildDir ]]; then
     run mkdir "$buildDir"
 fi
 run cd "$buildDir"
-run qmake "$projectDir/lang/cpp/qtpi.pro"
+run qmake "$projectDir/lang/cpp/qtah.pro"
 run make ${MAKEOPTS:-}
 
 echo

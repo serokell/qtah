@@ -5,4 +5,4 @@ set -euo pipefail
 
 cd "$projectDir/lang/hs"
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}${buildDir}" \
-    cabal run qtpi-demo -- "$@"
+    cabal run qtah-demo -- "$@"

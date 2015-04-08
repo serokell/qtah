@@ -9,7 +9,7 @@ static char** shim_argv;
 
 }
 
-namespace qtpi {
+namespace qtah {
 
 void shiminit_QApplication(int argc, char **argv) {
     shim_argc = argc;

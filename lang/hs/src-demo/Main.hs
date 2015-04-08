@@ -1,6 +1,6 @@
 module Main where
 
-import Foreign.Cppop.Generated.Qtpi
+import Foreign.Cppop.Generated.Qtah
 
 main :: IO ()
 main = do

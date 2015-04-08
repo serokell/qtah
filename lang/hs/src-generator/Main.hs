@@ -8,7 +8,7 @@ import System.Exit (exitFailure)
 
 interfaceResult :: Either String Interface
 interfaceResult =
-  interface "qtpi"
+  interface "qtah"
   [ includeStd "math.h"  -- TODO cmath?
   , includeStd "cstring"
   , includeStd "QAbstractButton"
@@ -51,7 +51,7 @@ c_QAbstractButton =
   ]
 
 f_QApplication_new =
-  Function (ident1 "qtpi" "shim_QApplication_new") (toExtName "QApplication_new") Nonpure
+  Function (ident1 "qtah" "shim_QApplication_new") (toExtName "QApplication_new") Nonpure
   [] $ TPtr $ TObj c_QApplication
 
 c_QApplication =

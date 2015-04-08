@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-namespace qtpi {
+namespace qtah {
 
 void shiminit_QApplication(int argc, char *argv[]);
 

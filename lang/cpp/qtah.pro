@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = qtpi
+TARGET = qtah
 TEMPLATE = lib
 VERSION = 0.1.0
 
@@ -12,4 +12,4 @@ SOURCES += \
 
 HEADERS += \
     bindings.hpp \
-    shim_qapplication.h
+    shim_qapplication.hpp

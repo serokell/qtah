@@ -3,7 +3,7 @@
 set -euo pipefail
 
 msg() {
-    echo "qtpi >>> $*"
+    echo "qtah >>> $*"
 }
 
 run() {
