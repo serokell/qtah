@@ -3,7 +3,8 @@
 # Accepts MAKEOPTS.
 
 set -euo pipefail
-. "$(dirname "$(realpath "$0")")/common.sh"
+declare -r projectDir="$(dirname "$(realpath "$0")")"
+. "$projectDir/common.sh"
 
 echo
 msg "Building Cppop."
@@ -23,6 +24,8 @@ run dist/build/qtah-generator/qtah-generator \
     --gen-cpp-cpp "$projectDir/lang/cpp/bindings.cpp" \
     --gen-cpp-h "$projectDir/lang/cpp/bindings.hpp" \
     --gen-hs "$projectDir/lang/hs/src/Foreign/Cppop/Generated/Qtah.hs"
+
+"$projectDir/tools/listener-gen.sh"
 
 echo
 msg "Building the C++ library."

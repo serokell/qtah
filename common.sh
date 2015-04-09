@@ -11,7 +11,6 @@ run() {
     "$@"
 }
 
-declare -r projectDir="$(dirname "$(realpath "$0")")"
 declare -r buildDir="$projectDir/build-cpp"
 
 declare -r cppopProjectDir="$projectDir/../../cppop/git"
