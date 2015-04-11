@@ -28,7 +28,7 @@ bindingImports =
   , includeStd "QString"
   , includeStd "QWidget"
   , includeLocal "cbtest.hpp"
-  --zz:, includeLocal "listeners.hpp"
+  , includeLocal "listeners.hpp"
   , includeLocal "shim_qapplication.hpp"
   ]
 
@@ -43,7 +43,7 @@ interfaceResult =
   interface "qtah"
   "bindings.cpp" "bindings.hpp" bindingImports
   (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
-  ({-zz:allListeners ++-} exports)
+  (allListeners ++ exports)
   where exports =
           [ ExportClass cls_std__string
           --, ExportFn f_sin
@@ -57,6 +57,7 @@ interfaceResult =
           , ExportClass c_QPushButton
           , ExportClass c_QString
           , ExportClass c_QWidget
+          , ExportCallback cb_BoolVoid
           , ExportCallback cb_IntIntVoid
           , ExportCallback cb_IntVoid
           , ExportCallback cb_StringVoid

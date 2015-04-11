@@ -8,9 +8,12 @@ forEachListener() {
     local fn="${1:?forEachListener requires the name of a function to call.}"
 
     # Keep the imports in the Haskell section up-to-date with these definitions.
-    $fn Int "int" "TInt"
-    $fn IntInt "int|int" "TInt|TInt"
-    $fn QString "QString" "TObj c_QString"
+    #
+    # TODO Check whether these C++ types need to be kept whitespace-free in
+    # order for SLOT() to work below.
+    $fn Bool "bool"
+    $fn Int "int"
+    $fn IntInt "int|int"
 }
 
 #### Generate C++ listener classes.
@@ -23,21 +26,28 @@ exec \
 sayHpp() { echo "$*" >&$fhpp; }
 sayCpp() { echo "$*" >&$fcpp; }
 
+sayHpp '#include <string>'
 sayHpp '#include <QObject>'
+sayHpp '#include "callbacks.hpp"'
 
 sayCpp '#include "listeners.hpp"'
+sayCpp
+sayCpp '#include <iostream>'
 
 writeCpp() {
     local -r name="${1:?}" params="${2:?}"
     local -r className="Listener${name}"
-    local -r paramTypeList="$(echo "${params}" | sed 's/|/, /g')"
+    local -r callbackClassName="Callback${name}Void"
     local paramList=""
+    local paramTypeList=""
     local paramNameList=""
     local n=1
     while read type; do
         [[ -n $paramList ]] && paramList+=', '
+        [[ -n $paramTypeList ]] && paramTypeList+=','
         [[ -n $paramNameList ]] && paramNameList+=', '
         paramList+="${type} arg${n}"
+        paramTypeList+="${type}"
         paramNameList+="arg${n}"
         ((n++))
     done < <(tr '|' '\n' <<<"$params")
@@ -47,19 +57,32 @@ writeCpp() {
     sayHpp "    Q_OBJECT"
     sayHpp
     sayHpp "public:"
-    sayHpp "    typedef void (*fptr)(${paramTypeList});"
-    sayHpp "    ${className}(fptr f, QObject* parent = 0);"
+    sayHpp "    typedef ${callbackClassName} callback;"
+    sayHpp "    ${className}(callback f, QObject* parent = 0);"
+    sayHpp "    bool connectListener(QObject* source, const std::string& signal);"
     sayHpp
     sayHpp "public slots:"
     sayHpp "    void invoke(${paramList});"
     sayHpp
     sayHpp "private:"
-    sayHpp "    const fptr f_;"
+    sayHpp "    callback f_;"
+    sayHpp "    bool connected_;"
     sayHpp "};"
 
     sayCpp
-    sayCpp "${className}::${className}(${className}::fptr f, QObject* parent) :"
-    sayCpp "    QObject(parent), f_(f) {}"
+    sayCpp "${className}::${className}(${className}::callback f, QObject* parent) :"
+    sayCpp "    QObject(parent), f_(f), connected_(false) {}"
+    sayCpp
+    sayCpp "bool ${className}::connectListener(QObject* source, const std::string& signal) {"
+    sayCpp "    if (connected_) {"
+    sayCpp "        std::cerr <<"
+    sayCpp "            \"${className}::connectListener: Internal error, already connected.  \""
+    sayCpp "            \"Not connecting again.\\n\" << std::flush;"
+    sayCpp "        return false;"
+    sayCpp "    }"
+    sayCpp "    setParent(source);"
+    sayCpp "    return connected_ = connect(source, signal.c_str(), SLOT(invoke(${paramTypeList})));"
+    sayCpp "}"
     sayCpp
     sayCpp "void ${className}::invoke(${paramList}) {"
     sayCpp "    f_(${paramNameList});"
@@ -80,30 +103,27 @@ say() { echo "$*" >&$fhs; }
 say 'module Graphics.UI.Qtah.Internal.Interface.Listeners where'
 say
 say 'import Foreign.Cppop.Generator.Spec'
+say 'import Foreign.Cppop.Generator.Std (cls_std__string)'
+say 'import Graphics.UI.Qtah.Internal.Interface.Callbacks'
 say 'import Graphics.UI.Qtah.Internal.Interface.QObject'
-say 'import Graphics.UI.Qtah.Internal.Interface.QString'
 
 writeHs() {
-    local -r name="${1:?}" hsTypes="${3:?}"
+    local -r name="${1:?}"
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
-
-    local argTypeList=""
-    while read type; do
-        [[ -n $argTypeList ]] && argTypeList+=', '
-        argTypeList+="$type"
-    done < <(tr '|' '\n' <<<"$hsTypes")
-    argTypeList="[$argTypeList]"
+    local -r callbackVar="cb_${name}Void"
 
     say
     say "${classVar} ="
     say "  makeClass (ident \"${className}\") Nothing [c_QObject]"
     say "  [ Ctor (toExtName \"${className}_new\")"
-    say "         [TPtr \$ TFn ${argTypeList} TVoid]"
+    say "         [TCallback ${callbackVar}]"
     say "  , Ctor (toExtName \"${className}_newWithParent\")"
-    say "         [TPtr \$ TFn ${argTypeList} TVoid, TPtr \$ TObj c_QObject]"
+    say "         [TCallback ${callbackVar}, TPtr \$ TObj c_QObject]"
     say "  ]"
-    say "  []"
+    say "  [ Method \"connectListener\" (toExtName \"${className}_connectListener\") MNormal Nonpure"
+    say "    [TPtr \$ TObj c_QObject, TObj cls_std__string] TBool"
+    say "  ]"
 }
 forEachListener writeHs
 

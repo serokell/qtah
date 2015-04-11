@@ -13,7 +13,9 @@ build-type:             Simple
 cabal-version:          >=1.10
 
 library
-  exposed-modules:      Foreign.Cppop.Generated.Qtah
+  exposed-modules:
+      Graphics.UI.Qtah.Signals
+    , Foreign.Cppop.Generated.Qtah
   build-depends:        base >=4.7 && <4.8,
                         binary >=0.7 && <0.8,
                         bytestring >=0.10 && <0.11,
