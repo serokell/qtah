@@ -101,16 +101,16 @@ unset fhpp fcpp sayHpp sayCpp writeCpp
 
 echo
 msg "Generating Haskell listener binding definitions."
-exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listeners.hs"
+exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listener.hs"
 say() { echo "$*" >&$fhs; }
 
 say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
 say
-say 'module Graphics.UI.Qtah.Internal.Interface.Listeners where'
+say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
 say
 say 'import Foreign.Cppop.Generator.Spec'
 say 'import Foreign.Cppop.Generator.Std (cls_std__string)'
-say 'import Graphics.UI.Qtah.Internal.Interface.Callbacks'
+say 'import Graphics.UI.Qtah.Internal.Interface.Callback'
 say 'import Graphics.UI.Qtah.Internal.Interface.QObject'
 
 writeHs() {

@@ -1,7 +1,7 @@
 module Main where
 
 import Control.Monad (unless)
-import Graphics.UI.Qtah.Signals
+import Graphics.UI.Qtah.Signal
 import Foreign.Cppop.Generated.Qtah
 import Foreign.Cppop.Runtime.Support (delete)
 

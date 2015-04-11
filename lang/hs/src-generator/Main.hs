@@ -3,8 +3,8 @@ module Main where
 import Foreign.Cppop.Generator.Main
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Std
-import Graphics.UI.Qtah.Internal.Interface.Callbacks
-import Graphics.UI.Qtah.Internal.Interface.Listeners
+import Graphics.UI.Qtah.Internal.Interface.Callback
+import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.QAbstractButton
 import Graphics.UI.Qtah.Internal.Interface.QApplication
 import Graphics.UI.Qtah.Internal.Interface.QCoreApplication

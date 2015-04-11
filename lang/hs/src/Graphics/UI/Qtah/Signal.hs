@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.Signals (
+module Graphics.UI.Qtah.Signal (
   Signal,
   on,
   qAbstractButton_clicked_signal,

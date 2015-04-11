@@ -14,7 +14,7 @@ cabal-version:          >=1.10
 
 library
   exposed-modules:
-      Graphics.UI.Qtah.Signals
+      Graphics.UI.Qtah.Signal
     , Foreign.Cppop.Generated.Qtah
   build-depends:        base >=4.7 && <4.8,
                         binary >=0.7 && <0.8,
@@ -30,7 +30,7 @@ executable qtah-generator
   hs-source-dirs:       src-generator
   main-is:              Main.hs
   other-modules:
-      Graphics.UI.Qtah.Internal.Interface.Listeners
+      Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.QAbstractButton
     , Graphics.UI.Qtah.Internal.Interface.QApplication
     , Graphics.UI.Qtah.Internal.Interface.QCoreApplication

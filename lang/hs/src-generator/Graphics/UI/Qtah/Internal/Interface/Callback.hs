@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.Internal.Interface.Callbacks where
+module Graphics.UI.Qtah.Internal.Interface.Callback where
 
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Std
