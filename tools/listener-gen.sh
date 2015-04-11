@@ -26,10 +26,14 @@ exec \
 sayHpp() { echo "$*" >&$fhpp; }
 sayCpp() { echo "$*" >&$fcpp; }
 
+sayHpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
+sayHpp
 sayHpp '#include <string>'
 sayHpp '#include <QObject>'
 sayHpp '#include "callbacks.hpp"'
 
+sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
+sayCpp
 sayCpp '#include "listeners.hpp"'
 sayCpp
 sayCpp '#include <iostream>'
@@ -100,6 +104,8 @@ msg "Generating Haskell listener binding definitions."
 exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listeners.hs"
 say() { echo "$*" >&$fhs; }
 
+say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
+say
 say 'module Graphics.UI.Qtah.Internal.Interface.Listeners where'
 say
 say 'import Foreign.Cppop.Generator.Spec'
