@@ -14,6 +14,8 @@ echo
 msg "Installing the Cppop Haskell bits."
 "$cppopProjectDir/install-haskell.sh"
 
+"$projectDir/tools/listener-gen.sh"
+
 echo
 msg "Generating bindings."
 run mkdir -p "$projectDir/lang/hs/src/Foreign/Cppop/Generated"
@@ -23,8 +25,6 @@ run cabal build qtah-generator
 run dist/build/qtah-generator/qtah-generator \
     --gen-cpp "$projectDir/lang/cpp" \
     --gen-hs "$projectDir/lang/hs/src/Foreign/Cppop/Generated/Qtah.hs"
-
-"$projectDir/tools/listener-gen.sh"
 
 echo
 msg "Building the C++ library."

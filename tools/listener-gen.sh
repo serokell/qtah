@@ -70,10 +70,10 @@ forEachListener writeCpp
 exec {fhpp}>&- {fcpp}>&-
 unset fhpp fcpp sayHpp sayCpp writeCpp
 
-#### Generate Haskell bindings for the listeners.
+#### Generate Haskell binding definitions for the listeners.
 
 echo
-msg "Generating Haskell listener bindings."
+msg "Generating Haskell listener binding definitions."
 exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listeners.hs"
 say() { echo "$*" >&$fhs; }
 
