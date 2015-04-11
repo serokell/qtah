@@ -3,6 +3,7 @@ module Main where
 import Foreign.Cppop.Generator.Main
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Std
+import Graphics.UI.Qtah.Internal.Interface.Callbacks
 import Graphics.UI.Qtah.Internal.Interface.Listeners
 import Graphics.UI.Qtah.Internal.Interface.QAbstractButton
 import Graphics.UI.Qtah.Internal.Interface.QApplication
@@ -15,9 +16,8 @@ import Graphics.UI.Qtah.Internal.Interface.QWidget
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 
-interfaceResult :: Either String Interface
-interfaceResult =
-  interface "qtah"
+bindingImports :: [Include]
+bindingImports =
   [ includeStd "math.h"  -- TODO cmath?
   , includeStd "cstring"
   , includeStd "QAbstractButton"
@@ -27,9 +27,22 @@ interfaceResult =
   , includeStd "QPushButton"
   , includeStd "QString"
   , includeStd "QWidget"
+  , includeLocal "cbtest.hpp"
   --zz:, includeLocal "listeners.hpp"
   , includeLocal "shim_qapplication.hpp"
   ]
+
+callbackImports :: [Include]
+callbackImports =
+  [ includeStd "cstring"
+  , includeStd "string"
+  ]
+
+interfaceResult :: Either String Interface
+interfaceResult =
+  interface "qtah"
+  "bindings.cpp" "bindings.hpp" bindingImports
+  (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
   ({-zz:allListeners ++-} exports)
   where exports =
           [ ExportClass cls_std__string
@@ -44,6 +57,11 @@ interfaceResult =
           , ExportClass c_QPushButton
           , ExportClass c_QString
           , ExportClass c_QWidget
+          , ExportCallback cb_IntIntVoid
+          , ExportCallback cb_IntVoid
+          , ExportCallback cb_StringVoid
+          , ExportFn f_testIntCallback
+          , ExportFn f_testStringCallback
           ]
 
 -- TODO Disabled because encoding CFloat, CDouble is hard.

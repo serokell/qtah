@@ -21,8 +21,7 @@ run cd "$projectDir/lang/hs"
 run cabal configure
 run cabal build qtah-generator
 run dist/build/qtah-generator/qtah-generator \
-    --gen-cpp-cpp "$projectDir/lang/cpp/bindings.cpp" \
-    --gen-cpp-h "$projectDir/lang/cpp/bindings.hpp" \
+    --gen-cpp "$projectDir/lang/cpp" \
     --gen-hs "$projectDir/lang/hs/src/Foreign/Cppop/Generated/Qtah.hs"
 
 "$projectDir/tools/listener-gen.sh"

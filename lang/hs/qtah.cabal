@@ -14,8 +14,6 @@ cabal-version:          >=1.10
 
 library
   exposed-modules:      Foreign.Cppop.Generated.Qtah
-  -- other-modules:        
-  -- other-extensions:     
   build-depends:        base >=4.7 && <4.8,
                         binary >=0.7 && <0.8,
                         bytestring >=0.10 && <0.11,

@@ -4,6 +4,12 @@ import Foreign.Cppop.Generated.Qtah
 
 main :: IO ()
 main = do
+  putStrLn "Testing callbacks..."
+  testIntCallback $ \x -> putStrLn $ "Received int " ++ show x ++ "."
+  testIntCallback $ \x -> putStrLn $ "Received int " ++ show x ++ "."
+  testStringCallback $ \x -> putStrLn $ "Received string " ++ show x ++ "."
+
+  putStrLn ""
   putStrLn "Creating a QApplication."
   app <- qApplication_new
   putStrLn "Creating a QWidget."

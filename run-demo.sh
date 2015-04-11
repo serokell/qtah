@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-. "$(dirname "$(realpath "$0")")/common.sh"
+declare -r projectDir="$(dirname "$(realpath "$0")")"
+. "$projectDir/common.sh"
 
 cd "$projectDir/lang/hs"
+run cabal build qtah-demo
 LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}${buildDir}" \
-    cabal run qtah-demo -- "$@"
+    run dist/build/qtah-demo/qtah-demo "$@"
