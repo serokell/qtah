@@ -9,5 +9,5 @@ c_QString =
            , classCppDecoder = Just $ CppCoderFn $ ident "QString"
            , classCppEncoder = Just $ CppCoderExpr [Just "strdup(", Nothing, Just ".toStdString().c_str())"]
            }) $
-  classCopyEncodingFrom cls_std__string $
+  classCopyEncodingFrom c_std__string $
   makeClass (ident "QString") Nothing [] [] []

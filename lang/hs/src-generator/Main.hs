@@ -15,7 +15,7 @@ import Foreign.Cppop.Generator.Spec (
   includeStd,
   interface,
   )
-import Foreign.Cppop.Generator.Std (cls_std__string)
+import Foreign.Cppop.Generator.Std (c_std__string)
 import Graphics.UI.Qtah.Internal.Generator.Moc
 import Graphics.UI.Qtah.Internal.Generator.Signal
 import Graphics.UI.Qtah.Internal.Interface.Callback
@@ -70,7 +70,7 @@ callbackImports =
 
 allExports :: [QtahExport]
 allExports =
-  [ QtahClass cls_std__string
+  [ QtahClass c_std__string
   --, ExportFn f_sin
   --, ExportFn f_sinf
   , QtahQtClass qtc_QAbstractButton

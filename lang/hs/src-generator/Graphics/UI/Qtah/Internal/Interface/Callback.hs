@@ -17,7 +17,7 @@ cb_IntVoid =
 
 cb_StringVoid =
   makeCallback (toExtName "CallbackStringVoid")
-  [TObj cls_std__string] TVoid
+  [TObj c_std__string] TVoid
 
 f_testIntCallback =
   makeFn (ident "testIntCallback") (toExtName "testIntCallback") Nonpure

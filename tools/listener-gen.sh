@@ -128,7 +128,7 @@ writeHs() {
     say "    [S.TCallback C.${callbackVar}, S.TPtr \$ S.TObj QObject.c_QObject]"
     say "  ]"
     say "  [ S.makeMethod \"connectListener\" (S.toExtName \"${className}_connectListener\")"
-    say "    S.MNormal S.Nonpure [S.TPtr \$ S.TObj QObject.c_QObject, S.TObj Std.cls_std__string] S.TBool"
+    say "    S.MNormal S.Nonpure [S.TPtr \$ S.TObj QObject.c_QObject, S.TObj Std.c_std__string] S.TBool"
     say "  ]"
 }
 forEachListener writeHs
