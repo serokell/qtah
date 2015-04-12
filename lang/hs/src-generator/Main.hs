@@ -66,6 +66,7 @@ callbackImports :: [Include]
 callbackImports =
   [ includeStd "cstring"
   , includeStd "string"
+  , includeStd "QObject"
   ]
 
 allExports :: [QtahExport]
@@ -78,7 +79,7 @@ allExports =
   , QtahClass c_QApplication
   , QtahClass c_QCoreApplication
   , QtahClass c_QMainWindow
-  , QtahClass c_QObject
+  , QtahQtClass qtc_QObject
   , QtahClass c_QPushButton
   , QtahClass c_QString
   , QtahClass c_QWidget

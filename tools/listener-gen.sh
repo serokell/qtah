@@ -14,6 +14,7 @@ forEachListener() {
     $fn Bool "bool"
     $fn Int "int"
     $fn IntInt "int|int"
+    $fn PtrQObject "QObject*"
 }
 
 #### Generate C++ listener classes.
@@ -27,6 +28,9 @@ sayHpp() { echo "$*" >&$fhpp; }
 sayCpp() { echo "$*" >&$fcpp; }
 
 sayHpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
+sayHpp
+sayHpp '#ifndef QTAH_LISTENERS_HPP'
+sayHpp '#define QTAH_LISTENERS_HPP'
 sayHpp
 sayHpp '#include <string>'
 sayHpp '#include <QObject>'
@@ -94,6 +98,8 @@ writeCpp() {
 }
 
 forEachListener writeCpp
+sayHpp
+sayHpp '#endif'
 exec {fhpp}>&- {fcpp}>&-
 unset fhpp fcpp sayHpp sayCpp writeCpp
 
@@ -147,6 +153,32 @@ writeHs() {
 }
 forEachListener writeHs
 say "  ]"
+
+exec {fhs}>&-
+unset fhs writeHs
+
+#### Generate a GHC .hs-boot file for cycles in the module graph around listeners.
+
+echo
+msg "Generating Haskell listener .hs-boot file."
+exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot"
+say() { echo "$*" >&$fhs; }
+
+say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
+say
+say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
+say
+say 'import Foreign.Cppop.Generator.Spec (Class)'
+say
+
+writeHs() {
+    local -r name="${1:?}"
+    local -r className="Listener${name}"
+    local -r classVar="c_${className}"
+
+    say "${classVar} :: Class"
+}
+forEachListener writeHs
 
 exec {fhs}>&-
 unset fhs writeHs
