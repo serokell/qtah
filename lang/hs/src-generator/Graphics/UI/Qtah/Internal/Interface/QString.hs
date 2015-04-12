@@ -1,4 +1,8 @@
-module Graphics.UI.Qtah.Internal.Interface.QString where
+{-# LANGUAGE CPP #-}
+
+module Graphics.UI.Qtah.Internal.Interface.QString (
+  c_QString,
+  ) where
 
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Std

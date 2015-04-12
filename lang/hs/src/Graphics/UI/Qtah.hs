@@ -1,8 +1,8 @@
 module Graphics.UI.Qtah (
   module Foreign.Cppop.Generated.Qtah,
   module Foreign.Cppop.Generated.QtahSignal,
-  module Foreign.Cppop.Runtime.Support,
   module Graphics.UI.Qtah.Signal,
+  module Foreign.Cppop.Runtime.Support,
   ) where
 
 import Foreign.Cppop.Generated.Qtah

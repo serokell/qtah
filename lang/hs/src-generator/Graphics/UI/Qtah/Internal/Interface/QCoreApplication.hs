@@ -1,4 +1,6 @@
-module Graphics.UI.Qtah.Internal.Interface.QCoreApplication where
+module Graphics.UI.Qtah.Internal.Interface.QCoreApplication (
+  c_QCoreApplication,
+  ) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Interface.QObject
