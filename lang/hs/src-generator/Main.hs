@@ -82,10 +82,6 @@ allExports =
   , QtahClass c_QPushButton
   , QtahClass c_QString
   , QtahClass c_QWidget
-  , QtahCallback cb_BoolVoid
-  , QtahCallback cb_IntIntVoid
-  , QtahCallback cb_IntVoid
-  , QtahCallback cb_StringVoid
   , QtahFn f_testIntCallback
   , QtahFn f_testStringCallback
   ]
@@ -95,7 +91,10 @@ interfaceResult =
   interface "qtah"
   "bindings.cpp" "bindings.hpp" bindingImports
   (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
-  (allListeners ++ map toExport allExports)
+  (concat [ map ExportClass allListeners
+          , map ExportCallback allCallbacks
+          , map toExport allExports
+          ])
 
 -- TODO Disabled because encoding CFloat, CDouble is hard.
 --

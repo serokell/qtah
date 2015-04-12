@@ -3,6 +3,13 @@ module Graphics.UI.Qtah.Internal.Interface.Callback where
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Std
 
+allCallbacks =
+  [ cb_BoolVoid
+  , cb_IntIntVoid
+  , cb_IntVoid
+  , cb_StringVoid
+  ]
+
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")
   [TBool] TVoid

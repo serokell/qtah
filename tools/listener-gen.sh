@@ -134,7 +134,7 @@ writeHs() {
 forEachListener writeHs
 
 say
-say "allListeners :: [S.Export]"
+say "allListeners :: [S.Class]"
 say "allListeners ="
 cont="["
 writeHs() {
@@ -142,7 +142,7 @@ writeHs() {
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
 
-    say "  ${cont} S.ExportClass ${classVar}"
+    say "  ${cont} ${classVar}"
     if [[ $cont = '[' ]]; then cont=','; fi
 }
 forEachListener writeHs
