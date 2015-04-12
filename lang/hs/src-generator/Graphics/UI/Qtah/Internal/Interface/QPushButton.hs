@@ -8,7 +8,7 @@ import Graphics.UI.Qtah.Internal.Interface.QWidget
 c_QPushButton =
   makeClass (ident "QPushButton") Nothing
   [ c_QAbstractButton ]
-  [ Ctor (toExtName "QPushButton_new") [TPtr $ TObj c_QWidget]
-  , Ctor (toExtName "QPushButton_newWithText") [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ makeCtor (toExtName "QPushButton_new") [TPtr $ TObj c_QWidget]
+  , makeCtor (toExtName "QPushButton_newWithText") [TObj c_QString, TPtr $ TObj c_QWidget]
   ]
   []

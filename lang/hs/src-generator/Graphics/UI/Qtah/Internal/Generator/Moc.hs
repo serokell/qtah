@@ -1,7 +1,7 @@
 module Graphics.UI.Qtah.Internal.Generator.Moc (
   QtClass (..),
   makeQtClass,
-  Signal (..),
+  Signal, makeSignal, signalCName, signalExtName, signalClass, signalListenerClass,
   ) where
 
 import Foreign.Cppop.Generator.Spec (
@@ -13,14 +13,17 @@ import Foreign.Cppop.Generator.Spec (
   makeClass,
   )
 
+-- | A @QtClass@ is a 'Class' that also may have 'Signal's.
 data QtClass = QtClass
   { qtClassClass :: Class
   , qtClassSignals :: [Signal]
   }
 
-makeQtClass :: Identifier
+makeQtClass :: Identifier  -- ^ The class's C++ identifier.
             -> Maybe ExtName
-            -> [Class]
+            -- ^ An optional external name; will be automatically derived from
+            -- the identifier if absent.
+            -> [Class]  -- ^ Superclasses.
             -> [Ctor]
             -> [Method]
             -> [Signal]
@@ -30,9 +33,21 @@ makeQtClass identifier maybeExtName supers ctors methods signals = QtClass
   , qtClassSignals = signals
   }
 
+-- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal
   { signalCName :: String
+    -- ^ The C name of the signal, without parameters, e.g. @"clicked"@.
   , signalExtName :: ExtName
+    -- ^ The signal's external name.
   , signalClass :: QtClass
+    -- ^ The class to which the signal belongs.
   , signalListenerClass :: Class
+    -- ^ An appropriately typed listener class.
   }
+
+makeSignal :: String  -- ^ 'signalCName'
+           -> ExtName  -- ^ 'signalExtName'
+           -> QtClass  -- ^ 'signalClass'
+           -> Class  -- ^ 'signalListenerClass'
+           -> Signal
+makeSignal = Signal

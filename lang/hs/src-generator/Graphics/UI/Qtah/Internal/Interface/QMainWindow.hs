@@ -6,7 +6,7 @@ import Graphics.UI.Qtah.Internal.Interface.QWidget
 c_QMainWindow =
   makeClass (ident "QMainWindow") Nothing
   [ c_QWidget ]
-  [ Ctor (toExtName "QMainWindow_new") [TPtr $ TObj c_QWidget] ]
-  [ Method "setCentralWidget" (toExtName "QMainWindow_setCentralWidget") MNormal Nonpure
+  [ makeCtor (toExtName "QMainWindow_new") [TPtr $ TObj c_QWidget] ]
+  [ makeMethod "setCentralWidget" (toExtName "QMainWindow_setCentralWidget") MNormal Nonpure
     [TPtr $ TObj c_QWidget] TVoid
   ]

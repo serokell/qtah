@@ -108,10 +108,10 @@ say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
 say
 say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
 say
-say 'import Foreign.Cppop.Generator.Spec'
-say 'import Foreign.Cppop.Generator.Std (cls_std__string)'
-say 'import Graphics.UI.Qtah.Internal.Interface.Callback'
-say 'import Graphics.UI.Qtah.Internal.Interface.QObject'
+say 'import qualified Foreign.Cppop.Generator.Spec as S'
+say 'import qualified Foreign.Cppop.Generator.Std as Std'
+say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
+say 'import qualified Graphics.UI.Qtah.Internal.Interface.QObject as QObject'
 
 writeHs() {
     local -r name="${1:?}"
@@ -121,20 +121,20 @@ writeHs() {
 
     say
     say "${classVar} ="
-    say "  makeClass (ident \"${className}\") Nothing [c_QObject]"
-    say "  [ Ctor (toExtName \"${className}_new\")"
-    say "         [TCallback ${callbackVar}]"
-    say "  , Ctor (toExtName \"${className}_newWithParent\")"
-    say "         [TCallback ${callbackVar}, TPtr \$ TObj c_QObject]"
+    say "  S.makeClass (S.ident \"${className}\") Nothing [QObject.c_QObject]"
+    say "  [ S.makeCtor (S.toExtName \"${className}_new\")"
+    say "    [S.TCallback C.${callbackVar}]"
+    say "  , S.makeCtor (S.toExtName \"${className}_newWithParent\")"
+    say "    [S.TCallback C.${callbackVar}, S.TPtr \$ S.TObj QObject.c_QObject]"
     say "  ]"
-    say "  [ Method \"connectListener\" (toExtName \"${className}_connectListener\") MNormal Nonpure"
-    say "    [TPtr \$ TObj c_QObject, TObj cls_std__string] TBool"
+    say "  [ S.makeMethod \"connectListener\" (S.toExtName \"${className}_connectListener\")"
+    say "    S.MNormal S.Nonpure [S.TPtr \$ S.TObj QObject.c_QObject, S.TObj Std.cls_std__string] S.TBool"
     say "  ]"
 }
 forEachListener writeHs
 
 say
-say "allListeners :: [Export]"
+say "allListeners :: [S.Export]"
 say "allListeners ="
 cont="["
 writeHs() {
@@ -142,7 +142,7 @@ writeHs() {
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
 
-    say "  ${cont} ExportClass ${classVar}"
+    say "  ${cont} S.ExportClass ${classVar}"
     if [[ $cont = '[' ]]; then cont=','; fi
 }
 forEachListener writeHs
