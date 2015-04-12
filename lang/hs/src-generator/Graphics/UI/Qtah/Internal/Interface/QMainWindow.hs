@@ -11,8 +11,7 @@ this = c_QMainWindow
 #include "Mk.hs.inc"
 
 c_QMainWindow =
-  makeClass (ident "QMainWindow") Nothing
-  [ c_QWidget ]
+  makeClass (ident "QMainWindow") Nothing  [c_QWidget]
   [ _mkCtor "new" [TPtr $ TObj c_QWidget] ]
   [ _mkMethod "setCentralWidget" [TPtr $ TObj c_QWidget] TVoid
   ]

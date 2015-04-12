@@ -5,6 +5,7 @@ module Graphics.UI.Qtah.Internal.Interface.QWidget (
   ) where
 
 import Foreign.Cppop.Generator.Spec
+import Graphics.UI.Qtah.Internal.Interface.QLayout
 import Graphics.UI.Qtah.Internal.Interface.QObject
 import Graphics.UI.Qtah.Internal.Interface.QString
 
@@ -14,8 +15,12 @@ this = c_QWidget
 c_QWidget =
   makeClass (ident "QWidget") Nothing
   [ c_QObject ]
-  [ _mkCtor "new" [TPtr $ TObj c_QWidget] ]
-  [ _mkMethod "resize" [TInt, TInt] TVoid
+  [ _mkCtor "new" []
+  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  ]
+  [ _mkConstMethod "layout" [] $ TPtr $ TObj c_QLayout
+  , _mkMethod "resize" [TInt, TInt] TVoid
+  , _mkMethod "setLayout" [TPtr $ TObj c_QLayout] TVoid
   , _mkMethod "setWindowTitle" [TObj c_QString] TVoid
   , _mkMethod "show" [] TVoid
   ]

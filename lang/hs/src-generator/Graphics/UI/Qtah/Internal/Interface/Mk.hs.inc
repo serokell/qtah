@@ -7,6 +7,11 @@ _mkMethod name paramTypes retType =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
   MNormal Nonpure paramTypes retType
 
+_mkMethod' :: String -> String -> [Type] -> Type -> Method
+_mkMethod' cName hsName paramTypes retType =
+  makeMethod cName (toExtName $ fromExtName (classExtName this) ++ "_" ++ hsName)
+  MNormal Nonpure paramTypes retType
+
 _mkConstMethod :: String -> [Type] -> Type -> Method
 _mkConstMethod name paramTypes retType =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)

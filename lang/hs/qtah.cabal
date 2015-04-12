@@ -42,12 +42,20 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Generator.Signal
     , Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.QAbstractButton
+    , Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea
     , Graphics.UI.Qtah.Internal.Interface.QApplication
+    , Graphics.UI.Qtah.Internal.Interface.QBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.QCoreApplication
+    , Graphics.UI.Qtah.Internal.Interface.QFrame
+    , Graphics.UI.Qtah.Internal.Interface.QHBoxLayout
+    , Graphics.UI.Qtah.Internal.Interface.QLayout
+    , Graphics.UI.Qtah.Internal.Interface.QLayoutItem
     , Graphics.UI.Qtah.Internal.Interface.QMainWindow
     , Graphics.UI.Qtah.Internal.Interface.QObject
     , Graphics.UI.Qtah.Internal.Interface.QPushButton
     , Graphics.UI.Qtah.Internal.Interface.QString
+    , Graphics.UI.Qtah.Internal.Interface.QTextEdit
+    , Graphics.UI.Qtah.Internal.Interface.QVBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.QWidget
   ghc-options:          -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language:     Haskell2010

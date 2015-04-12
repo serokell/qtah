@@ -11,13 +11,11 @@ QMAKE_CXXFLAGS += -std=c++11
 SOURCES += \
     bindings.cpp \
     callbacks.cpp \
-    cbtest.cpp \
     listeners.cpp \
     shim_qapplication.cpp
 
 HEADERS += \
     bindings.hpp \
     callbacks.hpp \
-    cbtest.hpp \
     listeners.hpp \
     shim_qapplication.hpp

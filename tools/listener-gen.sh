@@ -15,6 +15,8 @@ forEachListener() {
     $fn Int "int"
     $fn IntInt "int|int"
     $fn PtrQObject "QObject*"
+    $fn QString "QString"
+    $fn "" ""
 }
 
 #### Generate C++ listener classes.
@@ -43,22 +45,24 @@ sayCpp
 sayCpp '#include <iostream>'
 
 writeCpp() {
-    local -r name="${1:?}" params="${2:?}"
+    local -r name="${1?}" params="${2?}"
     local -r className="Listener${name}"
     local -r callbackClassName="Callback${name}Void"
     local paramList=""
     local paramTypeList=""
     local paramNameList=""
     local n=1
-    while read type; do
-        [[ -n $paramList ]] && paramList+=', '
-        [[ -n $paramTypeList ]] && paramTypeList+=','
-        [[ -n $paramNameList ]] && paramNameList+=', '
-        paramList+="${type} arg${n}"
-        paramTypeList+="${type}"
-        paramNameList+="arg${n}"
-        ((n++))
-    done < <(tr '|' '\n' <<<"$params")
+    if [[ -n $params ]]; then
+        while read type; do
+            [[ -n $paramList ]] && paramList+=', '
+            [[ -n $paramTypeList ]] && paramTypeList+=','
+            [[ -n $paramNameList ]] && paramNameList+=', '
+            paramList+="${type} arg${n}"
+            paramTypeList+="${type}"
+            paramNameList+="arg${n}"
+            ((n++))
+        done < <(tr '|' '\n' <<<"$params")
+    fi
 
     sayHpp
     sayHpp "class ${className} : public QObject {"
@@ -120,7 +124,7 @@ say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
 say 'import qualified Graphics.UI.Qtah.Internal.Interface.QObject as QObject'
 
 writeHs() {
-    local -r name="${1:?}"
+    local -r name="${1?}"
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
     local -r callbackVar="cb_${name}Void"
@@ -144,7 +148,7 @@ say "allListeners :: [S.Class]"
 say "allListeners ="
 cont="["
 writeHs() {
-    local -r name="${1:?}"
+    local -r name="${1?}"
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
 
@@ -172,7 +176,7 @@ say 'import Foreign.Cppop.Generator.Spec (Class)'
 say
 
 writeHs() {
-    local -r name="${1:?}"
+    local -r name="${1?}"
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
 
