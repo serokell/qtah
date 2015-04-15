@@ -15,6 +15,7 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   cppTypeToHsType,
   indent,
   ln,
+  prettyPrint,
   sayLn,
   sayQualifiedImports,
   saysLn,
@@ -34,7 +35,6 @@ import Foreign.Cppop.Generator.Spec (
   methodCName,
   methodExtName,
   )
-import Language.Haskell.Pretty (prettyPrint)
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
