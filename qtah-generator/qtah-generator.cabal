@@ -1,0 +1,44 @@
+name: qtah-generator
+version: 0.1.0
+synopsis: Generator for Qtah Qt bindings
+-- description:
+license: AGPL-3
+license-file: LICENSE
+author: Bryan Gardiner <bog@khumba.net>
+maintainer: Bryan Gardiner <bog@khumba.net>
+copyright: Copyright 2015 Bryan Gardiner
+category: Graphics
+build-type: Simple
+cabal-version: >=1.10
+
+executable qtah-generator
+  build-depends:
+      base >=4 && < 5
+    , cppop
+    , filepath >=1.3 && <1.4
+    , haskell-src >=1.0 && <1.1
+    , mtl >=2.2 && <2.3
+  hs-source-dirs: src
+  main-is: Main.hs
+  other-modules:
+      Graphics.UI.Qtah.Internal.Generator.Types
+    , Graphics.UI.Qtah.Internal.Generator.Signal
+    , Graphics.UI.Qtah.Internal.Interface.Listener
+    , Graphics.UI.Qtah.Internal.Interface.QAbstractButton
+    , Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea
+    , Graphics.UI.Qtah.Internal.Interface.QApplication
+    , Graphics.UI.Qtah.Internal.Interface.QBoxLayout
+    , Graphics.UI.Qtah.Internal.Interface.QCoreApplication
+    , Graphics.UI.Qtah.Internal.Interface.QFrame
+    , Graphics.UI.Qtah.Internal.Interface.QHBoxLayout
+    , Graphics.UI.Qtah.Internal.Interface.QLayout
+    , Graphics.UI.Qtah.Internal.Interface.QLayoutItem
+    , Graphics.UI.Qtah.Internal.Interface.QMainWindow
+    , Graphics.UI.Qtah.Internal.Interface.QObject
+    , Graphics.UI.Qtah.Internal.Interface.QPushButton
+    , Graphics.UI.Qtah.Internal.Interface.QString
+    , Graphics.UI.Qtah.Internal.Interface.QTextEdit
+    , Graphics.UI.Qtah.Internal.Interface.QVBoxLayout
+    , Graphics.UI.Qtah.Internal.Interface.QWidget
+  ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
+  default-language: Haskell2010

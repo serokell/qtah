@@ -24,8 +24,8 @@ forEachListener() {
 echo
 msg "Generating C++ listener classes."
 exec \
-    {fhpp}>"$projectDir/lang/cpp/listeners.hpp" \
-    {fcpp}>"$projectDir/lang/cpp/listeners.cpp"
+    {fhpp}>"$projectDir/qtah/cpp/listeners.hpp" \
+    {fcpp}>"$projectDir/qtah/cpp/listeners.cpp"
 sayHpp() { echo "$*" >&$fhpp; }
 sayCpp() { echo "$*" >&$fcpp; }
 
@@ -111,7 +111,7 @@ unset fhpp fcpp sayHpp sayCpp writeCpp
 
 echo
 msg "Generating Haskell listener binding definitions."
-exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listener.hs"
+exec {fhs}>"$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs"
 say() { echo "$*" >&$fhs; }
 
 say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
@@ -165,7 +165,7 @@ unset fhs writeHs
 
 echo
 msg "Generating Haskell listener .hs-boot file."
-exec {fhs}>"$projectDir/lang/hs/src-generator/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot"
+exec {fhs}>"$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot"
 say() { echo "$*" >&$fhs; }
 
 say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'

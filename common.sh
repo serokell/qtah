@@ -11,10 +11,4 @@ run() {
     "$@"
 }
 
-declare -r buildDir="$projectDir/build-cpp"
-
-declare -r cppopProjectDir="$projectDir/../../cppop/git"
-
-if ! [[ -d $cppopProjectDir ]]; then
-    echo "Cppop project directory doesn't exist ($cppopProjectDir), aborting."
-fi
+declare -r cppBuildDir="$(realpath "$projectDir/qtah/cpp-build")"
