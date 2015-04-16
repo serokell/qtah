@@ -1,19 +1,28 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.QHBoxLayout (
-  c_QHBoxLayout,
+  mod_QHBoxLayout,
   ) where
 
 import Foreign.Cppop.Generator.Spec
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QBoxLayout
 import Graphics.UI.Qtah.Internal.Interface.QWidget
 
 this = c_QHBoxLayout
-#include "Mk.hs.inc"
+thisQt = qtc_QHBoxLayout
+#include "MkQt.hs.inc"
 
-c_QHBoxLayout =
-  makeClass (ident "QHBoxLayout") Nothing [c_QBoxLayout]
+mod_QHBoxLayout =
+  makeQtModule "QHBoxLayout"
+  [ QtExportClass thisQt ]
+
+c_QHBoxLayout = qtClassClass qtc_QHBoxLayout
+
+qtc_QHBoxLayout =
+  makeQtClass (ident "QHBoxLayout") Nothing [c_QBoxLayout]
   [ _mkCtor "new" []
   , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   ]
+  []
   []

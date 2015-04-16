@@ -1,17 +1,26 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.QFrame (
+  mod_QFrame,
   c_QFrame,
   ) where
 
 import Foreign.Cppop.Generator.Spec
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QWidget
 
 this = c_QFrame
-#include "Mk.hs.inc"
+thisQt = qtc_QFrame
+#include "MkQt.hs.inc"
 
-c_QFrame =
-  makeClass (ident "QFrame") Nothing [c_QWidget]
+mod_QFrame =
+  makeQtModule "QFrame"
+  [ QtExportClass thisQt ]
+
+c_QFrame = qtClassClass qtc_QFrame
+
+qtc_QFrame =
+  makeQtClass (ident "QFrame") Nothing [c_QWidget]
   [ _mkCtor "new" []
   , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   ]
@@ -21,3 +30,4 @@ c_QFrame =
   , _mkConstMethod "setLineWidth" [TInt] TVoid
   , _mkConstMethod "setMidLineWidth" [TInt] TVoid
   ]
+  []

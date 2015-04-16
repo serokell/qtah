@@ -1,12 +1,12 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.QAbstractButton (
+  mod_QAbstractButton,
   c_QAbstractButton,
-  qtc_QAbstractButton,
   ) where
 
 import Foreign.Cppop.Generator.Spec
-import Graphics.UI.Qtah.Internal.Generator.Moc
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.QString
 import Graphics.UI.Qtah.Internal.Interface.QWidget
@@ -14,6 +14,10 @@ import Graphics.UI.Qtah.Internal.Interface.QWidget
 this = c_QAbstractButton
 thisQt = qtc_QAbstractButton
 #include "MkQt.hs.inc"
+
+mod_QAbstractButton =
+  makeQtModule "QAbstractButton"
+  [ QtExportClass thisQt ]
 
 c_QAbstractButton = qtClassClass qtc_QAbstractButton
 

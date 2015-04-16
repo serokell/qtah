@@ -2,24 +2,23 @@ module Main where
 
 import Data.Foldable (forM_)
 import Data.Maybe (mapMaybe)
+import Foreign.Cppop.Common (maybeFail)
 import Foreign.Cppop.Generator.Language.Haskell.General (execGenerator)
 import Foreign.Cppop.Generator.Main (Action (GenHaskell), run)
 import Foreign.Cppop.Generator.Spec (
-  Callback,
-  Class,
-  Function,
   Include,
   Interface,
-  Export (ExportFn, ExportClass, ExportCallback),
+  Export (ExportCallback, ExportClass),
   includeLocal,
   includeStd,
   interface,
   )
 import Foreign.Cppop.Generator.Std (c_std__string)
-import Graphics.UI.Qtah.Internal.Generator.Moc
+import Graphics.UI.Qtah.Internal.Generator.Module
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Generator.Signal
-import Graphics.UI.Qtah.Internal.Interface.Callback
-import Graphics.UI.Qtah.Internal.Interface.Listener
+import Graphics.UI.Qtah.Internal.Interface.Callback (allCallbacks)
+import Graphics.UI.Qtah.Internal.Interface.Listener (allListeners)
 import Graphics.UI.Qtah.Internal.Interface.QAbstractButton
 import Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea
 import Graphics.UI.Qtah.Internal.Interface.QApplication
@@ -40,26 +39,17 @@ import Graphics.UI.Qtah.Internal.Interface.QVBoxLayout
 import Graphics.UI.Qtah.Internal.Interface.QWidget
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
-import System.FilePath (replaceBaseName, takeBaseName)
-
--- | A data type that wraps a Cppop 'Export' and adds support for 'QtClass'es.
-data QtahExport =
-  QtahFn Function
-  | QtahClass Class
-  | QtahQtClass QtClass
-  | QtahCallback Callback
-
-toExport :: QtahExport -> Export
-toExport export = case export of
-  QtahFn fn -> ExportFn fn
-  QtahClass cls -> ExportClass cls
-  QtahQtClass qtCls -> ExportClass $ qtClassClass qtCls
-  QtahCallback cb -> ExportCallback cb
+import System.FilePath (
+  dropTrailingPathSeparator,
+  replaceBaseName,
+  takeDirectory,
+  takeBaseName,
+  takeFileName,
+  )
 
 bindingImports :: [Include]
 bindingImports =
-  [ includeStd "math.h"  -- TODO cmath?
-  , includeStd "cstring"
+  [ includeStd "cstring"
   , includeStd "QAbstractButton"
   , includeStd "QAbstractScrollArea"
   , includeStd "QApplication"
@@ -88,30 +78,33 @@ callbackImports =
   , includeStd "QObject"
   ]
 
-allExports :: [QtahExport]
-allExports =
-  [ QtahClass c_std__string
-  --, ExportFn f_sin
-  --, ExportFn f_sinf
-  , QtahQtClass qtc_QAbstractButton
-  , QtahClass c_QAbstractScrollArea
-  , QtahFn f_QApplication_new
-  , QtahClass c_QApplication
-  , QtahClass c_QBoxLayout
-  , QtahClass c_QCoreApplication
-  , QtahClass c_QFrame
-  , QtahClass c_QHBoxLayout
-  , QtahClass c_QLabel
-  , QtahClass c_QLayout
-  , QtahClass c_QLayoutItem
-  , QtahQtClass qtc_QLineEdit
-  , QtahClass c_QMainWindow
-  , QtahQtClass qtc_QObject
-  , QtahClass c_QPushButton
-  , QtahClass c_QString
-  , QtahQtClass qtc_QTextEdit
-  , QtahClass c_QVBoxLayout
-  , QtahClass c_QWidget
+nonQtModuleExports :: [Export]
+nonQtModuleExports =
+  [ ExportClass c_std__string
+  ] ++
+  map ExportCallback allCallbacks ++
+  map ExportClass allListeners
+
+allQtModules :: [QtModule]
+allQtModules =
+  [ mod_QAbstractButton
+  , mod_QAbstractScrollArea
+  , mod_QApplication
+  , mod_QBoxLayout
+  , mod_QCoreApplication
+  , mod_QFrame
+  , mod_QHBoxLayout
+  , mod_QLabel
+  , mod_QLayout
+  , mod_QLayoutItem
+  , mod_QLineEdit
+  , mod_QMainWindow
+  , mod_QObject
+  , mod_QPushButton
+  , mod_QString
+  , mod_QTextEdit
+  , mod_QVBoxLayout
+  , mod_QWidget
   ]
 
 interfaceResult :: Either String Interface
@@ -119,16 +112,10 @@ interfaceResult =
   interface "qtah"
   "bindings.cpp" "bindings.hpp" bindingImports
   (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
-  (concat [ map ExportClass allListeners
-          , map ExportCallback allCallbacks
-          , map toExport allExports
-          ])
-
--- TODO Disabled because encoding CFloat, CDouble is hard.
---
---f_sin = Function (ident "sin") (toExtName "sin") Pure [TDouble] TDouble
---
---f_sinf = Function (ident "sinf") (toExtName "sinf") Pure [TFloat] TFloat
+  allExports
+  where allExports =
+          nonQtModuleExports ++
+          concatMap (map qtExportToExport . qtModuleExports) allQtModules
 
 main :: IO ()
 main = do
@@ -141,21 +128,39 @@ main = do
       actions <- run [iface] args
       forM_ actions $ \action -> case action of
         GenHaskell path -> do
+          -- Generate bindings for all Qt signals into one file.
           let baseModuleName = takeBaseName path
               signalModuleName = moduleNameToSignalModuleName baseModuleName
               signalPath = replaceBaseName path signalModuleName
-              generation =
+              signalGeneration =
                 execGenerator $ generateSignals baseModuleName $
                 mapMaybe (\export -> case export of
-                             QtahFn {} -> Nothing
-                             QtahClass {} -> Nothing
-                             QtahQtClass qtCls -> Just qtCls
-                             QtahCallback {} -> Nothing)
-                allExports
-          case generation of
+                             QtExportFn {} -> Nothing
+                             QtExportClass qtCls -> Just qtCls
+                             QtExportCallback {} -> Nothing) $
+                concatMap qtModuleExports allQtModules
+          case signalGeneration of
             Left errorMsg -> do
-              putStrLn $ "Error generating Qt signal bindings: " ++ show errorMsg
+              putStrLn $ "Error generating Qt signal bindings: " ++ errorMsg
               exitFailure
             Right body -> writeFile signalPath body
 
+          -- Generate nicely-named Qt modules that will point to the bindings.
+          srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
+                               " to generate Qt modules.") $
+                    findSrcDir path
+          forM_ allQtModules $
+            generateModule srcDir "Graphics.UI.Qtah" "Foreign.Cppop.Generated.Qtah"
+
         _ -> return ()
+
+findSrcDir :: FilePath -> Maybe FilePath
+findSrcDir = go . dropTrailingPathSeparator
+  where go "" = Nothing
+        go path =
+          let dir = takeDirectory path
+              file = takeFileName path
+          in if file == "src" then Just path
+             else if dir == path
+                  then Nothing  -- Can't go up any more.
+                  else go dir

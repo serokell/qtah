@@ -1,12 +1,11 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.QLineEdit (
-  c_QLineEdit,
-  qtc_QLineEdit,
+  mod_QLineEdit,
   ) where
 
 import Foreign.Cppop.Generator.Spec
-import Graphics.UI.Qtah.Internal.Generator.Moc
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.QString
 import Graphics.UI.Qtah.Internal.Interface.QWidget
@@ -14,6 +13,10 @@ import Graphics.UI.Qtah.Internal.Interface.QWidget
 this = c_QLineEdit
 thisQt = qtc_QLineEdit
 #include "MkQt.hs.inc"
+
+mod_QLineEdit =
+  makeQtModule "QLineEdit"
+  [ QtExportClass qtc_QLineEdit ]
 
 c_QLineEdit = qtClassClass qtc_QLineEdit
 

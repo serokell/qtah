@@ -1,18 +1,22 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.QObject (
+  mod_QObject,
   c_QObject,
-  qtc_QObject,
   ) where
 
 import Foreign.Cppop.Generator.Spec
+import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.QString
-import Graphics.UI.Qtah.Internal.Generator.Moc
 
 this = c_QObject
 thisQt = qtc_QObject
 #include "MkQt.hs.inc"
+
+mod_QObject =
+  makeQtModule "QObject"
+  [ QtExportClass qtc_QObject ]
 
 c_QObject = qtClassClass qtc_QObject
 

@@ -1,11 +1,12 @@
 module Graphics.UI.Qtah.Internal.Generator.Signal (
   generateSignals,
   moduleNameToSignalModuleName,
+  toSignalBindingName,
   ) where
 
 import Data.Foldable (forM_)
 import Data.List (find, intersperse)
-import Graphics.UI.Qtah.Internal.Generator.Moc
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Foreign.Cppop.Common (fromMaybeM)
 import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
 import Foreign.Cppop.Generator.Language.Haskell.General (
@@ -54,7 +55,7 @@ generateSignals baseModuleName classes = do
   saysLn ["module Foreign.Cppop.Generated.", moduleName, " ("]
   indent $ do
     forAllSignals classes $ \signal ->
-      saysLn [toSignalVarName signal, ","]
+      saysLn [toSignalBindingName signal, ","]
     sayLn ") where"
   ln
   sayQualifiedImports
@@ -64,7 +65,7 @@ generateSignals baseModuleName classes = do
   forAllSignals classes $ \signal -> do
     let name = signalExtName signal
         className = toHsClassName Nonconst $ qtClassClass $ signalClass signal
-        varName = toSignalVarName signal
+        varName = toSignalBindingName signal
 
     let listenerClass = signalListenerClass signal
     -- Find the listener constructor that only takes a callback.
@@ -111,8 +112,8 @@ forAllSignals classes action =
   forM_ classes $ \qtCls ->
     forM_ (qtClassSignals qtCls) action
 
-toSignalVarName :: Signal -> String
-toSignalVarName = (++ "_signal") . toHsFnName . signalExtName
+toSignalBindingName :: Signal -> String
+toSignalBindingName = (++ "_signal") . toHsFnName . signalExtName
 
 toSignalConnectName :: Signal -> [Type] -> String
 toSignalConnectName signal paramTypes =

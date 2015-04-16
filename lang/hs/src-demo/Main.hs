@@ -1,36 +1,45 @@
 module Main where
 
 import Control.Monad (unless)
-import Graphics.UI.Qtah
+import Graphics.UI.Qtah (delete, on, qApplication_new)
+import qualified Graphics.UI.Qtah.QAbstractButton as QAbstractButton
+import qualified Graphics.UI.Qtah.QApplication as QApplication
+import qualified Graphics.UI.Qtah.QHBoxLayout as QHBoxLayout
+import qualified Graphics.UI.Qtah.QLabel as QLabel
+import qualified Graphics.UI.Qtah.QLayout as QLayout
+import qualified Graphics.UI.Qtah.QLineEdit as QLineEdit
+import qualified Graphics.UI.Qtah.QMainWindow as QMainWindow
+import qualified Graphics.UI.Qtah.QPushButton as QPushButton
+import qualified Graphics.UI.Qtah.QWidget as QWidget
 
 main :: IO ()
 main = do
   app <- qApplication_new
 
-  mainWindow <- qMainWindow_new qWidget_null
-  qWidget_setWindowTitle mainWindow "Greeter demo"
-  qWidget_resize mainWindow 400 40
+  mainWindow <- QMainWindow.new QWidget.null
+  QWidget.setWindowTitle mainWindow "Greeter demo"
+  QWidget.resize mainWindow 400 40
 
-  label <- qLabel_newWithText "What's your name?"
+  label <- QLabel.newWithText "What's your name?"
 
-  lineEdit <- qLineEdit_new
+  lineEdit <- QLineEdit.new
 
-  button <- qPushButton_newWithText "Greet" qWidget_null
-  connectOk <- on button qAbstractButton_clicked_signal $ \_ -> do
-    name <- qLineEdit_text lineEdit
+  button <- QPushButton.newWithText "Greet" QWidget.null
+  connectOk <- on button QAbstractButton.clickedSignal $ \_ -> do
+    name <- QLineEdit.text lineEdit
     putStrLn $ if null name
                then "You don't have a name?"
                else "Hello, " ++ name ++ "!"
   unless connectOk $ putStrLn "!!! Failed to connect to button's click signal !!!"
 
-  mainWidget <- qWidget_new
-  qMainWindow_setCentralWidget mainWindow mainWidget
-  hbox <- qHBoxLayout_new
-  qLayout_addWidget hbox label
-  qLayout_addWidget hbox lineEdit
-  qLayout_addWidget hbox button
-  qWidget_setLayout mainWidget hbox
-  qWidget_show mainWindow
-  qApplication_exec app
+  mainWidget <- QWidget.new
+  QMainWindow.setCentralWidget mainWindow mainWidget
+  hbox <- QHBoxLayout.new
+  QLayout.addWidget hbox label
+  QLayout.addWidget hbox lineEdit
+  QLayout.addWidget hbox button
+  QWidget.setLayout mainWidget hbox
+  QWidget.show mainWindow
+  QApplication.exec app
   delete mainWindow
   delete app

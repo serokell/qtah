@@ -15,10 +15,30 @@ cabal-version:          >=1.10
 library
   exposed-modules:
       Graphics.UI.Qtah
+    , Graphics.UI.Qtah.QAbstractButton
+    , Graphics.UI.Qtah.QAbstractScrollArea
+    , Graphics.UI.Qtah.QApplication
+    , Graphics.UI.Qtah.QBoxLayout
+    , Graphics.UI.Qtah.QCoreApplication
+    , Graphics.UI.Qtah.QFrame
+    , Graphics.UI.Qtah.QHBoxLayout
+    , Graphics.UI.Qtah.QLabel
+    , Graphics.UI.Qtah.QLayout
+    , Graphics.UI.Qtah.QLayoutItem
+    , Graphics.UI.Qtah.QLineEdit
+    , Graphics.UI.Qtah.QMainWindow
+    , Graphics.UI.Qtah.QObject
+    , Graphics.UI.Qtah.QPushButton
+    , Graphics.UI.Qtah.QString
+    , Graphics.UI.Qtah.QTextEdit
+    , Graphics.UI.Qtah.QVBoxLayout
+    , Graphics.UI.Qtah.QWidget
+    , Graphics.UI.Qtah.Signal
   other-modules:
-      Graphics.UI.Qtah.Signal
-    , Foreign.Cppop.Generated.Qtah
+      Foreign.Cppop.Generated.Qtah
     , Foreign.Cppop.Generated.QtahSignal
+  other-extensions:
+      NoMonomorphismRestriction
   build-depends:
       base >=4.7 && <4.8
     , binary >=0.7 && <0.8
@@ -38,7 +58,7 @@ executable qtah-generator
   hs-source-dirs:       src-generator
   main-is:              Main.hs
   other-modules:
-      Graphics.UI.Qtah.Internal.Generator.Moc
+      Graphics.UI.Qtah.Internal.Generator.Types
     , Graphics.UI.Qtah.Internal.Generator.Signal
     , Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.QAbstractButton

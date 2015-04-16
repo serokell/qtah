@@ -1,17 +1,48 @@
-module Graphics.UI.Qtah.Internal.Generator.Moc (
-  QtClass (..),
-  makeQtClass,
+module Graphics.UI.Qtah.Internal.Generator.Types (
+  QtModule, makeQtModule, qtModuleSubname, qtModuleExports,
+  moduleNameAppend,
+  QtExport (..),
+  qtExportToExport,
+  QtClass, makeQtClass, makeQtClass', qtClassClass, qtClassSignals,
   Signal, makeSignal, signalCName, signalExtName, signalClass, signalListenerClass,
   ) where
 
 import Foreign.Cppop.Generator.Spec (
+  Callback,
   Class,
   Ctor,
+  Export (ExportFn, ExportClass, ExportCallback),
   ExtName,
+  Function,
   Identifier,
   Method,
   makeClass,
   )
+
+data QtModule = QtModule
+  { qtModuleSubname :: String
+  , qtModuleExports :: [QtExport]
+  }
+
+makeQtModule :: String -> [QtExport] -> QtModule
+makeQtModule = QtModule
+
+moduleNameAppend :: String -> String -> String
+moduleNameAppend "" y = y
+moduleNameAppend x "" = x
+moduleNameAppend x y = concat [x, ".", y]
+
+-- | A data type that wraps a Cppop 'Export' and adds support for 'QtClass'es.
+data QtExport =
+  QtExportFn Function
+  | QtExportClass QtClass
+  | QtExportCallback Callback
+
+qtExportToExport :: QtExport -> Export
+qtExportToExport export = case export of
+  QtExportFn fn -> ExportFn fn
+  QtExportClass qtCls -> ExportClass $ qtClassClass qtCls
+  QtExportCallback cb -> ExportCallback cb
 
 -- | A @QtClass@ is a 'Class' that also may have 'Signal's.
 data QtClass = QtClass
@@ -32,6 +63,9 @@ makeQtClass identifier maybeExtName supers ctors methods signals = QtClass
   { qtClassClass = makeClass identifier maybeExtName supers ctors methods
   , qtClassSignals = signals
   }
+
+makeQtClass' :: Class -> [Signal] -> QtClass
+makeQtClass' = QtClass
 
 -- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal
