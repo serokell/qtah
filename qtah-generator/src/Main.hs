@@ -135,6 +135,7 @@ main = do
               signalGeneration =
                 execGenerator $ generateSignals baseModuleName $
                 mapMaybe (\export -> case export of
+                             QtExportEnum {} -> Nothing
                              QtExportFn {} -> Nothing
                              QtExportClass qtCls -> Just qtCls
                              QtExportCallback {} -> Nothing) $

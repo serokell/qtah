@@ -15,6 +15,7 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   toHsClassName,
   toHsClassNullName,
   toHsDataTypeName,
+  toHsEnumTypeName,
   toHsFnName,
   )
 import Foreign.Cppop.Generator.Spec (
@@ -92,6 +93,7 @@ generateModule srcDir baseModuleName foreignModuleName qtModule = do
 
 getReexportNames :: QtExport -> [String]
 getReexportNames qtExport = case qtExport of
+  QtExportEnum enum -> [toHsEnumTypeName enum ++ " (..)"]
   QtExportFn fn -> [getFnReexportName fn]
   QtExportClass qtCls ->
     let cls = qtClassClass qtCls
@@ -132,6 +134,7 @@ getSignalReexportName cls =
 
 getImportSpecsFromMainModule :: QtExport -> [String]
 getImportSpecsFromMainModule qtExport = case qtExport of
+  QtExportEnum enum -> [toHsEnumTypeName enum ++ " (..)"]
   QtExportFn fn -> [getFnImportName fn]
   QtExportClass qtCls ->
     let cls = qtClassClass qtCls
@@ -147,6 +150,7 @@ getImportSpecsFromMainModule qtExport = case qtExport of
 
 getImportSpecsFromSignalModule :: QtExport -> [String]
 getImportSpecsFromSignalModule qtExport = case qtExport of
+  QtExportEnum _ -> []
   QtExportFn _ -> []
   QtExportClass qtCls -> map toSignalBindingName $ qtClassSignals qtCls
   QtExportCallback _ -> []
@@ -156,6 +160,7 @@ getFnImportName = toHsFnName . fnExtName
 
 getBindings :: QtExport -> [(String, String)]
 getBindings qtExport = case qtExport of
+  QtExportEnum _ -> []
   QtExportFn fn -> [(getFnReexportName fn, getFnImportName fn)]
   QtExportClass qtCls ->
     let cls = qtClassClass qtCls

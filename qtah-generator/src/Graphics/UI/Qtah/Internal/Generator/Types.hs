@@ -10,8 +10,9 @@ module Graphics.UI.Qtah.Internal.Generator.Types (
 import Foreign.Cppop.Generator.Spec (
   Callback,
   Class,
+  CppEnum,
   Ctor,
-  Export (ExportFn, ExportClass, ExportCallback),
+  Export (ExportCallback, ExportClass, ExportEnum, ExportFn),
   ExtName,
   Function,
   Identifier,
@@ -34,12 +35,14 @@ moduleNameAppend x y = concat [x, ".", y]
 
 -- | A data type that wraps a Cppop 'Export' and adds support for 'QtClass'es.
 data QtExport =
-  QtExportFn Function
+  QtExportEnum CppEnum
+  | QtExportFn Function
   | QtExportClass QtClass
   | QtExportCallback Callback
 
 qtExportToExport :: QtExport -> Export
 qtExportToExport export = case export of
+  QtExportEnum enum -> ExportEnum enum
   QtExportFn fn -> ExportFn fn
   QtExportClass qtCls -> ExportClass $ qtClassClass qtCls
   QtExportCallback cb -> ExportCallback cb
