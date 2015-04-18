@@ -6,7 +6,7 @@ set -euo pipefail
 declare -r projectDir="$(dirname "$(realpath "$0")")"
 . "$projectDir/common.sh"
 
-"$projectDir/tools/listener-gen.sh"
+run "$projectDir/tools/listener-gen.sh"
 
 echo
 msg "Generating bindings."

@@ -23,6 +23,7 @@ executable qtah-generator
   other-modules:
       Graphics.UI.Qtah.Internal.Generator.Types
     , Graphics.UI.Qtah.Internal.Generator.Signal
+    , Graphics.UI.Qtah.Internal.Interface.Callback
     , Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.QAbstractButton
     , Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea

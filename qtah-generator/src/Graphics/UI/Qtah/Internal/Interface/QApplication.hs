@@ -19,7 +19,7 @@ mod_QApplication =
   ]
 
 f_QApplication_new =
-  makeFn (ident1 "qtah" "shim_QApplication_new") (toExtName "QApplication_new") Nonpure
+  makeFn (ident1 "qtah" "shim_QApplication_new") (Just $ toExtName "QApplication_new") Nonpure
   [] $ TPtr $ TObj c_QApplication
 
 c_QApplication = qtClassClass qtc_QApplication
