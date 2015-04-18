@@ -31,6 +31,7 @@ import Graphics.UI.Qtah.Internal.Interface.QLayout
 import Graphics.UI.Qtah.Internal.Interface.QLayoutItem
 import Graphics.UI.Qtah.Internal.Interface.QLineEdit
 import Graphics.UI.Qtah.Internal.Interface.QMainWindow
+import Graphics.UI.Qtah.Internal.Interface.QMargins
 import Graphics.UI.Qtah.Internal.Interface.QObject
 import Graphics.UI.Qtah.Internal.Interface.QPushButton
 import Graphics.UI.Qtah.Internal.Interface.QString
@@ -68,6 +69,7 @@ bindingImports =
   , includeStd "QVBoxLayout"
   , includeStd "QWidget"
   , includeLocal "listeners.hpp"
+  , includeLocal "encode.cpp"
   , includeLocal "shim_qapplication.hpp"
   ]
 
@@ -81,6 +83,7 @@ callbackImports =
 nonQtModuleExports :: [Export]
 nonQtModuleExports =
   [ ExportClass c_std__string
+  , ExportClass c_QMargins
   ] ++
   map ExportCallback allCallbacks ++
   map ExportClass allListeners
@@ -112,6 +115,7 @@ interfaceResult =
   interface "qtah"
   "bindings.cpp" "bindings.hpp" bindingImports
   (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
+  [ "qualified Graphics.UI.Qtah.QMargins as QMargins" ]
   allExports
   where allExports =
           nonQtModuleExports ++

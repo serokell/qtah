@@ -8,6 +8,7 @@ module Graphics.UI.Qtah.Internal.Interface.QLayout (
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QLayoutItem
+import Graphics.UI.Qtah.Internal.Interface.QMargins
 import Graphics.UI.Qtah.Internal.Interface.QObject
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.QWidget
 
@@ -27,7 +28,9 @@ qtc_QLayout =
   makeQtClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
   []
   [ _mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  , _mkConstMethod "contentsMargins" [] $ TObj c_QMargins
   , _mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
+  , _mkMethod "setContentsMargins" [TObj c_QMargins] TVoid
   , _mkMethod "setSizeConstraint" [TEnum e_SizeConstraint] TVoid
   , _mkMethod "sizeConstraint" [] $ TEnum e_SizeConstraint
   ]

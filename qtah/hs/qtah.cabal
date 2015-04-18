@@ -27,6 +27,7 @@ library
     , Graphics.UI.Qtah.QLayoutItem
     , Graphics.UI.Qtah.QLineEdit
     , Graphics.UI.Qtah.QMainWindow
+    , Graphics.UI.Qtah.QMargins
     , Graphics.UI.Qtah.QObject
     , Graphics.UI.Qtah.QPushButton
     , Graphics.UI.Qtah.QString

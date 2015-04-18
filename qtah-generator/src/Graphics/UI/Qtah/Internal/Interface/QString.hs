@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.QString (
   mod_QString,
   c_QString,
