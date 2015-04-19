@@ -8,7 +8,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QLayout
 
 mod_QBoxLayout =
-  makeQtModule "QBoxLayout"
+  makeQtModule "QBoxLayout" []
   [ QtExportClass qtc_QBoxLayout ]
 
 c_QBoxLayout = qtClassClass qtc_QBoxLayout

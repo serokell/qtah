@@ -13,7 +13,7 @@ thisQt = qtc_QMainWindow
 #include "MkQt.hs.inc"
 
 mod_QMainWindow =
-  makeQtModule "QMainWindow"
+  makeQtModule "QMainWindow" []
   [ QtExportClass thisQt ]
 
 c_QMainWindow = qtClassClass qtc_QMainWindow

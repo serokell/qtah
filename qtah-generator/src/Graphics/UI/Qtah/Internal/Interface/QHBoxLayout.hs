@@ -14,7 +14,7 @@ thisQt = qtc_QHBoxLayout
 #include "MkQt.hs.inc"
 
 mod_QHBoxLayout =
-  makeQtModule "QHBoxLayout"
+  makeQtModule "QHBoxLayout" []
   [ QtExportClass thisQt ]
 
 c_QHBoxLayout = qtClassClass qtc_QHBoxLayout

@@ -16,7 +16,7 @@ thisQt = qtc_QWidget
 #include "MkQt.hs.inc"
 
 mod_QWidget =
-  makeQtModule "QWidget"
+  makeQtModule "QWidget" []
   [ QtExportClass qtc_QWidget ]
 
 c_QWidget = qtClassClass qtc_QWidget

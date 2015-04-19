@@ -13,6 +13,7 @@ import Language.Haskell.Syntax (
 
 mod_QMargins =
   makeQtModule "QMargins"
+  [ "qualified Graphics.UI.Qtah.H.HMargins as HMargins" ]
   [ QtExportClass qtc_QMargins ]
 
 c_QMargins = qtClassClass qtc_QMargins

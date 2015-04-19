@@ -7,7 +7,7 @@ import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 
 mod_QLayoutItem =
-  makeQtModule "QLayoutItem"
+  makeQtModule "QLayoutItem" []
   [ QtExportClass qtc_QLayoutItem ]
 
 c_QLayoutItem = qtClassClass qtc_QLayoutItem

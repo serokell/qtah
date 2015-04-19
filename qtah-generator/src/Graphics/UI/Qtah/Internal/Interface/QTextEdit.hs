@@ -16,7 +16,7 @@ thisQt = qtc_QTextEdit
 #include "MkQt.hs.inc"
 
 mod_QTextEdit =
-  makeQtModule "QTextEdit"
+  makeQtModule "QTextEdit" []
   [ QtExportClass qtc_QTextEdit ]
 
 c_QTextEdit = qtClassClass qtc_QTextEdit

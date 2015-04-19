@@ -14,7 +14,7 @@ thisQt = qtc_QAbstractScrollArea
 #include "MkQt.hs.inc"
 
 mod_QAbstractScrollArea =
-  makeQtModule "QAbstractScrollArea"
+  makeQtModule "QAbstractScrollArea" []
   [ QtExportClass thisQt ]
 
 c_QAbstractScrollArea = qtClassClass qtc_QAbstractScrollArea

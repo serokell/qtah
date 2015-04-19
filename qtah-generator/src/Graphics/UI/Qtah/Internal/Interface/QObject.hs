@@ -15,7 +15,7 @@ thisQt = qtc_QObject
 #include "MkQt.hs.inc"
 
 mod_QObject =
-  makeQtModule "QObject"
+  makeQtModule "QObject" []
   [ QtExportClass qtc_QObject ]
 
 c_QObject = qtClassClass qtc_QObject

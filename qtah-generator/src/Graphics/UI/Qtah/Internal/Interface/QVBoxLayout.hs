@@ -14,7 +14,7 @@ thisQt = qtc_QVBoxLayout
 #include "MkQt.hs.inc"
 
 mod_QVBoxLayout =
-  makeQtModule "QVBoxLayout"
+  makeQtModule "QVBoxLayout" []
   [ QtExportClass qtc_QVBoxLayout ]
 
 c_QVBoxLayout = qtClassClass qtc_QVBoxLayout

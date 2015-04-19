@@ -8,7 +8,7 @@ import Foreign.Cppop.Generator.Std
 import Graphics.UI.Qtah.Internal.Generator.Types
 
 mod_QString =
-  makeQtModule "QString"
+  makeQtModule "QString" []
   [ QtExportClass qtc_QString ]
 
 c_QString = qtClassClass qtc_QString

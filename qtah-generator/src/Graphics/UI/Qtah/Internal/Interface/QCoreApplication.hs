@@ -8,7 +8,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QObject
 
 mod_QCoreApplication =
-  makeQtModule "QCoreApplication"
+  makeQtModule "QCoreApplication" []
   [ QtExportClass qtc_QCoreApplication ]
 
 c_QCoreApplication = qtClassClass qtc_QCoreApplication

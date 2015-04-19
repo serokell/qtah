@@ -17,7 +17,7 @@ thisQt = qtc_QLayout
 #include "MkQt.hs.inc"
 
 mod_QLayout =
-  makeQtModule "QLayout"
+  makeQtModule "QLayout" []
   [ QtExportClass qtc_QLayout
   , QtExportEnum e_SizeConstraint
   ]

@@ -1,5 +1,5 @@
 module Graphics.UI.Qtah.Internal.Generator.Types (
-  QtModule, makeQtModule, qtModuleSubname, qtModuleExports,
+  QtModule, makeQtModule, qtModuleSubname, qtModuleImports, qtModuleExports,
   moduleNameAppend,
   QtExport (..),
   qtExportToExport,
@@ -22,10 +22,20 @@ import Foreign.Cppop.Generator.Spec (
 
 data QtModule = QtModule
   { qtModuleSubname :: String
+    -- ^ The submodule path underneath the base Qtah module into which to
+    -- generate re-exports.
+  , qtModuleImports :: [String]
+    -- ^ Extra Haskell imports that will be added to the module.  These are all
+    -- prefixed with @\"import \"@ and written directly to the module.
   , qtModuleExports :: [QtExport]
+    -- ^ A list of exports whose generated Cppop bindings will be re-exported in
+    -- this module.
   }
 
-makeQtModule :: String -> [QtExport] -> QtModule
+makeQtModule :: String  -- ^ 'qtModuleSubname'
+             -> [String]  -- ^ 'qtModuleImports'
+             -> [QtExport]  -- ^ 'qtModuleExports'
+             -> QtModule
 makeQtModule = QtModule
 
 moduleNameAppend :: String -> String -> String

@@ -15,7 +15,7 @@ thisQt = qtc_QLabel
 #include "MkQt.hs.inc"
 
 mod_QLabel =
-  makeQtModule "QLabel"
+  makeQtModule "QLabel" []
   [ QtExportClass thisQt ]
 
 c_QLabel = qtClassClass qtc_QLabel

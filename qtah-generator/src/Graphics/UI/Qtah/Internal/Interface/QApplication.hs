@@ -13,7 +13,7 @@ thisQt = qtc_QApplication
 #include "MkQt.hs.inc"
 
 mod_QApplication =
-  makeQtModule "QApplication"
+  makeQtModule "QApplication" []
   [ QtExportFn f_QApplication_new
   , QtExportClass thisQt
   ]

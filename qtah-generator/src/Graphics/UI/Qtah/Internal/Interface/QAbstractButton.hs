@@ -16,7 +16,7 @@ thisQt = qtc_QAbstractButton
 #include "MkQt.hs.inc"
 
 mod_QAbstractButton =
-  makeQtModule "QAbstractButton"
+  makeQtModule "QAbstractButton" []
   [ QtExportClass thisQt ]
 
 c_QAbstractButton = qtClassClass qtc_QAbstractButton

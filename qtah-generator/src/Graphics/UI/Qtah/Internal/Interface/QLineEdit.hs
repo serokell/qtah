@@ -15,7 +15,7 @@ thisQt = qtc_QLineEdit
 #include "MkQt.hs.inc"
 
 mod_QLineEdit =
-  makeQtModule "QLineEdit"
+  makeQtModule "QLineEdit" []
   [ QtExportClass qtc_QLineEdit ]
 
 c_QLineEdit = qtClassClass qtc_QLineEdit

@@ -16,7 +16,7 @@ data HMargins = HMargins
   , top :: CInt
   , right :: CInt
   , bottom :: CInt
-  } deriving (Eq)
+  } deriving (Eq, Show)
 
 null :: HMargins
 null = HMargins 0 0 0 0

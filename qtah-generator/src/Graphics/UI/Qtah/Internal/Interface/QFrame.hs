@@ -14,7 +14,7 @@ thisQt = qtc_QFrame
 #include "MkQt.hs.inc"
 
 mod_QFrame =
-  makeQtModule "QFrame"
+  makeQtModule "QFrame" []
   [ QtExportClass thisQt ]
 
 c_QFrame = qtClassClass qtc_QFrame

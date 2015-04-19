@@ -15,7 +15,7 @@ thisQt = qtc_QPushButton
 #include "MkQt.hs.inc"
 
 mod_QPushButton =
-  makeQtModule "QPushButton"
+  makeQtModule "QPushButton" []
   [ QtExportClass qtc_QPushButton ]
 
 c_QPushButton = qtClassClass qtc_QPushButton
