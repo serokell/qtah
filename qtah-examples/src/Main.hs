@@ -2,15 +2,15 @@ module Main where
 
 import Control.Monad (unless)
 import Graphics.UI.Qtah (delete, on, qApplication_new)
-import qualified Graphics.UI.Qtah.QAbstractButton as QAbstractButton
-import qualified Graphics.UI.Qtah.QApplication as QApplication
-import qualified Graphics.UI.Qtah.QHBoxLayout as QHBoxLayout
-import qualified Graphics.UI.Qtah.QLabel as QLabel
-import qualified Graphics.UI.Qtah.QLayout as QLayout
-import qualified Graphics.UI.Qtah.QLineEdit as QLineEdit
-import qualified Graphics.UI.Qtah.QMainWindow as QMainWindow
-import qualified Graphics.UI.Qtah.QPushButton as QPushButton
-import qualified Graphics.UI.Qtah.QWidget as QWidget
+import qualified Graphics.UI.Qtah.Q.QAbstractButton as QAbstractButton
+import qualified Graphics.UI.Qtah.Q.QApplication as QApplication
+import qualified Graphics.UI.Qtah.Q.QHBoxLayout as QHBoxLayout
+import qualified Graphics.UI.Qtah.Q.QLabel as QLabel
+import qualified Graphics.UI.Qtah.Q.QLayout as QLayout
+import qualified Graphics.UI.Qtah.Q.QLineEdit as QLineEdit
+import qualified Graphics.UI.Qtah.Q.QMainWindow as QMainWindow
+import qualified Graphics.UI.Qtah.Q.QPushButton as QPushButton
+import qualified Graphics.UI.Qtah.Q.QWidget as QWidget
 
 main :: IO ()
 main = do

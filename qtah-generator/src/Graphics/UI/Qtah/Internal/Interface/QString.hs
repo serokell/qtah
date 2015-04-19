@@ -14,7 +14,7 @@ mod_QString =
 c_QString = qtClassClass qtc_QString
 
 qtc_QString =
-  flip makeQtClass' [] $
+  makeQtClass' [] $
   classModifyEncoding
   (\c -> c { classCppCType = Just $ TPtr TChar
            , classCppDecoder = Just $ CppCoderFn $ ident "QString"

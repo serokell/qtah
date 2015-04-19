@@ -67,8 +67,8 @@ makeQtClass identifier maybeExtName supers ctors methods signals = QtClass
   , qtClassSignals = signals
   }
 
-makeQtClass' :: Class -> [Signal] -> QtClass
-makeQtClass' = QtClass
+makeQtClass' :: [Signal] -> Class -> QtClass
+makeQtClass' = flip QtClass
 
 -- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal

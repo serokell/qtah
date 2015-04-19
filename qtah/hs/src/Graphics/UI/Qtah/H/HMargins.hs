@@ -1,5 +1,5 @@
-module Graphics.UI.Qtah.QMargins (
-  QMargins (..),
+module Graphics.UI.Qtah.H.HMargins (
+  HMargins (..),
   null,
   isNull,
   -- * Internal
@@ -11,25 +11,25 @@ import Foreign (Ptr, free, newArray, peekArray)
 import Foreign.C (CInt)
 import Prelude hiding (null)
 
-data QMargins = QMargins
+data HMargins = HMargins
   { left :: CInt
   , top :: CInt
   , right :: CInt
   , bottom :: CInt
   } deriving (Eq)
 
-null :: QMargins
-null = QMargins 0 0 0 0
+null :: HMargins
+null = HMargins 0 0 0 0
 
-isNull :: QMargins -> Bool
-isNull (QMargins 0 0 0 0) = True
+isNull :: HMargins -> Bool
+isNull (HMargins 0 0 0 0) = True
 isNull _ = False
 
-encode :: QMargins -> IO (Ptr CInt)
-encode (QMargins l t r b) = newArray [l, t, r, b]
+encode :: HMargins -> IO (Ptr CInt)
+encode (HMargins l t r b) = newArray [l, t, r, b]
 
-decode :: Ptr CInt -> IO QMargins
+decode :: Ptr CInt -> IO HMargins
 decode p = do
   [l, t, r, b] <- peekArray 4 p
   free p
-  return $ QMargins l t r b
+  return $ HMargins l t r b

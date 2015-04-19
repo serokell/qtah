@@ -15,25 +15,26 @@ cabal-version: >=1.10
 library
   exposed-modules:
       Graphics.UI.Qtah
-    , Graphics.UI.Qtah.QAbstractButton
-    , Graphics.UI.Qtah.QAbstractScrollArea
-    , Graphics.UI.Qtah.QApplication
-    , Graphics.UI.Qtah.QBoxLayout
-    , Graphics.UI.Qtah.QCoreApplication
-    , Graphics.UI.Qtah.QFrame
-    , Graphics.UI.Qtah.QHBoxLayout
-    , Graphics.UI.Qtah.QLabel
-    , Graphics.UI.Qtah.QLayout
-    , Graphics.UI.Qtah.QLayoutItem
-    , Graphics.UI.Qtah.QLineEdit
-    , Graphics.UI.Qtah.QMainWindow
-    , Graphics.UI.Qtah.QMargins
-    , Graphics.UI.Qtah.QObject
-    , Graphics.UI.Qtah.QPushButton
-    , Graphics.UI.Qtah.QString
-    , Graphics.UI.Qtah.QTextEdit
-    , Graphics.UI.Qtah.QVBoxLayout
-    , Graphics.UI.Qtah.QWidget
+    , Graphics.UI.Qtah.H.HMargins
+    , Graphics.UI.Qtah.Q.QAbstractButton
+    , Graphics.UI.Qtah.Q.QAbstractScrollArea
+    , Graphics.UI.Qtah.Q.QApplication
+    , Graphics.UI.Qtah.Q.QBoxLayout
+    , Graphics.UI.Qtah.Q.QCoreApplication
+    , Graphics.UI.Qtah.Q.QFrame
+    , Graphics.UI.Qtah.Q.QHBoxLayout
+    , Graphics.UI.Qtah.Q.QLabel
+    , Graphics.UI.Qtah.Q.QLayout
+    , Graphics.UI.Qtah.Q.QLayoutItem
+    , Graphics.UI.Qtah.Q.QLineEdit
+    , Graphics.UI.Qtah.Q.QMainWindow
+    , Graphics.UI.Qtah.Q.QMargins
+    , Graphics.UI.Qtah.Q.QObject
+    , Graphics.UI.Qtah.Q.QPushButton
+    , Graphics.UI.Qtah.Q.QString
+    , Graphics.UI.Qtah.Q.QTextEdit
+    , Graphics.UI.Qtah.Q.QVBoxLayout
+    , Graphics.UI.Qtah.Q.QWidget
     , Graphics.UI.Qtah.Signal
   other-modules:
       Foreign.Cppop.Generated.Qtah

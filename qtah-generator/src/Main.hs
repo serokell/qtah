@@ -83,7 +83,6 @@ callbackImports =
 nonQtModuleExports :: [Export]
 nonQtModuleExports =
   [ ExportClass c_std__string
-  , ExportClass c_QMargins
   ] ++
   map ExportCallback allCallbacks ++
   map ExportClass allListeners
@@ -102,6 +101,7 @@ allQtModules =
   , mod_QLayoutItem
   , mod_QLineEdit
   , mod_QMainWindow
+  , mod_QMargins
   , mod_QObject
   , mod_QPushButton
   , mod_QString
@@ -115,7 +115,7 @@ interfaceResult =
   interface "qtah"
   "bindings.cpp" "bindings.hpp" bindingImports
   (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
-  [ "qualified Graphics.UI.Qtah.QMargins as QMargins" ]
+  [ "qualified Graphics.UI.Qtah.H.HMargins as HMargins" ]
   allExports
   where allExports =
           nonQtModuleExports ++
@@ -155,7 +155,7 @@ main = do
                                " to generate Qt modules.") $
                     findSrcDir path
           forM_ allQtModules $
-            generateModule srcDir "Graphics.UI.Qtah" "Foreign.Cppop.Generated.Qtah"
+            generateModule srcDir "Graphics.UI.Qtah.Q" "Foreign.Cppop.Generated.Qtah"
 
         _ -> return ()
 
