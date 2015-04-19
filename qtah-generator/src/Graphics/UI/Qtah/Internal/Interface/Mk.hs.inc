@@ -1,23 +1,23 @@
 _mkCtor :: String -> [Type] -> Ctor
-_mkCtor name paramTypes =
-  makeCtor (toExtName $ fromExtName (classExtName this) ++ "_" ++ name) paramTypes
+_mkCtor name =
+  makeCtor (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
 
 _mkMethod :: String -> [Type] -> Type -> Method
-_mkMethod name paramTypes retType =
+_mkMethod name =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
-  MNormal Nonpure paramTypes retType
+  MNormal Nonpure
 
 _mkMethod' :: String -> String -> [Type] -> Type -> Method
-_mkMethod' cName hsName paramTypes retType =
+_mkMethod' cName hsName =
   makeMethod cName (toExtName $ fromExtName (classExtName this) ++ "_" ++ hsName)
-  MNormal Nonpure paramTypes retType
+  MNormal Nonpure
 
 _mkConstMethod :: String -> [Type] -> Type -> Method
-_mkConstMethod name paramTypes retType =
+_mkConstMethod name =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
-  MConst Nonpure paramTypes retType
+  MConst Nonpure
 
 _mkStaticMethod :: String -> [Type] -> Type -> Method
-_mkStaticMethod name paramTypes retType =
+_mkStaticMethod name =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
-  MStatic Nonpure paramTypes retType
+  MStatic Nonpure

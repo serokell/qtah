@@ -7,6 +7,8 @@ import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QLayout
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 mod_QBoxLayout =
   makeQtModule "QBoxLayout" []
   [ QtExportClass qtc_QBoxLayout ]

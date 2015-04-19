@@ -1,6 +1,6 @@
 #include "Mk.hs.inc"
 
 _mkSignal :: String -> Class -> Signal
-_mkSignal name listenerClass =
+_mkSignal name =
   makeSignal name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
-  thisQt listenerClass
+  thisQt

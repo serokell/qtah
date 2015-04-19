@@ -10,6 +10,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.QString
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 this = c_QObject
 thisQt = qtc_QObject
 #include "MkQt.hs.inc"

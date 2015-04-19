@@ -10,6 +10,8 @@ import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.QString
 import Graphics.UI.Qtah.Internal.Interface.QWidget
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 this = c_QLineEdit
 thisQt = qtc_QLineEdit
 #include "MkQt.hs.inc"

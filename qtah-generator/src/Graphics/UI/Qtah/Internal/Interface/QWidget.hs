@@ -11,6 +11,8 @@ import Graphics.UI.Qtah.Internal.Interface.QLayout
 import Graphics.UI.Qtah.Internal.Interface.QObject
 import Graphics.UI.Qtah.Internal.Interface.QString
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 this = c_QWidget
 thisQt = qtc_QWidget
 #include "MkQt.hs.inc"

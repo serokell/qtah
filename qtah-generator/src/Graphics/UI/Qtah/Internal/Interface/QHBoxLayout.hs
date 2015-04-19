@@ -9,6 +9,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QBoxLayout
 import Graphics.UI.Qtah.Internal.Interface.QWidget
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 this = c_QHBoxLayout
 thisQt = qtc_QHBoxLayout
 #include "MkQt.hs.inc"

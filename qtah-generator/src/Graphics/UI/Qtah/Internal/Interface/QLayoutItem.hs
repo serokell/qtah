@@ -6,6 +6,8 @@ module Graphics.UI.Qtah.Internal.Interface.QLayoutItem (
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 mod_QLayoutItem =
   makeQtModule "QLayoutItem" []
   [ QtExportClass qtc_QLayoutItem ]

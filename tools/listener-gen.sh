@@ -122,6 +122,8 @@ say 'import qualified Foreign.Cppop.Generator.Spec as S'
 say 'import qualified Foreign.Cppop.Generator.Std as Std'
 say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
 say 'import qualified Graphics.UI.Qtah.Internal.Interface.QObject as QObject'
+say
+say '{-# ANN module "HLint: ignore Use camelCase" #-}'
 
 writeHs() {
     local -r name="${1?}"

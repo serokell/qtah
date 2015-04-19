@@ -7,6 +7,8 @@ import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Std
 import Graphics.UI.Qtah.Internal.Generator.Types
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 mod_QString =
   makeQtModule "QString" []
   [ QtExportClass qtc_QString ]

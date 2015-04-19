@@ -8,6 +8,8 @@ import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.QCoreApplication
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 this = c_QApplication
 thisQt = qtc_QApplication
 #include "MkQt.hs.inc"

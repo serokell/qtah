@@ -11,6 +11,8 @@ import Language.Haskell.Syntax (
   HsType (HsTyApp, HsTyCon),
   )
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 mod_QMargins =
   makeQtModule "QMargins"
   [ "qualified Graphics.UI.Qtah.H.HMargins as HMargins" ]

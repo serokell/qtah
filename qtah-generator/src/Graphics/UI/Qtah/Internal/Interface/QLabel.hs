@@ -10,6 +10,8 @@ import Graphics.UI.Qtah.Internal.Interface.QFrame
 import Graphics.UI.Qtah.Internal.Interface.QString
 import Graphics.UI.Qtah.Internal.Interface.QWidget
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 this = c_QLabel
 thisQt = qtc_QLabel
 #include "MkQt.hs.inc"
