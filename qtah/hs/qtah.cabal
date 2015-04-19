@@ -16,6 +16,9 @@ library
   exposed-modules:
       Graphics.UI.Qtah
     , Graphics.UI.Qtah.H.HMargins
+    , Graphics.UI.Qtah.H.HPoint
+    , Graphics.UI.Qtah.H.HRect
+    , Graphics.UI.Qtah.H.HSize
     , Graphics.UI.Qtah.Q.QAbstractButton
     , Graphics.UI.Qtah.Q.QAbstractScrollArea
     , Graphics.UI.Qtah.Q.QApplication
@@ -30,7 +33,10 @@ library
     , Graphics.UI.Qtah.Q.QMainWindow
     , Graphics.UI.Qtah.Q.QMargins
     , Graphics.UI.Qtah.Q.QObject
+    , Graphics.UI.Qtah.Q.QPoint
     , Graphics.UI.Qtah.Q.QPushButton
+    , Graphics.UI.Qtah.Q.QRect
+    , Graphics.UI.Qtah.Q.QSize
     , Graphics.UI.Qtah.Q.QString
     , Graphics.UI.Qtah.Q.QTextEdit
     , Graphics.UI.Qtah.Q.QVBoxLayout

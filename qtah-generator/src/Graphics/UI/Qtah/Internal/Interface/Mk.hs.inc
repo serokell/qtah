@@ -17,6 +17,11 @@ _mkConstMethod name =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
   MConst Nonpure
 
+_mkConstMethod' :: String -> String -> [Type] -> Type -> Method
+_mkConstMethod' cName hsName =
+  makeMethod cName (toExtName $ fromExtName (classExtName this) ++ "_" ++ hsName)
+  MConst Nonpure
+
 _mkStaticMethod :: String -> [Type] -> Type -> Method
 _mkStaticMethod name =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)

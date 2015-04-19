@@ -36,8 +36,12 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.QLayoutItem
     , Graphics.UI.Qtah.Internal.Interface.QMainWindow
     , Graphics.UI.Qtah.Internal.Interface.QObject
+    , Graphics.UI.Qtah.Internal.Interface.QPoint
     , Graphics.UI.Qtah.Internal.Interface.QPushButton
+    , Graphics.UI.Qtah.Internal.Interface.QRect
+    , Graphics.UI.Qtah.Internal.Interface.QSize
     , Graphics.UI.Qtah.Internal.Interface.QString
+    , Graphics.UI.Qtah.Internal.Interface.Qt
     , Graphics.UI.Qtah.Internal.Interface.QTextEdit
     , Graphics.UI.Qtah.Internal.Interface.QVBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.QWidget

@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 module Graphics.UI.Qtah.Internal.Interface.QMargins (
   mod_QMargins,
   c_QMargins,
@@ -13,6 +15,10 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+this = c_QMargins
+thisQt = qtc_QMargins
+#include "MkQt.hs.inc"
+
 mod_QMargins =
   makeQtModule "QMargins"
   [ "qualified Graphics.UI.Qtah.H.HMargins as HMargins" ]
@@ -24,15 +30,28 @@ qtc_QMargins =
   makeQtClass' [] $
   classModifyEncoding
   (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn $ ident "decodeQMargins"
-           , classCppEncoder = Just $ CppCoderFn $ ident "encodeQMargins"
+           , classCppDecoder = Just $ CppCoderFn $ ident "qMarginsDecode"
+           , classCppEncoder = Just $ CppCoderFn $ ident "qMarginsEncode"
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
              , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "F.Ptr") $
                                       HsTyCon $ UnQual $ HsIdent "FC.CInt"
-             , haskellEncodingDecoder = "HMargins.decode"
-             , haskellEncodingEncoder = "HMargins.encode"
+             , haskellEncodingDecoder = "HMargins.decodeInternal"
+             , haskellEncodingEncoder = "HMargins.encodeInternal"
              }
            }) $
-  makeClass (ident "QMargins") Nothing [] [] []
+  makeClass (ident "QMargins") Nothing []
+  [ _mkCtor "newNull" []
+  , _mkCtor "new" [TInt, TInt, TInt, TInt]
+  ]
+  [ _mkConstMethod "bottom" [] TInt
+  , _mkConstMethod "isNull" [] TBool
+  , _mkConstMethod "left" [] TInt
+  , _mkConstMethod "right" [] TInt
+  , _mkMethod "setBottom" [TInt] TVoid
+  , _mkMethod "setLeft" [TInt] TVoid
+  , _mkMethod "setRight" [TInt] TVoid
+  , _mkMethod "setTop" [TInt] TVoid
+  , _mkConstMethod "top" [] TInt
+  ]

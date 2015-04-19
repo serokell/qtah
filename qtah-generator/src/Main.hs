@@ -19,25 +19,29 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Generator.Signal
 import Graphics.UI.Qtah.Internal.Interface.Callback (allCallbacks)
 import Graphics.UI.Qtah.Internal.Interface.Listener (allListeners)
-import Graphics.UI.Qtah.Internal.Interface.QAbstractButton
-import Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea
-import Graphics.UI.Qtah.Internal.Interface.QApplication
-import Graphics.UI.Qtah.Internal.Interface.QBoxLayout
-import Graphics.UI.Qtah.Internal.Interface.QCoreApplication
-import Graphics.UI.Qtah.Internal.Interface.QFrame
-import Graphics.UI.Qtah.Internal.Interface.QHBoxLayout
-import Graphics.UI.Qtah.Internal.Interface.QLabel
-import Graphics.UI.Qtah.Internal.Interface.QLayout
-import Graphics.UI.Qtah.Internal.Interface.QLayoutItem
-import Graphics.UI.Qtah.Internal.Interface.QLineEdit
-import Graphics.UI.Qtah.Internal.Interface.QMainWindow
-import Graphics.UI.Qtah.Internal.Interface.QMargins
-import Graphics.UI.Qtah.Internal.Interface.QObject
-import Graphics.UI.Qtah.Internal.Interface.QPushButton
-import Graphics.UI.Qtah.Internal.Interface.QString
-import Graphics.UI.Qtah.Internal.Interface.QTextEdit
-import Graphics.UI.Qtah.Internal.Interface.QVBoxLayout
-import Graphics.UI.Qtah.Internal.Interface.QWidget
+import Graphics.UI.Qtah.Internal.Interface.QAbstractButton (mod_QAbstractButton)
+import Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea (mod_QAbstractScrollArea)
+import Graphics.UI.Qtah.Internal.Interface.QApplication (mod_QApplication)
+import Graphics.UI.Qtah.Internal.Interface.QBoxLayout (mod_QBoxLayout)
+import Graphics.UI.Qtah.Internal.Interface.QCoreApplication (mod_QCoreApplication)
+import Graphics.UI.Qtah.Internal.Interface.QFrame (mod_QFrame)
+import Graphics.UI.Qtah.Internal.Interface.QHBoxLayout (mod_QHBoxLayout)
+import Graphics.UI.Qtah.Internal.Interface.QLabel (mod_QLabel)
+import Graphics.UI.Qtah.Internal.Interface.QLayout (mod_QLayout)
+import Graphics.UI.Qtah.Internal.Interface.QLayoutItem (mod_QLayoutItem)
+import Graphics.UI.Qtah.Internal.Interface.QLineEdit (mod_QLineEdit)
+import Graphics.UI.Qtah.Internal.Interface.QMainWindow (mod_QMainWindow)
+import Graphics.UI.Qtah.Internal.Interface.QMargins (mod_QMargins)
+import Graphics.UI.Qtah.Internal.Interface.QObject (mod_QObject)
+import Graphics.UI.Qtah.Internal.Interface.QPoint (mod_QPoint)
+import Graphics.UI.Qtah.Internal.Interface.QPushButton (mod_QPushButton)
+import Graphics.UI.Qtah.Internal.Interface.QRect (mod_QRect)
+import Graphics.UI.Qtah.Internal.Interface.QSize (mod_QSize)
+import Graphics.UI.Qtah.Internal.Interface.QString (mod_QString)
+import Graphics.UI.Qtah.Internal.Interface.Qt (mod_Qt)
+import Graphics.UI.Qtah.Internal.Interface.QTextEdit (mod_QTextEdit)
+import Graphics.UI.Qtah.Internal.Interface.QVBoxLayout (mod_QVBoxLayout)
+import Graphics.UI.Qtah.Internal.Interface.QWidget (mod_QWidget)
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import System.FilePath (
@@ -63,7 +67,10 @@ bindingImports =
   , includeStd "QLineEdit"
   , includeStd "QMainWindow"
   , includeStd "QObject"
+  , includeStd "QPoint"
   , includeStd "QPushButton"
+  , includeStd "QRect"
+  , includeStd "QSize"
   , includeStd "QString"
   , includeStd "QTextEdit"
   , includeStd "QVBoxLayout"
@@ -103,8 +110,12 @@ allQtModules =
   , mod_QMainWindow
   , mod_QMargins
   , mod_QObject
+  , mod_QPoint
   , mod_QPushButton
+  , mod_QRect
+  , mod_QSize
   , mod_QString
+  , mod_Qt
   , mod_QTextEdit
   , mod_QVBoxLayout
   , mod_QWidget
@@ -115,7 +126,11 @@ interfaceResult =
   interface "qtah"
   "bindings.cpp" "bindings.hpp" bindingImports
   (Just ("callbacks.cpp", "callbacks.hpp", callbackImports))
-  [ "qualified Graphics.UI.Qtah.H.HMargins as HMargins" ]
+  [ "qualified Graphics.UI.Qtah.H.HMargins as HMargins"
+  , "qualified Graphics.UI.Qtah.H.HPoint as HPoint"
+  , "qualified Graphics.UI.Qtah.H.HRect as HRect"
+  , "qualified Graphics.UI.Qtah.H.HSize as HSize"
+  ]
   allExports
   where allExports =
           nonQtModuleExports ++

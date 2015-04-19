@@ -3,8 +3,8 @@ module Graphics.UI.Qtah.H.HMargins (
   null,
   isNull,
   -- * Internal
-  encode,
-  decode,
+  encodeInternal,
+  decodeInternal,
   ) where
 
 import Foreign (Ptr, free, newArray, peekArray)
@@ -25,11 +25,11 @@ isNull :: HMargins -> Bool
 isNull (HMargins 0 0 0 0) = True
 isNull _ = False
 
-encode :: HMargins -> IO (Ptr CInt)
-encode (HMargins l t r b) = newArray [l, t, r, b]
+encodeInternal :: HMargins -> IO (Ptr CInt)
+encodeInternal (HMargins l t r b) = newArray [l, t, r, b]
 
-decode :: Ptr CInt -> IO HMargins
-decode p = do
+decodeInternal :: Ptr CInt -> IO HMargins
+decodeInternal p = do
   [l, t, r, b] <- peekArray 4 p
   free p
   return $ HMargins l t r b

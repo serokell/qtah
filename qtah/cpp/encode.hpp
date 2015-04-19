@@ -1,5 +1,18 @@
 #include <QMargins>
+#include <QRect>
 
-QMargins decodeQMargins(int* values);
+QMargins qMarginsDecode(int* values);
 
-int* encodeQMargins(const QMargins& margins);
+int* qMarginsEncode(const QMargins& margins);
+
+QPoint qPointDecode(int* values);
+
+int* qPointEncode(const QPoint& point);
+
+QRect qRectDecode(int* values);
+
+int* qRectEncode(const QRect& rect);
+
+QSize qSizeDecode(int* values);
+
+int* qSizeEncode(const QSize& size);
