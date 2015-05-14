@@ -47,6 +47,7 @@ import Foreign.Cppop.Generator.Spec (
   classMethods,
   ctorExtName,
   ctorParams,
+  enumExtName,
   fnExtName,
   fromExtName,
   methodCName,
@@ -173,27 +174,18 @@ sayClassEncodingFnReexports cls =
 sayQtExport :: String -> QtExport -> Generator ()
 sayQtExport foreignModuleName qtExport = case qtExport of
   QtExport (ExportEnum e) -> do
+    importHsModuleForExtName $ enumExtName e
     let spec = toHsEnumTypeName e ++ " (..)"
-    addImport $ wrap spec
     addExport spec
 
   QtExport (ExportFn fn) -> do
-    addImport $ wrap $ getFnImportName fn
+    importHsModuleForExtName $ fnExtName fn
     addExport $ getFnReexportName fn
 
   QtExport (ExportCallback _) -> return ()
 
   QtExport (ExportClass cls) -> do
-    addImport $ wraps $
-      (toHsClassName Const cls ++ " (..)") :
-      (toHsClassName Nonconst cls ++ " (..)") :
-      toHsDataTypeName Const cls :
-      toHsDataTypeName Nonconst cls :
-      toHsClassNullName cls :
-      concat [ map (toHsFnName . ctorExtName) $ classCtors cls
-             , map (toHsFnName . methodExtName) $ classMethods cls
-             ]
-
+    importHsModuleForExtName $ classExtName cls
     addExports $
       toHsClassName Const cls :
       toHsClassName Nonconst cls :
@@ -221,11 +213,7 @@ sayQtExport foreignModuleName qtExport = case qtExport of
 
   QtExportSignal sig -> saySignalExport sig
 
-  where wrap spec = concat [foreignModuleName, " (", spec, ")"]
-        wraps specs = concat [foreignModuleName, " (\n",
-                              concatMap (\spec -> concat ["  ", spec, ",\n"]) specs,
-                              "  )"]
-        sayBind name value = saysLn [name, " = ", value]
+  where sayBind name value = saysLn [name, " = ", value]
 
 -- | Generates and exports a @Signal@ definition.  We create the signal from
 -- scratch in this module, rather than reexporting it from somewhere else.
