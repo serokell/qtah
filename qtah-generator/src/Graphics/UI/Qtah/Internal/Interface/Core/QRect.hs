@@ -23,8 +23,6 @@ qtModule = makeQtModuleForClass c_QRect []
 this = c_QRect
 #include "../Mk.hs.inc"
 
--- TODO Import HRect.
-
 c_QRect =
   addReqIncludes [includeStd "QRect"] $
   classModifyEncoding
@@ -36,11 +34,18 @@ c_QRect =
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HRect.HRect"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "F.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "FC.CInt"
+             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
+                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
              , haskellEncodingDecoder = "HRect.decodeInternal"
              , haskellEncodingEncoder = "HRect.encodeInternal"
-             , haskellEncodingImports =
+             , haskellEncodingTypeImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HRect as HRect"
+             , haskellEncodingCTypeImports =
+               S.fromList
+               [ "qualified Foreign as QtahF"
+               , "qualified Foreign.C as QtahFC"
+               ]
+             , haskellEncodingFnImports =
                S.singleton "qualified Graphics.UI.Qtah.H.HRect as HRect"
              }
            }) $

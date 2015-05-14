@@ -13,11 +13,10 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   addExport,
   addExports,
   addImport,
-  addImportsForClass,
-  addQualifiedImports,
   abort,
   cppTypeToHsTypeAndUse,
   execGenerator,
+  importHsModuleForExtName,
   indent,
   ln,
   prettyPrint,
@@ -149,8 +148,8 @@ sayClassEncodingFnReexports cls =
   when (isJust $ classHaskellType $ classEncoding cls) $ do
     -- Generated encode and decode functions require some things from Cppop
     -- support and the Prelude.
-    addImport "qualified Foreign.Cppop.Runtime.Support as FCRS"
-    addImport "qualified Prelude as P"
+    addImport "qualified Foreign.Cppop.Runtime.Support as QtahFCRS"
+    addImport "qualified Prelude as QtahP"
 
     hsHsType <-
       fromMaybeM (abort $ "generateModule: Expected a Haskell type for class " ++
@@ -160,16 +159,16 @@ sayClassEncodingFnReexports cls =
         dataTypeName = toHsDataTypeName Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
         thisTyVar = HsTyVar $ HsIdent "this"
-        encodeFnType = HsTyFun hsHsType $ HsTyApp (HsTyCon $ UnQual $ HsIdent "P.IO") ptrHsType
+        encodeFnType = HsTyFun hsHsType $ HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") ptrHsType
         decodeFnType = HsQualType [(UnQual $ HsIdent constClassName, [thisTyVar])] $
                        HsTyFun thisTyVar $
-                       HsTyApp (HsTyCon $ UnQual $ HsIdent "P.IO") hsHsType
+                       HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") hsHsType
     ln
     saysLn [classEncodeReexportName, " :: ", prettyPrint encodeFnType]
-    saysLn [classEncodeReexportName, " = FCRS.encodeAs (P.undefined :: ", dataTypeName, ")"]
+    saysLn [classEncodeReexportName, " = QtahFCRS.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
     ln
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
-    saysLn [classDecodeReexportName, " = FCRS.decode P.. ", toHsCastMethodName Const cls]
+    saysLn [classDecodeReexportName, " = QtahFCRS.decode QtahP.. ", toHsCastMethodName Const cls]
 
 sayQtExport :: String -> QtExport -> Generator ()
 sayQtExport foreignModuleName qtExport = case qtExport of
@@ -232,7 +231,6 @@ sayQtExport foreignModuleName qtExport = case qtExport of
 -- scratch in this module, rather than reexporting it from somewhere else.
 saySignalExport :: Signal -> Generator ()
 saySignalExport signal = do
-  addQualifiedImports
   addImport "qualified Graphics.UI.Qtah.Signal as QtahSignal"
 
   let name = signalCName signal
@@ -241,7 +239,7 @@ saySignalExport signal = do
   addExport varName
 
   let listenerClass = signalListenerClass signal
-  addImportsForClass listenerClass
+  importHsModuleForExtName $ classExtName listenerClass
   -- Find the listener constructor that only takes a callback.
   listenerCtor <-
     fromMaybeM (abort $ "saySignalExport: Couldn't find an appropriate " ++

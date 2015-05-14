@@ -21,8 +21,6 @@ qtModule = makeQtModuleForClass c_QMargins []
 this = c_QMargins
 #include "../Mk.hs.inc"
 
--- TODO Import HMargins.
-
 c_QMargins =
   addReqIncludes [includeStd "QMargins"] $
   classModifyEncoding
@@ -34,11 +32,18 @@ c_QMargins =
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "F.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "FC.CInt"
+             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
+                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
              , haskellEncodingDecoder = "HMargins.decodeInternal"
              , haskellEncodingEncoder = "HMargins.encodeInternal"
-             , haskellEncodingImports =
+             , haskellEncodingTypeImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HMargins as HMargins"
+             , haskellEncodingCTypeImports =
+               S.fromList
+               [ "qualified Foreign as QtahF"
+               , "qualified Foreign.C as QtahFC"
+               ]
+             , haskellEncodingFnImports =
                S.singleton "qualified Graphics.UI.Qtah.H.HMargins as HMargins"
              }
            }) $

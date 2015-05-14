@@ -26,12 +26,19 @@ c_QString =
            , classCppEncoder =
              Just $ CppCoderExpr [Just "strdup(", Nothing, Just ".toStdString().c_str())"] $
              reqInclude $ includeStd "cstring"
-           , classHaskellType = Just HaskellEncoding
-                                { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "P.String"
-                                , haskellEncodingCType = HsTyCon $ UnQual $ HsIdent "FC.CString"
-                                , haskellEncodingDecoder = "FCRS.decodeAndFreeCString"
-                                , haskellEncodingEncoder = "FC.newCString"
-                                , haskellEncodingImports = S.empty
-                                }
+           , classHaskellType =
+             Just HaskellEncoding
+             { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "QtahP.String"
+             , haskellEncodingCType = HsTyCon $ UnQual $ HsIdent "QtahFC.CString"
+             , haskellEncodingDecoder = "QtahFCRS.decodeAndFreeCString"
+             , haskellEncodingEncoder = "QtahFC.newCString"
+             , haskellEncodingTypeImports = S.singleton "qualified Prelude as QtahP"
+             , haskellEncodingCTypeImports = S.singleton "qualified Foreign.C as QtahFC"
+             , haskellEncodingFnImports =
+               S.fromList
+               [ "qualified Foreign.C as QtahFC"
+               , "qualified Foreign.Cppop.Runtime.Support as QtahFCRS"
+               ]
+             }
            }) $
   makeClass (ident "QString") Nothing [] [] []

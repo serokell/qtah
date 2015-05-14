@@ -22,8 +22,6 @@ qtModule = makeQtModuleForClass c_QSize []
 this = c_QSize
 #include "../Mk.hs.inc"
 
--- TODO Import HSize.
-
 c_QSize =
   addReqIncludes [includeStd "QSize"] $
   classModifyEncoding
@@ -35,11 +33,18 @@ c_QSize =
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HSize.HSize"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "F.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "FC.CInt"
+             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
+                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
              , haskellEncodingDecoder = "HSize.decodeInternal"
              , haskellEncodingEncoder = "HSize.encodeInternal"
-             , haskellEncodingImports =
+             , haskellEncodingTypeImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HSize as HSize"
+             , haskellEncodingCTypeImports =
+               S.fromList
+               [ "qualified Foreign as QtahF"
+               , "qualified Foreign.C as QtahFC"
+               ]
+             , haskellEncodingFnImports =
                S.singleton "qualified Graphics.UI.Qtah.H.HSize as HSize"
              }
            }) $

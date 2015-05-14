@@ -21,8 +21,6 @@ qtModule = makeQtModuleForClass c_QPoint []
 this = c_QPoint
 #include "../Mk.hs.inc"
 
--- TODO Import HPoint.
-
 c_QPoint =
   addReqIncludes [includeStd "QPoint"] $
   classModifyEncoding
@@ -34,11 +32,18 @@ c_QPoint =
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "F.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "FC.CInt"
+             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
+                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
              , haskellEncodingDecoder = "HPoint.decodeInternal"
              , haskellEncodingEncoder = "HPoint.encodeInternal"
-             , haskellEncodingImports =
+             , haskellEncodingTypeImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HPoint as HPoint"
+             , haskellEncodingCTypeImports =
+               S.fromList
+               [ "qualified Foreign as QtahF"
+               , "qualified Foreign.C as QtahFC"
+               ]
+             , haskellEncodingFnImports =
                S.singleton "qualified Graphics.UI.Qtah.H.HPoint as HPoint"
              }
            }) $
