@@ -2,7 +2,6 @@ module Main where
 
 import Data.Foldable (forM_)
 import Foreign.Cppop.Common (maybeFail)
-import Foreign.Cppop.Generator.Language.Haskell.General (getModuleName)
 import Foreign.Cppop.Generator.Main (Action (GenHaskell), run)
 import Foreign.Cppop.Generator.Spec (
   Interface,
@@ -57,9 +56,9 @@ main = do
           srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
                                " to generate Qt modules.") $
                     findSrcDir path
-          forM_ modules $ \(m, qtModules) ->
+          forM_ modules $ \(_, qtModules) ->
             forM_ qtModules $ \qm ->
-            generateModule iface srcDir "Graphics.UI.Qtah.Q" (getModuleName iface m) qm
+            generateModule iface srcDir "Graphics.UI.Qtah.Q" qm
 
         _ -> return ()
 

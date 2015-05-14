@@ -74,8 +74,8 @@ import Language.Haskell.Syntax (
 import System.Exit (exitFailure)
 import System.FilePath ((</>), (<.>), pathSeparator)
 
-generateModule :: Interface -> FilePath -> String -> String -> QtModule -> IO ()
-generateModule iface srcDir baseModuleName foreignModuleName qtModule = do
+generateModule :: Interface -> FilePath -> String -> QtModule -> IO ()
+generateModule iface srcDir baseModuleName qtModule = do
   let fullModuleName = moduleNameAppend baseModuleName $ qtModuleSubname qtModule
       qtExports = qtModuleQtExports qtModule
 
@@ -87,7 +87,7 @@ generateModule iface srcDir baseModuleName foreignModuleName qtModule = do
           addImport "Prelude ()"
 
           -- Generate bindings for all of the exports.
-          forM_ qtExports $ sayQtExport foreignModuleName
+          mapM_ sayQtExport qtExports
 
   case generation of
     Left errorMsg -> do
@@ -171,8 +171,8 @@ sayClassEncodingFnReexports cls =
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
     saysLn [classDecodeReexportName, " = QtahFCRS.decode QtahP.. ", toHsCastMethodName Const cls]
 
-sayQtExport :: String -> QtExport -> Generator ()
-sayQtExport foreignModuleName qtExport = case qtExport of
+sayQtExport :: QtExport -> Generator ()
+sayQtExport qtExport = case qtExport of
   QtExport (ExportEnum e) -> do
     importHsModuleForExtName $ enumExtName e
     let spec = toHsEnumTypeName e ++ " (..)"
