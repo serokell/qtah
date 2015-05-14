@@ -9,14 +9,17 @@ module Graphics.UI.Qtah.Internal.Interface.Qt (
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 
-mod_Qt = modifyModule' (makeModule "qt" "qt.hpp" "qt.cpp") $ do
-  addModuleExports
-    [ ExportEnum e_Alignment
-    , ExportEnum e_AspectRatioMode
-    ]
+mod_Qt = modifyModule' (makeModule "qt" "qt.hpp" "qt.cpp") $
+  addModuleExports exports
 
 qmods_Qt :: [QtModule]
-qmods_Qt = []
+qmods_Qt = [makeQtModule "Qt" $ map QtExport exports]
+
+exports :: [Export]
+exports =
+  [ ExportEnum e_Alignment
+  , ExportEnum e_AspectRatioMode
+  ]
 
 e_Alignment =
   makeEnum (ident1 "Qt" "Alignment") Nothing

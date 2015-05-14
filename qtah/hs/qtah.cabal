@@ -38,6 +38,7 @@ library
     , Graphics.UI.Qtah.Q.QRect
     , Graphics.UI.Qtah.Q.QSize
     , Graphics.UI.Qtah.Q.QString
+    , Graphics.UI.Qtah.Q.Qt
     , Graphics.UI.Qtah.Q.QTextEdit
     , Graphics.UI.Qtah.Q.QVBoxLayout
     , Graphics.UI.Qtah.Q.QWidget
