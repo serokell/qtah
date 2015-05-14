@@ -26,3 +26,6 @@ _mkStaticMethod :: String -> [Type] -> Type -> Method
 _mkStaticMethod name =
   makeMethod name (toExtName $ fromExtName (classExtName this) ++ "_" ++ name)
   MStatic Nonpure
+
+_mkSignal :: String -> Class -> Signal
+_mkSignal = makeSignal this

@@ -24,8 +24,8 @@ forEachListener() {
 echo
 msg "Generating C++ listener classes."
 exec \
-    {fhpp}>"$projectDir/qtah/cpp/listeners.hpp" \
-    {fcpp}>"$projectDir/qtah/cpp/listeners.cpp"
+    {fhpp}>"$projectDir/qtah/cpp/listener.hpp" \
+    {fcpp}>"$projectDir/qtah/cpp/listener.cpp"
 sayHpp() { echo "$*" >&$fhpp; }
 sayCpp() { echo "$*" >&$fcpp; }
 
@@ -36,11 +36,11 @@ sayHpp '#define QTAH_LISTENERS_HPP'
 sayHpp
 sayHpp '#include <string>'
 sayHpp '#include <QObject>'
-sayHpp '#include "callbacks.hpp"'
+sayHpp '#include "callback.hpp"'
 
 sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
 sayCpp
-sayCpp '#include "listeners.hpp"'
+sayCpp '#include "listener.hpp"'
 sayCpp
 sayCpp '#include <iostream>'
 
@@ -120,8 +120,9 @@ say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
 say
 say 'import qualified Foreign.Cppop.Generator.Spec as S'
 say 'import qualified Foreign.Cppop.Generator.Std as Std'
+say 'import qualified Graphics.UI.Qtah.Internal.Generator.Types as T'
 say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
-say 'import qualified Graphics.UI.Qtah.Internal.Interface.QObject as QObject'
+say 'import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject'
 say
 say '{-# ANN module "HLint: ignore Use camelCase" #-}'
 
@@ -146,19 +147,25 @@ writeHs() {
 forEachListener writeHs
 
 say
-say "allListeners :: [S.Class]"
-say "allListeners ="
+say "mod_Listener :: S.Module"
+say "mod_Listener ="
+say "  S.addReqIncludes [S.includeLocal \"listener.hpp\"] \$"
+say "  S.modifyModule' (S.makeModule \"listener\" \"listener-bindings.hpp\" \"listener-bindings.cpp\") \$"
+say "  S.addModuleExports"
 cont="["
 writeHs() {
     local -r name="${1?}"
     local -r className="Listener${name}"
     local -r classVar="c_${className}"
 
-    say "  ${cont} ${classVar}"
+    say "  ${cont} S.ExportClass ${classVar}"
     if [[ $cont = '[' ]]; then cont=','; fi
 }
 forEachListener writeHs
 say "  ]"
+say
+say "qmods_Listener :: [T.QtModule]"
+say "qmods_Listener = []"
 
 exec {fhs}>&-
 unset fhs writeHs

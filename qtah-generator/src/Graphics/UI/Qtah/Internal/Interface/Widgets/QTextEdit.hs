@@ -1,30 +1,26 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QTextEdit (
-  mod_QTextEdit,
+module Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit (
+  qtModule,
   ) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Listener
-import Graphics.UI.Qtah.Internal.Interface.QAbstractScrollArea
-import Graphics.UI.Qtah.Internal.Interface.QString
-import Graphics.UI.Qtah.Internal.Interface.QWidget
+import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+qtModule = makeQtModuleForClass c_QTextEdit $ map QtExportSignal signals
+
 this = c_QTextEdit
-thisQt = qtc_QTextEdit
-#include "MkQt.hs.inc"
+#include "../Mk.hs.inc"
 
-mod_QTextEdit =
-  makeQtModule "QTextEdit" []
-  [ QtExportClass qtc_QTextEdit ]
-
-c_QTextEdit = qtClassClass qtc_QTextEdit
-
-qtc_QTextEdit =
-  makeQtClass (ident "QTextEdit") Nothing [c_QAbstractScrollArea]
+c_QTextEdit =
+  addReqIncludes [includeStd "QTextEdit"] $
+  makeClass (ident "QTextEdit") Nothing [c_QAbstractScrollArea]
   [ _mkCtor "new" []
   , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   , _mkCtor "newWithText" [TObj c_QString]
@@ -76,6 +72,8 @@ qtc_QTextEdit =
   , _mkMethod "zoomOut" [] TVoid
   , _mkMethod' "zoomOut" "zoomOutPoints" [TInt] TVoid
   ]
+
+signals =
   [ _mkSignal "copyAvailable" c_ListenerBool
   , _mkSignal "cursorPositionChanged" c_Listener
   , _mkSignal "redoAvailable" c_ListenerBool

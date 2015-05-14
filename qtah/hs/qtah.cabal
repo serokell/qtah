@@ -43,8 +43,12 @@ library
     , Graphics.UI.Qtah.Q.QWidget
     , Graphics.UI.Qtah.Signal
   other-modules:
-      Foreign.Cppop.Generated.Qtah
-    , Foreign.Cppop.Generated.QtahSignal
+      Graphics.UI.Qtah.Generated.Callback
+    , Graphics.UI.Qtah.Generated.Core
+    , Graphics.UI.Qtah.Generated.Listener
+    , Graphics.UI.Qtah.Generated.Qt
+    , Graphics.UI.Qtah.Generated.Std
+    , Graphics.UI.Qtah.Generated.Widgets
   other-extensions:
       NoMonomorphismRestriction
   build-depends:

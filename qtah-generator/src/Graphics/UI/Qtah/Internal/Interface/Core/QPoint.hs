@@ -1,10 +1,11 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QPoint (
-  mod_QPoint,
+module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
+  qtModule,
   c_QPoint,
   ) where
 
+import qualified Data.Set as S
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Language.Haskell.Syntax (
@@ -15,23 +16,21 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+qtModule = makeQtModuleForClass c_QPoint []
+
 this = c_QPoint
-thisQt = qtc_QPoint
-#include "MkQt.hs.inc"
+#include "../Mk.hs.inc"
 
-mod_QPoint =
-  makeQtModule "QPoint"
-  [ "qualified Graphics.UI.Qtah.H.HPoint as HPoint" ]
-  [ QtExportClass qtc_QPoint ]
+-- TODO Import HPoint.
 
-c_QPoint = qtClassClass qtc_QPoint
-
-qtc_QPoint =
-  makeQtClass' [] $
+c_QPoint =
+  addReqIncludes [includeStd "QPoint"] $
   classModifyEncoding
   (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn $ ident "qPointDecode"
-           , classCppEncoder = Just $ CppCoderFn $ ident "qPointEncode"
+           , classCppDecoder = Just $ CppCoderFn (ident "qPointDecode") $
+                               reqInclude $ includeLocal "encode.hpp"
+           , classCppEncoder = Just $ CppCoderFn (ident "qPointEncode") $
+                               reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
@@ -39,6 +38,8 @@ qtc_QPoint =
                                       HsTyCon $ UnQual $ HsIdent "FC.CInt"
              , haskellEncodingDecoder = "HPoint.decodeInternal"
              , haskellEncodingEncoder = "HPoint.encodeInternal"
+             , haskellEncodingImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HPoint as HPoint"
              }
            }) $
   makeClass (ident "QPoint") Nothing []

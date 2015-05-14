@@ -1,29 +1,25 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QLineEdit (
-  mod_QLineEdit,
+module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
+  qtModule,
   ) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener
-import Graphics.UI.Qtah.Internal.Interface.QString
-import Graphics.UI.Qtah.Internal.Interface.QWidget
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+qtModule = makeQtModuleForClass c_QLineEdit $ map QtExportSignal signals
+
 this = c_QLineEdit
-thisQt = qtc_QLineEdit
-#include "MkQt.hs.inc"
+#include "../Mk.hs.inc"
 
-mod_QLineEdit =
-  makeQtModule "QLineEdit" []
-  [ QtExportClass qtc_QLineEdit ]
-
-c_QLineEdit = qtClassClass qtc_QLineEdit
-
-qtc_QLineEdit =
-  makeQtClass (ident "QLineEdit") Nothing [c_QWidget]
+c_QLineEdit =
+  addReqIncludes [includeStd "QLineEdit"] $
+  makeClass (ident "QLineEdit") Nothing [c_QWidget]
   [ _mkCtor "new" []
   , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   , _mkCtor "newWithText" [TObj c_QString]
@@ -41,6 +37,8 @@ qtc_QLineEdit =
   , _mkConstMethod "text" [] $ TObj c_QString
   , _mkMethod "undo" [] TVoid
   ]
+
+signals =
   [ _mkSignal "cursorPositionChanged" c_ListenerIntInt
   , _mkSignal "editingFinished" c_Listener
   , _mkSignal "returnPressed" c_Listener

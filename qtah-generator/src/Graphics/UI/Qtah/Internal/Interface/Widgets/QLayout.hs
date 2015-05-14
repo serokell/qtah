@@ -1,36 +1,33 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QLayout (
-  mod_QLayout,
+module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (
+  qtModule,
   c_QLayout,
   ) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.QLayoutItem (c_QLayoutItem)
-import Graphics.UI.Qtah.Internal.Interface.QMargins (c_QMargins)
-import Graphics.UI.Qtah.Internal.Interface.QObject (c_QObject)
-import Graphics.UI.Qtah.Internal.Interface.QRect (c_QRect)
-import Graphics.UI.Qtah.Internal.Interface.QSize (c_QSize)
+import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
+import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
+import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment)
-import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (c_QLayoutItem)
+import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-this = c_QLayout
-thisQt = qtc_QLayout
-#include "MkQt.hs.inc"
-
-mod_QLayout =
-  makeQtModule "QLayout" []
-  [ QtExportClass qtc_QLayout
-  , QtExportEnum e_SizeConstraint
+qtModule =
+  makeQtModuleForClass c_QLayout
+  [ QtExport $ ExportEnum e_SizeConstraint
   ]
 
-c_QLayout = qtClassClass qtc_QLayout
+this = c_QLayout
+#include "../Mk.hs.inc"
 
-qtc_QLayout =
-  makeQtClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
+c_QLayout =
+  addReqIncludes [includeStd "QLayout"] $
+  makeClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
   []
   [ _mkMethod "activate" [] TBool
   , _mkMethod "addItem" [TPtr $ TObj c_QLayoutItem] TVoid
@@ -59,7 +56,6 @@ qtc_QLayout =
   , _mkMethod "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
   , _mkMethod "update" [] TVoid
   ]
-  []
 
 e_SizeConstraint =
   makeEnum (ident1 "QLayout" "SizeConstraint") Nothing

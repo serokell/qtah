@@ -1,10 +1,11 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QSize (
-  mod_QSize,
+module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
+  qtModule,
   c_QSize,
   ) where
 
+import qualified Data.Set as S
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Qt (e_AspectRatioMode)
@@ -16,23 +17,21 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+qtModule = makeQtModuleForClass c_QSize []
+
 this = c_QSize
-thisQt = qtc_QSize
-#include "MkQt.hs.inc"
+#include "../Mk.hs.inc"
 
-mod_QSize =
-  makeQtModule "QSize"
-  [ "qualified Graphics.UI.Qtah.H.HSize as HSize" ]
-  [ QtExportClass qtc_QSize ]
+-- TODO Import HSize.
 
-c_QSize = qtClassClass qtc_QSize
-
-qtc_QSize =
-  makeQtClass' [] $
+c_QSize =
+  addReqIncludes [includeStd "QSize"] $
   classModifyEncoding
   (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn $ ident "qSizeDecode"
-           , classCppEncoder = Just $ CppCoderFn $ ident "qSizeEncode"
+           , classCppDecoder = Just $ CppCoderFn (ident "qSizeDecode") $
+                               reqInclude $ includeLocal "encode.hpp"
+           , classCppEncoder = Just $ CppCoderFn (ident "qSizeEncode") $
+                               reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HSize.HSize"
@@ -40,6 +39,8 @@ qtc_QSize =
                                       HsTyCon $ UnQual $ HsIdent "FC.CInt"
              , haskellEncodingDecoder = "HSize.decodeInternal"
              , haskellEncodingEncoder = "HSize.encodeInternal"
+             , haskellEncodingImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HSize as HSize"
              }
            }) $
   makeClass (ident "QSize") Nothing []

@@ -1,17 +1,21 @@
 module Graphics.UI.Qtah.Internal.Interface.Callback where
 
 import Foreign.Cppop.Generator.Spec
-import Graphics.UI.Qtah.Internal.Interface.QObject (c_QObject)
-import Graphics.UI.Qtah.Internal.Interface.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 
-allCallbacks =
-  [ cb_BoolVoid
-  , cb_IntIntVoid
-  , cb_IntVoid
-  , cb_PtrQObjectVoid
-  , cb_QStringVoid
-  , cb_Void
+mod_Callback =
+  modifyModule' (makeModule "callback" "callback.hpp" "callback.cpp") $
+  addModuleExports
+  [ ExportCallback cb_BoolVoid
+  , ExportCallback cb_IntIntVoid
+  , ExportCallback cb_IntVoid
+  , ExportCallback cb_PtrQObjectVoid
+  , ExportCallback cb_QStringVoid
+  , ExportCallback cb_Void
   ]
+
+qmods_Callback = []
 
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")

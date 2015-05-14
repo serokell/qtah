@@ -1,14 +1,15 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QRect (
-  mod_QRect,
+module Graphics.UI.Qtah.Internal.Interface.Core.QRect (
+  qtModule,
   c_QRect,
   ) where
 
+import qualified Data.Set as S
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.QPoint (c_QPoint)
-import Graphics.UI.Qtah.Internal.Interface.QSize (c_QSize)
+import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
+import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -17,23 +18,21 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+qtModule = makeQtModuleForClass c_QRect []
+
 this = c_QRect
-thisQt = qtc_QRect
-#include "MkQt.hs.inc"
+#include "../Mk.hs.inc"
 
-mod_QRect =
-  makeQtModule "QRect"
-  [ "qualified Graphics.UI.Qtah.H.HRect as HRect" ]
-  [ QtExportClass qtc_QRect ]
+-- TODO Import HRect.
 
-c_QRect = qtClassClass qtc_QRect
-
-qtc_QRect =
-  makeQtClass' [] $
+c_QRect =
+  addReqIncludes [includeStd "QRect"] $
   classModifyEncoding
   (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn $ ident "qRectDecode"
-           , classCppEncoder = Just $ CppCoderFn $ ident "qRectEncode"
+           , classCppDecoder = Just $ CppCoderFn (ident "qRectDecode") $
+                               reqInclude $ includeLocal "encode.hpp"
+           , classCppEncoder = Just $ CppCoderFn (ident "qRectEncode") $
+                               reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
              Just $ HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HRect.HRect"
@@ -41,6 +40,8 @@ qtc_QRect =
                                       HsTyCon $ UnQual $ HsIdent "FC.CInt"
              , haskellEncodingDecoder = "HRect.decodeInternal"
              , haskellEncodingEncoder = "HRect.encodeInternal"
+             , haskellEncodingImports =
+               S.singleton "qualified Graphics.UI.Qtah.H.HRect as HRect"
              }
            }) $
   makeClass (ident "QRect") Nothing []

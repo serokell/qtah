@@ -16,7 +16,7 @@ run cabal configure
 run cabal build
 run dist/build/qtah-generator/qtah-generator \
     --gen-cpp "$projectDir/qtah/cpp" \
-    --gen-hs "$projectDir/qtah/hs/src/Foreign/Cppop/Generated/Qtah.hs"
+    --gen-hs "$projectDir/qtah/hs/src"
 
 echo
 msg "Building the C++ library."

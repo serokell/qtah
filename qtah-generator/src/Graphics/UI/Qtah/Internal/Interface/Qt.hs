@@ -1,6 +1,7 @@
 -- | Bindings in the top-level @Qt::@ namespace.
 module Graphics.UI.Qtah.Internal.Interface.Qt (
   mod_Qt,
+  qmods_Qt,
   e_Alignment,
   e_AspectRatioMode,
   ) where
@@ -8,11 +9,14 @@ module Graphics.UI.Qtah.Internal.Interface.Qt (
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 
-mod_Qt =
-  makeQtModule "Qt" []
-  [ QtExportEnum e_Alignment
-  , QtExportEnum e_AspectRatioMode
-  ]
+mod_Qt = modifyModule' (makeModule "qt" "qt.hpp" "qt.cpp") $ do
+  addModuleExports
+    [ ExportEnum e_Alignment
+    , ExportEnum e_AspectRatioMode
+    ]
+
+qmods_Qt :: [QtModule]
+qmods_Qt = []
 
 e_Alignment =
   makeEnum (ident1 "Qt" "Alignment") Nothing

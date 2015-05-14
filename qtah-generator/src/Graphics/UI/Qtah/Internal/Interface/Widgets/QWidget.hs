@@ -1,30 +1,26 @@
 {-# LANGUAGE CPP #-}
 
-module Graphics.UI.Qtah.Internal.Interface.QWidget (
-  mod_QWidget,
+module Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (
+  qtModule,
   c_QWidget,
   ) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.QLayout
-import Graphics.UI.Qtah.Internal.Interface.QObject
-import Graphics.UI.Qtah.Internal.Interface.QString
+import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+qtModule = makeQtModuleForClass c_QWidget []
+
 this = c_QWidget
-thisQt = qtc_QWidget
-#include "MkQt.hs.inc"
+#include "../Mk.hs.inc"
 
-mod_QWidget =
-  makeQtModule "QWidget" []
-  [ QtExportClass qtc_QWidget ]
-
-c_QWidget = qtClassClass qtc_QWidget
-
-qtc_QWidget =
-  makeQtClass (ident "QWidget") Nothing
+c_QWidget =
+  addReqIncludes [includeStd "QWidget"] $
+  makeClass (ident "QWidget") Nothing
   [ c_QObject ]
   [ _mkCtor "new" []
   , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
@@ -35,4 +31,3 @@ qtc_QWidget =
   , _mkMethod "setWindowTitle" [TObj c_QString] TVoid
   , _mkMethod "show" [] TVoid
   ]
-  []

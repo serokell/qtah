@@ -9,15 +9,21 @@ VERSION = 0.1.0
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
-    bindings.cpp \
-    callbacks.cpp \
+    callback.cpp \
+    core.cpp \
     encode.cpp \
-    listeners.cpp \
-    shim_qapplication.cpp
+    listener.cpp \
+    listener-bindings.cpp \
+    shim_qapplication.cpp \
+    std.cpp \
+    widgets.cpp
 
 HEADERS += \
-    bindings.hpp \
-    callbacks.hpp \
+    callback.hpp \
+    core.hpp \
     encode.hpp \
-    listeners.hpp \
-    shim_qapplication.hpp
+    listener.hpp \
+    listener-bindings.hpp \
+    shim_qapplication.hpp \
+    std.hpp \
+    widgets.hpp

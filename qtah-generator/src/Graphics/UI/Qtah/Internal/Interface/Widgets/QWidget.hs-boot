@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.Internal.Interface.QWidget (
+module Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (
   c_QWidget,
   ) where
 

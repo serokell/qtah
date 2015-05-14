@@ -2,16 +2,21 @@ module Graphics.UI.Qtah.Internal.Generator.Module (
   generateModule,
   ) where
 
-import Control.Arrow ((&&&))
-import Control.Monad (forM_, unless, when)
-import Data.List (isPrefixOf)
+import Control.Monad (forM_, when)
+import Data.List (find, intersperse, isPrefixOf)
 import Data.Maybe (isJust)
 import Foreign.Cppop.Common (fromMaybeM)
+import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
 import Foreign.Cppop.Generator.Language.Haskell.General (
   Generator,
   HsTypeSide (HsHsSide),
+  addExport,
+  addExports,
+  addImport,
+  addImportsForClass,
+  addQualifiedImports,
   abort,
-  cppTypeToHsType,
+  cppTypeToHsTypeAndUse,
   execGenerator,
   indent,
   ln,
@@ -29,26 +34,36 @@ import Foreign.Cppop.Generator.Spec (
   Class,
   Constness (Const, Nonconst),
   Ctor,
+  Export (ExportCallback, ExportClass, ExportEnum, ExportFn),
   ExtName,
   Function,
-  HaskellEncoding,
+  Interface,
   Method,
-  Type (TObj),
+  Type (TCallback, TObj),
+  callbackParams,
   classCtors,
   classHaskellType,
   classEncoding,
   classExtName,
   classMethods,
   ctorExtName,
+  ctorParams,
   fnExtName,
   fromExtName,
+  methodCName,
   methodExtName,
   toExtName,
   )
-import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Generator.Signal (
-  moduleNameToSignalModuleName,
-  toSignalBindingName,
+import Graphics.UI.Qtah.Internal.Generator.Types (
+  QtExport (QtExport, QtExportSignal),
+  QtModule,
+  Signal,
+  moduleNameAppend,
+  qtModuleQtExports,
+  qtModuleSubname,
+  signalClass,
+  signalCName,
+  signalListenerClass,
   )
 import Language.Haskell.Syntax (
   HsName (HsIdent),
@@ -59,61 +74,20 @@ import Language.Haskell.Syntax (
 import System.Exit (exitFailure)
 import System.FilePath ((</>), (<.>), pathSeparator)
 
-generateModule :: FilePath -> String -> String -> QtModule -> IO ()
-generateModule srcDir baseModuleName foreignModuleName qtModule = do
+generateModule :: Interface -> FilePath -> String -> String -> QtModule -> IO ()
+generateModule iface srcDir baseModuleName foreignModuleName qtModule = do
   let fullModuleName = moduleNameAppend baseModuleName $ qtModuleSubname qtModule
-      qtImports = qtModuleImports qtModule
-      qtExports = qtModuleExports qtModule
+      qtExports = qtModuleQtExports qtModule
 
-  let generation = execGenerator $ do
-        sayLn "{-# LANGUAGE NoMonomorphismRestriction #-}"
-        sayLn "---------- GENERATED FILE, EDITS WILL BE LOST ----------"
-        ln
-        saysLn ["module ", fullModuleName, " ("]
-        indent $ do
-          forM_ (concatMap getReexportNames qtExports) $ \name ->
-            saysLn [name, ","]
-          sayLn ") where"
+  let generation =
+        fmap ("{-# LANGUAGE NoMonomorphismRestriction #-}\n\n" ++) $
+        execGenerator iface fullModuleName $ do
+          -- As in generated Cppop bindings, avoid non-qualified Prelude uses in
+          -- generated code here.
+          addImport "Prelude ()"
 
-        -- Import functions and classes from the main module.
-        ln
-        saysLn ["import ", foreignModuleName, " ("]
-        indent $ do
-          forM_ (concatMap getImportSpecsFromMainModule qtExports) $ \spec ->
-            saysLn [spec, ","]
-          sayLn ")"
-
-        -- Import signals from the signal module.
-        saysLn ["import ", moduleNameToSignalModuleName foreignModuleName, " ("]
-        indent $ do
-          forM_ (concatMap getImportSpecsFromSignalModule qtExports) $ \spec ->
-            saysLn [spec, ","]
-          sayLn ")"
-        -- Generated encode and decode functions require some things from Cppop
-        -- support and the Prelude; we'll use them qualified.
-        if (any (isJust . exportClassHaskellEncoding) qtExports)
-          then do sayLn "import qualified Foreign.Cppop.Runtime.Support as FCRS"
-                  sayLn "import qualified Prelude as P"
-          else sayLn "import Prelude ()"
-
-        -- Import other things required by the module.
-        unless (null qtImports) $ do
-          ln
-          forM_ qtImports $ \x -> saysLn ["import ", x]
-
-        -- Generate bindings with abbreviated names.
-        ln
-        forM_ (concatMap getBindings qtExports) $ \(name, value) ->
-          -- Functions aren't renamed, and declaring "x = x" would be a problem!
-          when (name /= value) $
-          saysLn [name, " = ", value]
-
-        -- Generate encode/decode functions for classes.
-        forM_ qtExports $ \qtExport -> case qtExport of
-          QtExportClass qtCls -> sayClassEncodingFnReexports $ qtClassClass qtCls
-          QtExportCallback {} -> return ()
-          QtExportEnum {} -> return ()
-          QtExportFn {} -> return ()
+          -- Generate bindings for all of the exports.
+          forM_ qtExports $ sayQtExport foreignModuleName
 
   case generation of
     Left errorMsg -> do
@@ -125,33 +99,6 @@ generateModule srcDir baseModuleName foreignModuleName qtModule = do
             map (\c -> if c == '.' then pathSeparator else c) fullModuleName <.>
             "hs"
       writeFile path source
-
-exportClassHaskellEncoding :: QtExport -> Maybe HaskellEncoding
-exportClassHaskellEncoding export = case export of
-  QtExportClass qtCls -> classHaskellType $ classEncoding $ qtClassClass qtCls
-  _ -> Nothing
-
-getReexportNames :: QtExport -> [String]
-getReexportNames qtExport = case qtExport of
-  QtExportEnum enum -> [toHsEnumTypeName enum ++ " (..)"]
-  QtExportFn fn -> [getFnReexportName fn]
-  QtExportClass qtCls ->
-    let cls = qtClassClass qtCls
-    in toHsClassName Const cls :
-       toHsClassName Nonconst cls :
-       toHsDataTypeName Const cls :
-       toHsDataTypeName Nonconst cls :
-       classConstCastReexportName :
-       classCastReexportName :
-       classNullReexportName :
-       concat [ case classHaskellType $ classEncoding cls of
-                  Nothing -> []
-                  Just _ -> [classEncodeReexportName, classDecodeReexportName]
-              , map (getCtorReexportName cls) $ classCtors cls
-              , map (getMethodReexportName cls) $ classMethods cls
-              , map (getSignalReexportName cls) $ qtClassSignals qtCls
-              ]
-  QtExportCallback _ -> []
 
 getFnReexportName :: Function -> String
 getFnReexportName = getFnImportName
@@ -177,10 +124,6 @@ getCtorReexportName cls = toBindingNameWithoutClassPrefix cls . ctorExtName
 getMethodReexportName :: Class -> Method -> String
 getMethodReexportName cls = toBindingNameWithoutClassPrefix cls . methodExtName
 
-getSignalReexportName :: Class -> Signal -> String
-getSignalReexportName cls =
-  (++ "Signal") . toBindingNameWithoutClassPrefix cls . signalExtName
-
 -- | Qtah uses @ClassName_innerName@ 'ExtName's for things in classes.  This
 -- function strips the @ClassName_@ prefix off of an 'ExtName', if present, and
 -- converts it to a function name.
@@ -198,57 +141,21 @@ dropPrefix prefix str =
   then drop (length prefix) str
   else str
 
-getImportSpecsFromMainModule :: QtExport -> [String]
-getImportSpecsFromMainModule qtExport = case qtExport of
-  QtExportEnum enum -> [toHsEnumTypeName enum ++ " (..)"]
-  QtExportFn fn -> [getFnImportName fn]
-  QtExportClass qtCls ->
-    let cls = qtClassClass qtCls
-    in (toHsClassName Const cls ++ " (..)") :
-       (toHsClassName Nonconst cls ++ " (..)") :
-       toHsDataTypeName Const cls :
-       toHsDataTypeName Nonconst cls :
-       toHsClassNullName cls :
-       concat [ map (toHsFnName . ctorExtName) $ classCtors cls
-              , map (toHsFnName . methodExtName) $ classMethods cls
-              ]
-  QtExportCallback _ -> []
-
-getImportSpecsFromSignalModule :: QtExport -> [String]
-getImportSpecsFromSignalModule qtExport = case qtExport of
-  QtExportEnum _ -> []
-  QtExportFn _ -> []
-  QtExportClass qtCls -> map toSignalBindingName $ qtClassSignals qtCls
-  QtExportCallback _ -> []
-
 getFnImportName :: Function -> String
 getFnImportName = toHsFnName . fnExtName
-
-getBindings :: QtExport -> [(String, String)]
-getBindings qtExport = case qtExport of
-  QtExportEnum _ -> []
-  QtExportFn fn -> [(getFnReexportName fn, getFnImportName fn)]
-  QtExportClass qtCls ->
-    let cls = qtClassClass qtCls
-    in (classConstCastReexportName, toHsCastMethodName Const cls) :
-       (classCastReexportName, toHsCastMethodName Nonconst cls) :
-       (classNullReexportName, toHsClassNullName cls) :
-       concat [ map (getCtorReexportName cls &&& toHsFnName . ctorExtName) $
-                classCtors cls
-              , map (getMethodReexportName cls &&& toHsFnName . methodExtName) $
-                classMethods cls
-              , map (getSignalReexportName cls &&& toSignalBindingName) $
-                qtClassSignals qtCls
-              ]
-  QtExportCallback _ -> []
 
 sayClassEncodingFnReexports :: Class -> Generator ()
 sayClassEncodingFnReexports cls =
   when (isJust $ classHaskellType $ classEncoding cls) $ do
+    -- Generated encode and decode functions require some things from Cppop
+    -- support and the Prelude.
+    addImport "qualified Foreign.Cppop.Runtime.Support as FCRS"
+    addImport "qualified Prelude as P"
+
     hsHsType <-
       fromMaybeM (abort $ "generateModule: Expected a Haskell type for class " ++
-                  show (fromExtName $ classExtName cls) ++ ".") $
-      cppTypeToHsType HsHsSide $ TObj cls
+                  show (fromExtName $ classExtName cls) ++ ".") =<<
+      cppTypeToHsTypeAndUse HsHsSide (TObj cls)
     let constClassName = toHsClassName Const cls
         dataTypeName = toHsDataTypeName Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
@@ -263,3 +170,125 @@ sayClassEncodingFnReexports cls =
     ln
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
     saysLn [classDecodeReexportName, " = FCRS.decode P.. ", toHsCastMethodName Const cls]
+
+sayQtExport :: String -> QtExport -> Generator ()
+sayQtExport foreignModuleName qtExport = case qtExport of
+  QtExport (ExportEnum e) -> do
+    let spec = toHsEnumTypeName e ++ " (..)"
+    addImport $ wrap spec
+    addExport spec
+
+  QtExport (ExportFn fn) -> do
+    addImport $ wrap $ getFnImportName fn
+    addExport $ getFnReexportName fn
+
+  QtExport (ExportCallback _) -> return ()
+
+  QtExport (ExportClass cls) -> do
+    addImport $ wraps $
+      (toHsClassName Const cls ++ " (..)") :
+      (toHsClassName Nonconst cls ++ " (..)") :
+      toHsDataTypeName Const cls :
+      toHsDataTypeName Nonconst cls :
+      toHsClassNullName cls :
+      concat [ map (toHsFnName . ctorExtName) $ classCtors cls
+             , map (toHsFnName . methodExtName) $ classMethods cls
+             ]
+
+    addExports $
+      toHsClassName Const cls :
+      toHsClassName Nonconst cls :
+      toHsDataTypeName Const cls :
+      toHsDataTypeName Nonconst cls :
+      classConstCastReexportName :
+      classCastReexportName :
+      classNullReexportName :
+      concat [ case classHaskellType $ classEncoding cls of
+                 Nothing -> []
+                 Just _ -> [classEncodeReexportName, classDecodeReexportName]
+             , map (getCtorReexportName cls) $ classCtors cls
+             , map (getMethodReexportName cls) $ classMethods cls
+             ]
+
+    ln
+    sayBind classConstCastReexportName $ toHsCastMethodName Const cls
+    sayBind classCastReexportName $ toHsCastMethodName Nonconst cls
+    sayBind classNullReexportName $ toHsClassNullName cls
+    sayClassEncodingFnReexports cls
+    forM_ (classCtors cls) $ \ctor ->
+      sayBind (getCtorReexportName cls ctor) $ toHsFnName $ ctorExtName ctor
+    forM_ (classMethods cls) $ \method ->
+      sayBind (getMethodReexportName cls method) $ toHsFnName $ methodExtName method
+
+  QtExportSignal sig -> saySignalExport sig
+
+  where wrap spec = concat [foreignModuleName, " (", spec, ")"]
+        wraps specs = concat [foreignModuleName, " (\n",
+                              concatMap (\spec -> concat ["  ", spec, ",\n"]) specs,
+                              "  )"]
+        sayBind name value = saysLn [name, " = ", value]
+
+-- | Generates and exports a @Signal@ definition.  We create the signal from
+-- scratch in this module, rather than reexporting it from somewhere else.
+saySignalExport :: Signal -> Generator ()
+saySignalExport signal = do
+  addQualifiedImports
+  addImport "qualified Graphics.UI.Qtah.Signal as QtahSignal"
+
+  let name = signalCName signal
+      className = toHsClassName Nonconst $ signalClass signal
+      varName = toSignalBindingName signal
+  addExport varName
+
+  let listenerClass = signalListenerClass signal
+  addImportsForClass listenerClass
+  -- Find the listener constructor that only takes a callback.
+  listenerCtor <-
+    fromMaybeM (abort $ "saySignalExport: Couldn't find an appropriate " ++
+                show (fromExtName $ classExtName listenerClass) ++
+                " constructor for signal " ++ show name ++ ".") $
+    flip find (classCtors listenerClass) $ \ctor -> case ctorParams ctor of
+      [TCallback {}] -> True
+      _ -> False
+  let [callbackType@(TCallback callback)] = ctorParams listenerCtor
+      paramTypes = callbackParams callback
+
+  -- Also find the 'connectListener' method.
+  listenerConnectMethod <-
+    fromMaybeM (abort $ "generateSignals: Couldn't find the connectListener method in class " ++
+                show (fromExtName $ classExtName listenerClass) ++
+                " for signal " ++ show name ++ ".") $
+    find (("connectListener" ==) . methodCName) $ classMethods listenerClass
+
+  callbackHsType <-
+    fromMaybeM (abort $
+                "generateSignals: Can't generate Haskell callback type for signal " ++
+                show name ++ ".") =<<
+    cppTypeToHsTypeAndUse HsHsSide callbackType
+
+  let varType = HsQualType [(UnQual $ HsIdent className, [HsTyVar $ HsIdent "object"])] $
+                HsTyApp (HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahSignal.Signal") $
+                         HsTyVar $ HsIdent "object")
+                callbackHsType
+  ln
+  saysLn [varName, " :: ", prettyPrint varType]
+  saysLn [varName, " = QtahSignal.Signal"]
+  indent $ do
+    sayLn "{ QtahSignal.internalConnectSignal = \\object' fn' -> do"
+    indent $ do
+      saysLn ["listener' <- ", toHsFnName $ ctorExtName listenerCtor, " fn'"]
+      saysLn [toHsFnName $ methodExtName listenerConnectMethod, " listener' object' ",
+              show (toSignalConnectName signal paramTypes)]
+    sayLn "}"
+
+toSignalBindingName :: Signal -> String
+toSignalBindingName = (++ "Signal") . signalCName
+
+toSignalConnectName :: Signal -> [Type] -> String
+toSignalConnectName signal paramTypes =
+  concat $
+  "2" :  -- This is a magic code added by the SIGNAL() macro.
+  signalCName signal :
+  "(" :
+  intersperse "," (map (execChunkWriter . sayType Nothing) paramTypes) ++
+  [")"]
