@@ -4,6 +4,7 @@ module Graphics.UI.Qtah.Internal.Interface.Qt (
   qmods_Qt,
   e_Alignment,
   e_AspectRatioMode,
+  e_Corner,
   e_LayoutDirection,
   ) where
 
@@ -22,6 +23,7 @@ exports :: [Export]
 exports =
   [ ExportEnum e_Alignment
   , ExportEnum e_AspectRatioMode
+  , ExportEnum e_Corner
   , ExportEnum e_LayoutDirection
   ]
 
@@ -45,6 +47,14 @@ e_AspectRatioMode =
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
+  ]
+
+e_Corner =
+  makeEnum (ident1 "Qt" "Corner") Nothing
+  [ (0x00000, ["top", "left", "corner"])
+  , (0x00001, ["top", "right", "corner"])
+  , (0x00002, ["bottom", "left", "corner"])
+  , (0x00003, ["bottom", "right", "corner"])
   ]
 
 e_LayoutDirection =

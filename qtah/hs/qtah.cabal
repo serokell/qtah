@@ -35,6 +35,7 @@ library
     , Graphics.UI.Qtah.Q.QMainWindow
     , Graphics.UI.Qtah.Q.QMargins
     , Graphics.UI.Qtah.Q.QMenu
+    , Graphics.UI.Qtah.Q.QMenuBar
     , Graphics.UI.Qtah.Q.QObject
     , Graphics.UI.Qtah.Q.QPoint
     , Graphics.UI.Qtah.Q.QPushButton

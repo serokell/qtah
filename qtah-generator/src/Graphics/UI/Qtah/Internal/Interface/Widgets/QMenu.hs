@@ -35,8 +35,8 @@ c_QMenu =
   , _mkConstMethod "activeAction" [] $ TPtr $ TObj c_QAction
   , _mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
   , _mkMethod' "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
-    -- TODO addNewActionWithIcon
-  , _mkMethod' "addMenu" "addMenu" [TPtr $ TObj c_QMenu] TVoid
+    -- TODO addNewActionWithIcon and connecting forms
+  , _mkMethod' "addMenu" "addMenu" [TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
   , _mkMethod' "addMenu" "addNewMenu" [TObj c_QString] $ TPtr $ TObj c_QMenu
     -- TODO addNewMenuWithIcon
   , _mkMethod "addSeparator" [] $ TPtr $ TObj c_QAction
