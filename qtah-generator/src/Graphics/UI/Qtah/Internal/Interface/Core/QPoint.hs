@@ -30,7 +30,7 @@ c_QPoint =
            , classCppEncoder = Just $ CppCoderFn (ident "qPointEncode") $
                                reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
-             Just $ HaskellEncoding
+             Just HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
              , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
                                       HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"

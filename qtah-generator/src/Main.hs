@@ -5,10 +5,10 @@ import Foreign.Cppop.Common (maybeFail)
 import Foreign.Cppop.Generator.Main (Action (GenHaskell), run)
 import Foreign.Cppop.Generator.Spec (
   Interface,
+  Module,
   addInterfaceHaskellModuleBase,
   interface,
   )
-import Foreign.Cppop.Generator.Spec (Module)
 import Foreign.Cppop.Generator.Std (mod_std)
 import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -41,7 +41,7 @@ interfaceResult =
   interface "qtah" (map fst modules)
 
 main :: IO ()
-main = do
+main =
   case interfaceResult of
     Left errorMsg -> do
       putStrLn $ "Error initializing interface: " ++ errorMsg

@@ -32,7 +32,7 @@ c_QRect =
            , classCppEncoder = Just $ CppCoderFn (ident "qRectEncode") $
                                reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
-             Just $ HaskellEncoding
+             Just HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HRect.HRect"
              , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
                                       HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"

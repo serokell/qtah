@@ -30,7 +30,7 @@ c_QMargins =
            , classCppEncoder = Just $ CppCoderFn (ident "qMarginsEncode") $
                                reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
-             Just $ HaskellEncoding
+             Just HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
              , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
                                       HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"

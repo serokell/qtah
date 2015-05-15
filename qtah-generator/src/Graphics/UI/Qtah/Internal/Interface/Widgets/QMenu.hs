@@ -33,7 +33,7 @@ c_QMenu =
   [ _mkConstMethod "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction
   , _mkConstMethod "actionGeometry" [TPtr $ TObj c_QAction] $ TObj c_QRect
   , _mkConstMethod "activeAction" [] $ TPtr $ TObj c_QAction
-  , _mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] $ TVoid
+  , _mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
   , _mkMethod' "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
     -- TODO addNewActionWithIcon
   , _mkMethod' "addMenu" "addMenu" [TPtr $ TObj c_QMenu] TVoid

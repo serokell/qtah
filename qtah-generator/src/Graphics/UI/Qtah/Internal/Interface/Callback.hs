@@ -6,6 +6,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 mod_Callback =
   modifyModule' (makeModule "callback" "callback.hpp" "callback.cpp") $
   addModuleExports

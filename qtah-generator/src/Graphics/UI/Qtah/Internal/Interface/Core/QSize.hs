@@ -31,7 +31,7 @@ c_QSize =
            , classCppEncoder = Just $ CppCoderFn (ident "qSizeEncode") $
                                reqInclude $ includeLocal "encode.hpp"
            , classHaskellType =
-             Just $ HaskellEncoding
+             Just HaskellEncoding
              { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HSize.HSize"
              , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
                                       HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"

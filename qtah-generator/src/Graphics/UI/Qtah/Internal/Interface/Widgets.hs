@@ -21,8 +21,10 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextE
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout as QVBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 mod_Widgets :: Module
-mod_Widgets = modifyModule' (makeModule "widgets" "widgets.hpp" "widgets.cpp") $ do
+mod_Widgets = modifyModule' (makeModule "widgets" "widgets.hpp" "widgets.cpp") $
   addModuleExports $ concatMap qtModuleExports qmods_Widgets
 
 qmods_Widgets :: [QtModule]
