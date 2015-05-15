@@ -22,7 +22,9 @@ executable qtah-generator
   hs-source-dirs: src
   main-is: Main.hs
   other-modules:
-      Graphics.UI.Qtah.Internal.Generator.Module
+      Graphics.UI.Qtah.Internal.Flag
+    , Graphics.UI.Qtah.Internal.Flags
+    , Graphics.UI.Qtah.Internal.Generator.Module
     , Graphics.UI.Qtah.Internal.Generator.Types
     , Graphics.UI.Qtah.Internal.Interface.Callback
     , Graphics.UI.Qtah.Internal.Interface.Core
@@ -37,6 +39,8 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Qt
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QAction
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame
@@ -44,6 +48,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout

@@ -22,6 +22,8 @@ library
     , Graphics.UI.Qtah.Q.QAbstractButton
     , Graphics.UI.Qtah.Q.QAbstractScrollArea
     , Graphics.UI.Qtah.Q.QApplication
+    , Graphics.UI.Qtah.Q.QAction
+    , Graphics.UI.Qtah.Q.QActionGroup
     , Graphics.UI.Qtah.Q.QBoxLayout
     , Graphics.UI.Qtah.Q.QCoreApplication
     , Graphics.UI.Qtah.Q.QFrame
@@ -32,6 +34,7 @@ library
     , Graphics.UI.Qtah.Q.QLineEdit
     , Graphics.UI.Qtah.Q.QMainWindow
     , Graphics.UI.Qtah.Q.QMargins
+    , Graphics.UI.Qtah.Q.QMenu
     , Graphics.UI.Qtah.Q.QObject
     , Graphics.UI.Qtah.Q.QPoint
     , Graphics.UI.Qtah.Q.QPushButton

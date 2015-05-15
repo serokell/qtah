@@ -5,6 +5,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication as QApplication
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAction as QAction
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup as QActionGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame as QFrame
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout as QHBoxLayout
@@ -13,6 +15,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout as QLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem as QLayoutItem
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit as QLineEdit
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow as QMainWindow
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout as QVBoxLayout
@@ -27,6 +30,8 @@ qmods_Widgets =
   [ QAbstractButton.qtModule
   , QAbstractScrollArea.qtModule
   , QApplication.qtModule
+  , QAction.qtModule
+  , QActionGroup.qtModule
   , QBoxLayout.qtModule
   , QFrame.qtModule
   , QHBoxLayout.qtModule
@@ -35,6 +40,7 @@ qmods_Widgets =
   , QLayoutItem.qtModule
   , QLineEdit.qtModule
   , QMainWindow.qtModule
+  , QMenu.qtModule
   , QPushButton.qtModule
   , QTextEdit.qtModule
   , QVBoxLayout.qtModule

@@ -4,6 +4,7 @@ module Graphics.UI.Qtah.Internal.Interface.Qt (
   qmods_Qt,
   e_Alignment,
   e_AspectRatioMode,
+  e_LayoutDirection,
   ) where
 
 import Foreign.Cppop.Generator.Spec
@@ -19,6 +20,7 @@ exports :: [Export]
 exports =
   [ ExportEnum e_Alignment
   , ExportEnum e_AspectRatioMode
+  , ExportEnum e_LayoutDirection
   ]
 
 e_Alignment =
@@ -41,4 +43,11 @@ e_AspectRatioMode =
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
+  ]
+
+e_LayoutDirection =
+  makeEnum (ident1 "Qt" "LayoutDirection") Nothing
+  [ (0, ["left", "to", "right"])
+  , (1, ["right", "to", "left"])
+  , (2, ["layout", "direction", "auto"])
   ]

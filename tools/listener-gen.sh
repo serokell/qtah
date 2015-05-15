@@ -7,14 +7,12 @@ declare -r projectDir="$(dirname "$(dirname "$(realpath "$0")")")"
 forEachListener() {
     local fn="${1:?forEachListener requires the name of a function to call.}"
 
-    # Keep the imports in the Haskell section up-to-date with these definitions.
-    #
-    # TODO Check whether these C++ types need to be kept whitespace-free in
-    # order for SLOT() to work below.
+    # Keep the includes in the C++ section up-to-date with the types used here.
     $fn Bool "bool"
-    $fn Int "int"
     $fn IntInt "int|int"
+    $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
+    $fn QPoint "QPoint"
     $fn QString "QString"
     $fn "" ""
 }
@@ -35,7 +33,9 @@ sayHpp '#ifndef QTAH_LISTENERS_HPP'
 sayHpp '#define QTAH_LISTENERS_HPP'
 sayHpp
 sayHpp '#include <string>'
+sayHpp '#include <QAction>'
 sayHpp '#include <QObject>'
+sayHpp '#include <QPoint>'
 sayHpp '#include "callback.hpp"'
 
 sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
