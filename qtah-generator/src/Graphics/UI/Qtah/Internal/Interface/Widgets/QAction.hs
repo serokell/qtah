@@ -13,8 +13,7 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerBool)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup (c_QActionGroup)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-
-{-# ANN module "HLint: ignore Use camelCase" #-}
+#include "../Mk.hs.inc"
 
 qtModule =
   makeQtModuleForClass c_QAction $
@@ -27,7 +26,6 @@ qtModule =
       ]
 
 this = c_QAction
-#include "../Mk.hs.inc"
 
 c_QAction =
   addReqIncludes [includeStd "QAction"] $
@@ -36,62 +34,44 @@ c_QAction =
   [ _mkCtor "new" [TPtr $ TObj c_QObject]
   , _mkCtor "newWithText" [TObj c_QString, TPtr $ TObj c_QObject]
     -- TODO newWithIconAndText
-  ]
-  [ _mkConstMethod "actionGroup" [] $ TPtr $ TObj c_QActionGroup
-  , _mkMethod "activate" [TEnum e_ActionEvent] TVoid
+  ] $
+  [ _mkMethod "activate" [TEnum e_ActionEvent] TVoid
     -- TODO associatedGraphicsWidgets
     -- TODO associatedWidgets
-  , _mkConstMethod "autoRepeat" [] TBool
-    -- TODO data
-    -- TODO font
   , _mkMethod "hover" [] TVoid
-    -- TODO icon
-  , _mkConstMethod "iconText" [] $ TObj c_QString
-  , _mkConstMethod "isCheckable" [] TBool
-  , _mkConstMethod "isChecked" [] TBool
-  , _mkConstMethod "isEnabled" [] TBool
-  , _mkConstMethod "isIconVisibleInMenu" [] TBool
-  , _mkConstMethod "isSeparator" [] TBool
-  , _mkConstMethod "isVisible" [] TBool
-  , _mkConstMethod "menu" [] $ TPtr $ TObj c_QMenu
-  , _mkConstMethod "menuRole" [] $ TEnum e_MenuRole
   , _mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
   , _mkConstMethod "priority" [] $ TEnum e_Priority
-  , _mkMethod "setActionGroup" [TPtr $ TObj c_QActionGroup] TVoid
-  , _mkMethod "setAutoRepeat" [TBool] TVoid
-  , _mkMethod "setCheckable" [TBool] TVoid
-  , _mkMethod "setChecked" [TBool] TVoid
-    -- TODO setData
   , _mkMethod "setDisabled" [TBool] TVoid
-  , _mkMethod "setEnabled" [TBool] TVoid
-    -- TODO setFont
-    -- TODO setIcon
-  , _mkMethod "setIconText" [TObj c_QString] TVoid
-  , _mkMethod "setIconVisibleInMenu" [TBool] TVoid
-  , _mkMethod "setMenu" [TPtr $ TObj c_QMenu] TVoid
-  , _mkMethod "setMenuRole" [TEnum e_MenuRole] TVoid
   , _mkMethod "setPriority" [TEnum e_Priority] TVoid
-  , _mkMethod "setSeparator" [TBool] TVoid
-    -- TODO setShortcut
-    -- TODO setShortcutContext
     -- TODO setShortcuts
   , _mkMethod "setSoftKeyRole" [TEnum e_SoftKeyRole] TVoid
-  , _mkMethod "setStatusTip" [TObj c_QString] TVoid
-  , _mkMethod "setText" [TObj c_QString] TVoid
-  , _mkMethod "setToolTip" [TObj c_QString] TVoid
-  , _mkMethod "setVisible" [TBool] TVoid
-  , _mkMethod "setWhatsThis" [TObj c_QString] TVoid
-    -- TODO shortcut
-    -- TODO shortcutContext
     -- TODO shortcuts
   , _mkMethod "showStatusText" [TPtr $ TObj c_QWidget] TBool
   , _mkConstMethod "softKeyRole" [] $ TEnum e_SoftKeyRole
-  , _mkConstMethod "statusTip" [] $ TObj c_QString
-  , _mkConstMethod "text" [] $ TObj c_QString
   , _mkMethod "toggle" [] TVoid
-  , _mkConstMethod "toolTip" [] $ TObj c_QString
   , _mkMethod "trigger" [] TVoid
-  , _mkConstMethod "whatsThis" [] $ TObj c_QString
+  ] ++
+  _props
+  [ _mkProp "actionGroup" $ TPtr $ TObj c_QActionGroup
+  , _mkProp "autoRepeat" TBool
+  , _mkBoolIsProp "checkable"
+  , _mkBoolIsProp "checked"
+    -- TODO data
+  , _mkBoolIsProp "enabled"
+    -- TODO font
+    -- TODO icon
+  , _mkProp "iconText" $ TObj c_QString
+  , _mkBoolIsProp "iconVisibleInMenu"
+  , _mkProp "menu" $ TPtr $ TObj c_QMenu
+  , _mkProp "menuRole" $ TEnum e_MenuRole
+  , _mkBoolIsProp "separator"
+    -- TODO shortcut
+    -- TODO shortcutContext
+  , _mkProp "statusTip" $ TObj c_QString
+  , _mkProp "text" $ TObj c_QString
+  , _mkProp "toolTip" $ TObj c_QString
+  , _mkBoolIsProp "visible"
+  , _mkProp "whatsThis" $ TObj c_QString
   ]
 
 signals =

@@ -13,13 +13,11 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyApp, HsTyCon),
   )
-
-{-# ANN module "HLint: ignore Use camelCase" #-}
+#include "../Mk.hs.inc"
 
 qtModule = makeQtModuleForClass c_QMargins []
 
 this = c_QMargins
-#include "../Mk.hs.inc"
 
 c_QMargins =
   addReqIncludes [includeStd "QMargins"] $
@@ -50,14 +48,12 @@ c_QMargins =
   makeClass (ident "QMargins") Nothing []
   [ _mkCtor "newNull" []
   , _mkCtor "new" [TInt, TInt, TInt, TInt]
-  ]
-  [ _mkConstMethod "bottom" [] TInt
-  , _mkConstMethod "isNull" [] TBool
-  , _mkConstMethod "left" [] TInt
-  , _mkConstMethod "right" [] TInt
-  , _mkMethod "setBottom" [TInt] TVoid
-  , _mkMethod "setLeft" [TInt] TVoid
-  , _mkMethod "setRight" [TInt] TVoid
-  , _mkMethod "setTop" [TInt] TVoid
-  , _mkConstMethod "top" [] TInt
+  ] $
+  [ _mkConstMethod "isNull" [] TBool
+  ] ++
+  _props
+  [ _mkProp "bottom" TInt
+  , _mkProp "left" TInt
+  , _mkProp "right" TInt
+  , _mkProp "top" TInt
   ]

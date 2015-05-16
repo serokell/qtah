@@ -14,13 +14,11 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyApp, HsTyCon),
   )
-
-{-# ANN module "HLint: ignore Use camelCase" #-}
+#include "../Mk.hs.inc"
 
 qtModule = makeQtModuleForClass c_QSize []
 
 this = c_QSize
-#include "../Mk.hs.inc"
 
 c_QSize =
   addReqIncludes [includeStd "QSize"] $
@@ -51,16 +49,16 @@ c_QSize =
   makeClass (ident "QSize") Nothing []
   [ _mkCtor "newNull" []
   , _mkCtor "new" [TInt, TInt]
-  ]
+  ] $
   [ _mkConstMethod "boundedTo" [TObj c_QSize] $ TObj c_QSize
   , _mkConstMethod "expandedTo" [TObj c_QSize] $ TObj c_QSize
-  , _mkConstMethod "height" [] TInt
   , _mkConstMethod "isEmpty" [] TBool
   , _mkConstMethod "isNull" [] TBool
   , _mkConstMethod "isValid" [] TBool
   , _mkMethod "scale" [TObj c_QSize, TEnum e_AspectRatioMode] TVoid
-  , _mkMethod "setHeight" [TInt] TVoid
-  , _mkMethod "setWidth" [TInt] TVoid
   , _mkMethod "transpose" [] TVoid
-  , _mkConstMethod "width" [] TInt
+  ] ++
+  _props
+  [ _mkProp "height" TInt
+  , _mkProp "width" TInt
   ]

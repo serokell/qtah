@@ -19,13 +19,11 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQPoint)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Internal.Interface.Qt (e_LayoutDirection)
-
-{-# ANN module "HLint: ignore Use camelCase" #-}
+#include "../Mk.hs.inc"
 
 qtModule = makeQtModuleForClass c_QWidget $ map QtExportSignal signals
 
 this = c_QWidget
-#include "../Mk.hs.inc"
 
 c_QWidget =
   addReqIncludes [includeStd "QWidget"] $

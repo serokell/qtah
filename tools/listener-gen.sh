@@ -12,7 +12,9 @@ forEachListener() {
     $fn IntInt "int|int"
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
+    $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
     $fn QPoint "QPoint"
+    $fn QSize "QSize"
     $fn QString "QString"
     $fn "" ""
 }
@@ -36,6 +38,7 @@ sayHpp '#include <string>'
 sayHpp '#include <QAction>'
 sayHpp '#include <QObject>'
 sayHpp '#include <QPoint>'
+sayHpp '#include <QSize>'
 sayHpp '#include "callback.hpp"'
 
 sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'

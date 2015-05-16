@@ -13,13 +13,11 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyApp, HsTyCon),
   )
-
-{-# ANN module "HLint: ignore Use camelCase" #-}
+#include "../Mk.hs.inc"
 
 qtModule = makeQtModuleForClass c_QPoint []
 
 this = c_QPoint
-#include "../Mk.hs.inc"
 
 c_QPoint =
   addReqIncludes [includeStd "QPoint"] $
@@ -50,11 +48,11 @@ c_QPoint =
   makeClass (ident "QPoint") Nothing []
   [ _mkCtor "newNull" []
   , _mkCtor "new" [TInt, TInt]
-  ]
+  ] $
   [ _mkConstMethod "isNull" [] TBool
   , _mkConstMethod "manhattanLength" [] TInt
-  , _mkMethod "setX" [TInt] TVoid
-  , _mkMethod "setY" [TInt] TVoid
-  , _mkConstMethod "x" [] TInt
-  , _mkConstMethod "y" [] TInt
+  ] ++
+  _props
+  [ _mkProp "x" TInt
+  , _mkProp "y" TInt
   ]
