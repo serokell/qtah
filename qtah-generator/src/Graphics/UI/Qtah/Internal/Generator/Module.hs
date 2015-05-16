@@ -5,7 +5,7 @@ module Graphics.UI.Qtah.Internal.Generator.Module (
 import Control.Monad (forM_, when)
 import Data.List (find, intersperse, isPrefixOf)
 import Data.Maybe (isJust)
-import Foreign.Cppop.Common (fromMaybeM)
+import Foreign.Cppop.Common (fromMaybeM, writeFileIfDifferent)
 import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
 import Foreign.Cppop.Generator.Language.Haskell.General (
   Generator,
@@ -98,7 +98,7 @@ generateModule iface srcDir baseModuleName qtModule = do
             srcDir </>
             map (\c -> if c == '.' then pathSeparator else c) fullModuleName <.>
             "hs"
-      writeFile path source
+      writeFileIfDifferent path source
 
 getFnReexportName :: Function -> String
 getFnReexportName = getFnImportName
