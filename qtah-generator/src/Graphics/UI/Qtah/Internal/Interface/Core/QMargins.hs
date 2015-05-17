@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Core.QMargins (
   cppopModule,
   qtModule,
@@ -15,7 +13,8 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyCon),
   )
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Core" "QMargins" qtModule
 
@@ -56,14 +55,14 @@ c_QMargins =
              }
            }) $
   makeClass (ident "QMargins") Nothing []
-  [ _mkCtor "newNull" []
-  , _mkCtor "new" [TInt, TInt, TInt, TInt]
+  [ mkCtor this "newNull" []
+  , mkCtor this "new" [TInt, TInt, TInt, TInt]
   ] $
-  [ _mkConstMethod "isNull" [] TBool
+  [ mkConstMethod this "isNull" [] TBool
   ] ++
-  _props
-  [ _mkProp "bottom" TInt
-  , _mkProp "left" TInt
-  , _mkProp "right" TInt
-  , _mkProp "top" TInt
+  mkProps
+  [ mkProp this "bottom" TInt
+  , mkProp this "left" TInt
+  , mkProp this "right" TInt
+  , mkProp this "top" TInt
   ]

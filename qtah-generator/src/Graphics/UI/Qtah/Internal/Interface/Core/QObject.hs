@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
   cppopModule,
   qtModule,
@@ -10,7 +8,8 @@ import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Core" "QObject" qtModule
 
@@ -25,21 +24,21 @@ c_QObject =
   addReqIncludes [includeStd "QObject"] $
   makeClass (ident "QObject") Nothing []
   [] $
-  [ _mkMethod "blockSignals" [TBool] TBool
-  , _mkMethod "dumpObjectInfo" [] TVoid
-  , _mkMethod "dumpObjectTree" [] TVoid
-  , _mkMethod "installEventFilter" [TPtr $ TObj c_QObject] TVoid
-  , _mkConstMethod "isWidgetType" [] TBool
-  , _mkMethod "killTimer" [TInt] TVoid
-  , _mkConstMethod "objectName" [] $ TObj c_QString
-  , _mkMethod "removeEventFilter" [TPtr $ TObj c_QObject] TVoid
-  , _mkConstMethod "signalsBlocked" [] TBool
-  , _mkMethod "startTimer" [TInt] TInt
+  [ mkMethod this "blockSignals" [TBool] TBool
+  , mkMethod this "dumpObjectInfo" [] TVoid
+  , mkMethod this "dumpObjectTree" [] TVoid
+  , mkMethod this "installEventFilter" [TPtr $ TObj c_QObject] TVoid
+  , mkConstMethod this "isWidgetType" [] TBool
+  , mkMethod this "killTimer" [TInt] TVoid
+  , mkConstMethod this "objectName" [] $ TObj c_QString
+  , mkMethod this "removeEventFilter" [TPtr $ TObj c_QObject] TVoid
+  , mkConstMethod this "signalsBlocked" [] TBool
+  , mkMethod this "startTimer" [TInt] TInt
   ] ++
-  _props
-  [ _mkProp "parent" $ TPtr $ TObj c_QObject
+  mkProps
+  [ mkProp this "parent" $ TPtr $ TObj c_QObject
   ]
 
 signals =
-  [ _mkSignal "destroyed" c_ListenerPtrQObject
+  [ makeSignal this "destroyed" c_ListenerPtrQObject
   ]

@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Core.QRect (
   cppopModule,
   qtModule,
@@ -17,7 +15,8 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyCon),
   )
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Core" "QRect" qtModule
 
@@ -57,50 +56,50 @@ c_QRect =
              }
            }) $
   makeClass (ident "QRect") Nothing []
-  [ _mkCtor "newNull" []
-  , _mkCtor "newWithPoints" [TObj c_QPoint, TObj c_QPoint]
-  , _mkCtor "newWithPointAndSize" [TObj c_QPoint, TObj c_QSize]
-  , _mkCtor "newWithRaw" [TInt, TInt, TInt, TInt]
+  [ mkCtor this "newNull" []
+  , mkCtor this "newWithPoints" [TObj c_QPoint, TObj c_QPoint]
+  , mkCtor this "newWithPointAndSize" [TObj c_QPoint, TObj c_QSize]
+  , mkCtor this "newWithRaw" [TInt, TInt, TInt, TInt]
   ] $
-  [ _mkMethod "adjust" [TInt, TInt, TInt, TInt] TVoid
-  , _mkConstMethod "adjusted" [TInt, TInt, TInt, TInt] $ TObj c_QRect
-  , _mkConstMethod "center" [] $ TObj c_QPoint
-  , _mkConstMethod' "contains" "containsPoint" [TObj c_QPoint, TBool] TBool
-  , _mkConstMethod' "contains" "containsRect" [TObj c_QRect, TBool] TBool
-  , _mkConstMethod "intersected" [TObj c_QRect] $ TObj c_QRect
-  , _mkConstMethod "intersects" [TObj c_QRect] TBool
-  , _mkConstMethod "isEmpty" [] TBool
-  , _mkConstMethod "isNull" [] TBool
-  , _mkConstMethod "isValid" [] TBool
-  , _mkMethod "moveBottom" [TInt] TVoid
-  , _mkMethod "moveBottomLeft" [TObj c_QPoint] TVoid
-  , _mkMethod "moveBottomRight" [TObj c_QPoint] TVoid
-  , _mkMethod "moveCenter" [TObj c_QPoint] TVoid
-  , _mkMethod "moveLeft" [TInt] TVoid
-  , _mkMethod "moveRight" [TInt] TVoid
-  , _mkMethod "moveTo" [TObj c_QPoint] TVoid
-  , _mkMethod "moveTop" [TInt] TVoid
-  , _mkMethod "moveTopLeft" [TObj c_QPoint] TVoid
-  , _mkMethod "moveTopRight" [TObj c_QPoint] TVoid
-  , _mkConstMethod "normalized" [] $ TObj c_QRect
-  , _mkMethod "setCoords" [TInt, TInt, TInt, TInt] TVoid
-  , _mkMethod "setRect" [TInt, TInt, TInt, TInt] TVoid
-  , _mkMethod "translate" [TObj c_QPoint] TVoid
-  , _mkConstMethod "translated" [TObj c_QPoint] $ TObj c_QRect
-  , _mkMethod "united" [TObj c_QRect] $ TObj c_QRect
+  [ mkMethod this "adjust" [TInt, TInt, TInt, TInt] TVoid
+  , mkConstMethod this "adjusted" [TInt, TInt, TInt, TInt] $ TObj c_QRect
+  , mkConstMethod this "center" [] $ TObj c_QPoint
+  , mkConstMethod' this "contains" "containsPoint" [TObj c_QPoint, TBool] TBool
+  , mkConstMethod' this "contains" "containsRect" [TObj c_QRect, TBool] TBool
+  , mkConstMethod this "intersected" [TObj c_QRect] $ TObj c_QRect
+  , mkConstMethod this "intersects" [TObj c_QRect] TBool
+  , mkConstMethod this "isEmpty" [] TBool
+  , mkConstMethod this "isNull" [] TBool
+  , mkConstMethod this "isValid" [] TBool
+  , mkMethod this "moveBottom" [TInt] TVoid
+  , mkMethod this "moveBottomLeft" [TObj c_QPoint] TVoid
+  , mkMethod this "moveBottomRight" [TObj c_QPoint] TVoid
+  , mkMethod this "moveCenter" [TObj c_QPoint] TVoid
+  , mkMethod this "moveLeft" [TInt] TVoid
+  , mkMethod this "moveRight" [TInt] TVoid
+  , mkMethod this "moveTo" [TObj c_QPoint] TVoid
+  , mkMethod this "moveTop" [TInt] TVoid
+  , mkMethod this "moveTopLeft" [TObj c_QPoint] TVoid
+  , mkMethod this "moveTopRight" [TObj c_QPoint] TVoid
+  , mkConstMethod this "normalized" [] $ TObj c_QRect
+  , mkMethod this "setCoords" [TInt, TInt, TInt, TInt] TVoid
+  , mkMethod this "setRect" [TInt, TInt, TInt, TInt] TVoid
+  , mkMethod this "translate" [TObj c_QPoint] TVoid
+  , mkConstMethod this "translated" [TObj c_QPoint] $ TObj c_QRect
+  , mkMethod this "united" [TObj c_QRect] $ TObj c_QRect
   ] ++
-  _props
-  [ _mkProp "bottom" TInt
-  , _mkProp "bottomLeft" $ TObj c_QPoint
-  , _mkProp "bottomRight" $ TObj c_QPoint
-  , _mkProp "height" TInt
-  , _mkProp "left" TInt
-  , _mkProp "right" TInt
-  , _mkProp "size" $ TObj c_QSize
-  , _mkProp "top" TInt
-  , _mkProp "topLeft" $ TObj c_QPoint
-  , _mkProp "topRight" $ TObj c_QPoint
-  , _mkProp "width" TInt
-  , _mkProp "x" TInt
-  , _mkProp "y" TInt
+  mkProps
+  [ mkProp this "bottom" TInt
+  , mkProp this "bottomLeft" $ TObj c_QPoint
+  , mkProp this "bottomRight" $ TObj c_QPoint
+  , mkProp this "height" TInt
+  , mkProp this "left" TInt
+  , mkProp this "right" TInt
+  , mkProp this "size" $ TObj c_QSize
+  , mkProp this "top" TInt
+  , mkProp this "topLeft" $ TObj c_QPoint
+  , mkProp this "topRight" $ TObj c_QPoint
+  , mkProp this "width" TInt
+  , mkProp this "x" TInt
+  , mkProp this "y" TInt
   ]

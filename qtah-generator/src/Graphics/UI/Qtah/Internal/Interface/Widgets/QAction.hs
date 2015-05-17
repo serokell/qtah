@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (
   cppopModule,
   qtModule,
@@ -14,7 +12,8 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerBool)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup (c_QActionGroup)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QAction" qtModule
 
@@ -35,54 +34,54 @@ c_QAction =
   addReqIncludes [includeStd "QAction"] $
   makeClass (ident "QAction") Nothing
   [ c_QObject ]
-  [ _mkCtor "new" [TPtr $ TObj c_QObject]
-  , _mkCtor "newWithText" [TObj c_QString, TPtr $ TObj c_QObject]
+  [ mkCtor this "new" [TPtr $ TObj c_QObject]
+  , mkCtor this "newWithText" [TObj c_QString, TPtr $ TObj c_QObject]
     -- TODO newWithIconAndText
   ] $
-  [ _mkMethod "activate" [TEnum e_ActionEvent] TVoid
+  [ mkMethod this "activate" [TEnum e_ActionEvent] TVoid
     -- TODO associatedGraphicsWidgets
     -- TODO associatedWidgets
-  , _mkMethod "hover" [] TVoid
-  , _mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
-  , _mkConstMethod "priority" [] $ TEnum e_Priority
-  , _mkMethod "setDisabled" [TBool] TVoid
-  , _mkMethod "setPriority" [TEnum e_Priority] TVoid
+  , mkMethod this "hover" [] TVoid
+  , mkConstMethod this "parentWidget" [] $ TPtr $ TObj c_QWidget
+  , mkConstMethod this "priority" [] $ TEnum e_Priority
+  , mkMethod this "setDisabled" [TBool] TVoid
+  , mkMethod this "setPriority" [TEnum e_Priority] TVoid
     -- TODO setShortcuts
-  , _mkMethod "setSoftKeyRole" [TEnum e_SoftKeyRole] TVoid
+  , mkMethod this "setSoftKeyRole" [TEnum e_SoftKeyRole] TVoid
     -- TODO shortcuts
-  , _mkMethod "showStatusText" [TPtr $ TObj c_QWidget] TBool
-  , _mkConstMethod "softKeyRole" [] $ TEnum e_SoftKeyRole
-  , _mkMethod "toggle" [] TVoid
-  , _mkMethod "trigger" [] TVoid
+  , mkMethod this "showStatusText" [TPtr $ TObj c_QWidget] TBool
+  , mkConstMethod this "softKeyRole" [] $ TEnum e_SoftKeyRole
+  , mkMethod this "toggle" [] TVoid
+  , mkMethod this "trigger" [] TVoid
   ] ++
-  _props
-  [ _mkProp "actionGroup" $ TPtr $ TObj c_QActionGroup
-  , _mkProp "autoRepeat" TBool
-  , _mkBoolIsProp "checkable"
-  , _mkBoolIsProp "checked"
+  mkProps
+  [ mkProp this "actionGroup" $ TPtr $ TObj c_QActionGroup
+  , mkProp this "autoRepeat" TBool
+  , mkBoolIsProp this "checkable"
+  , mkBoolIsProp this "checked"
     -- TODO data
-  , _mkBoolIsProp "enabled"
+  , mkBoolIsProp this "enabled"
     -- TODO font
     -- TODO icon
-  , _mkProp "iconText" $ TObj c_QString
-  , _mkBoolIsProp "iconVisibleInMenu"
-  , _mkProp "menu" $ TPtr $ TObj c_QMenu
-  , _mkProp "menuRole" $ TEnum e_MenuRole
-  , _mkBoolIsProp "separator"
+  , mkProp this "iconText" $ TObj c_QString
+  , mkBoolIsProp this "iconVisibleInMenu"
+  , mkProp this "menu" $ TPtr $ TObj c_QMenu
+  , mkProp this "menuRole" $ TEnum e_MenuRole
+  , mkBoolIsProp this "separator"
     -- TODO shortcut
     -- TODO shortcutContext
-  , _mkProp "statusTip" $ TObj c_QString
-  , _mkProp "text" $ TObj c_QString
-  , _mkProp "toolTip" $ TObj c_QString
-  , _mkBoolIsProp "visible"
-  , _mkProp "whatsThis" $ TObj c_QString
+  , mkProp this "statusTip" $ TObj c_QString
+  , mkProp this "text" $ TObj c_QString
+  , mkProp this "toolTip" $ TObj c_QString
+  , mkBoolIsProp this "visible"
+  , mkProp this "whatsThis" $ TObj c_QString
   ]
 
 signals =
-  [ _mkSignal "changed" c_Listener
-  , _mkSignal "hovered" c_Listener
-  , _mkSignal "toggled" c_ListenerBool
-  , _mkSignal "triggered" c_ListenerBool
+  [ makeSignal this "changed" c_Listener
+  , makeSignal this "hovered" c_Listener
+  , makeSignal this "toggled" c_ListenerBool
+  , makeSignal this "triggered" c_ListenerBool
   ]
 
 e_ActionEvent =

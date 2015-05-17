@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (
   cppopModule,
   qtModule,
@@ -14,7 +12,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerPtrQAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QMenu" qtModule
 
@@ -29,46 +28,46 @@ c_QMenu =
   addReqIncludes [includeStd "QMenu"] $
   makeClass (ident "QMenu") Nothing
   [ c_QWidget ]
-  [ _mkCtor "new" []
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , _mkCtor "newWithTitle" [TObj c_QString]
-  , _mkCtor "newWithTitleAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" []
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor this "newWithTitle" [TObj c_QString]
+  , mkCtor this "newWithTitleAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
   ] $
-  [ _mkConstMethod "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction
-  , _mkConstMethod "actionGeometry" [TPtr $ TObj c_QAction] $ TObj c_QRect
-  , _mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
-  , _mkMethod' "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
+  [ mkConstMethod this "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction
+  , mkConstMethod this "actionGeometry" [TPtr $ TObj c_QAction] $ TObj c_QRect
+  , mkMethod' this "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
+  , mkMethod' this "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
     -- TODO addNewActionWithIcon and connecting forms
-  , _mkMethod' "addMenu" "addMenu" [TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
-  , _mkMethod' "addMenu" "addNewMenu" [TObj c_QString] $ TPtr $ TObj c_QMenu
+  , mkMethod' this "addMenu" "addMenu" [TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
+  , mkMethod' this "addMenu" "addNewMenu" [TObj c_QString] $ TPtr $ TObj c_QMenu
     -- TODO addNewMenuWithIcon
-  , _mkMethod "addSeparator" [] $ TPtr $ TObj c_QAction
-  , _mkMethod "clear" [] TVoid
-  , _mkMethod' "exec" "exec" [] $ TPtr $ TObj c_QAction
-  , _mkMethod' "exec" "execAt" [TObj c_QPoint, TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
+  , mkMethod this "addSeparator" [] $ TPtr $ TObj c_QAction
+  , mkMethod this "clear" [] TVoid
+  , mkMethod' this "exec" "exec" [] $ TPtr $ TObj c_QAction
+  , mkMethod' this "exec" "execAt" [TObj c_QPoint, TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
     -- TODO Static exec
-  , _mkMethod "hideTearOffMenu" [] TVoid
-  , _mkMethod "insertMenu" [TPtr $ TObj c_QAction, TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
-  , _mkMethod "insertSeparator" [TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
-  , _mkConstMethod "isEmpty" [] TBool
-  , _mkConstMethod "isTearOffMenuVisible" [] TBool
-  , _mkConstMethod "menuAction" [] $ TPtr $ TObj c_QAction
-  , _mkMethod' "popup" "popup" [TObj c_QPoint] TVoid
-  , _mkMethod' "popup" "popupAction" [TObj c_QPoint, TPtr $ TObj c_QAction] TVoid
+  , mkMethod this "hideTearOffMenu" [] TVoid
+  , mkMethod this "insertMenu" [TPtr $ TObj c_QAction, TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
+  , mkMethod this "insertSeparator" [TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
+  , mkConstMethod this "isEmpty" [] TBool
+  , mkConstMethod this "isTearOffMenuVisible" [] TBool
+  , mkConstMethod this "menuAction" [] $ TPtr $ TObj c_QAction
+  , mkMethod' this "popup" "popup" [TObj c_QPoint] TVoid
+  , mkMethod' this "popup" "popupAction" [TObj c_QPoint, TPtr $ TObj c_QAction] TVoid
     -- TODO setIcon
   ] ++
-  _props
-  [ _mkProp "activeAction" $ TPtr $ TObj c_QAction
-  , _mkProp "defaultAction" $ TPtr $ TObj c_QAction
+  mkProps
+  [ mkProp this "activeAction" $ TPtr $ TObj c_QAction
+  , mkProp this "defaultAction" $ TPtr $ TObj c_QAction
     -- TODO icon
-  ,_mkProp "separatorsCollapsible" TBool
-  , _mkBoolIsProp "tearOffEnabled"
-  , _mkProp "title" $ TObj c_QString
+  ,mkProp this "separatorsCollapsible" TBool
+  , mkBoolIsProp this "tearOffEnabled"
+  , mkProp this "title" $ TObj c_QString
   ]
 
 signals =
-  [ _mkSignal "aboutToHide" c_Listener
-  , _mkSignal "aboutToShow" c_Listener
-  , _mkSignal "hovered" c_ListenerPtrQAction
-  , _mkSignal "triggered" c_ListenerPtrQAction
+  [ makeSignal this "aboutToHide" c_Listener
+  , makeSignal this "aboutToShow" c_Listener
+  , makeSignal this "hovered" c_ListenerPtrQAction
+  , makeSignal this "triggered" c_ListenerPtrQAction
   ]

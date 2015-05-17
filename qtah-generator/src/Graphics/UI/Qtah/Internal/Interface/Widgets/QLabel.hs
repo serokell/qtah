@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
   cppopModule,
   qtModule,
@@ -12,7 +10,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_TextFormat
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QLabel" qtModule
 
@@ -26,37 +25,37 @@ this = c_QLabel
 c_QLabel =
   addReqIncludes [includeStd "QLabel"] $
   makeClass (ident "QLabel") Nothing [c_QFrame]
-  [ _mkCtor "new" []
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , _mkCtor "newWithText" [TObj c_QString]
-  , _mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" []
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor this "newWithText" [TObj c_QString]
+  , mkCtor this "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
     -- Ctors taking Qt::WindowFlags.
   ] $
-  [ _mkMethod "clear" [] TVoid
-  , _mkConstMethod "hasSelectedText" [] TBool
-  , _mkConstMethod "selectedText" [] $ TObj c_QString
-  , _mkConstMethod "selectionStart" [] TInt
-  , _mkMethod' "setNum" "setInt" [TInt] TVoid
-  , _mkMethod' "setNum" "setDouble" [TDouble] TVoid
-  , _mkMethod "setSelection" [TInt, TInt] TVoid
+  [ mkMethod this "clear" [] TVoid
+  , mkConstMethod this "hasSelectedText" [] TBool
+  , mkConstMethod this "selectedText" [] $ TObj c_QString
+  , mkConstMethod this "selectionStart" [] TInt
+  , mkMethod' this "setNum" "setInt" [TInt] TVoid
+  , mkMethod' this "setNum" "setDouble" [TDouble] TVoid
+  , mkMethod this "setSelection" [TInt, TInt] TVoid
   ] ++
-  _props
-  [ _mkProp "alignment" $ TEnum e_Alignment
-  , _mkProp "buddy" $ TPtr $ TObj c_QWidget
-  , _mkProp "indent" TInt
-  , _mkProp "margin" TInt
+  mkProps
+  [ mkProp this "alignment" $ TEnum e_Alignment
+  , mkProp this "buddy" $ TPtr $ TObj c_QWidget
+  , mkProp this "indent" TInt
+  , mkProp this "margin" TInt
     -- TODO movie
-  , _mkProp "openExternalLinks" TBool
+  , mkProp this "openExternalLinks" TBool
     -- TODO picture
     -- TODO pixmap
-  , _mkBoolHasProp "scaledContents"
-  , _mkProp "text" $ TObj c_QString
-  , _mkProp "textFormat" $ TEnum e_TextFormat
+  , mkBoolHasProp this "scaledContents"
+  , mkProp this "text" $ TObj c_QString
+  , mkProp this "textFormat" $ TEnum e_TextFormat
     -- TODO textInteractionFlags
-  , _mkProp "wordWrap" TBool
+  , mkProp this "wordWrap" TBool
   ]
 
 signals =
-  [ _mkSignal "linkActivated" c_ListenerQString
-  , _mkSignal "linkHovered" c_ListenerQString
+  [ makeSignal this "linkActivated" c_ListenerQString
+  , makeSignal this "linkHovered" c_ListenerQString
   ]

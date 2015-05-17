@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (
   cppopModule,
   qtModule,
@@ -13,7 +11,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QLayoutItem" qtModule
 
@@ -29,19 +28,19 @@ c_QLayoutItem =
   [] $  -- Abstract.
   [ -- TODO controlTypes
     -- TODO expandingDirections
-    _mkConstMethod "hasHeightForWidth" [] TBool
-  , _mkConstMethod "heightForWidth" [TInt] TInt
-  , _mkMethod "invalidate" [] TVoid
-  , _mkConstMethod "isEmpty" [] TBool
-  , _mkMethod "layout" [] $ TPtr $ TObj c_QLayout
-  , _mkConstMethod "maximumSize" [] $ TObj c_QSize
-  , _mkConstMethod "minimumHeightForWidth" [TInt] TInt
-  , _mkConstMethod "minimumSize" [] $ TObj c_QSize
-  , _mkConstMethod "sizeHint" [] $ TObj c_QSize
+    mkConstMethod this "hasHeightForWidth" [] TBool
+  , mkConstMethod this "heightForWidth" [TInt] TInt
+  , mkMethod this "invalidate" [] TVoid
+  , mkConstMethod this "isEmpty" [] TBool
+  , mkMethod this "layout" [] $ TPtr $ TObj c_QLayout
+  , mkConstMethod this "maximumSize" [] $ TObj c_QSize
+  , mkConstMethod this "minimumHeightForWidth" [TInt] TInt
+  , mkConstMethod this "minimumSize" [] $ TObj c_QSize
+  , mkConstMethod this "sizeHint" [] $ TObj c_QSize
     -- TODO spacerItem
-  , _mkConstMethod "widget" [] $ TPtr $ TObj c_QWidget
+  , mkConstMethod this "widget" [] $ TPtr $ TObj c_QWidget
   ] ++
-  _props
-  [ _mkProp "alignment" $ TEnum e_Alignment
-  , _mkProp "geometry" $ TObj c_QRect
+  mkProps
+  [ mkProp this "alignment" $ TEnum e_Alignment
+  , mkProp this "geometry" $ TObj c_QRect
   ]

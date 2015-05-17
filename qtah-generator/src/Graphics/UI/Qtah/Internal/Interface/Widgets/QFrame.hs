@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (
   cppopModule,
   qtModule,
@@ -10,7 +8,8 @@ import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QFrame" qtModule
 
@@ -27,19 +26,19 @@ this = c_QFrame
 c_QFrame =
   addReqIncludes [includeStd "QFrame"] $
   makeClass (ident "QFrame") Nothing [c_QWidget]
-  [ _mkCtor "new" []
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" []
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
     -- TODO QFrame(QWidget*, Qt::WindowFlags)
   ] $
-  [ _mkConstMethod "frameWidth" [] TInt
+  [ mkConstMethod this "frameWidth" [] TInt
   ] ++
-  _props
-  [ _mkProp "frameRect" $ TObj c_QRect
-  , _mkProp "frameShadow" $ TEnum e_Shadow
-  , _mkProp "frameShape" $ TEnum e_Shape
-  , _mkProp "frameStyle" TInt
-  , _mkProp "lineWidth" TInt
-  , _mkProp "midLineWidth" TInt
+  mkProps
+  [ mkProp this "frameRect" $ TObj c_QRect
+  , mkProp this "frameShadow" $ TEnum e_Shadow
+  , mkProp this "frameShape" $ TEnum e_Shape
+  , mkProp this "frameStyle" TInt
+  , mkProp this "lineWidth" TInt
+  , mkProp this "midLineWidth" TInt
   ]
 
 e_Shadow =

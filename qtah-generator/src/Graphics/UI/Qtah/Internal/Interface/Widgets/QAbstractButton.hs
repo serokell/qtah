@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
   cppopModule,
   qtModule,
@@ -12,7 +10,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerBool)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QAbstractButton" qtModule
 
@@ -28,28 +27,28 @@ c_QAbstractButton =
   makeClass (ident "QAbstractButton") Nothing
   [ c_QWidget ]
   [] $  -- Abstact.
-  [ _mkMethod "animateClick" [TInt] TVoid
-  , _mkMethod "click" [] TVoid
+  [ mkMethod this "animateClick" [TInt] TVoid
+  , mkMethod this "click" [] TVoid
     -- TODO group
-  , _mkMethod "toggle" [] TVoid
+  , mkMethod this "toggle" [] TVoid
   ] ++
-  _props
-  [ _mkProp "autoExclusive" TBool
-  , _mkProp "autoRepeat" TBool
-  , _mkProp "autoRepeatDelay" TInt
-  , _mkProp "autoRepeatInterval" TInt
-  , _mkBoolIsProp "checkable"
-  , _mkBoolIsProp "checked"
-  , _mkBoolIsProp "down"
+  mkProps
+  [ mkProp this "autoExclusive" TBool
+  , mkProp this "autoRepeat" TBool
+  , mkProp this "autoRepeatDelay" TInt
+  , mkProp this "autoRepeatInterval" TInt
+  , mkBoolIsProp this "checkable"
+  , mkBoolIsProp this "checked"
+  , mkBoolIsProp this "down"
     -- TODO icon
-  , _mkProp "iconSize" $ TObj c_QSize
+  , mkProp this "iconSize" $ TObj c_QSize
     -- TODO shortcut
-  , _mkProp "text" $ TObj c_QString
+  , mkProp this "text" $ TObj c_QString
   ]
 
 signals =
-  [ _mkSignal "clicked" c_ListenerBool
-  , _mkSignal "pressed" c_Listener
-  , _mkSignal "released" c_Listener
-  , _mkSignal "toggled" c_ListenerBool
+  [ makeSignal this "clicked" c_ListenerBool
+  , makeSignal this "pressed" c_Listener
+  , makeSignal this "released" c_Listener
+  , makeSignal this "toggled" c_ListenerBool
   ]

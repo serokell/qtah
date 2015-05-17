@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
   cppopModule,
   qtModule,
@@ -14,7 +12,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_CursorMove
 import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QLineEdit" qtModule
 
@@ -29,66 +28,66 @@ this = c_QLineEdit
 c_QLineEdit =
   addReqIncludes [includeStd "QLineEdit"] $
   makeClass (ident "QLineEdit") Nothing [c_QWidget]
-  [ _mkCtor "new" []
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , _mkCtor "newWithText" [TObj c_QString]
-  , _mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" []
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor this "newWithText" [TObj c_QString]
+  , mkCtor this "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
   ] $
-  [ _mkMethod "backspace" [] TVoid
-  , _mkMethod "clear" [] TVoid
-  , _mkConstMethod "copy" [] TVoid
-  , _mkMethod "createStandardContextMenu" [] $ TPtr $ TObj c_QMenu
-  , _mkMethod "cursorBackward" [TBool, TInt] TVoid
-  , _mkMethod "cursorForward" [TBool, TInt] TVoid
-  , _mkMethod "cursorPositionAt" [TObj c_QPoint] TInt
-  , _mkMethod "cursorWordBackward" [TBool] TVoid
-  , _mkMethod "cursorWordForward" [TBool] TVoid
-  , _mkMethod "cut" [] TVoid
-  , _mkMethod "del" [] TVoid
-  , _mkMethod "deselect" [] TVoid
-  , _mkConstMethod "displayText" [] $ TObj c_QString
-  , _mkMethod "end" [TBool] TVoid
-  , _mkConstMethod "hasAcceptableInput" [] TBool
-  , _mkConstMethod "hasSelectedText" [] TBool
-  , _mkMethod "home" [TBool] TVoid
-  , _mkMethod "insert" [TObj c_QString] TVoid
-  , _mkConstMethod "isRedoAvailable" [] TBool
-  , _mkConstMethod "isUndoAvailable" [] TBool
-  , _mkMethod "paste" [] TVoid
-  , _mkMethod "redo" [] TVoid
-  , _mkMethod "selectAll" [] TVoid
-  , _mkConstMethod "selectedText" [] $ TObj c_QString
-  , _mkConstMethod "selectionStart" [] TInt
-  , _mkMethod "setSelection" [TInt, TInt] TVoid
-  , _mkMethod' "setTextMargins" "setTextMargins" [TObj c_QMargins] TVoid
-  , _mkMethod' "setTextMargins" "setTextMarginsRaw" [TInt, TInt, TInt, TInt] TVoid
-  , _mkConstMethod "textMargins" [] $ TObj c_QMargins
-  , _mkMethod "undo" [] TVoid
+  [ mkMethod this "backspace" [] TVoid
+  , mkMethod this "clear" [] TVoid
+  , mkConstMethod this "copy" [] TVoid
+  , mkMethod this "createStandardContextMenu" [] $ TPtr $ TObj c_QMenu
+  , mkMethod this "cursorBackward" [TBool, TInt] TVoid
+  , mkMethod this "cursorForward" [TBool, TInt] TVoid
+  , mkMethod this "cursorPositionAt" [TObj c_QPoint] TInt
+  , mkMethod this "cursorWordBackward" [TBool] TVoid
+  , mkMethod this "cursorWordForward" [TBool] TVoid
+  , mkMethod this "cut" [] TVoid
+  , mkMethod this "del" [] TVoid
+  , mkMethod this "deselect" [] TVoid
+  , mkConstMethod this "displayText" [] $ TObj c_QString
+  , mkMethod this "end" [TBool] TVoid
+  , mkConstMethod this "hasAcceptableInput" [] TBool
+  , mkConstMethod this "hasSelectedText" [] TBool
+  , mkMethod this "home" [TBool] TVoid
+  , mkMethod this "insert" [TObj c_QString] TVoid
+  , mkConstMethod this "isRedoAvailable" [] TBool
+  , mkConstMethod this "isUndoAvailable" [] TBool
+  , mkMethod this "paste" [] TVoid
+  , mkMethod this "redo" [] TVoid
+  , mkMethod this "selectAll" [] TVoid
+  , mkConstMethod this "selectedText" [] $ TObj c_QString
+  , mkConstMethod this "selectionStart" [] TInt
+  , mkMethod this "setSelection" [TInt, TInt] TVoid
+  , mkMethod' this "setTextMargins" "setTextMargins" [TObj c_QMargins] TVoid
+  , mkMethod' this "setTextMargins" "setTextMarginsRaw" [TInt, TInt, TInt, TInt] TVoid
+  , mkConstMethod this "textMargins" [] $ TObj c_QMargins
+  , mkMethod this "undo" [] TVoid
   ] ++
-  _props
-  [ _mkProp "alignment" $ TEnum e_Alignment
+  mkProps
+  [ mkProp this "alignment" $ TEnum e_Alignment
     -- TODO completer
-  , _mkProp "cursorMoveStyle" $ TEnum e_CursorMoveStyle
-  , _mkProp "cursorPosition" TInt
-  , _mkProp "dragEnabled" TBool
-  , _mkProp "echoMode" $ TEnum e_EchoMode
-  , _mkBoolHasProp "frame"
-  , _mkProp "inputMask" $ TObj c_QString
-  , _mkProp "maxLength" TInt
-  , _mkBoolIsProp "modified"
-  , _mkProp "placeholderText" $ TObj c_QString
-  , _mkBoolIsProp "readOnly"
-  , _mkProp "text" $ TObj c_QString
+  , mkProp this "cursorMoveStyle" $ TEnum e_CursorMoveStyle
+  , mkProp this "cursorPosition" TInt
+  , mkProp this "dragEnabled" TBool
+  , mkProp this "echoMode" $ TEnum e_EchoMode
+  , mkBoolHasProp this "frame"
+  , mkProp this "inputMask" $ TObj c_QString
+  , mkProp this "maxLength" TInt
+  , mkBoolIsProp this "modified"
+  , mkProp this "placeholderText" $ TObj c_QString
+  , mkBoolIsProp this "readOnly"
+  , mkProp this "text" $ TObj c_QString
     -- TODO validator
   ]
 
 signals =
-  [ _mkSignal "cursorPositionChanged" c_ListenerIntInt
-  , _mkSignal "editingFinished" c_Listener
-  , _mkSignal "returnPressed" c_Listener
-  , _mkSignal "selectionChanged" c_Listener
-  , _mkSignal "textEdited" c_ListenerQString
-  , _mkSignal "textChanged" c_ListenerQString
+  [ makeSignal this "cursorPositionChanged" c_ListenerIntInt
+  , makeSignal this "editingFinished" c_Listener
+  , makeSignal this "returnPressed" c_Listener
+  , makeSignal this "selectionChanged" c_Listener
+  , makeSignal this "textEdited" c_ListenerQString
+  , makeSignal this "textChanged" c_ListenerQString
   ]
 
 e_EchoMode =

@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (
   cppopModule,
   qtModule,
@@ -18,7 +16,6 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerPtrQAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
 
 cppopModule = makeCppopModule "Widgets" "QMenuBar" qtModule
 
@@ -33,32 +30,32 @@ c_QMenuBar =
   addReqIncludes [includeStd "QMenuBar"] $
   makeClass (ident "QMenuBar") Nothing
   [ c_QWidget ]
-  [ _mkCtor "new" [TPtr $ TObj c_QWidget]
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" [TPtr $ TObj c_QWidget]
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
   ] $
-  [ _mkConstMethod "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction
-  , _mkConstMethod "actionGeometry" [TPtr $ TObj c_QAction] $ TObj c_QRect
-  , _mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
-  , _mkMethod' "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
+  [ mkConstMethod this "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction
+  , mkConstMethod this "actionGeometry" [TPtr $ TObj c_QAction] $ TObj c_QRect
+  , mkMethod' this "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
+  , mkMethod' this "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
     -- TODO addNewActionWithIcon and connecting forms
-  , _mkMethod' "addMenu" "addMenu" [TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
-  , _mkMethod' "addMenu" "addNewMenu" [TObj c_QString] $ TPtr $ TObj c_QMenu
+  , mkMethod' this "addMenu" "addMenu" [TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
+  , mkMethod' this "addMenu" "addNewMenu" [TObj c_QString] $ TPtr $ TObj c_QMenu
     -- TODO addNewMenuWithIcon
-  , _mkMethod "addSeparator" [] $ TPtr $ TObj c_QAction
-  , _mkMethod "clear" [] TVoid
-  , _mkConstMethod "cornerWidget" [TEnum e_Corner] $ TPtr $ TObj c_QWidget
-  , _mkMethod "insertMenu" [TPtr $ TObj c_QAction, TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
-  , _mkMethod "insertSeparator" [TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
-  , _mkMethod "setCornerWidget" [TPtr $ TObj c_QWidget, TEnum e_Corner] TVoid
+  , mkMethod this "addSeparator" [] $ TPtr $ TObj c_QAction
+  , mkMethod this "clear" [] TVoid
+  , mkConstMethod this "cornerWidget" [TEnum e_Corner] $ TPtr $ TObj c_QWidget
+  , mkMethod this "insertMenu" [TPtr $ TObj c_QAction, TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
+  , mkMethod this "insertSeparator" [TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
+  , mkMethod this "setCornerWidget" [TPtr $ TObj c_QWidget, TEnum e_Corner] TVoid
   ] ++
-  (_props . collect)
-  [ just $ _mkProp "activeAction" $ TPtr $ TObj c_QAction
-  , test wsWince $ _mkProp "defaultAction" $ TPtr $ TObj c_QAction
-  , just $ _mkBoolIsProp "defaultUp"
-  , just $ _mkBoolIsProp "nativeMenuBar"
+  (mkProps . collect)
+  [ just $ mkProp this "activeAction" $ TPtr $ TObj c_QAction
+  , test wsWince $ mkProp this "defaultAction" $ TPtr $ TObj c_QAction
+  , just $ mkBoolIsProp this "defaultUp"
+  , just $ mkBoolIsProp this "nativeMenuBar"
   ]
 
 signals =
-  [ _mkSignal "hovered" c_ListenerPtrQAction
-  , _mkSignal "triggered" c_ListenerPtrQAction
+  [ makeSignal this "hovered" c_ListenerPtrQAction
+  , makeSignal this "triggered" c_ListenerPtrQAction
   ]

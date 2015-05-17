@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Core.QString (
   cppopModule,
   qtModule,
@@ -16,7 +14,8 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyCon),
   )
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Core" "QString" qtModule
 
@@ -41,7 +40,7 @@ c_QString =
              }
            }) $
   makeClass (ident "QString") Nothing []
-  [ _mkCtor "newFromCString" [TPtr $ TConst TChar]
+  [ mkCtor this "newFromCString" [TPtr $ TConst TChar]
   ]
-  [ _mkConstMethod "toStdString" [] $ TObj c_std__string
+  [ mkConstMethod this "toStdString" [] $ TObj c_std__string
   ]

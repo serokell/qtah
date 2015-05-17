@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
   cppopModule,
   qtModule,
@@ -16,7 +14,8 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyCon),
   )
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Core" "QSize" qtModule
 
@@ -53,18 +52,18 @@ c_QSize =
              }
            }) $
   makeClass (ident "QSize") Nothing []
-  [ _mkCtor "newNull" []
-  , _mkCtor "new" [TInt, TInt]
+  [ mkCtor this "newNull" []
+  , mkCtor this "new" [TInt, TInt]
   ] $
-  [ _mkConstMethod "boundedTo" [TObj c_QSize] $ TObj c_QSize
-  , _mkConstMethod "expandedTo" [TObj c_QSize] $ TObj c_QSize
-  , _mkConstMethod "isEmpty" [] TBool
-  , _mkConstMethod "isNull" [] TBool
-  , _mkConstMethod "isValid" [] TBool
-  , _mkMethod "scale" [TObj c_QSize, TEnum e_AspectRatioMode] TVoid
-  , _mkMethod "transpose" [] TVoid
+  [ mkConstMethod this "boundedTo" [TObj c_QSize] $ TObj c_QSize
+  , mkConstMethod this "expandedTo" [TObj c_QSize] $ TObj c_QSize
+  , mkConstMethod this "isEmpty" [] TBool
+  , mkConstMethod this "isNull" [] TBool
+  , mkConstMethod this "isValid" [] TBool
+  , mkMethod this "scale" [TObj c_QSize, TEnum e_AspectRatioMode] TVoid
+  , mkMethod this "transpose" [] TVoid
   ] ++
-  _props
-  [ _mkProp "height" TInt
-  , _mkProp "width" TInt
+  mkProps
+  [ mkProp this "height" TInt
+  , mkProp this "width" TInt
   ]

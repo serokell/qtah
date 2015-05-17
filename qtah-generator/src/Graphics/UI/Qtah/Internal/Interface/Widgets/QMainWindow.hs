@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow (
   cppopModule,
   qtModule,
@@ -12,7 +10,8 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQSize)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (c_QMenuBar)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QMainWindow" qtModule
 
@@ -26,15 +25,15 @@ this = c_QMainWindow
 c_QMainWindow =
   addReqIncludes [includeStd "QMainWindow"] $
   makeClass (ident "QMainWindow") Nothing [c_QWidget]
-  [ _mkCtor "new" []
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" []
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
   ] $
   [ -- TODO addDockWidget
     -- TODO addToolBar
     -- TODO addToolBarBreak
     -- TODO corner
-    _mkMethod "createPopupMenu" [] $ TPtr $ TObj c_QMenu
+    mkMethod this "createPopupMenu" [] $ TPtr $ TObj c_QMenu
     -- TODO dockWidgetArea
     -- TODO insertToolBar
     -- TODO insertToolBarBreak
@@ -52,22 +51,22 @@ c_QMainWindow =
     -- TODO toolBarArea
     -- TODO toolBarBreak
   ] ++
-  _props
-  [ _mkBoolIsProp "animated"
-  , _mkProp "centralWidget" $ TPtr $ TObj c_QWidget
-  , _mkBoolIsProp "dockNestingEnabled"
+  mkProps
+  [ mkBoolIsProp this "animated"
+  , mkProp this "centralWidget" $ TPtr $ TObj c_QWidget
+  , mkBoolIsProp this "dockNestingEnabled"
     -- TODO dockOptions
-  , _mkProp "documentMode" TBool
-  , _mkProp "iconSize" $ TObj c_QSize
-  , _mkProp "menuBar" $ TPtr $ TObj c_QMenuBar
-  , _mkProp "menuWidget" $ TPtr $ TObj c_QWidget
+  , mkProp this "documentMode" TBool
+  , mkProp this "iconSize" $ TObj c_QSize
+  , mkProp this "menuBar" $ TPtr $ TObj c_QMenuBar
+  , mkProp this "menuWidget" $ TPtr $ TObj c_QWidget
     -- TODO statusBar
     -- TODO tabShape
     -- TODO toolButtonStyle
-  , _mkProp "unifiedTitleAndToolBarOnMac" TBool
+  , mkProp this "unifiedTitleAndToolBarOnMac" TBool
   ]
 
 signals =
-  [ _mkSignal "iconSizeChanged" c_ListenerQSize
+  [ makeSignal this "iconSizeChanged" c_ListenerQSize
     -- TODO toolButtonStyleChanged
   ]

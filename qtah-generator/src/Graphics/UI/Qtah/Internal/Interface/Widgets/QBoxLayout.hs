@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (
   cppopModule,
   qtModule,
@@ -11,7 +9,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QBoxLayout" qtModule
 
@@ -26,36 +25,36 @@ this = c_QBoxLayout
 c_QBoxLayout =
   addReqIncludes [includeStd "QBoxLayout"] $
   makeClass (ident "QBoxLayout") Nothing [c_QLayout]
-  [ _mkCtor "new" [TEnum e_Direction]
-  , _mkCtor "newWithParent" [TEnum e_Direction, TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" [TEnum e_Direction]
+  , mkCtor this "newWithParent" [TEnum e_Direction, TPtr $ TObj c_QWidget]
   ] $
-  [ _mkMethod' "addLayout" "addLayout" [TPtr $ TObj c_QLayout] TVoid
-  , _mkMethod' "addLayout" "addLayoutWithStretch" [TPtr $ TObj c_QLayout, TInt] TVoid
-  , _mkMethod "addSpacing" [TInt] TVoid
-  , _mkMethod' "addStretch" "addStretch" [] TVoid
-  , _mkMethod' "addStretch" "addStretchOf" [TInt] TVoid
-  , _mkMethod "addStrut" [TInt] TVoid
-  , _mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , _mkMethod' "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
-  , _mkMethod' "addWidget" "addWidgetWithStretchAndAlignment"
+  [ mkMethod' this "addLayout" "addLayout" [TPtr $ TObj c_QLayout] TVoid
+  , mkMethod' this "addLayout" "addLayoutWithStretch" [TPtr $ TObj c_QLayout, TInt] TVoid
+  , mkMethod this "addSpacing" [TInt] TVoid
+  , mkMethod' this "addStretch" "addStretch" [] TVoid
+  , mkMethod' this "addStretch" "addStretchOf" [TInt] TVoid
+  , mkMethod this "addStrut" [TInt] TVoid
+  , mkMethod' this "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  , mkMethod' this "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
+  , mkMethod' this "addWidget" "addWidgetWithStretchAndAlignment"
     [TPtr $ TObj c_QWidget, TInt, TEnum e_Alignment] TVoid
-  , _mkMethod' "insertLayout" "insertLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
-  , _mkMethod' "insertLayout" "insertLayoutWithStretch" [TInt, TPtr $ TObj c_QLayout, TInt] TVoid
+  , mkMethod' this "insertLayout" "insertLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
+  , mkMethod' this "insertLayout" "insertLayoutWithStretch" [TInt, TPtr $ TObj c_QLayout, TInt] TVoid
     -- TODO insertSpacerItem
-  , _mkMethod "insertSpacing" [TInt, TInt] TVoid
-  , _mkMethod' "insertStretch" "insertStretch" [TInt] TVoid
-  , _mkMethod' "insertStretch" "insertStretchOf" [TInt, TInt] TVoid
-  , _mkMethod' "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , _mkMethod' "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
-  , _mkMethod' "insertWidget" "insertWidgetWithStretchAndAlignment"
+  , mkMethod this "insertSpacing" [TInt, TInt] TVoid
+  , mkMethod' this "insertStretch" "insertStretch" [TInt] TVoid
+  , mkMethod' this "insertStretch" "insertStretchOf" [TInt, TInt] TVoid
+  , mkMethod' this "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
+  , mkMethod' this "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
+  , mkMethod' this "insertWidget" "insertWidgetWithStretchAndAlignment"
     [TInt, TPtr $ TObj c_QWidget, TInt, TEnum e_Alignment] TVoid
-  , _mkMethod "setStretch" [TInt, TInt] TVoid
-  , _mkMethod' "setStretchFactor" "setWidgetStretchFactor" [TPtr $ TObj c_QWidget, TInt] TBool
-  , _mkMethod' "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool
+  , mkMethod this "setStretch" [TInt, TInt] TVoid
+  , mkMethod' this "setStretchFactor" "setWidgetStretchFactor" [TPtr $ TObj c_QWidget, TInt] TBool
+  , mkMethod' this "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool
   ] ++
-  _props
-  [ _mkProp "direction" $ TEnum e_Direction
-  , _mkProp "spacing" TInt
+  mkProps
+  [ mkProp this "direction" $ TEnum e_Direction
+  , mkProp this "spacing" TInt
   ]
 
 e_Direction =

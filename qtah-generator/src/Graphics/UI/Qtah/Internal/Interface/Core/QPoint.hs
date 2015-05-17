@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
   cppopModule,
   qtModule,
@@ -15,7 +13,8 @@ import Language.Haskell.Syntax (
   HsQName (UnQual),
   HsType (HsTyCon),
   )
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Core" "QPoint" qtModule
 
@@ -52,13 +51,13 @@ c_QPoint =
              }
            }) $
   makeClass (ident "QPoint") Nothing []
-  [ _mkCtor "newNull" []
-  , _mkCtor "new" [TInt, TInt]
+  [ mkCtor this "newNull" []
+  , mkCtor this "new" [TInt, TInt]
   ] $
-  [ _mkConstMethod "isNull" [] TBool
-  , _mkConstMethod "manhattanLength" [] TInt
+  [ mkConstMethod this "isNull" [] TBool
+  , mkConstMethod this "manhattanLength" [] TInt
   ] ++
-  _props
-  [ _mkProp "x" TInt
-  , _mkProp "y" TInt
+  mkProps
+  [ mkProp this "x" TInt
+  , mkProp this "y" TInt
   ]

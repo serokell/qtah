@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton (
   cppopModule,
   qtModule,
@@ -11,7 +9,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QPushButton" qtModule
 
@@ -25,17 +24,17 @@ c_QPushButton =
   addReqIncludes [includeStd "QPushButton"] $
   makeClass (ident "QPushButton") Nothing
   [ c_QAbstractButton ]
-  [ _mkCtor "new" []
-  , _mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , _mkCtor "newWithText" [TObj c_QString]
-  , _mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" []
+  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor this "newWithText" [TObj c_QString]
+  , mkCtor this "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
     -- TODO Ctors with QIcon.
   ] $
-  [ _mkMethod "showMenu" [] TVoid
+  [ mkMethod this "showMenu" [] TVoid
   ] ++
-  _props
-  [ _mkProp "autoDefault" TBool
-  , _mkBoolIsProp "default"
-  , _mkBoolIsProp "flat"
-  , _mkProp "menu" $ TPtr $ TObj c_QMenu
+  mkProps
+  [ mkProp this "autoDefault" TBool
+  , mkBoolIsProp this "default"
+  , mkBoolIsProp this "flat"
+  , mkProp this "menu" $ TPtr $ TObj c_QMenu
   ]

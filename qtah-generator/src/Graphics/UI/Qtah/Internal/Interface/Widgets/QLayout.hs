@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (
   cppopModule,
   qtModule,
@@ -15,7 +13,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (c_QLayoutItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-#include "../Mk.hs.inc"
+
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule = makeCppopModule "Widgets" "QLayout" qtModule
 
@@ -31,30 +30,30 @@ c_QLayout =
   addReqIncludes [includeStd "QLayout"] $
   makeClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
   [] $  -- Abstract.
-  [ _mkMethod "activate" [] TBool
-  , _mkMethod "addItem" [TPtr $ TObj c_QLayoutItem] TVoid
-  , _mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , _mkStaticMethod "closestAcceptableSize" [TPtr $ TObj c_QWidget, TObj c_QSize] $ TObj c_QSize
-  , _mkConstMethod "contentsMargins" [] $ TObj c_QMargins
-  , _mkConstMethod "contentsRect" [] $ TObj c_QRect
-  , _mkConstMethod "count" [] TInt
-  , _mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , _mkConstMethod "itemAt" [TInt] $ TPtr $ TObj c_QLayoutItem
-  , _mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
-  , _mkMethod "removeItem" [TPtr $ TObj c_QLayoutItem] TVoid
-  , _mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
-  , _mkMethod' "setAlignment" "setAlignment" [TEnum e_Alignment] TVoid
-  , _mkMethod' "setAlignment" "setLayoutAlignment" [TPtr $ TObj c_QLayout, TEnum e_Alignment] TBool
-  , _mkMethod' "setAlignment" "setWidgetAlignment" [TPtr $ TObj c_QWidget, TEnum e_Alignment] TBool
-  , _mkMethod "setContentsMargins" [TObj c_QMargins] TVoid
-  , _mkMethod "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
-  , _mkMethod "update" [] TVoid
+  [ mkMethod this "activate" [] TBool
+  , mkMethod this "addItem" [TPtr $ TObj c_QLayoutItem] TVoid
+  , mkMethod this "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  , mkStaticMethod this "closestAcceptableSize" [TPtr $ TObj c_QWidget, TObj c_QSize] $ TObj c_QSize
+  , mkConstMethod this "contentsMargins" [] $ TObj c_QMargins
+  , mkConstMethod this "contentsRect" [] $ TObj c_QRect
+  , mkConstMethod this "count" [] TInt
+  , mkConstMethod this "indexOf" [TPtr $ TObj c_QWidget] TInt
+  , mkConstMethod this "itemAt" [TInt] $ TPtr $ TObj c_QLayoutItem
+  , mkConstMethod this "parentWidget" [] $ TPtr $ TObj c_QWidget
+  , mkMethod this "removeItem" [TPtr $ TObj c_QLayoutItem] TVoid
+  , mkMethod this "removeWidget" [TPtr $ TObj c_QWidget] TVoid
+  , mkMethod' this "setAlignment" "setAlignment" [TEnum e_Alignment] TVoid
+  , mkMethod' this "setAlignment" "setLayoutAlignment" [TPtr $ TObj c_QLayout, TEnum e_Alignment] TBool
+  , mkMethod' this "setAlignment" "setWidgetAlignment" [TPtr $ TObj c_QWidget, TEnum e_Alignment] TBool
+  , mkMethod this "setContentsMargins" [TObj c_QMargins] TVoid
+  , mkMethod this "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
+  , mkMethod this "update" [] TVoid
   ] ++
-  _props
-  [ _mkBoolIsProp "enabled"
-  , _mkProp "menuBar" $ TPtr $ TObj c_QWidget
-  , _mkProp "sizeConstraint" $ TEnum e_SizeConstraint
-  , _mkProp "spacing" TInt
+  mkProps
+  [ mkBoolIsProp this "enabled"
+  , mkProp this "menuBar" $ TPtr $ TObj c_QWidget
+  , mkProp this "sizeConstraint" $ TEnum e_SizeConstraint
+  , mkProp this "spacing" TInt
   ]
 
 e_SizeConstraint =
