@@ -4,6 +4,15 @@ set -euo pipefail
 declare -r projectDir="$(dirname "$(dirname "$(realpath "$0")")")"
 . "$projectDir/common.sh"
 
+installGen() {
+    local src="${1:?}" dest="${2:?}"
+    if cmp -s "$src" "$dest"; then
+        rm "$src"
+    else
+        mv "$src" "$dest"
+    fi
+}
+
 forEachListener() {
     local fn="${1:?forEachListener requires the name of a function to call.}"
 
@@ -24,8 +33,8 @@ forEachListener() {
 echo
 msg "Generating C++ listener classes."
 exec \
-    {fhpp}>"$projectDir/qtah/cpp/listener.hpp" \
-    {fcpp}>"$projectDir/qtah/cpp/listener.cpp"
+    {fhpp}>"$projectDir/qtah/cpp/listener.hpp.new" \
+    {fcpp}>"$projectDir/qtah/cpp/listener.cpp.new"
 sayHpp() { echo "$*" >&$fhpp; }
 sayCpp() { echo "$*" >&$fcpp; }
 
@@ -109,12 +118,14 @@ sayHpp
 sayHpp '#endif'
 exec {fhpp}>&- {fcpp}>&-
 unset fhpp fcpp sayHpp sayCpp writeCpp
+installGen "$projectDir/qtah/cpp/listener.hpp"{.new,}
+installGen "$projectDir/qtah/cpp/listener.cpp"{.new,}
 
 #### Generate Haskell binding definitions for the listeners.
 
 echo
 msg "Generating Haskell listener binding definitions."
-exec {fhs}>"$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs"
+exec {fhs}>"$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs.new"
 say() { echo "$*" >&$fhs; }
 
 say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
@@ -172,12 +183,13 @@ say "qmods_Listener = []"
 
 exec {fhs}>&-
 unset fhs writeHs
+installGen "$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs"{.new,}
 
 #### Generate a GHC .hs-boot file for cycles in the module graph around listeners.
 
 echo
 msg "Generating Haskell listener .hs-boot file."
-exec {fhs}>"$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot"
+exec {fhs}>"$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot.new"
 say() { echo "$*" >&$fhs; }
 
 say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
@@ -198,3 +210,4 @@ forEachListener writeHs
 
 exec {fhs}>&-
 unset fhs writeHs
+installGen "$projectDir/qtah-generator/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot"{.new,}
