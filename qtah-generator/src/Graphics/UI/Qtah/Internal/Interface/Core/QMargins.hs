@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QMargins (
+  cppopModule,
   qtModule,
   c_QMargins,
   ) where
@@ -15,7 +16,14 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QMargins []
+cppopModule =
+  modifyModule' (makeModule "qmargins" "gen_qmargins.hpp" "gen_qmargins.cpp") $ do
+    addModuleHaskellName ["Core", "QMargins"]
+    addModuleExports exports
+
+qtModule = makeQtModule "Core.QMargins" $ map QtExport exports
+
+exports = [ExportClass c_QMargins]
 
 this = c_QMargins
 
@@ -35,14 +43,14 @@ c_QMargins =
              , haskellEncodingDecoder = "HMargins.decodeInternal"
              , haskellEncodingEncoder = "HMargins.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HMargins as HMargins"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HMargins as HMargins"
              , haskellEncodingCTypeImports =
                S.fromList
                [ "qualified Foreign as QtahF"
                , "qualified Foreign.C as QtahFC"
                ]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HMargins as HMargins"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HMargins as HMargins"
              }
            }) $
   makeClass (ident "QMargins") Nothing []

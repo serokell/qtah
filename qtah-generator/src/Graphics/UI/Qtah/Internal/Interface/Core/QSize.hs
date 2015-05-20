@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
+  cppopModule,
   qtModule,
   c_QSize,
   ) where
@@ -8,7 +9,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
 import qualified Data.Set as S
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_AspectRatioMode)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_AspectRatioMode)
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -16,7 +17,14 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QSize []
+cppopModule =
+  modifyModule' (makeModule "qsize" "gen_qsize.hpp" "gen_qsize.cpp") $ do
+    addModuleHaskellName ["Core", "QSize"]
+    addModuleExports exports
+
+qtModule = makeQtModule "Core.QSize" $ map QtExport exports
+
+exports = [ExportClass c_QSize]
 
 this = c_QSize
 
@@ -36,14 +44,14 @@ c_QSize =
              , haskellEncodingDecoder = "HSize.decodeInternal"
              , haskellEncodingEncoder = "HSize.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HSize as HSize"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HSize as HSize"
              , haskellEncodingCTypeImports =
                S.fromList
                [ "qualified Foreign as QtahF"
                , "qualified Foreign.C as QtahFC"
                ]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HSize as HSize"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HSize as HSize"
              }
            }) $
   makeClass (ident "QSize") Nothing []

@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.Internal.Interface.Core (mod_Core, qmods_Core) where
+module Graphics.UI.Qtah.Internal.Interface.Core (mods_Core) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -9,20 +9,18 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Core.QPoint as QPoint
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QRect as QRect
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QSize as QSize
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QString as QString
+import qualified Graphics.UI.Qtah.Internal.Interface.Core.Types as Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-mod_Core :: Module
-mod_Core = modifyModule' (makeModule "core" "core.hpp" "core.cpp") $
-  addModuleExports $ concatMap qtModuleExports qmods_Core
-
-qmods_Core :: [QtModule]
-qmods_Core =
-  [ QCoreApplication.qtModule
-  , QMargins.qtModule
-  , QObject.qtModule
-  , QPoint.qtModule
-  , QRect.qtModule
-  , QSize.qtModule
-  , QString.qtModule
+mods_Core :: [(Module, QtModule)]
+mods_Core =
+  [ (QCoreApplication.cppopModule, QCoreApplication.qtModule)
+  , (QMargins.cppopModule, QMargins.qtModule)
+  , (QObject.cppopModule, QObject.qtModule)
+  , (QPoint.cppopModule, QPoint.qtModule)
+  , (QRect.cppopModule, QRect.qtModule)
+  , (QSize.cppopModule, QSize.qtModule)
+  , (QString.cppopModule, QString.qtModule)
+  , (Types.cppopModule, Types.qtModule)
   ]

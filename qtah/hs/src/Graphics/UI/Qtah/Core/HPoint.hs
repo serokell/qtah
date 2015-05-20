@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.H.HPoint (
+module Graphics.UI.Qtah.Core.HPoint (
   HPoint (..),
   null,
   isNull,

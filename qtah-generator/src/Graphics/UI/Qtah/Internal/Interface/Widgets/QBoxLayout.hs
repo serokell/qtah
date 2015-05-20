@@ -7,14 +7,16 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
 qtModule =
-  makeQtModuleForClass c_QBoxLayout
-  [ QtExport $ ExportEnum e_Direction ]
+  makeQtModule "Widgets.QBoxLayout"
+  [ QtExport $ ExportClass c_QBoxLayout
+  , QtExport $ ExportEnum e_Direction
+  ]
 
 this = c_QBoxLayout
 

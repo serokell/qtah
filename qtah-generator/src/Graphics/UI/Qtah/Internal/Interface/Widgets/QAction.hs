@@ -16,7 +16,8 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWi
 #include "../Mk.hs.inc"
 
 qtModule =
-  makeQtModuleForClass c_QAction $
+  makeQtModule "Widgets.QAction" $
+  QtExport (ExportClass c_QAction) :
   map QtExportSignal signals ++
   map (QtExport . ExportEnum)
       [ e_ActionEvent

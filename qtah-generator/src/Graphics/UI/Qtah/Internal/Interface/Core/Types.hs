@@ -1,7 +1,7 @@
 -- | Bindings in the top-level @Qt::@ namespace.
-module Graphics.UI.Qtah.Internal.Interface.Qt (
-  mod_Qt,
-  qmods_Qt,
+module Graphics.UI.Qtah.Internal.Interface.Core.Types (
+  cppopModule,
+  qtModule,
   e_Alignment,
   e_AspectRatioMode,
   e_Corner,
@@ -17,11 +17,13 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-mod_Qt = modifyModule' (makeModule "qt" "qt.hpp" "qt.cpp") $
+cppopModule :: Module
+cppopModule = modifyModule' (makeModule "types" "types.hpp" "types.cpp") $ do
+  addModuleHaskellName ["Core", "Types"]
   addModuleExports exports
 
-qmods_Qt :: [QtModule]
-qmods_Qt = [makeQtModule "Qt" $ map QtExport exports]
+qtModule :: QtModule
+qtModule = makeQtModule "Core.Types" $ map QtExport exports
 
 exports :: [Export]
 exports =

@@ -9,12 +9,14 @@ import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QLayoutItem []
+qtModule =
+  makeQtModule "Widgets.QLayoutItem"
+  [ QtExport $ ExportClass c_QLayoutItem ]
 
 this = c_QLayoutItem
 

@@ -15,7 +15,10 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAc
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QMenu $ map QtExportSignal signals
+qtModule =
+  makeQtModule "Widgets.QMenu" $
+  QtExport (ExportClass c_QMenu) :
+  map QtExportSignal signals
 
 this = c_QMenu
 

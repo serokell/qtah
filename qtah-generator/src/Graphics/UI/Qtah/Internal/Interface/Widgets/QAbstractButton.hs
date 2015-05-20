@@ -13,7 +13,10 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerBool)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QAbstractButton $ map QtExportSignal signals
+qtModule =
+  makeQtModule "Widgets.QAbstractButton" $
+  QtExport (ExportClass c_QAbstractButton) :
+  map QtExportSignal signals
 
 this = c_QAbstractButton
 

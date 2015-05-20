@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
+  cppopModule,
   qtModule,
   c_QPoint,
   ) where
@@ -15,7 +16,14 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QPoint []
+cppopModule =
+  modifyModule' (makeModule "qpoint" "gen_qpoint.hpp" "gen_qpoint.cpp") $ do
+    addModuleHaskellName ["Core", "QPoint"]
+    addModuleExports exports
+
+qtModule = makeQtModule "Core.QPoint" $ map QtExport exports
+
+exports = [ExportClass c_QPoint]
 
 this = c_QPoint
 
@@ -35,14 +43,14 @@ c_QPoint =
              , haskellEncodingDecoder = "HPoint.decodeInternal"
              , haskellEncodingEncoder = "HPoint.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HPoint as HPoint"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HPoint as HPoint"
              , haskellEncodingCTypeImports =
                S.fromList
                [ "qualified Foreign as QtahF"
                , "qualified Foreign.C as QtahFC"
                ]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HPoint as HPoint"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HPoint as HPoint"
              }
            }) $
   makeClass (ident "QPoint") Nothing []

@@ -13,7 +13,10 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (c_QMenuBar)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QMainWindow $ map QtExportSignal signals
+qtModule =
+  makeQtModule "Widgets.QMainWindow" $
+  QtExport (ExportClass c_QMainWindow) :
+  map QtExportSignal signals
 
 this = c_QMainWindow
 

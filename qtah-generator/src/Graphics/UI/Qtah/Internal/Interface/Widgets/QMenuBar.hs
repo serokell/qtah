@@ -12,14 +12,17 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Corner)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerPtrQAction)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Corner)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QMenuBar $ map QtExportSignal signals
+qtModule =
+  makeQtModule "Widgets.QMenuBar" $
+  QtExport (ExportClass c_QMenuBar) :
+  map QtExportSignal signals
 
 this = c_QMenuBar
 

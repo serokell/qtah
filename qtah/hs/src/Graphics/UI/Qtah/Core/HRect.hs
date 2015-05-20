@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.H.HRect (
+module Graphics.UI.Qtah.Core.HRect (
   HRect (..),
   null,
   isNull,

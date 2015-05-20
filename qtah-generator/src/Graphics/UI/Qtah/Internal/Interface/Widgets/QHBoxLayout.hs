@@ -10,7 +10,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (c_QBoxLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QHBoxLayout []
+qtModule =
+  makeQtModule "Widgets.QHBoxLayout"
+  [ QtExport $ ExportClass c_QHBoxLayout ]
 
 this = c_QHBoxLayout
 

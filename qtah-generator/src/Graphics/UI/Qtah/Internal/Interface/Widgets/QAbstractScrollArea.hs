@@ -8,11 +8,13 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment, e_ScrollBarPolicy)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_ScrollBarPolicy)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QAbstractScrollArea []
+qtModule =
+  makeQtModule "Widgets.QAbstractScrollArea"
+  [ QtExport $ ExportClass c_QAbstractScrollArea ]
 
 this = c_QAbstractScrollArea
 

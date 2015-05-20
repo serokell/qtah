@@ -12,7 +12,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 this = c_QVBoxLayout
 
-qtModule = makeQtModuleForClass c_QVBoxLayout []
+qtModule =
+  makeQtModule "Widgets.QVBoxLayout"
+  [ QtExport $ ExportClass c_QVBoxLayout ]
 
 c_QVBoxLayout =
   addReqIncludes [includeStd "QVBoxLayout"] $

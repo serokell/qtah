@@ -13,7 +13,10 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerPtrQAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QActionGroup $ map QtExportSignal signals
+qtModule =
+  makeQtModule "Widgets.QActionGroup" $
+  QtExport (ExportClass c_QActionGroup) :
+  map QtExportSignal signals
 
 this = c_QActionGroup
 

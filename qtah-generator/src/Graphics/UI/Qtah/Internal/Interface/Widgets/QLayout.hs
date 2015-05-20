@@ -11,14 +11,15 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (c_QLayoutItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
 qtModule =
-  makeQtModuleForClass c_QLayout
-  [ QtExport $ ExportEnum e_SizeConstraint
+  makeQtModule "Widgets.QLayout"
+  [ QtExport $ ExportClass c_QLayout
+  , QtExport $ ExportEnum e_SizeConstraint
   ]
 
 this = c_QLayout

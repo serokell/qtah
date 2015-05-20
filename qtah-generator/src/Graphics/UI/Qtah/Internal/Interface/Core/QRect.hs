@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QRect (
+  cppopModule,
   qtModule,
   c_QRect,
   ) where
@@ -17,7 +18,14 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QRect []
+cppopModule =
+  modifyModule' (makeModule "qrect" "gen_qrect.hpp" "gen_qrect.cpp") $ do
+    addModuleHaskellName ["Core", "QRect"]
+    addModuleExports exports
+
+qtModule = makeQtModule "Core.QRect" $ map QtExport exports
+
+exports = [ExportClass c_QRect]
 
 this = c_QRect
 
@@ -37,14 +45,14 @@ c_QRect =
              , haskellEncodingDecoder = "HRect.decodeInternal"
              , haskellEncodingEncoder = "HRect.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HRect as HRect"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HRect as HRect"
              , haskellEncodingCTypeImports =
                S.fromList
                [ "qualified Foreign as QtahF"
                , "qualified Foreign.C as QtahFC"
                ]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.H.HRect as HRect"
+               S.singleton "qualified Graphics.UI.Qtah.Core.HRect as HRect"
              }
            }) $
   makeClass (ident "QRect") Nothing []

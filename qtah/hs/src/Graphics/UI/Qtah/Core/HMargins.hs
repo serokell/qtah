@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.H.HMargins (
+module Graphics.UI.Qtah.Core.HMargins (
   HMargins (..),
   null,
   isNull,

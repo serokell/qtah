@@ -71,8 +71,9 @@ import Language.Haskell.Syntax (
   HsQualType (HsQualType),
   HsType (HsTyApp, HsTyCon, HsTyFun, HsTyVar),
   )
+import System.Directory (createDirectoryIfMissing)
 import System.Exit (exitFailure)
-import System.FilePath ((</>), (<.>), pathSeparator)
+import System.FilePath ((</>), (<.>), pathSeparator, takeDirectory)
 
 generateModule :: Interface -> FilePath -> String -> QtModule -> IO ()
 generateModule iface srcDir baseModuleName qtModule = do
@@ -98,6 +99,7 @@ generateModule iface srcDir baseModuleName qtModule = do
             srcDir </>
             map (\c -> if c == '.' then pathSeparator else c) fullModuleName <.>
             "hs"
+      createDirectoryIfMissing True $ takeDirectory path
       writeFileIfDifferent path source
 
 getFnReexportName :: Function -> String

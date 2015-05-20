@@ -10,14 +10,15 @@ import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
 qtModule =
-  makeQtModuleForClass c_QTextEdit $
+  makeQtModule "Widgets.QTextEdit" $
+  QtExport (ExportClass c_QTextEdit) :
   map QtExportSignal signals ++
   [ QtExport $ ExportEnum e_LineWrapMode ]
 

@@ -1,4 +1,5 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QString (
+  cppopModule,
   qtModule,
   c_QString,
   ) where
@@ -15,7 +16,14 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-qtModule = makeQtModuleForClass c_QString []
+cppopModule =
+  modifyModule' (makeModule "qstring" "gen_qstring.hpp" "gen_qstring.cpp") $ do
+    addModuleHaskellName ["Core", "QString"]
+    addModuleExports exports
+
+qtModule = makeQtModule "Core.QString" $ map QtExport exports
+
+exports = [ExportClass c_QString]
 
 c_QString =
   addReqIncludes [includeStd "QString"] $

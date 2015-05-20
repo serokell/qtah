@@ -7,13 +7,16 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_TextFormat)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQString)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_Alignment, e_TextFormat)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QLabel $ map QtExportSignal signals
+qtModule =
+  makeQtModule "Widgets.QLabel" $
+  QtExport (ExportClass c_QLabel) :
+  map QtExportSignal signals
 
 this = c_QLabel
 

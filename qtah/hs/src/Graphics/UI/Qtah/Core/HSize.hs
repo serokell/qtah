@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.H.HSize (
+module Graphics.UI.Qtah.Core.HSize (
   HSize (..),
   null,
   isEmpty,

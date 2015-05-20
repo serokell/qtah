@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
+  cppopModule,
   qtModule,
   c_QObject,
   ) where
@@ -11,7 +12,14 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QObject $ map QtExportSignal signals
+cppopModule =
+  modifyModule' (makeModule "qobject" "gen_qobject.hpp" "gen_qobject.cpp") $ do
+    addModuleHaskellName ["Core", "QObject"]
+    addModuleExports exports
+
+qtModule = makeQtModule "Core.QObject" $ map QtExport exports ++ map QtExportSignal signals
+
+exports = [ExportClass c_QObject]
 
 this = c_QObject
 

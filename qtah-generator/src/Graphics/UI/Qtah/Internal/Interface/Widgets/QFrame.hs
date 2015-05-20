@@ -12,8 +12,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
 qtModule =
-  makeQtModuleForClass c_QFrame
-  [ QtExport $ ExportEnum e_Shadow
+  makeQtModule "Widgets.QFrame"
+  [ QtExport $ ExportClass c_QFrame
+  , QtExport $ ExportEnum e_Shadow
   , QtExport $ ExportEnum e_Shape
   , QtExport $ ExportEnum e_StyleMask
   ]

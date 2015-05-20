@@ -12,13 +12,13 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (c_QCoreApplica
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_LayoutDirection, e_NavigationMode)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerPtrQWidgetPtrQWidget)
-import Graphics.UI.Qtah.Internal.Interface.Qt (e_LayoutDirection, e_NavigationMode)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
 qtModule =
-  makeQtModule "QApplication" $
+  makeQtModule "Widgets.QApplication" $
   [ QtExport $ ExportFn f_QApplication_new
   , QtExport $ ExportClass c_QApplication
   ] ++ map QtExportSignal signals ++

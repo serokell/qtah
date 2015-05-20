@@ -1,5 +1,6 @@
 module Main where
 
+import Control.Arrow (second)
 import Data.Foldable (forM_)
 import Foreign.Cppop.Common (maybeFail)
 import Foreign.Cppop.Generator.Main (Action (GenHaskell), run)
@@ -13,9 +14,8 @@ import Foreign.Cppop.Generator.Std (mod_std)
 import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Callback (mod_Callback, qmods_Callback)
-import Graphics.UI.Qtah.Internal.Interface.Core (mod_Core, qmods_Core)
+import Graphics.UI.Qtah.Internal.Interface.Core (mods_Core)
 import Graphics.UI.Qtah.Internal.Interface.Listener (mod_Listener, qmods_Listener)
-import Graphics.UI.Qtah.Internal.Interface.Qt (mod_Qt, qmods_Qt)
 import Graphics.UI.Qtah.Internal.Interface.Widgets (mod_Widgets, qmods_Widgets)
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
@@ -29,11 +29,9 @@ modules :: [(Module, [QtModule])]
 modules =
   [ (mod_std, [])
   , (mod_Callback, qmods_Callback)
-  , (mod_Core, qmods_Core)
   , (mod_Listener, qmods_Listener)
   , (mod_Widgets, qmods_Widgets)
-  , (mod_Qt, qmods_Qt)
-  ]
+  ] ++ map (second (:[])) mods_Core
 
 interfaceResult :: Either String Interface
 interfaceResult =
@@ -58,7 +56,7 @@ main =
                     findSrcDir path
           forM_ modules $ \(_, qtModules) ->
             forM_ qtModules $ \qm ->
-            generateModule iface srcDir "Graphics.UI.Qtah.Q" qm
+            generateModule iface srcDir "Graphics.UI.Qtah" qm
 
         _ -> return ()
 

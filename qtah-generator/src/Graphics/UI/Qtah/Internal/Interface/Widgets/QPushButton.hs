@@ -12,7 +12,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-qtModule = makeQtModuleForClass c_QPushButton []
+qtModule =
+  makeQtModule "Widgets.QPushButton"
+  [ QtExport $ ExportClass c_QPushButton ]
 
 this = c_QPushButton
 
