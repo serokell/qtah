@@ -4,6 +4,7 @@ module Graphics.UI.Qtah.Internal.Generator.Module (
 
 import Control.Monad (forM_, when)
 import Data.List (find, intersperse, isPrefixOf)
+import Data.Monoid (mconcat)
 import Data.Maybe (isJust)
 import Foreign.Cppop.Common (fromMaybeM, writeFileIfDifferent)
 import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
@@ -12,7 +13,7 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   HsTypeSide (HsHsSide),
   addExport,
   addExports,
-  addImport,
+  addImports,
   abort,
   cppTypeToHsTypeAndUse,
   execGenerator,
@@ -50,6 +51,7 @@ import Foreign.Cppop.Generator.Spec (
   enumExtName,
   fnExtName,
   fromExtName,
+  hsImports,
   methodCName,
   methodExtName,
   toExtName,
@@ -65,6 +67,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types (
   signalCName,
   signalListenerClass,
   )
+import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -85,7 +88,7 @@ generateModule iface srcDir baseModuleName qtModule = do
         execGenerator iface fullModuleName $ do
           -- As in generated Cppop bindings, avoid non-qualified Prelude uses in
           -- generated code here.
-          addImport "Prelude ()"
+          addImports $ hsImports "Prelude" []
 
           -- Generate bindings for all of the exports.
           mapM_ sayQtExport qtExports
@@ -151,8 +154,7 @@ sayClassEncodingFnReexports cls =
   when (isJust $ classHaskellType $ classEncoding cls) $ do
     -- Generated encode and decode functions require some things from Cppop
     -- support and the Prelude.
-    addImport "qualified Foreign.Cppop.Runtime.Support as QtahFCRS"
-    addImport "qualified Prelude as QtahP"
+    addImports $ mconcat [importForPrelude, importForSupport]
 
     hsHsType <-
       fromMaybeM (abort $ "generateModule: Expected a Haskell type for class " ++
@@ -221,7 +223,7 @@ sayQtExport qtExport = case qtExport of
 -- scratch in this module, rather than reexporting it from somewhere else.
 saySignalExport :: Signal -> Generator ()
 saySignalExport signal = do
-  addImport "qualified Graphics.UI.Qtah.Signal as QtahSignal"
+  addImports importForSignal
 
   let name = signalCName signal
       className = toHsClassName Nonconst $ signalClass signal

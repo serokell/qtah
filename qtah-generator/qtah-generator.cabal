@@ -37,6 +37,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QSize
     , Graphics.UI.Qtah.Internal.Interface.Core.QString
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
+    , Graphics.UI.Qtah.Internal.Interface.Imports
     , Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea

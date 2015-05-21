@@ -6,9 +6,10 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QMargins (
   c_QMargins,
   ) where
 
-import qualified Data.Set as S
+import Data.Monoid (mconcat)
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -43,14 +44,10 @@ c_QMargins =
              , haskellEncodingDecoder = "HMargins.decodeInternal"
              , haskellEncodingEncoder = "HMargins.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.Core.HMargins as HMargins"
-             , haskellEncodingCTypeImports =
-               S.fromList
-               [ "qualified Foreign as QtahF"
-               , "qualified Foreign.C as QtahFC"
-               ]
+               hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
+             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.Core.HMargins as HMargins"
+               hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
              }
            }) $
   makeClass (ident "QMargins") Nothing []

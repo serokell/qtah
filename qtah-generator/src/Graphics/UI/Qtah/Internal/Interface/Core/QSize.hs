@@ -6,10 +6,11 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
   c_QSize,
   ) where
 
-import qualified Data.Set as S
+import Data.Monoid (mconcat)
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_AspectRatioMode)
+import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -44,14 +45,10 @@ c_QSize =
              , haskellEncodingDecoder = "HSize.decodeInternal"
              , haskellEncodingEncoder = "HSize.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.Core.HSize as HSize"
-             , haskellEncodingCTypeImports =
-               S.fromList
-               [ "qualified Foreign as QtahF"
-               , "qualified Foreign.C as QtahFC"
-               ]
+               hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
+             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.Core.HSize as HSize"
+               hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
              }
            }) $
   makeClass (ident "QSize") Nothing []

@@ -6,9 +6,10 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
   c_QPoint,
   ) where
 
-import qualified Data.Set as S
+import Data.Monoid (mconcat)
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -43,14 +44,10 @@ c_QPoint =
              , haskellEncodingDecoder = "HPoint.decodeInternal"
              , haskellEncodingEncoder = "HPoint.encodeInternal"
              , haskellEncodingTypeImports =
-               S.singleton "qualified Graphics.UI.Qtah.Core.HPoint as HPoint"
-             , haskellEncodingCTypeImports =
-               S.fromList
-               [ "qualified Foreign as QtahF"
-               , "qualified Foreign.C as QtahFC"
-               ]
+               hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
+             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
              , haskellEncodingFnImports =
-               S.singleton "qualified Graphics.UI.Qtah.Core.HPoint as HPoint"
+               hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
              }
            }) $
   makeClass (ident "QPoint") Nothing []

@@ -4,10 +4,10 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QString (
   c_QString,
   ) where
 
-import qualified Data.Set as S
-import Data.Monoid (mempty)
+import Data.Monoid (mconcat, mempty)
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
@@ -40,13 +40,9 @@ c_QString =
              , haskellEncodingCType = HsTyCon $ UnQual $ HsIdent "QtahFC.CString"
              , haskellEncodingDecoder = "QtahFCRS.decodeAndFreeCString"
              , haskellEncodingEncoder = "QtahFC.newCString"
-             , haskellEncodingTypeImports = S.singleton "qualified Prelude as QtahP"
-             , haskellEncodingCTypeImports = S.singleton "qualified Foreign.C as QtahFC"
-             , haskellEncodingFnImports =
-               S.fromList
-               [ "qualified Foreign.C as QtahFC"
-               , "qualified Foreign.Cppop.Runtime.Support as QtahFCRS"
-               ]
+             , haskellEncodingTypeImports = importForPrelude
+             , haskellEncodingCTypeImports = importForForeignC
+             , haskellEncodingFnImports = mconcat [importForForeignC, importForSupport]
              }
            }) $
   makeClass (ident "QString") Nothing [] [] []
