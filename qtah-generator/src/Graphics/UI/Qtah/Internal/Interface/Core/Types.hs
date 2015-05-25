@@ -8,6 +8,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_CursorMoveStyle,
   e_LayoutDirection,
   e_NavigationMode,
+  e_Orientation,
   e_ScrollBarPolicy,
   e_TextFormat,
   ) where
@@ -31,6 +32,7 @@ exports =
   , ExportEnum e_CursorMoveStyle
   , ExportEnum e_LayoutDirection
   , ExportEnum e_NavigationMode
+  , ExportEnum e_Orientation
   , ExportEnum e_ScrollBarPolicy
   , ExportEnum e_TextFormat
   ]
@@ -85,6 +87,13 @@ e_NavigationMode =
   , (2, ["navigation", "mode", "keypad", "directional"])
   , (3, ["navigation", "mode", "cursor", "auto"])
   , (4, ["navigation", "mode", "cursor", "force", "visible"])
+  ]
+
+-- TODO Qt::Orientations
+e_Orientation =
+  makeEnum (ident1 "Qt" "Orientation") Nothing
+  [ (1, ["horizontal"])
+  , (2, ["vertical"])
   ]
 
 e_ScrollBarPolicy =

@@ -18,6 +18,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow as QMai
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout as QVBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
@@ -42,6 +43,7 @@ mods_Widgets =
   , (QMenu.cppopModule, QMenu.qtModule)
   , (QMenuBar.cppopModule, QMenuBar.qtModule)
   , (QPushButton.cppopModule, QPushButton.qtModule)
+  , (QSplitter.cppopModule, QSplitter.qtModule)
   , (QTextEdit.cppopModule, QTextEdit.qtModule)
   , (QVBoxLayout.cppopModule, QVBoxLayout.qtModule)
   , (QWidget.cppopModule, QWidget.qtModule)
