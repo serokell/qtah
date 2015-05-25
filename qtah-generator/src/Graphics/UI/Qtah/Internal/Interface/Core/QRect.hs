@@ -19,14 +19,11 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-cppopModule =
-  modifyModule' (makeModule "qrect" "gen_qrect.hpp" "gen_qrect.cpp") $ do
-    addModuleHaskellName ["Core", "QRect"]
-    addModuleExports exports
+cppopModule = makeCppopModule "Core" "QRect" qtModule
 
-qtModule = makeQtModule "Core.QRect" $ map QtExport exports
-
-exports = [ExportClass c_QRect]
+qtModule =
+  makeQtModule "Core.QRect"
+  [ QtExport $ ExportClass c_QRect ]
 
 this = c_QRect
 

@@ -16,14 +16,11 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule =
-  modifyModule' (makeModule "qstring" "gen_qstring.hpp" "gen_qstring.cpp") $ do
-    addModuleHaskellName ["Core", "QString"]
-    addModuleExports exports
+cppopModule = makeCppopModule "Core" "QString" qtModule
 
-qtModule = makeQtModule "Core.QString" $ map QtExport exports
-
-exports = [ExportClass c_QString]
+qtModule =
+  makeQtModule "Core.QString"
+  [ QtExport $ ExportClass c_QString ]
 
 c_QString =
   addReqIncludes [includeStd "QString"] $

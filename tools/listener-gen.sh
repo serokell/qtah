@@ -164,7 +164,7 @@ say
 say "mod_Listener :: S.Module"
 say "mod_Listener ="
 say "  S.addReqIncludes [S.includeLocal \"listener.hpp\"] \$"
-say "  S.modifyModule' (S.makeModule \"listener\" \"listener-bindings.hpp\" \"listener-bindings.cpp\") \$"
+say "  S.modifyModule' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$"
 say "  S.addModuleExports"
 cont="["
 writeHs() {

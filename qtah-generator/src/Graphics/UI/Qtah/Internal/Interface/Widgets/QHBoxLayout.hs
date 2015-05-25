@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout (
+  cppopModule,
   qtModule,
   ) where
 
@@ -9,6 +10,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (c_QBoxLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QHBoxLayout" qtModule
 
 qtModule =
   makeQtModule "Widgets.QHBoxLayout"

@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (
+  cppopModule,
   qtModule,
   c_QWidget,
   ) where
@@ -20,6 +21,8 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQPoint)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QWidget" qtModule
 
 qtModule =
   makeQtModule "Widgets.QWidget" $

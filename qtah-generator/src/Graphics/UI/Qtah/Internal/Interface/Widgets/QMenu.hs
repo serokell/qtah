@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (
+  cppopModule,
   qtModule,
   c_QMenu,
   ) where
@@ -14,6 +15,8 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerPtrQA
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QMenu" qtModule
 
 qtModule =
   makeQtModule "Widgets.QMenu" $

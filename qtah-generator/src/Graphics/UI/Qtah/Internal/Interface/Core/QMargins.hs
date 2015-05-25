@@ -17,14 +17,11 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-cppopModule =
-  modifyModule' (makeModule "qmargins" "gen_qmargins.hpp" "gen_qmargins.cpp") $ do
-    addModuleHaskellName ["Core", "QMargins"]
-    addModuleExports exports
+cppopModule = makeCppopModule "Core" "QMargins" qtModule
 
-qtModule = makeQtModule "Core.QMargins" $ map QtExport exports
-
-exports = [ExportClass c_QMargins]
+qtModule =
+  makeQtModule "Core.QMargins"
+  [ QtExport $ ExportClass c_QMargins ]
 
 this = c_QMargins
 

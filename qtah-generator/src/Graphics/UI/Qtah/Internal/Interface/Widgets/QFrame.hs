@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (
+  cppopModule,
   qtModule,
   c_QFrame,
   ) where
@@ -10,6 +11,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QFrame" qtModule
 
 qtModule =
   makeQtModule "Widgets.QFrame"

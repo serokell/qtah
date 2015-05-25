@@ -11,7 +11,7 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWi
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 mod_Callback =
-  modifyModule' (makeModule "callback" "callback.hpp" "callback.cpp") $
+  modifyModule' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
   addModuleExports
   [ ExportCallback cb_BoolVoid
   , ExportCallback cb_IntIntVoid

@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (
+  cppopModule,
   qtModule,
   c_QAbstractScrollArea,
   ) where
@@ -11,6 +12,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_ScrollBarPolicy)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QAbstractScrollArea" qtModule
 
 qtModule =
   makeQtModule "Widgets.QAbstractScrollArea"

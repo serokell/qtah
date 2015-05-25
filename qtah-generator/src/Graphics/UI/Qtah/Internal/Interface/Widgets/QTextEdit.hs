@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit (
+  cppopModule,
   qtModule,
   ) where
 
@@ -15,6 +16,8 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (c_QAbstr
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QTextEdit" qtModule
 
 qtModule =
   makeQtModule "Widgets.QTextEdit" $

@@ -9,14 +9,17 @@ import Foreign.Cppop.Generator.Spec (
   Module,
   addInterfaceHaskellModuleBase,
   interface,
+  modifyModule',
+  setModuleCppPath,
+  setModuleHppPath,
   )
-import Foreign.Cppop.Generator.Std (mod_std)
+import qualified Foreign.Cppop.Generator.Std as Std
 import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Callback (mod_Callback, qmods_Callback)
 import Graphics.UI.Qtah.Internal.Interface.Core (mods_Core)
 import Graphics.UI.Qtah.Internal.Interface.Listener (mod_Listener, qmods_Listener)
-import Graphics.UI.Qtah.Internal.Interface.Widgets (mod_Widgets, qmods_Widgets)
+import Graphics.UI.Qtah.Internal.Interface.Widgets (mods_Widgets)
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import System.FilePath (
@@ -25,13 +28,17 @@ import System.FilePath (
   takeFileName,
   )
 
+mod_std :: Module
+mod_std = modifyModule' Std.mod_std $ do
+  setModuleHppPath "b_std.hpp"
+  setModuleCppPath "b_std.cpp"
+
 modules :: [(Module, [QtModule])]
 modules =
   [ (mod_std, [])
   , (mod_Callback, qmods_Callback)
   , (mod_Listener, qmods_Listener)
-  , (mod_Widgets, qmods_Widgets)
-  ] ++ map (second (:[])) mods_Core
+  ] ++ map (second (:[])) (mods_Core ++ mods_Widgets)
 
 interfaceResult :: Either String Interface
 interfaceResult =

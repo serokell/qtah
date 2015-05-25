@@ -10,14 +10,11 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule =
-  modifyModule' (makeModule "qcoreapplication" "gen_qcoreapplication.hpp" "gen_qcoreapplication.cpp") $ do
-    addModuleHaskellName ["Core", "QCoreApplication"]
-    addModuleExports exports
+cppopModule = makeCppopModule "Core" "QCoreApplication" qtModule
 
-qtModule = makeQtModule "Core.QCoreApplication" $ map QtExport exports
-
-exports = [ExportClass c_QCoreApplication]
+qtModule =
+  makeQtModule "Core.QCoreApplication"
+  [ QtExport $ ExportClass c_QCoreApplication ]
 
 c_QCoreApplication =
   addReqIncludes [includeStd "QCoreApplication"] $

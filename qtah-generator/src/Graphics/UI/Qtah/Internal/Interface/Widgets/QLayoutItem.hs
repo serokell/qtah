@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (
+  cppopModule,
   qtModule,
   c_QLayoutItem,
   ) where
@@ -13,6 +14,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QLayoutItem" qtModule
 
 qtModule =
   makeQtModule "Widgets.QLayoutItem"

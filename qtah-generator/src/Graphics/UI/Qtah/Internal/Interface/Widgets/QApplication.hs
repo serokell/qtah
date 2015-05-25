@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication (
+  cppopModule,
   qtModule,
   ) where
 
@@ -16,6 +17,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_LayoutDirection, e_Navi
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerPtrQWidgetPtrQWidget)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QApplication" qtModule
 
 qtModule =
   makeQtModule "Widgets.QApplication" $

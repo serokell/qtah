@@ -18,14 +18,11 @@ import Language.Haskell.Syntax (
   )
 #include "../Mk.hs.inc"
 
-cppopModule =
-  modifyModule' (makeModule "qsize" "gen_qsize.hpp" "gen_qsize.cpp") $ do
-    addModuleHaskellName ["Core", "QSize"]
-    addModuleExports exports
+cppopModule = makeCppopModule "Core" "QSize" qtModule
 
-qtModule = makeQtModule "Core.QSize" $ map QtExport exports
-
-exports = [ExportClass c_QSize]
+qtModule =
+  makeQtModule "Core.QSize"
+  [ QtExport $ ExportClass c_QSize ]
 
 this = c_QSize
 

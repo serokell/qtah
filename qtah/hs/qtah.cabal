@@ -27,6 +27,9 @@ library
     , Graphics.UI.Qtah.Core.QSize
     , Graphics.UI.Qtah.Core.QString
     , Graphics.UI.Qtah.Core.Types
+    -- TODO This should not be exposed directly, but there is no nice interface
+    -- to it right now.
+    , Graphics.UI.Qtah.Generated.Std
     , Graphics.UI.Qtah.Signal
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
@@ -58,8 +61,25 @@ library
     , Graphics.UI.Qtah.Generated.Core.QString
     , Graphics.UI.Qtah.Generated.Core.Types
     , Graphics.UI.Qtah.Generated.Listener
-    , Graphics.UI.Qtah.Generated.Std
-    , Graphics.UI.Qtah.Generated.Widgets
+    , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
+    , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea
+    , Graphics.UI.Qtah.Generated.Widgets.QAction
+    , Graphics.UI.Qtah.Generated.Widgets.QActionGroup
+    , Graphics.UI.Qtah.Generated.Widgets.QApplication
+    , Graphics.UI.Qtah.Generated.Widgets.QBoxLayout
+    , Graphics.UI.Qtah.Generated.Widgets.QFrame
+    , Graphics.UI.Qtah.Generated.Widgets.QHBoxLayout
+    , Graphics.UI.Qtah.Generated.Widgets.QLabel
+    , Graphics.UI.Qtah.Generated.Widgets.QLayout
+    , Graphics.UI.Qtah.Generated.Widgets.QLayoutItem
+    , Graphics.UI.Qtah.Generated.Widgets.QLineEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QMainWindow
+    , Graphics.UI.Qtah.Generated.Widgets.QMenu
+    , Graphics.UI.Qtah.Generated.Widgets.QMenuBar
+    , Graphics.UI.Qtah.Generated.Widgets.QPushButton
+    , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
+    , Graphics.UI.Qtah.Generated.Widgets.QWidget
   other-extensions:
       NoMonomorphismRestriction
   build-depends:

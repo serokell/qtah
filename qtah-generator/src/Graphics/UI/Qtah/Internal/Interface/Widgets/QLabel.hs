@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
+  cppopModule,
   qtModule,
   ) where
 
@@ -12,6 +13,8 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QLabel" qtModule
 
 qtModule =
   makeQtModule "Widgets.QLabel" $

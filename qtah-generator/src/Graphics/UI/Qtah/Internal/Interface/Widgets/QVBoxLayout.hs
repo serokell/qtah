@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout (
+  cppopModule,
   qtModule,
   ) where
 
@@ -10,11 +11,13 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (c_QBoxLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
 
-this = c_QVBoxLayout
+cppopModule = makeCppopModule "Widgets" "QVBoxLayout" qtModule
 
 qtModule =
   makeQtModule "Widgets.QVBoxLayout"
   [ QtExport $ ExportClass c_QVBoxLayout ]
+
+this = c_QVBoxLayout
 
 c_QVBoxLayout =
   addReqIncludes [includeStd "QVBoxLayout"] $

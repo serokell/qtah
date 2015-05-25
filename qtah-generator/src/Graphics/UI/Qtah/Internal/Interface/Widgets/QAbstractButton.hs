@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
+  cppopModule,
   qtModule,
   c_QAbstractButton,
   ) where
@@ -12,6 +13,8 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerBool)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 #include "../Mk.hs.inc"
+
+cppopModule = makeCppopModule "Widgets" "QAbstractButton" qtModule
 
 qtModule =
   makeQtModule "Widgets.QAbstractButton" $

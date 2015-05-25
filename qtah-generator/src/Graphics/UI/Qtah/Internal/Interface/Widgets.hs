@@ -1,4 +1,4 @@
-module Graphics.UI.Qtah.Internal.Interface.Widgets (mod_Widgets, qmods_Widgets) where
+module Graphics.UI.Qtah.Internal.Interface.Widgets (mods_Widgets) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -24,29 +24,25 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-mod_Widgets :: Module
-mod_Widgets = modifyModule' (makeModule "widgets" "widgets.hpp" "widgets.cpp") $
-  addModuleExports $ concatMap qtModuleExports qmods_Widgets
-
-qmods_Widgets :: [QtModule]
-qmods_Widgets =
-  [ QAbstractButton.qtModule
-  , QAbstractScrollArea.qtModule
-  , QApplication.qtModule
-  , QAction.qtModule
-  , QActionGroup.qtModule
-  , QBoxLayout.qtModule
-  , QFrame.qtModule
-  , QHBoxLayout.qtModule
-  , QLabel.qtModule
-  , QLayout.qtModule
-  , QLayoutItem.qtModule
-  , QLineEdit.qtModule
-  , QMainWindow.qtModule
-  , QMenu.qtModule
-  , QMenuBar.qtModule
-  , QPushButton.qtModule
-  , QTextEdit.qtModule
-  , QVBoxLayout.qtModule
-  , QWidget.qtModule
+mods_Widgets :: [(Module, QtModule)]
+mods_Widgets =
+  [ (QAbstractButton.cppopModule, QAbstractButton.qtModule)
+  , (QAbstractScrollArea.cppopModule, QAbstractScrollArea.qtModule)
+  , (QApplication.cppopModule, QApplication.qtModule)
+  , (QAction.cppopModule, QAction.qtModule)
+  , (QActionGroup.cppopModule, QActionGroup.qtModule)
+  , (QBoxLayout.cppopModule, QBoxLayout.qtModule)
+  , (QFrame.cppopModule, QFrame.qtModule)
+  , (QHBoxLayout.cppopModule, QHBoxLayout.qtModule)
+  , (QLabel.cppopModule, QLabel.qtModule)
+  , (QLayout.cppopModule, QLayout.qtModule)
+  , (QLayoutItem.cppopModule, QLayoutItem.qtModule)
+  , (QLineEdit.cppopModule, QLineEdit.qtModule)
+  , (QMainWindow.cppopModule, QMainWindow.qtModule)
+  , (QMenu.cppopModule, QMenu.qtModule)
+  , (QMenuBar.cppopModule, QMenuBar.qtModule)
+  , (QPushButton.cppopModule, QPushButton.qtModule)
+  , (QTextEdit.cppopModule, QTextEdit.qtModule)
+  , (QVBoxLayout.cppopModule, QVBoxLayout.qtModule)
+  , (QWidget.cppopModule, QWidget.qtModule)
   ]

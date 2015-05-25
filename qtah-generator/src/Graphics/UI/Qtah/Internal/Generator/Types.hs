@@ -1,16 +1,28 @@
 module Graphics.UI.Qtah.Internal.Generator.Types (
   moduleNameAppend,
-  QtModule, makeQtModule, makeQtModuleForClass, qtModuleSubname, qtModuleQtExports, qtModuleExports,
+  QtModule,
+  makeCppopModule,
+  makeQtModule,
+  makeQtModuleForClass,
+  qtModuleSubname,
+  qtModuleQtExports,
+  qtModuleExports,
   QtExport (..),
   Signal, makeSignal, signalCName, signalClass, signalListenerClass,
   ) where
 
+import Data.Char (toLower)
 import Data.Maybe (mapMaybe)
 import Foreign.Cppop.Generator.Spec (
   Class,
   Export (ExportClass),
+  Module,
+  addModuleHaskellName,
+  addModuleExports,
   classExtName,
   fromExtName,
+  makeModule,
+  modifyModule',
   )
 
 moduleNameAppend :: String -> String -> String
@@ -30,6 +42,15 @@ data QtModule = QtModule
     -- ^ A list of exports whose generated Cppop bindings will be re-exported in
     -- this module.
   }
+
+makeCppopModule :: String -> String -> QtModule -> Module
+makeCppopModule moduleParentName moduleBaseName qtModule =
+  let lowerBaseName = map toLower moduleBaseName
+  in modifyModule' (makeModule lowerBaseName
+                    (concat ["b_", lowerBaseName, ".hpp"])
+                    (concat ["b_", lowerBaseName, ".cpp"])) $ do
+    addModuleHaskellName [moduleParentName, moduleBaseName]
+    addModuleExports $ qtModuleExports qtModule
 
 makeQtModule :: String -> [QtExport] -> QtModule
 makeQtModule = QtModule

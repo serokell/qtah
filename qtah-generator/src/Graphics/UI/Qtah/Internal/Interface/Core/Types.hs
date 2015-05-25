@@ -18,9 +18,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 cppopModule :: Module
-cppopModule = modifyModule' (makeModule "types" "types.hpp" "types.cpp") $ do
-  addModuleHaskellName ["Core", "Types"]
-  addModuleExports exports
+cppopModule = makeCppopModule "Core" "Types" qtModule
 
 qtModule :: QtModule
 qtModule = makeQtModule "Core.Types" $ map QtExport exports

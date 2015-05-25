@@ -21,6 +21,7 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   indent,
   ln,
   prettyPrint,
+  renderPartial,
   sayLn,
   saysLn,
   toHsCastMethodName,
@@ -84,7 +85,7 @@ generateModule iface srcDir baseModuleName qtModule = do
       qtExports = qtModuleQtExports qtModule
 
   let generation =
-        fmap ("{-# LANGUAGE NoMonomorphismRestriction #-}\n\n" ++) $
+        fmap (("{-# LANGUAGE NoMonomorphismRestriction #-}\n\n" ++) . renderPartial) $
         execGenerator iface fullModuleName $ do
           -- As in generated Cppop bindings, avoid non-qualified Prelude uses in
           -- generated code here.
