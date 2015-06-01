@@ -1,30 +1,31 @@
 module Main where
 
 import Control.Monad (unless)
-import Graphics.UI.Qtah (delete, on, qApplication_new)
-import qualified Graphics.UI.Qtah.Q.QAbstractButton as QAbstractButton
-import qualified Graphics.UI.Qtah.Q.QApplication as QApplication
-import qualified Graphics.UI.Qtah.Q.QHBoxLayout as QHBoxLayout
-import qualified Graphics.UI.Qtah.Q.QLabel as QLabel
-import qualified Graphics.UI.Qtah.Q.QLayout as QLayout
-import qualified Graphics.UI.Qtah.Q.QLineEdit as QLineEdit
-import qualified Graphics.UI.Qtah.Q.QMainWindow as QMainWindow
-import qualified Graphics.UI.Qtah.Q.QPushButton as QPushButton
-import qualified Graphics.UI.Qtah.Q.QWidget as QWidget
+import Graphics.UI.Qtah (delete, on)
+import Graphics.UI.Qtah.Core.HSize (HSize (HSize))
+import qualified Graphics.UI.Qtah.Widgets.QAbstractButton as QAbstractButton
+import qualified Graphics.UI.Qtah.Widgets.QApplication as QApplication
+import qualified Graphics.UI.Qtah.Widgets.QHBoxLayout as QHBoxLayout
+import qualified Graphics.UI.Qtah.Widgets.QLabel as QLabel
+import qualified Graphics.UI.Qtah.Widgets.QLayout as QLayout
+import qualified Graphics.UI.Qtah.Widgets.QLineEdit as QLineEdit
+import qualified Graphics.UI.Qtah.Widgets.QMainWindow as QMainWindow
+import qualified Graphics.UI.Qtah.Widgets.QPushButton as QPushButton
+import qualified Graphics.UI.Qtah.Widgets.QWidget as QWidget
 
 main :: IO ()
 main = do
-  app <- qApplication_new
+  app <- QApplication.qApplication_new
 
-  mainWindow <- QMainWindow.new QWidget.null
+  mainWindow <- QMainWindow.new
   QWidget.setWindowTitle mainWindow "Greeter demo"
-  QWidget.resize mainWindow 400 40
+  QWidget.resize mainWindow $ HSize 400 40
 
   label <- QLabel.newWithText "What's your name?"
 
   lineEdit <- QLineEdit.new
 
-  button <- QPushButton.newWithText "Greet" QWidget.null
+  button <- QPushButton.newWithText "Greet"
   connectOk <- on button QAbstractButton.clickedSignal $ \_ -> do
     name <- QLineEdit.text lineEdit
     putStrLn $ if null name
