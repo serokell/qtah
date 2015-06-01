@@ -48,7 +48,7 @@ sayHpp '#include <QAction>'
 sayHpp '#include <QObject>'
 sayHpp '#include <QPoint>'
 sayHpp '#include <QSize>'
-sayHpp '#include "callback.hpp"'
+sayHpp '#include "b_callback.hpp"'
 
 sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
 sayCpp
