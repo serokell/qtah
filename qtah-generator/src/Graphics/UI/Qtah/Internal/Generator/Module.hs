@@ -42,10 +42,10 @@ import Foreign.Cppop.Generator.Spec (
   Method,
   Type (TCallback, TObj),
   callbackParams,
+  classConversions,
   classCtors,
-  classHaskellType,
-  classEncoding,
   classExtName,
+  classHaskellConversion,
   classMethods,
   ctorExtName,
   ctorParams,
@@ -152,7 +152,7 @@ getFnImportName = toHsFnName . fnExtName
 
 sayClassEncodingFnReexports :: Class -> Generator ()
 sayClassEncodingFnReexports cls =
-  when (isJust $ classHaskellType $ classEncoding cls) $ do
+  when (isJust $ classHaskellConversion $ classConversions cls) $ do
     -- Generated encode and decode functions require some things from Cppop
     -- support and the Prelude.
     addImports $ mconcat [importForPrelude, importForSupport]
@@ -199,7 +199,7 @@ sayQtExport qtExport = case qtExport of
       classConstCastReexportName :
       classCastReexportName :
       classNullReexportName :
-      concat [ case classHaskellType $ classEncoding cls of
+      concat [ case classHaskellConversion $ classConversions cls of
                  Nothing -> []
                  Just _ -> [classEncodeReexportName, classDecodeReexportName]
              , map (getCtorReexportName cls) $ classCtors cls

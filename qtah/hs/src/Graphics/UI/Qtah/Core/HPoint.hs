@@ -3,12 +3,8 @@ module Graphics.UI.Qtah.Core.HPoint (
   null,
   isNull,
   manhattanLength,
-  -- * Internal
-  encodeInternal,
-  decodeInternal,
   ) where
 
-import Foreign (Ptr, free, newArray, peekArray)
 import Foreign.C (CInt)
 import Prelude hiding (null)
 
@@ -26,12 +22,3 @@ isNull _ = False
 
 manhattanLength :: HPoint -> CInt
 manhattanLength (HPoint x y) = abs x + abs y
-
-encodeInternal :: HPoint -> IO (Ptr CInt)
-encodeInternal (HPoint x y) = newArray [x, y]
-
-decodeInternal :: Ptr CInt -> IO HPoint
-decodeInternal p = do
-  [x, y] <- peekArray 4 p
-  free p
-  return $ HPoint x y

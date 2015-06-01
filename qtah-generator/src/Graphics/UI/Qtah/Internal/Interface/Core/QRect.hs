@@ -15,7 +15,7 @@ import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
-  HsType (HsTyApp, HsTyCon),
+  HsType (HsTyCon),
   )
 #include "../Mk.hs.inc"
 
@@ -29,30 +29,38 @@ this = c_QRect
 
 c_QRect =
   addReqIncludes [includeStd "QRect"] $
-  classModifyEncoding
-  (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn (ident "qRectDecode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classCppEncoder = Just $ CppCoderFn (ident "qRectEncode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classHaskellType =
-             Just HaskellEncoding
-             { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HRect.HRect"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
-             , haskellEncodingDecoder = "HRect.decodeInternal"
-             , haskellEncodingEncoder = "HRect.encodeInternal"
-             , haskellEncodingTypeImports =
+  classModifyConversions
+  (\c -> c { classHaskellConversion =
+             Just ClassHaskellConversion
+             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "HRect.HRect"
+             , classHaskellConversionTypeImports =
                hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
-             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
-             , haskellEncodingFnImports =
-               hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
+             , classHaskellConversionToCppFn =
+               "qRect_newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
+             , classHaskellConversionToCppImports =
+               mconcat
+               [ hsImports "Control.Applicative" ["(<$>)", "(<*>)"]
+               , hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
+               ]
+             , classHaskellConversionFromCppFn =
+               "\\q -> do\n\
+               \  x <- qRect_x q\n\
+               \  y <- qRect_y q\n\
+               \  w <- qRect_width q\n\
+               \  h <- qRect_height q\n\
+               \  QtahP.return (HRect.HRect x y w h)"
+             , classHaskellConversionFromCppImports =
+               mconcat
+               [ hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
+               , importForPrelude
+               ]
              }
            }) $
   makeClass (ident "QRect") Nothing []
   [ _mkCtor "newNull" []
   , _mkCtor "newWithPoints" [TObj c_QPoint, TObj c_QPoint]
   , _mkCtor "newWithPointAndSize" [TObj c_QPoint, TObj c_QSize]
+  , _mkCtor "newWithRaw" [TInt, TInt, TInt, TInt]
   ] $
   [ _mkMethod "adjust" [TInt, TInt, TInt, TInt] TVoid
   , _mkConstMethod "adjusted" [TInt, TInt, TInt, TInt] $ TObj c_QRect

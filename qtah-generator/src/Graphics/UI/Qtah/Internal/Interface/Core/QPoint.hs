@@ -13,7 +13,7 @@ import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
-  HsType (HsTyApp, HsTyCon),
+  HsType (HsTyCon),
   )
 #include "../Mk.hs.inc"
 
@@ -27,24 +27,28 @@ this = c_QPoint
 
 c_QPoint =
   addReqIncludes [includeStd "QPoint"] $
-  classModifyEncoding
-  (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn (ident "qPointDecode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classCppEncoder = Just $ CppCoderFn (ident "qPointEncode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classHaskellType =
-             Just HaskellEncoding
-             { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
-             , haskellEncodingDecoder = "HPoint.decodeInternal"
-             , haskellEncodingEncoder = "HPoint.encodeInternal"
-             , haskellEncodingTypeImports =
+  classModifyConversions
+  (\c -> c { classHaskellConversion =
+             Just ClassHaskellConversion
+             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
+             , classHaskellConversionTypeImports =
                hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
-             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
-             , haskellEncodingFnImports =
-               hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
+             , classHaskellConversionToCppFn = "qPoint_new <$> HPoint.x <*> HPoint.y"
+             , classHaskellConversionToCppImports =
+               mconcat
+               [ hsImports "Control.Applicative" ["(<$>)", "(<*>)"]
+               , hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
+               ]
+             , classHaskellConversionFromCppFn =
+               "\\q -> do\n\
+               \  y <- qPoint_x q\n\
+               \  x <- qPoint_y q\n\
+               \  QtahP.return (HPoint.HPoint x y)"
+             , classHaskellConversionFromCppImports =
+               mconcat
+               [ hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
+               , importForPrelude
+               ]
              }
            }) $
   makeClass (ident "QPoint") Nothing []

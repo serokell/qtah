@@ -13,7 +13,7 @@ import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
-  HsType (HsTyApp, HsTyCon),
+  HsType (HsTyCon),
   )
 #include "../Mk.hs.inc"
 
@@ -27,24 +27,32 @@ this = c_QMargins
 
 c_QMargins =
   addReqIncludes [includeStd "QMargins"] $
-  classModifyEncoding
-  (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn (ident "qMarginsDecode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classCppEncoder = Just $ CppCoderFn (ident "qMarginsEncode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classHaskellType =
-             Just HaskellEncoding
-             { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
-             , haskellEncodingDecoder = "HMargins.decodeInternal"
-             , haskellEncodingEncoder = "HMargins.encodeInternal"
-             , haskellEncodingTypeImports =
+  classModifyConversions
+  (\c -> c { classHaskellConversion =
+             Just ClassHaskellConversion
+             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
+             , classHaskellConversionTypeImports =
                hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
-             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
-             , haskellEncodingFnImports =
-               hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
+             , classHaskellConversionToCppFn =
+               "qMargins_new <$> HMargins.left <*> HMargins.top <*> HMargins.right \
+               \<*> HMargins.bottom"
+             , classHaskellConversionToCppImports =
+               mconcat
+               [ hsImports "Control.Applicative" ["(<$>)", "(<*>)"]
+               , hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
+               ]
+             , classHaskellConversionFromCppFn =
+               "\\q -> do\n\
+               \  l <- qMargins_left q\n\
+               \  t <- qMargins_top q\n\
+               \  r <- qMargins_right q\n\
+               \  b <- qMargins_bottom q\n\
+               \  QtahP.return (HMargins.HMargins l t r b)"
+             , classHaskellConversionFromCppImports =
+               mconcat
+               [ hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
+               , importForPrelude
+               ]
              }
            }) $
   makeClass (ident "QMargins") Nothing []

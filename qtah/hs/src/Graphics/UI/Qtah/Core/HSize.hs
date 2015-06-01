@@ -5,12 +5,8 @@ module Graphics.UI.Qtah.Core.HSize (
   isNull,
   isValid,
   transpose,
-  -- * Internal
-  encodeInternal,
-  decodeInternal,
   ) where
 
-import Foreign (Ptr, free, newArray, peekArray)
 import Foreign.C (CInt)
 import Prelude hiding (null)
 
@@ -34,12 +30,3 @@ isValid (HSize w h) = w > 0 && h > 0
 
 transpose :: HSize -> HSize
 transpose (HSize w h) = HSize h w
-
-encodeInternal :: HSize -> IO (Ptr CInt)
-encodeInternal (HSize x y) = newArray [x, y]
-
-decodeInternal :: Ptr CInt -> IO HSize
-decodeInternal p = do
-  [x, y] <- peekArray 4 p
-  free p
-  return $ HSize x y

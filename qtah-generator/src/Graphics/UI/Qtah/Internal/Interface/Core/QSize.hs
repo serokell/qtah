@@ -14,7 +14,7 @@ import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
   HsQName (UnQual),
-  HsType (HsTyApp, HsTyCon),
+  HsType (HsTyCon),
   )
 #include "../Mk.hs.inc"
 
@@ -28,24 +28,28 @@ this = c_QSize
 
 c_QSize =
   addReqIncludes [includeStd "QSize"] $
-  classModifyEncoding
-  (\c -> c { classCppCType = Just $ TPtr TInt
-           , classCppDecoder = Just $ CppCoderFn (ident "qSizeDecode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classCppEncoder = Just $ CppCoderFn (ident "qSizeEncode") $
-                               reqInclude $ includeLocal "encode.hpp"
-           , classHaskellType =
-             Just HaskellEncoding
-             { haskellEncodingType = HsTyCon $ UnQual $ HsIdent "HSize.HSize"
-             , haskellEncodingCType = HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahF.Ptr") $
-                                      HsTyCon $ UnQual $ HsIdent "QtahFC.CInt"
-             , haskellEncodingDecoder = "HSize.decodeInternal"
-             , haskellEncodingEncoder = "HSize.encodeInternal"
-             , haskellEncodingTypeImports =
+  classModifyConversions
+  (\c -> c { classHaskellConversion =
+             Just ClassHaskellConversion
+             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "HSize.HSize"
+             , classHaskellConversionTypeImports =
                hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
-             , haskellEncodingCTypeImports = mconcat [importForForeign, importForForeignC]
-             , haskellEncodingFnImports =
-               hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
+             , classHaskellConversionToCppFn = "qSize_new <$> HSize.width <*> HSize.height"
+             , classHaskellConversionToCppImports =
+               mconcat
+               [ hsImports "Control.Applicative" ["(<$>)", "(<*>)"]
+               , hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
+               ]
+             , classHaskellConversionFromCppFn =
+               "\\q -> do\n\
+               \  w <- qSize_width q\n\
+               \  h <- qSize_height q\n\
+               \  QtahP.return (HSize.HSize w h)"
+             , classHaskellConversionFromCppImports =
+               mconcat
+               [ hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
+               , importForPrelude
+               ]
              }
            }) $
   makeClass (ident "QSize") Nothing []
