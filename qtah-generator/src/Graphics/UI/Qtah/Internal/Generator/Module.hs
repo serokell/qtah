@@ -6,7 +6,7 @@ import Control.Monad (forM_, when)
 import Data.List (find, intersperse, isPrefixOf, sort)
 import Data.Monoid (mconcat)
 import Data.Maybe (isJust)
-import Foreign.Cppop.Common (fromMaybeM, writeFileIfDifferent)
+import Foreign.Cppop.Common (fromEitherM, fromMaybeM, writeFileIfDifferent)
 import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
 import Foreign.Cppop.Generator.Language.Haskell.General (
   Generator,
@@ -160,8 +160,10 @@ sayClassEncodingFnReexports cls =
     addImports $ mconcat [importForPrelude, importForSupport]
 
     hsHsType <-
-      fromMaybeM (abort $ "generateModule: Expected a Haskell type for class " ++
-                  show (fromExtName $ classExtName cls) ++ ".") =<<
+      fromEitherM
+      (\e -> abort $ concat
+             ["sayClassEncodingFnReexports: Couldn't compute a Haskell type for ",
+              show cls, ": ", e]) =<<
       cppTypeToHsTypeAndUse HsHsSide (TObj cls)
     let constPtrClassName = toHsPtrClassName Const cls
         dataTypeName = toHsDataTypeName Nonconst cls
@@ -235,7 +237,8 @@ saySignalExport signal = do
   addImports importForSignal
 
   let name = signalCName signal
-      ptrClassName = toHsPtrClassName Nonconst $ signalClass signal
+      cls = signalClass signal
+      ptrClassName = toHsPtrClassName Nonconst cls
       varName = toSignalBindingName signal
   addExport varName
 
@@ -254,15 +257,16 @@ saySignalExport signal = do
 
   -- Also find the 'connectListener' method.
   listenerConnectMethod <-
-    fromMaybeM (abort $ "generateSignals: Couldn't find the connectListener method in class " ++
-                show (fromExtName $ classExtName listenerClass) ++
-                " for signal " ++ show name ++ ".") $
+    fromMaybeM (abort $ concat
+                ["saySignalExport: Couldn't find the connectListener method in ",
+                 show cls, " for signal " ++ show name ++ "."]) $
     find ((FnName "connectListener" ==) . methodCName) $ classMethods listenerClass
 
   callbackHsType <-
-    fromMaybeM (abort $
-                "generateSignals: Can't generate Haskell callback type for signal " ++
-                show name ++ ".") =<<
+    fromEitherM
+    (\e -> abort $ concat
+           ["saySignalExport: Couldn't generate a Haskell callback type for signal ",
+            show name, ": ", e]) =<<
     cppTypeToHsTypeAndUse HsHsSide callbackType
 
   let varType = HsQualType [(UnQual $ HsIdent ptrClassName, [HsTyVar $ HsIdent "object"])] $

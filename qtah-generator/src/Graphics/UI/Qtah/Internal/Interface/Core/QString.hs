@@ -7,7 +7,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QString (
 import Data.Monoid (mappend, mempty)
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Spec.ClassFeature
-import Foreign.Cppop.Generator.Std (c_std__string)
+import Foreign.Cppop.Generator.Std.String (c_string)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QChar (c_QChar)
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -48,7 +48,7 @@ c_QString =
   [ mkCtor this "newFromCString" [TPtr $ TConst TChar]
   ]
   [ mkConstMethod' this OpArray "at" [TInt] $ TObj c_QChar
-  , mkConstMethod this "toStdString" [] $ TObj c_std__string
+  , mkConstMethod this "toStdString" [] $ TObj c_string
   ]
 
 f_QString_set =

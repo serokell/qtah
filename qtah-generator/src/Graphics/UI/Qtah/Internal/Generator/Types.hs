@@ -25,8 +25,8 @@ import Foreign.Cppop.Generator.Spec (
   addModuleExports,
   classExtName,
   fromExtName,
-  idName,
-  idNamespaces,
+  identifierParts,
+  idPartBase,
   makeEnum,
   makeModule,
   modifyModule',
@@ -85,7 +85,7 @@ data QtExport =
 makeQtEnum :: Identifier -> [(Int, [String])] -> CppEnum
 makeQtEnum identifier =
   makeEnum identifier $ Just $ toExtName $ concat $
-  idNamespaces identifier ++ [idName identifier]
+  map idPartBase $ identifierParts identifier
 
 -- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal
