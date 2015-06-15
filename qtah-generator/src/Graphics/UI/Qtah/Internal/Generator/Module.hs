@@ -37,6 +37,7 @@ import Foreign.Cppop.Generator.Spec (
   Ctor,
   Export (ExportCallback, ExportClass, ExportEnum, ExportFn),
   ExtName,
+  FnName (FnName),
   Function,
   Interface,
   Method,
@@ -249,7 +250,7 @@ saySignalExport signal = do
     fromMaybeM (abort $ "generateSignals: Couldn't find the connectListener method in class " ++
                 show (fromExtName $ classExtName listenerClass) ++
                 " for signal " ++ show name ++ ".") $
-    find (("connectListener" ==) . methodCName) $ classMethods listenerClass
+    find ((FnName "connectListener" ==) . methodCName) $ classMethods listenerClass
 
   callbackHsType <-
     fromMaybeM (abort $
