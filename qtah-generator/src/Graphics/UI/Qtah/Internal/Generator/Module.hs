@@ -3,7 +3,7 @@ module Graphics.UI.Qtah.Internal.Generator.Module (
   ) where
 
 import Control.Monad (forM_, when)
-import Data.List (find, intersperse, isPrefixOf)
+import Data.List (find, intersperse, isPrefixOf, sort)
 import Data.Monoid (mconcat)
 import Data.Maybe (isJust)
 import Foreign.Cppop.Common (fromMaybeM, writeFileIfDifferent)
@@ -205,8 +205,8 @@ sayQtExport qtExport = case qtExport of
       concat [ case classHaskellConversion $ classConversions cls of
                  Nothing -> []
                  Just _ -> [classEncodeReexportName, classDecodeReexportName]
-             , map (getCtorReexportName cls) $ classCtors cls
-             , map (getMethodReexportName cls) $ classMethods cls
+             , sort $ map (getCtorReexportName cls) $ classCtors cls
+             , sort $ map (getMethodReexportName cls) $ classMethods cls
              ]
 
     ln
