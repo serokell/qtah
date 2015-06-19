@@ -25,11 +25,12 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   sayLn,
   saysLn,
   toHsCastMethodName,
-  toHsClassName,
   toHsClassNullName,
   toHsDataTypeName,
   toHsEnumTypeName,
   toHsFnName,
+  toHsPtrClassName,
+  toHsValueClassName,
   )
 import Foreign.Cppop.Generator.Spec (
   Class,
@@ -162,12 +163,12 @@ sayClassEncodingFnReexports cls =
       fromMaybeM (abort $ "generateModule: Expected a Haskell type for class " ++
                   show (fromExtName $ classExtName cls) ++ ".") =<<
       cppTypeToHsTypeAndUse HsHsSide (TObj cls)
-    let constClassName = toHsClassName Const cls
+    let constPtrClassName = toHsPtrClassName Const cls
         dataTypeName = toHsDataTypeName Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
         thisTyVar = HsTyVar $ HsIdent "this"
         encodeFnType = HsTyFun hsHsType $ HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") ptrHsType
-        decodeFnType = HsQualType [(UnQual $ HsIdent constClassName, [thisTyVar])] $
+        decodeFnType = HsQualType [(UnQual $ HsIdent constPtrClassName, [thisTyVar])] $
                        HsTyFun thisTyVar $
                        HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") hsHsType
     ln
@@ -193,8 +194,9 @@ sayQtExport qtExport = case qtExport of
   QtExport (ExportClass cls) -> do
     importHsModuleForExtName $ classExtName cls
     addExports $
-      toHsClassName Const cls :
-      toHsClassName Nonconst cls :
+      (toHsValueClassName cls ++ " (..)") :
+      toHsPtrClassName Const cls :
+      toHsPtrClassName Nonconst cls :
       toHsDataTypeName Const cls :
       toHsDataTypeName Nonconst cls :
       classConstCastReexportName :
@@ -228,7 +230,7 @@ saySignalExport signal = do
   addImports importForSignal
 
   let name = signalCName signal
-      className = toHsClassName Nonconst $ signalClass signal
+      ptrClassName = toHsPtrClassName Nonconst $ signalClass signal
       varName = toSignalBindingName signal
   addExport varName
 
@@ -258,7 +260,7 @@ saySignalExport signal = do
                 show name ++ ".") =<<
     cppTypeToHsTypeAndUse HsHsSide callbackType
 
-  let varType = HsQualType [(UnQual $ HsIdent className, [HsTyVar $ HsIdent "object"])] $
+  let varType = HsQualType [(UnQual $ HsIdent ptrClassName, [HsTyVar $ HsIdent "object"])] $
                 HsTyApp (HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahSignal.Signal") $
                          HsTyVar $ HsIdent "object")
                 callbackHsType
