@@ -26,7 +26,7 @@ qtModule =
   , QtExport $ ExportEnum e_Category
   , QtExport $ ExportEnum e_Decomposition
   , QtExport $ ExportEnum e_Joining
-  , QtExport $ ExportEnum e_QCharDirection
+  , QtExport $ ExportEnum e_Direction
   , QtExport $ ExportEnum e_SpecialCharacter
   , QtExport $ ExportEnum e_UnicodeVersion
   ]
@@ -70,7 +70,7 @@ c_QChar =
   , mkConstMethod this "decomposition" [] $ TObj c_QString
   , mkConstMethod this "decompositionTag" [] $ TEnum e_Decomposition
   , mkConstMethod this "digitValue" [] TInt
-  , mkConstMethod this "direction" [] $ TEnum e_QCharDirection
+  , mkConstMethod this "direction" [] $ TEnum e_Direction
   , mkConstMethod this "hasMirrored" [] TBool
   , mkConstMethod this "isDigit" [] TBool
   , mkConstMethod this "isHighSurrogate" [] TBool
@@ -102,7 +102,7 @@ c_QChar =
   ]
 
 e_Category =
-  makeEnum (ident1 "QChar" "Category") Nothing
+  makeQtEnum (ident1 "QChar" "Category")
   [ -- Normative.
     (1, ["mark", "non", "spacing"])
   , (2, ["mark", "spacing", "combining"])
@@ -139,7 +139,7 @@ e_Category =
   ]
 
 e_Decomposition =
-  makeEnum (ident1 "QChar" "Decomposition") Nothing
+  makeQtEnum (ident1 "QChar" "Decomposition")
   [ (0, ["no", "decomposition"])
   , (1, ["canonical"])
   , (8, ["circle"])
@@ -160,17 +160,8 @@ e_Decomposition =
   , (12, ["wide"])
   ]
 
-e_Joining =
-  makeEnum (ident1 "QChar" "Joining") Nothing
-  [ (3, ["center"])
-  , (1, ["dual"])
-  , (0, ["other", "joining"])
-  , (2, ["right"])
-  ]
-
--- Collides with QBoxLayout::Direction.
-e_QCharDirection =
-  makeEnum (ident1 "QChar" "Direction") (Just $ toExtName "QCharDirection")
+e_Direction =
+  makeQtEnum (ident1 "QChar" "Direction")
   [ (13, ["dir", "al"])
   , (5, ["dir", "an"])
   , (7, ["dir", "b"])
@@ -192,8 +183,16 @@ e_QCharDirection =
   , (9, ["dir", "ws"])
   ]
 
+e_Joining =
+  makeQtEnum (ident1 "QChar" "Joining")
+  [ (3, ["center"])
+  , (1, ["dual"])
+  , (0, ["other", "joining"])
+  , (2, ["right"])
+  ]
+
 e_SpecialCharacter =
-  makeEnum (ident1 "QChar" "SpecialCharacter") Nothing
+  makeQtEnum (ident1 "QChar" "SpecialCharacter")
   [ (0x0000, ["null"])
   , (0x00a0, ["nbsp"])
   , (0x2028, ["line", "separator"])
@@ -205,7 +204,7 @@ e_SpecialCharacter =
   ]
 
 e_UnicodeVersion =
-  makeEnum (ident1 "QChar" "UnicodeVersion") Nothing
+  makeQtEnum (ident1 "QChar" "UnicodeVersion")
   [ (1, ["unicode", "1_1"])
   , (2, ["unicode", "2_0"])
   , (3, ["unicode", "2_1_2"])

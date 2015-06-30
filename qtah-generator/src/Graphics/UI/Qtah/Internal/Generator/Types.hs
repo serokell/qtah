@@ -8,6 +8,7 @@ module Graphics.UI.Qtah.Internal.Generator.Types (
   qtModuleQtExports,
   qtModuleExports,
   QtExport (..),
+  makeQtEnum,
   Signal, makeSignal, signalCName, signalClass, signalListenerClass,
   ) where
 
@@ -15,15 +16,21 @@ import Data.Char (toLower)
 import Data.Maybe (mapMaybe)
 import Foreign.Cppop.Generator.Spec (
   Class,
+  CppEnum,
   Export (ExportClass, ExportFn),
   Function,
+  Identifier,
   Module,
   addModuleHaskellName,
   addModuleExports,
   classExtName,
   fromExtName,
+  idName,
+  idNamespaces,
+  makeEnum,
   makeModule,
   modifyModule',
+  toExtName,
   )
 
 moduleNameAppend :: String -> String -> String
@@ -72,6 +79,13 @@ data QtExport =
   QtExport Export
   | QtExportFnRenamed Function String
   | QtExportSignal Signal
+
+-- | Creates a 'CppEnum' whose 'ExtName' is the concatenation of all part of its
+-- 'Identifier'.  This should be used for all Qt enums.
+makeQtEnum :: Identifier -> [(Int, [String])] -> CppEnum
+makeQtEnum identifier =
+  makeEnum identifier $ Just $ toExtName $ concat $
+  idNamespaces identifier ++ [idName identifier]
 
 -- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal

@@ -110,7 +110,7 @@ signals =
   ]
 
 e_LineWrapMode =
-  makeEnum (ident1 "QTextEdit" "LineWrapMode") Nothing
+  makeQtEnum (ident1 "QTextEdit" "LineWrapMode")
   [ (0, ["no", "wrap"])
   , (1, ["widget", "width"])
   , (2, ["fixed", "pixel", "width"])

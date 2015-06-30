@@ -85,13 +85,13 @@ signals =
   ]
 
 e_ActionEvent =
-  makeEnum (ident1 "QAction" "ActionEvent") Nothing
+  makeQtEnum (ident1 "QAction" "ActionEvent")
   [ (0, ["trigger"])
   , (1, ["hover"])
   ]
 
 e_MenuRole =
-  makeEnum (ident1 "QAction" "MenuRole") Nothing
+  makeQtEnum (ident1 "QAction" "MenuRole")
   [ (0, ["no", "role"])
   , (1, ["text", "heuristic", "role"])
   , (2, ["application", "specific", "role"])
@@ -102,14 +102,14 @@ e_MenuRole =
   ]
 
 e_Priority =
-  makeEnum (ident1 "QAction" "Priority") Nothing
+  makeQtEnum (ident1 "QAction" "Priority")
   [ (0, ["low", "priority"])
   , (128, ["normal", "priority"])
   , (256, ["high", "priority"])
   ]
 
 e_SoftKeyRole =
-  makeEnum (ident1 "QAction" "SoftKeyRole") Nothing
+  makeQtEnum (ident1 "QAction" "SoftKeyRole")
   [ (0, ["no", "soft", "key"])
   , (1, ["positive", "soft", "key"])
   , (2, ["negative", "soft", "key"])

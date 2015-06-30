@@ -38,7 +38,7 @@ exports =
   ]
 
 e_Alignment =
-  makeEnum (ident1 "Qt" "Alignment") Nothing
+  makeQtEnum (ident1 "Qt" "Alignment")
   [ -- Horizontal flags.
     (0x01, ["align", "left"])
   , (0x02, ["align", "right"])
@@ -53,14 +53,14 @@ e_Alignment =
   ]
 
 e_AspectRatioMode =
-  makeEnum (ident1 "Qt" "AspectRatioMode") Nothing
+  makeQtEnum (ident1 "Qt" "AspectRatioMode")
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
   ]
 
 e_Corner =
-  makeEnum (ident1 "Qt" "Corner") Nothing
+  makeQtEnum (ident1 "Qt" "Corner")
   [ (0x00000, ["top", "left", "corner"])
   , (0x00001, ["top", "right", "corner"])
   , (0x00002, ["bottom", "left", "corner"])
@@ -68,20 +68,20 @@ e_Corner =
   ]
 
 e_CursorMoveStyle =
-  makeEnum (ident1 "Qt" "CursorMoveStyle") Nothing
+  makeQtEnum (ident1 "Qt" "CursorMoveStyle")
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
   ]
 
 e_LayoutDirection =
-  makeEnum (ident1 "Qt" "LayoutDirection") Nothing
+  makeQtEnum (ident1 "Qt" "LayoutDirection")
   [ (0, ["left", "to", "right"])
   , (1, ["right", "to", "left"])
   , (2, ["layout", "direction", "auto"])
   ]
 
 e_NavigationMode =
-  makeEnum (ident1 "Qt" "NavigationMode") Nothing
+  makeQtEnum (ident1 "Qt" "NavigationMode")
   [ (0, ["navigation", "mode", "none"])
   , (1, ["navigation", "mode", "keypad", "tab", "order"])
   , (2, ["navigation", "mode", "keypad", "directional"])
@@ -91,20 +91,20 @@ e_NavigationMode =
 
 -- TODO Qt::Orientations
 e_Orientation =
-  makeEnum (ident1 "Qt" "Orientation") Nothing
+  makeQtEnum (ident1 "Qt" "Orientation")
   [ (1, ["horizontal"])
   , (2, ["vertical"])
   ]
 
 e_ScrollBarPolicy =
-  makeEnum (ident1 "Qt" "ScrollBarPolicy") Nothing
+  makeQtEnum (ident1 "Qt" "ScrollBarPolicy")
   [ (0, ["scroll", "bar", "as", "needed"])
   , (1, ["scroll", "bar", "always", "off"])
   , (2, ["scroll", "bar", "always", "on"])
   ]
 
 e_TextFormat =
-  makeEnum (ident1 "Qt" "TextFormat") Nothing
+  makeQtEnum (ident1 "Qt" "TextFormat")
   [ (0, ["plain", "text"])
   , (1, ["rich", "text"])
   , (2, ["auto", "text"])

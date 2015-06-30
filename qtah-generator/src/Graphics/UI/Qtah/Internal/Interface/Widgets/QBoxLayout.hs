@@ -17,7 +17,7 @@ cppopModule = makeCppopModule "Widgets" "QBoxLayout" qtModule
 qtModule =
   makeQtModule "Widgets.QBoxLayout"
   [ QtExport $ ExportClass c_QBoxLayout
-  , QtExport $ ExportEnum e_QBoxLayoutDirection
+  , QtExport $ ExportEnum e_Direction
   ]
 
 this = c_QBoxLayout
@@ -25,8 +25,8 @@ this = c_QBoxLayout
 c_QBoxLayout =
   addReqIncludes [includeStd "QBoxLayout"] $
   makeClass (ident "QBoxLayout") Nothing [c_QLayout]
-  [ mkCtor this "new" [TEnum e_QBoxLayoutDirection]
-  , mkCtor this "newWithParent" [TEnum e_QBoxLayoutDirection, TPtr $ TObj c_QWidget]
+  [ mkCtor this "new" [TEnum e_Direction]
+  , mkCtor this "newWithParent" [TEnum e_Direction, TPtr $ TObj c_QWidget]
   ] $
   [ mkMethod' this "addLayout" "addLayout" [TPtr $ TObj c_QLayout] TVoid
   , mkMethod' this "addLayout" "addLayoutWithStretch" [TPtr $ TObj c_QLayout, TInt] TVoid
@@ -53,13 +53,12 @@ c_QBoxLayout =
   , mkMethod' this "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool
   ] ++
   mkProps
-  [ mkProp this "direction" $ TEnum e_QBoxLayoutDirection
+  [ mkProp this "direction" $ TEnum e_Direction
   , mkProp this "spacing" TInt
   ]
 
--- Collides with QChar::Direction.
-e_QBoxLayoutDirection =
-  makeEnum (ident1 "QBoxLayout" "Direction") (Just $ toExtName "QBoxLayoutDirection")
+e_Direction =
+  makeQtEnum (ident1 "QBoxLayout" "Direction")
   [ (0, ["left", "to", "right"])
   , (1, ["right", "to", "left"])
   , (2, ["top", "to", "bottom"])

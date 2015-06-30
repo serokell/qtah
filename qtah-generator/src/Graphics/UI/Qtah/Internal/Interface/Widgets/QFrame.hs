@@ -42,14 +42,14 @@ c_QFrame =
   ]
 
 e_Shadow =
-  makeEnum (ident1 "QFrame" "Shadow") Nothing
+  makeQtEnum (ident1 "QFrame" "Shadow")
   [ (0x0010, ["plain"])
   , (0x0020, ["raised"])
   , (0x0030, ["sunken"])
   ]
 
 e_Shape =
-  makeEnum (ident1 "QFrame" "Shape") Nothing
+  makeQtEnum (ident1 "QFrame" "Shape")
   [ (0x0000, ["no", "frame"])
   , (0x0001, ["box"])
   , (0x0002, ["panel"])
@@ -60,7 +60,7 @@ e_Shape =
   ]
 
 e_StyleMask =
-  makeEnum (ident1 "QFrame" "StyleMask") Nothing
+  makeQtEnum (ident1 "QFrame" "StyleMask")
   [ (0x000f, ["shape", "mask"])
   , (0x00f0, ["shadow", "mask"])
   ]

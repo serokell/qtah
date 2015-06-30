@@ -131,7 +131,7 @@ signals =
   ]
 
 e_Type =
-  makeEnum (ident1 "QApplication" "Type") Nothing
+  makeQtEnum (ident1 "QApplication" "Type")
   [ (0, ["tty"])
   , (1, ["gui", "client"])
   , (2, ["gui", "server"])
