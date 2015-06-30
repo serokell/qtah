@@ -2,6 +2,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core (mods_Core) where
 
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
+import qualified Graphics.UI.Qtah.Internal.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication as QCoreApplication
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject
@@ -15,7 +16,8 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Core.Types as Types
 
 mods_Core :: [(Module, QtModule)]
 mods_Core =
-  [ (QCoreApplication.cppopModule, QCoreApplication.qtModule)
+  [ (QChar.cppopModule, QChar.qtModule)
+  , (QCoreApplication.cppopModule, QCoreApplication.qtModule)
   , (QMargins.cppopModule, QMargins.qtModule)
   , (QObject.cppopModule, QObject.qtModule)
   , (QPoint.cppopModule, QPoint.qtModule)

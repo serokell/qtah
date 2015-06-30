@@ -1,5 +1,5 @@
-#ifndef SHIM_QAPPLICATION_H
-#define SHIM_QAPPLICATION_H
+#ifndef QTAH_SHIM_QAPPLICATION_HPP
+#define QTAH_SHIM_QAPPLICATION_HPP
 
 #include <QApplication>
 
@@ -11,4 +11,4 @@ QApplication* shim_QApplication_new();
 
 }
 
-#endif // SHIM_QAPPLICATION_H
+#endif // QTAH_SHIM_QAPPLICATION_HPP

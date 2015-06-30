@@ -60,7 +60,7 @@ import Foreign.Cppop.Generator.Spec (
   toExtName,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types (
-  QtExport (QtExport, QtExportSignal),
+  QtExport (QtExport, QtExportFnRenamed, QtExportSignal),
   QtModule,
   Signal,
   moduleNameAppend,
@@ -188,6 +188,11 @@ sayQtExport qtExport = case qtExport of
   QtExport (ExportFn fn) -> do
     importHsModuleForExtName $ fnExtName fn
     addExport $ getFnReexportName fn
+
+  QtExportFnRenamed fn rename -> do
+    importHsModuleForExtName $ fnExtName fn
+    addExport rename
+    sayBind rename $ getFnImportName fn
 
   QtExport (ExportCallback _) -> return ()
 

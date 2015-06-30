@@ -15,7 +15,8 @@ import Data.Char (toLower)
 import Data.Maybe (mapMaybe)
 import Foreign.Cppop.Generator.Spec (
   Class,
-  Export (ExportClass),
+  Export (ExportClass, ExportFn),
+  Function,
   Module,
   addModuleHaskellName,
   addModuleExports,
@@ -64,9 +65,13 @@ qtModuleExports :: QtModule -> [Export]
 qtModuleExports = mapMaybe getExport . qtModuleQtExports
   where getExport qtExport = case qtExport of
           QtExport export -> Just export
+          QtExportFnRenamed fn _ -> Just $ ExportFn fn
           QtExportSignal {} -> Nothing
 
-data QtExport = QtExport Export | QtExportSignal Signal
+data QtExport =
+  QtExport Export
+  | QtExportFnRenamed Function String
+  | QtExportSignal Signal
 
 -- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal

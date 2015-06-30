@@ -19,6 +19,7 @@ library
     , Graphics.UI.Qtah.Core.HPoint
     , Graphics.UI.Qtah.Core.HRect
     , Graphics.UI.Qtah.Core.HSize
+    , Graphics.UI.Qtah.Core.QChar
     , Graphics.UI.Qtah.Core.QCoreApplication
     , Graphics.UI.Qtah.Core.QMargins
     , Graphics.UI.Qtah.Core.QObject
@@ -53,6 +54,7 @@ library
     , Graphics.UI.Qtah.Widgets.QWidget
   other-modules:
       Graphics.UI.Qtah.Generated.Callback
+    , Graphics.UI.Qtah.Generated.Core.QChar
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
     , Graphics.UI.Qtah.Generated.Core.QMargins
     , Graphics.UI.Qtah.Generated.Core.QObject

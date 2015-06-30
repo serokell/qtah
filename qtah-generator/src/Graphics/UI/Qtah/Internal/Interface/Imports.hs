@@ -2,6 +2,7 @@
 -- Some classes use qualified imports that don't start with @\"Qtah\"@; such
 -- imports are one-off and are not listed here.
 module Graphics.UI.Qtah.Internal.Interface.Imports (
+  importForChar,
   importForForeign,
   importForForeignC,
   importForPrelude,
@@ -10,6 +11,9 @@ module Graphics.UI.Qtah.Internal.Interface.Imports (
   ) where
 
 import Foreign.Cppop.Generator.Spec (HsImportSet, hsQualifiedImport)
+
+importForChar :: HsImportSet
+importForChar = hsQualifiedImport "Data.Char" "QtahDC"
 
 importForForeign :: HsImportSet
 importForForeign = hsQualifiedImport "Foreign" "QtahF"

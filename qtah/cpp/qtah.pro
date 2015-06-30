@@ -12,10 +12,12 @@ SOURCES += \
     $$files(b_*.cpp) \
     encode.cpp \
     listener.cpp \
-    shim_qapplication.cpp
+    shim_qapplication.cpp \
+    shim_qstring.cpp
 
 HEADERS += \
     $$files(b_*.hpp) \
     encode.hpp \
     listener.hpp \
-    shim_qapplication.hpp
+    shim_qapplication.hpp \
+    shim_qstring.hpp

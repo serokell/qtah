@@ -29,6 +29,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Generator.Types
     , Graphics.UI.Qtah.Internal.Interface.Callback
     , Graphics.UI.Qtah.Internal.Interface.Core
+    , Graphics.UI.Qtah.Internal.Interface.Core.QChar
     , Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication
     , Graphics.UI.Qtah.Internal.Interface.Core.QMargins
     , Graphics.UI.Qtah.Internal.Interface.Core.QObject
