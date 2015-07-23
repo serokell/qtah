@@ -11,4 +11,4 @@ run() {
     "$@"
 }
 
-declare -r cppBuildDir="$(realpath "$projectDir/qtah/cpp-build")"
+declare -r cppBuildDir="$(readlink -f "$projectDir/qtah/cpp-build")"

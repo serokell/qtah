@@ -3,7 +3,7 @@
 # Accepts MAKEOPTS.
 
 set -euo pipefail
-declare -r projectDir="$(dirname "$(realpath "$0")")"
+declare -r projectDir="$(dirname "$(readlink -f "$0")")"
 . "$projectDir/common.sh"
 
 run "$projectDir/tools/listener-gen.sh"

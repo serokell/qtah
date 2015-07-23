@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-declare -r projectDir="$(dirname "$(realpath "$0")")"
+declare -r projectDir="$(dirname "$(readlink -f "$0")")"
 . "$projectDir/common.sh"
 
 run cd "$projectDir/qtah/hs"
