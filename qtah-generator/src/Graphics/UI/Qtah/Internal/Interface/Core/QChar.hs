@@ -5,6 +5,10 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QChar (
   ) where
 
 import Data.Monoid (mconcat)
+import Foreign.Cppop.Generator.Language.Haskell.General (
+  addImports,
+  sayLn,
+  )
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Spec.ClassFeature
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -39,22 +43,20 @@ c_QChar =
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
   classModifyConversions
   (\c ->
-    let convImports = mconcat [hsImport1 "Prelude" "(.)",
-                               importForChar,
-                               importForPrelude,
-                               importForSupport]
-    in c { classHaskellConversion =
-           Just ClassHaskellConversion
-           { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "QtahP.Char"
-           , classHaskellConversionTypeImports = importForPrelude
-           , classHaskellConversionToCppFn =
-             "qChar_newFromInt . QtahFCRS.coerceIntegral . QtahDC.ord"
-           , classHaskellConversionToCppImports = convImports
-           , classHaskellConversionFromCppFn =
-             "QtahP.fmap (QtahDC.chr . QtahFCRS.coerceIntegral) . qChar_unicode"
-           , classHaskellConversionFromCppImports = convImports
-           }
-         }) $
+    c { classHaskellConversion =
+        Just ClassHaskellConversion
+        { classHaskellConversionType = do
+          addImports importForPrelude
+          return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
+        , classHaskellConversionToCppFn = do
+          addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForSupport]
+          sayLn "qChar_newFromInt . QtahFCRS.coerceIntegral . QtahDC.ord"
+        , classHaskellConversionFromCppFn = do
+          addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
+                                importForSupport]
+          sayLn "QtahP.fmap (QtahDC.chr . QtahFCRS.coerceIntegral) . qChar_unicode"
+        }
+      }) $
   makeClass (ident "QChar") Nothing []
   [ mkCtor this "new" []
   , mkCtor this "newFromCellRow" [TUChar, TUChar]

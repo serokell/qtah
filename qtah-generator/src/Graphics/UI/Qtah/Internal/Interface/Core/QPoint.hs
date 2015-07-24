@@ -5,6 +5,11 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
   ) where
 
 import Data.Monoid (mconcat)
+import Foreign.Cppop.Generator.Language.Haskell.General (
+  addImports,
+  indent,
+  sayLn,
+  )
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -29,25 +34,21 @@ c_QPoint =
   classModifyConversions
   (\c -> c { classHaskellConversion =
              Just ClassHaskellConversion
-             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
-             , classHaskellConversionTypeImports =
-               hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
-             , classHaskellConversionToCppFn = "qPoint_new <$> HPoint.x <*> HPoint.y"
-             , classHaskellConversionToCppImports =
-               mconcat
-               [ hsImports "Control.Applicative" ["(<$>)", "(<*>)"]
-               , hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
-               ]
-             , classHaskellConversionFromCppFn =
-               "\\q -> do\n\
-               \  y <- qPoint_x q\n\
-               \  x <- qPoint_y q\n\
-               \  QtahP.return (HPoint.HPoint x y)"
-             , classHaskellConversionFromCppImports =
-               mconcat
-               [ hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
-               , importForPrelude
-               ]
+             { classHaskellConversionType = do
+               addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
+               return $ HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
+             , classHaskellConversionToCppFn = do
+               addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                                     hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"]
+               sayLn "qPoint_new <$> HPoint.x <*> HPoint.y"
+             , classHaskellConversionFromCppFn = do
+               addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint",
+                                     importForPrelude]
+               sayLn "\\q -> do"
+               indent $ do
+                 sayLn "y <- qPoint_x q"
+                 sayLn "x <- qPoint_y q"
+                 sayLn "QtahP.return (HPoint.HPoint x y)"
              }
            }) $
   makeClass (ident "QPoint") Nothing []

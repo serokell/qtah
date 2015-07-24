@@ -4,7 +4,11 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QString (
   c_QString,
   ) where
 
-import Data.Monoid (mappend, mempty)
+import Data.Monoid (mconcat)
+import Foreign.Cppop.Generator.Language.Haskell.General (
+  addImports,
+  sayLn,
+  )
 import Foreign.Cppop.Generator.Spec
 import Foreign.Cppop.Generator.Spec.ClassFeature
 import Foreign.Cppop.Generator.Std.String (c_string)
@@ -35,13 +39,13 @@ c_QString =
   classModifyConversions
   (\c -> c { classHaskellConversion =
              Just ClassHaskellConversion
-             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "QtahP.String"
-             , classHaskellConversionTypeImports = importForPrelude
-             , classHaskellConversionToCppFn =
-               "QtahP.flip QtahFC.withCString qString_newFromCString"
-             , classHaskellConversionToCppImports = importForPrelude `mappend` importForForeignC
-             , classHaskellConversionFromCppFn = "qString_toStdString"
-             , classHaskellConversionFromCppImports = mempty
+             { classHaskellConversionType = do
+               addImports importForPrelude
+               return $ HsTyCon $ UnQual $ HsIdent "QtahP.String"
+             , classHaskellConversionToCppFn = do
+               addImports $ mconcat [importForForeignC, importForPrelude]
+               sayLn "QtahP.flip QtahFC.withCString qString_newFromCString"
+             , classHaskellConversionFromCppFn = sayLn "qString_toStdString"
              }
            }) $
   makeClass (ident "QString") Nothing []

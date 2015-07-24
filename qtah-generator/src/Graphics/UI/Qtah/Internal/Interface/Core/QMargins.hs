@@ -5,6 +5,12 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QMargins (
   ) where
 
 import Data.Monoid (mconcat)
+import Foreign.Cppop.Generator.Language.Haskell.General (
+  addImports,
+  indent,
+  sayLn,
+  saysLn,
+  )
 import Foreign.Cppop.Generator.Spec
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -29,29 +35,24 @@ c_QMargins =
   classModifyConversions
   (\c -> c { classHaskellConversion =
              Just ClassHaskellConversion
-             { classHaskellConversionType = HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
-             , classHaskellConversionTypeImports =
-               hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
-             , classHaskellConversionToCppFn =
-               "qMargins_new <$> HMargins.left <*> HMargins.top <*> HMargins.right \
-               \<*> HMargins.bottom"
-             , classHaskellConversionToCppImports =
-               mconcat
-               [ hsImports "Control.Applicative" ["(<$>)", "(<*>)"]
-               , hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
-               ]
-             , classHaskellConversionFromCppFn =
-               "\\q -> do\n\
-               \  l <- qMargins_left q\n\
-               \  t <- qMargins_top q\n\
-               \  r <- qMargins_right q\n\
-               \  b <- qMargins_bottom q\n\
-               \  QtahP.return (HMargins.HMargins l t r b)"
-             , classHaskellConversionFromCppImports =
-               mconcat
-               [ hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
-               , importForPrelude
-               ]
+             { classHaskellConversionType = do
+               addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
+               return $ HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
+             , classHaskellConversionToCppFn = do
+               addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                                     hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"]
+               saysLn ["qMargins_new <$> HMargins.left <*> HMargins.top <*> HMargins.right <*> ",
+                       "HMargins.bottom"]
+             , classHaskellConversionFromCppFn = do
+               addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins",
+                                     importForPrelude]
+               sayLn "\\q -> do"
+               indent $ do
+                 sayLn "l <- qMargins_left q"
+                 sayLn "t <- qMargins_top q"
+                 sayLn "r <- qMargins_right q"
+                 sayLn "b <- qMargins_bottom q"
+                 sayLn "QtahP.return (HMargins.HMargins l t r b)"
              }
            }) $
   makeClass (ident "QMargins") Nothing []
