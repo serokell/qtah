@@ -35,8 +35,6 @@ qtModule =
   , QtExport $ ExportEnum e_UnicodeVersion
   ]
 
-this = c_QChar
-
 -- TODO Add more QChar methods.
 c_QChar =
   addReqIncludes [includeStd "QChar"] $
@@ -58,49 +56,49 @@ c_QChar =
         }
       }) $
   makeClass (ident "QChar") Nothing []
-  [ mkCtor this "new" []
-  , mkCtor this "newFromCellRow" [TUChar, TUChar]
-  , mkCtor this "newFromInt" [TInt]
-  , mkCtor this "newFromSpecialCharacter" [TEnum e_SpecialCharacter]
+  [ mkCtor "new" []
+  , mkCtor "newFromCellRow" [TUChar, TUChar]
+  , mkCtor "newFromInt" [TInt]
+  , mkCtor "newFromSpecialCharacter" [TEnum e_SpecialCharacter]
   ]
-  [ mkStaticMethod' this "fromAscii" "newFromAscii" [TChar] $ TObj c_QChar
-  , mkStaticMethod' this "fromLatin1" "newFromLatin1" [TChar] $ TObj c_QChar
-  , mkConstMethod this "category" [] $ TEnum e_Category
-  , mkConstMethod this "cell" [] TUChar
-  , mkConstMethod this "combiningClass" [] TUChar
-  , mkStaticMethod this "currentUnicodeVersion" [] $ TEnum e_UnicodeVersion
-  , mkConstMethod this "decomposition" [] $ TObj c_QString
-  , mkConstMethod this "decompositionTag" [] $ TEnum e_Decomposition
-  , mkConstMethod this "digitValue" [] TInt
-  , mkConstMethod this "direction" [] $ TEnum e_Direction
-  , mkConstMethod this "hasMirrored" [] TBool
-  , mkConstMethod this "isDigit" [] TBool
-  , mkConstMethod this "isHighSurrogate" [] TBool
-  , mkConstMethod this "isLetter" [] TBool
-  , mkConstMethod this "isLetterOrNumber" [] TBool
-  , mkConstMethod this "isLowSurrogate" [] TBool
-  , mkConstMethod this "isLower" [] TBool
-  , mkConstMethod this "isMark" [] TBool
-  , mkConstMethod this "isNull" [] TBool
-  , mkConstMethod this "isNumber" [] TBool
-  , mkConstMethod this "isPrint" [] TBool
-  , mkConstMethod this "isPunct" [] TBool
-  , mkConstMethod this "isSpace" [] TBool
-  , mkConstMethod this "isSymbol" [] TBool
-  , mkConstMethod this "isTitleCase" [] TBool
-  , mkConstMethod this "isUpper" [] TBool
-  , mkConstMethod this "joining" [] $ TEnum e_Joining
-  , mkConstMethod this "mirroredChar" [] $ TObj c_QChar
-  , mkConstMethod this "row" [] TUChar
-  , mkConstMethod this "toAscii" [] TChar
-  , mkConstMethod this "toCaseFolded" [] $ TObj c_QChar
-  , mkConstMethod this "toLatin1" [] TChar
-  , mkConstMethod this "toLower" [] $ TObj c_QChar
-  , mkConstMethod this "toTitleCase" [] $ TObj c_QChar
-  , mkConstMethod this "toUpper" [] $ TObj c_QChar
-  , mkConstMethod' this "unicode" "unicode" [] TUShort
-  , mkMethod' this "unicode" "unicodeRef" [] $ TRef TUShort
-  , mkConstMethod this "unicodeVersion" [] $ TEnum e_UnicodeVersion
+  [ mkStaticMethod' "fromAscii" "newFromAscii" [TChar] $ TObj c_QChar
+  , mkStaticMethod' "fromLatin1" "newFromLatin1" [TChar] $ TObj c_QChar
+  , mkConstMethod "category" [] $ TEnum e_Category
+  , mkConstMethod "cell" [] TUChar
+  , mkConstMethod "combiningClass" [] TUChar
+  , mkStaticMethod "currentUnicodeVersion" [] $ TEnum e_UnicodeVersion
+  , mkConstMethod "decomposition" [] $ TObj c_QString
+  , mkConstMethod "decompositionTag" [] $ TEnum e_Decomposition
+  , mkConstMethod "digitValue" [] TInt
+  , mkConstMethod "direction" [] $ TEnum e_Direction
+  , mkConstMethod "hasMirrored" [] TBool
+  , mkConstMethod "isDigit" [] TBool
+  , mkConstMethod "isHighSurrogate" [] TBool
+  , mkConstMethod "isLetter" [] TBool
+  , mkConstMethod "isLetterOrNumber" [] TBool
+  , mkConstMethod "isLowSurrogate" [] TBool
+  , mkConstMethod "isLower" [] TBool
+  , mkConstMethod "isMark" [] TBool
+  , mkConstMethod "isNull" [] TBool
+  , mkConstMethod "isNumber" [] TBool
+  , mkConstMethod "isPrint" [] TBool
+  , mkConstMethod "isPunct" [] TBool
+  , mkConstMethod "isSpace" [] TBool
+  , mkConstMethod "isSymbol" [] TBool
+  , mkConstMethod "isTitleCase" [] TBool
+  , mkConstMethod "isUpper" [] TBool
+  , mkConstMethod "joining" [] $ TEnum e_Joining
+  , mkConstMethod "mirroredChar" [] $ TObj c_QChar
+  , mkConstMethod "row" [] TUChar
+  , mkConstMethod "toAscii" [] TChar
+  , mkConstMethod "toCaseFolded" [] $ TObj c_QChar
+  , mkConstMethod "toLatin1" [] TChar
+  , mkConstMethod "toLower" [] $ TObj c_QChar
+  , mkConstMethod "toTitleCase" [] $ TObj c_QChar
+  , mkConstMethod "toUpper" [] $ TObj c_QChar
+  , mkConstMethod' "unicode" "unicode" [] TUShort
+  , mkMethod' "unicode" "unicodeRef" [] $ TRef TUShort
+  , mkConstMethod "unicodeVersion" [] $ TEnum e_UnicodeVersion
   ]
 
 e_Category =

@@ -18,23 +18,21 @@ qtModule =
   makeQtModule "Widgets.QPushButton"
   [ QtExport $ ExportClass c_QPushButton ]
 
-this = c_QPushButton
-
 c_QPushButton =
   addReqIncludes [includeStd "QPushButton"] $
   makeClass (ident "QPushButton") Nothing
   [ c_QAbstractButton ]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor this "newWithText" [TObj c_QString]
-  , mkCtor this "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithText" [TObj c_QString]
+  , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
     -- TODO Ctors with QIcon.
   ] $
-  [ mkMethod this "showMenu" [] TVoid
+  [ mkMethod "showMenu" [] TVoid
   ] ++
   mkProps
-  [ mkProp this "autoDefault" TBool
-  , mkBoolIsProp this "default"
-  , mkBoolIsProp this "flat"
-  , mkProp this "menu" $ TPtr $ TObj c_QMenu
+  [ mkProp "autoDefault" TBool
+  , mkBoolIsProp "default"
+  , mkBoolIsProp "flat"
+  , mkProp "menu" $ TPtr $ TObj c_QMenu
   ]

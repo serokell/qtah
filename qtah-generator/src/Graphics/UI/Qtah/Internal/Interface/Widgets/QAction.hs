@@ -28,60 +28,58 @@ qtModule =
       , e_SoftKeyRole
       ]
 
-this = c_QAction
-
 c_QAction =
   addReqIncludes [includeStd "QAction"] $
   makeClass (ident "QAction") Nothing
   [ c_QObject ]
-  [ mkCtor this "new" [TPtr $ TObj c_QObject]
-  , mkCtor this "newWithText" [TObj c_QString, TPtr $ TObj c_QObject]
+  [ mkCtor "new" [TPtr $ TObj c_QObject]
+  , mkCtor "newWithText" [TObj c_QString, TPtr $ TObj c_QObject]
     -- TODO newWithIconAndText
   ] $
-  [ mkMethod this "activate" [TEnum e_ActionEvent] TVoid
+  [ mkMethod "activate" [TEnum e_ActionEvent] TVoid
     -- TODO associatedGraphicsWidgets
     -- TODO associatedWidgets
-  , mkMethod this "hover" [] TVoid
-  , mkConstMethod this "parentWidget" [] $ TPtr $ TObj c_QWidget
-  , mkConstMethod this "priority" [] $ TEnum e_Priority
-  , mkMethod this "setDisabled" [TBool] TVoid
-  , mkMethod this "setPriority" [TEnum e_Priority] TVoid
+  , mkMethod "hover" [] TVoid
+  , mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
+  , mkConstMethod "priority" [] $ TEnum e_Priority
+  , mkMethod "setDisabled" [TBool] TVoid
+  , mkMethod "setPriority" [TEnum e_Priority] TVoid
     -- TODO setShortcuts
-  , mkMethod this "setSoftKeyRole" [TEnum e_SoftKeyRole] TVoid
+  , mkMethod "setSoftKeyRole" [TEnum e_SoftKeyRole] TVoid
     -- TODO shortcuts
-  , mkMethod this "showStatusText" [TPtr $ TObj c_QWidget] TBool
-  , mkConstMethod this "softKeyRole" [] $ TEnum e_SoftKeyRole
-  , mkMethod this "toggle" [] TVoid
-  , mkMethod this "trigger" [] TVoid
+  , mkMethod "showStatusText" [TPtr $ TObj c_QWidget] TBool
+  , mkConstMethod "softKeyRole" [] $ TEnum e_SoftKeyRole
+  , mkMethod "toggle" [] TVoid
+  , mkMethod "trigger" [] TVoid
   ] ++
   mkProps
-  [ mkProp this "actionGroup" $ TPtr $ TObj c_QActionGroup
-  , mkProp this "autoRepeat" TBool
-  , mkBoolIsProp this "checkable"
-  , mkBoolIsProp this "checked"
+  [ mkProp "actionGroup" $ TPtr $ TObj c_QActionGroup
+  , mkProp "autoRepeat" TBool
+  , mkBoolIsProp "checkable"
+  , mkBoolIsProp "checked"
     -- TODO data
-  , mkBoolIsProp this "enabled"
+  , mkBoolIsProp "enabled"
     -- TODO font
     -- TODO icon
-  , mkProp this "iconText" $ TObj c_QString
-  , mkBoolIsProp this "iconVisibleInMenu"
-  , mkProp this "menu" $ TPtr $ TObj c_QMenu
-  , mkProp this "menuRole" $ TEnum e_MenuRole
-  , mkBoolIsProp this "separator"
+  , mkProp "iconText" $ TObj c_QString
+  , mkBoolIsProp "iconVisibleInMenu"
+  , mkProp "menu" $ TPtr $ TObj c_QMenu
+  , mkProp "menuRole" $ TEnum e_MenuRole
+  , mkBoolIsProp "separator"
     -- TODO shortcut
     -- TODO shortcutContext
-  , mkProp this "statusTip" $ TObj c_QString
-  , mkProp this "text" $ TObj c_QString
-  , mkProp this "toolTip" $ TObj c_QString
-  , mkBoolIsProp this "visible"
-  , mkProp this "whatsThis" $ TObj c_QString
+  , mkProp "statusTip" $ TObj c_QString
+  , mkProp "text" $ TObj c_QString
+  , mkProp "toolTip" $ TObj c_QString
+  , mkBoolIsProp "visible"
+  , mkProp "whatsThis" $ TObj c_QString
   ]
 
 signals =
-  [ makeSignal this "changed" c_Listener
-  , makeSignal this "hovered" c_Listener
-  , makeSignal this "toggled" c_ListenerBool
-  , makeSignal this "triggered" c_ListenerBool
+  [ makeSignal c_QAction "changed" c_Listener
+  , makeSignal c_QAction "hovered" c_Listener
+  , makeSignal c_QAction "toggled" c_ListenerBool
+  , makeSignal c_QAction "triggered" c_ListenerBool
   ]
 
 e_ActionEvent =

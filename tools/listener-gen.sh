@@ -149,13 +149,12 @@ writeHs() {
     say
     say "${classVar} ="
     say "  S.makeClass (S.ident \"${className}\") Nothing [QObject.c_QObject]"
-    say "  [ S.makeCtor (S.toExtName \"${className}_new\")"
-    say "    [S.TCallback C.${callbackVar}]"
-    say "  , S.makeCtor (S.toExtName \"${className}_newWithParent\")"
+    say "  [ S.mkCtor \"new\" [S.TCallback C.${callbackVar}]"
+    say "  , S.mkCtor \"newWithParent\""
     say "    [S.TCallback C.${callbackVar}, S.TPtr \$ S.TObj QObject.c_QObject]"
     say "  ]"
-    say "  [ S.makeMethod \"connectListener\" (S.toExtName \"${className}_connectListener\")"
-    say "    S.MNormal S.Nonpure [S.TPtr \$ S.TObj QObject.c_QObject, S.TObj String.c_string] S.TBool"
+    say "  [ S.mkMethod \"connectListener\""
+    say "    [S.TPtr \$ S.TObj QObject.c_QObject, S.TObj String.c_string] S.TBool"
     say "  ]"
 }
 forEachListener writeHs

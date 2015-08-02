@@ -18,27 +18,25 @@ qtModule =
   [ QtExport $ ExportClass c_QObject
   ] ++ map QtExportSignal signals
 
-this = c_QObject
-
 c_QObject =
   addReqIncludes [includeStd "QObject"] $
   makeClass (ident "QObject") Nothing []
   [] $
-  [ mkMethod this "blockSignals" [TBool] TBool
-  , mkMethod this "dumpObjectInfo" [] TVoid
-  , mkMethod this "dumpObjectTree" [] TVoid
-  , mkMethod this "installEventFilter" [TPtr $ TObj c_QObject] TVoid
-  , mkConstMethod this "isWidgetType" [] TBool
-  , mkMethod this "killTimer" [TInt] TVoid
-  , mkConstMethod this "objectName" [] $ TObj c_QString
-  , mkMethod this "removeEventFilter" [TPtr $ TObj c_QObject] TVoid
-  , mkConstMethod this "signalsBlocked" [] TBool
-  , mkMethod this "startTimer" [TInt] TInt
+  [ mkMethod "blockSignals" [TBool] TBool
+  , mkMethod "dumpObjectInfo" [] TVoid
+  , mkMethod "dumpObjectTree" [] TVoid
+  , mkMethod "installEventFilter" [TPtr $ TObj c_QObject] TVoid
+  , mkConstMethod "isWidgetType" [] TBool
+  , mkMethod "killTimer" [TInt] TVoid
+  , mkConstMethod "objectName" [] $ TObj c_QString
+  , mkMethod "removeEventFilter" [TPtr $ TObj c_QObject] TVoid
+  , mkConstMethod "signalsBlocked" [] TBool
+  , mkMethod "startTimer" [TInt] TInt
   ] ++
   mkProps
-  [ mkProp this "parent" $ TPtr $ TObj c_QObject
+  [ mkProp "parent" $ TPtr $ TObj c_QObject
   ]
 
 signals =
-  [ makeSignal this "destroyed" c_ListenerPtrQObject
+  [ makeSignal c_QObject "destroyed" c_ListenerPtrQObject
   ]

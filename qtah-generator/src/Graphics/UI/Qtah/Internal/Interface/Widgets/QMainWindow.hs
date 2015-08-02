@@ -20,20 +20,18 @@ qtModule =
   QtExport (ExportClass c_QMainWindow) :
   map QtExportSignal signals
 
-this = c_QMainWindow
-
 c_QMainWindow =
   addReqIncludes [includeStd "QMainWindow"] $
   makeClass (ident "QMainWindow") Nothing [c_QWidget]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
   ] $
   [ -- TODO addDockWidget
     -- TODO addToolBar
     -- TODO addToolBarBreak
     -- TODO corner
-    mkMethod this "createPopupMenu" [] $ TPtr $ TObj c_QMenu
+    mkMethod "createPopupMenu" [] $ TPtr $ TObj c_QMenu
     -- TODO dockWidgetArea
     -- TODO insertToolBar
     -- TODO insertToolBarBreak
@@ -52,21 +50,21 @@ c_QMainWindow =
     -- TODO toolBarBreak
   ] ++
   mkProps
-  [ mkBoolIsProp this "animated"
-  , mkProp this "centralWidget" $ TPtr $ TObj c_QWidget
-  , mkBoolIsProp this "dockNestingEnabled"
+  [ mkBoolIsProp "animated"
+  , mkProp "centralWidget" $ TPtr $ TObj c_QWidget
+  , mkBoolIsProp "dockNestingEnabled"
     -- TODO dockOptions
-  , mkProp this "documentMode" TBool
-  , mkProp this "iconSize" $ TObj c_QSize
-  , mkProp this "menuBar" $ TPtr $ TObj c_QMenuBar
-  , mkProp this "menuWidget" $ TPtr $ TObj c_QWidget
+  , mkProp "documentMode" TBool
+  , mkProp "iconSize" $ TObj c_QSize
+  , mkProp "menuBar" $ TPtr $ TObj c_QMenuBar
+  , mkProp "menuWidget" $ TPtr $ TObj c_QWidget
     -- TODO statusBar
     -- TODO tabShape
     -- TODO toolButtonStyle
-  , mkProp this "unifiedTitleAndToolBarOnMac" TBool
+  , mkProp "unifiedTitleAndToolBarOnMac" TBool
   ]
 
 signals =
-  [ makeSignal this "iconSizeChanged" c_ListenerQSize
+  [ makeSignal c_QMainWindow "iconSizeChanged" c_ListenerQSize
     -- TODO toolButtonStyleChanged
   ]

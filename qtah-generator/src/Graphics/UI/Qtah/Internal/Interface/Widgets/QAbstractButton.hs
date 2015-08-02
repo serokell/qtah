@@ -20,35 +20,33 @@ qtModule =
   QtExport (ExportClass c_QAbstractButton) :
   map QtExportSignal signals
 
-this = c_QAbstractButton
-
 c_QAbstractButton =
   addReqIncludes [includeStd "QAbstractButton"] $
   makeClass (ident "QAbstractButton") Nothing
   [ c_QWidget ]
   [] $  -- Abstact.
-  [ mkMethod this "animateClick" [TInt] TVoid
-  , mkMethod this "click" [] TVoid
+  [ mkMethod "animateClick" [TInt] TVoid
+  , mkMethod "click" [] TVoid
     -- TODO group
-  , mkMethod this "toggle" [] TVoid
+  , mkMethod "toggle" [] TVoid
   ] ++
   mkProps
-  [ mkProp this "autoExclusive" TBool
-  , mkProp this "autoRepeat" TBool
-  , mkProp this "autoRepeatDelay" TInt
-  , mkProp this "autoRepeatInterval" TInt
-  , mkBoolIsProp this "checkable"
-  , mkBoolIsProp this "checked"
-  , mkBoolIsProp this "down"
+  [ mkProp "autoExclusive" TBool
+  , mkProp "autoRepeat" TBool
+  , mkProp "autoRepeatDelay" TInt
+  , mkProp "autoRepeatInterval" TInt
+  , mkBoolIsProp "checkable"
+  , mkBoolIsProp "checked"
+  , mkBoolIsProp "down"
     -- TODO icon
-  , mkProp this "iconSize" $ TObj c_QSize
+  , mkProp "iconSize" $ TObj c_QSize
     -- TODO shortcut
-  , mkProp this "text" $ TObj c_QString
+  , mkProp "text" $ TObj c_QString
   ]
 
 signals =
-  [ makeSignal this "clicked" c_ListenerBool
-  , makeSignal this "pressed" c_Listener
-  , makeSignal this "released" c_Listener
-  , makeSignal this "toggled" c_ListenerBool
+  [ makeSignal c_QAbstractButton "clicked" c_ListenerBool
+  , makeSignal c_QAbstractButton "pressed" c_Listener
+  , makeSignal c_QAbstractButton "released" c_Listener
+  , makeSignal c_QAbstractButton "toggled" c_ListenerBool
   ]

@@ -21,24 +21,22 @@ qtModule =
   , QtExport $ ExportEnum e_StyleMask
   ]
 
-this = c_QFrame
-
 c_QFrame =
   addReqIncludes [includeStd "QFrame"] $
   makeClass (ident "QFrame") Nothing [c_QWidget]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
     -- TODO QFrame(QWidget*, Qt::WindowFlags)
   ] $
-  [ mkConstMethod this "frameWidth" [] TInt
+  [ mkConstMethod "frameWidth" [] TInt
   ] ++
   mkProps
-  [ mkProp this "frameRect" $ TObj c_QRect
-  , mkProp this "frameShadow" $ TEnum e_Shadow
-  , mkProp this "frameShape" $ TEnum e_Shape
-  , mkProp this "frameStyle" TInt
-  , mkProp this "lineWidth" TInt
-  , mkProp this "midLineWidth" TInt
+  [ mkProp "frameRect" $ TObj c_QRect
+  , mkProp "frameShadow" $ TEnum e_Shadow
+  , mkProp "frameShape" $ TEnum e_Shape
+  , mkProp "frameStyle" TInt
+  , mkProp "lineWidth" TInt
+  , mkProp "midLineWidth" TInt
   ]
 
 e_Shadow =

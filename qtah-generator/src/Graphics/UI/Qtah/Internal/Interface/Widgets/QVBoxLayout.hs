@@ -16,12 +16,10 @@ qtModule =
   makeQtModule "Widgets.QVBoxLayout"
   [ QtExport $ ExportClass c_QVBoxLayout ]
 
-this = c_QVBoxLayout
-
 c_QVBoxLayout =
   addReqIncludes [includeStd "QVBoxLayout"] $
   makeClass (ident "QVBoxLayout") Nothing [c_QBoxLayout]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   ]
   []

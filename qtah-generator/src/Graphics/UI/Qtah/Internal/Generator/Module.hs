@@ -54,6 +54,7 @@ import Foreign.Cppop.Generator.Spec (
   enumExtName,
   fnExtName,
   fromExtName,
+  getClassyExtName,
   hsImports,
   methodCName,
   methodExtName,
@@ -222,9 +223,9 @@ sayQtExport qtExport = case qtExport of
     sayBind classNullReexportName $ toHsClassNullName cls
     sayClassEncodingFnReexports cls
     forM_ (classCtors cls) $ \ctor ->
-      sayBind (getCtorReexportName cls ctor) $ toHsFnName $ ctorExtName ctor
+      sayBind (getCtorReexportName cls ctor) $ toHsFnName $ getClassyExtName cls ctor
     forM_ (classMethods cls) $ \method ->
-      sayBind (getMethodReexportName cls method) $ toHsFnName $ methodExtName method
+      sayBind (getMethodReexportName cls method) $ toHsFnName $ getClassyExtName cls method
 
   QtExportSignal sig -> saySignalExport sig
 
@@ -259,7 +260,7 @@ saySignalExport signal = do
   listenerConnectMethod <-
     fromMaybeM (abort $ concat
                 ["saySignalExport: Couldn't find the connectListener method in ",
-                 show cls, " for signal " ++ show name ++ "."]) $
+                 show listenerClass, " for signal ", show name, "."]) $
     find ((FnName "connectListener" ==) . methodCName) $ classMethods listenerClass
 
   callbackHsType <-
@@ -279,9 +280,9 @@ saySignalExport signal = do
   indent $ do
     sayLn "{ QtahSignal.internalConnectSignal = \\object' fn' -> do"
     indent $ do
-      saysLn ["listener' <- ", toHsFnName $ ctorExtName listenerCtor, " fn'"]
-      saysLn [toHsFnName $ methodExtName listenerConnectMethod, " listener' object' ",
-              show (toSignalConnectName signal paramTypes)]
+      saysLn ["listener' <- ", toHsFnName $ getClassyExtName listenerClass listenerCtor, " fn'"]
+      saysLn [toHsFnName $ getClassyExtName listenerClass listenerConnectMethod, 
+              " listener' object' ", show (toSignalConnectName signal paramTypes)]
     sayLn "}"
 
 toSignalBindingName :: Signal -> String

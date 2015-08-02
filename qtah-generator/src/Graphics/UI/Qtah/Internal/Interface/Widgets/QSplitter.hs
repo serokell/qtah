@@ -19,38 +19,36 @@ qtModule =
   [ QtExport $ ExportClass c_QSplitter
   ] ++ map QtExportSignal signals
 
-this = c_QSplitter
-
 c_QSplitter =
   addReqIncludes [includeStd "QSplitter"] $
   makeClass (ident "QSplitter") Nothing [c_QFrame]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor this "newWithOrientation" [TEnum e_Orientation]
-  , mkCtor this "newWithOrientationAndParent" [TEnum e_Orientation, TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithOrientation" [TEnum e_Orientation]
+  , mkCtor "newWithOrientationAndParent" [TEnum e_Orientation, TPtr $ TObj c_QWidget]
   ] $
-  [ mkMethod this "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkConstMethod this "count" [] TInt
+  [ mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  , mkConstMethod "count" [] TInt
     -- TODO getRange
     -- TODO handle
-  , mkConstMethod this "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , mkMethod this "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , mkConstMethod this "isCollapsible" [TInt] TBool
-  , mkMethod this "refresh" [] TVoid
+  , mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
+  , mkMethod "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
+  , mkConstMethod "isCollapsible" [TInt] TBool
+  , mkMethod "refresh" [] TVoid
     -- TODO restoreState
     -- TODO saveState
-  , mkMethod this "setCollapsible" [TInt, TBool] TVoid
+  , mkMethod "setCollapsible" [TInt, TBool] TVoid
     -- TODO setSizes
-  , mkMethod this "setStretchFactor" [TInt, TInt] TVoid
+  , mkMethod "setStretchFactor" [TInt, TInt] TVoid
     -- TODO sizes
-  , mkConstMethod this "widget" [TInt] $ TPtr $ TObj c_QWidget
+  , mkConstMethod "widget" [TInt] $ TPtr $ TObj c_QWidget
   ] ++
   mkProps
-  [ mkProp this "childrenCollapsible" TBool
-  , mkProp this "handleWidth" TInt
-  , mkProp this "opaqueResize" TBool
-  , mkProp this "orientation" $ TEnum e_Orientation
+  [ mkProp "childrenCollapsible" TBool
+  , mkProp "handleWidth" TInt
+  , mkProp "opaqueResize" TBool
+  , mkProp "orientation" $ TEnum e_Orientation
   ]
 
 signals =
-  [ makeSignal this "splitterMoved" c_ListenerIntInt ]
+  [ makeSignal c_QSplitter "splitterMoved" c_ListenerIntInt ]

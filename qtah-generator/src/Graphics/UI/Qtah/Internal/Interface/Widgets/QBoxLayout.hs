@@ -20,41 +20,39 @@ qtModule =
   , QtExport $ ExportEnum e_Direction
   ]
 
-this = c_QBoxLayout
-
 c_QBoxLayout =
   addReqIncludes [includeStd "QBoxLayout"] $
   makeClass (ident "QBoxLayout") Nothing [c_QLayout]
-  [ mkCtor this "new" [TEnum e_Direction]
-  , mkCtor this "newWithParent" [TEnum e_Direction, TPtr $ TObj c_QWidget]
+  [ mkCtor "new" [TEnum e_Direction]
+  , mkCtor "newWithParent" [TEnum e_Direction, TPtr $ TObj c_QWidget]
   ] $
-  [ mkMethod' this "addLayout" "addLayout" [TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' this "addLayout" "addLayoutWithStretch" [TPtr $ TObj c_QLayout, TInt] TVoid
-  , mkMethod this "addSpacing" [TInt] TVoid
-  , mkMethod' this "addStretch" "addStretch" [] TVoid
-  , mkMethod' this "addStretch" "addStretchOf" [TInt] TVoid
-  , mkMethod this "addStrut" [TInt] TVoid
-  , mkMethod' this "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' this "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
-  , mkMethod' this "addWidget" "addWidgetWithStretchAndAlignment"
+  [ mkMethod' "addLayout" "addLayout" [TPtr $ TObj c_QLayout] TVoid
+  , mkMethod' "addLayout" "addLayoutWithStretch" [TPtr $ TObj c_QLayout, TInt] TVoid
+  , mkMethod "addSpacing" [TInt] TVoid
+  , mkMethod' "addStretch" "addStretch" [] TVoid
+  , mkMethod' "addStretch" "addStretchOf" [TInt] TVoid
+  , mkMethod "addStrut" [TInt] TVoid
+  , mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  , mkMethod' "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
+  , mkMethod' "addWidget" "addWidgetWithStretchAndAlignment"
     [TPtr $ TObj c_QWidget, TInt, TEnum e_Alignment] TVoid
-  , mkMethod' this "insertLayout" "insertLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' this "insertLayout" "insertLayoutWithStretch" [TInt, TPtr $ TObj c_QLayout, TInt] TVoid
+  , mkMethod' "insertLayout" "insertLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
+  , mkMethod' "insertLayout" "insertLayoutWithStretch" [TInt, TPtr $ TObj c_QLayout, TInt] TVoid
     -- TODO insertSpacerItem
-  , mkMethod this "insertSpacing" [TInt, TInt] TVoid
-  , mkMethod' this "insertStretch" "insertStretch" [TInt] TVoid
-  , mkMethod' this "insertStretch" "insertStretchOf" [TInt, TInt] TVoid
-  , mkMethod' this "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' this "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
-  , mkMethod' this "insertWidget" "insertWidgetWithStretchAndAlignment"
+  , mkMethod "insertSpacing" [TInt, TInt] TVoid
+  , mkMethod' "insertStretch" "insertStretch" [TInt] TVoid
+  , mkMethod' "insertStretch" "insertStretchOf" [TInt, TInt] TVoid
+  , mkMethod' "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
+  , mkMethod' "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
+  , mkMethod' "insertWidget" "insertWidgetWithStretchAndAlignment"
     [TInt, TPtr $ TObj c_QWidget, TInt, TEnum e_Alignment] TVoid
-  , mkMethod this "setStretch" [TInt, TInt] TVoid
-  , mkMethod' this "setStretchFactor" "setWidgetStretchFactor" [TPtr $ TObj c_QWidget, TInt] TBool
-  , mkMethod' this "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool
+  , mkMethod "setStretch" [TInt, TInt] TVoid
+  , mkMethod' "setStretchFactor" "setWidgetStretchFactor" [TPtr $ TObj c_QWidget, TInt] TBool
+  , mkMethod' "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool
   ] ++
   mkProps
-  [ mkProp this "direction" $ TEnum e_Direction
-  , mkProp this "spacing" TInt
+  [ mkProp "direction" $ TEnum e_Direction
+  , mkProp "spacing" TInt
   ]
 
 e_Direction =

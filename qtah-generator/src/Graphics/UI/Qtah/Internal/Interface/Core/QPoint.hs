@@ -27,8 +27,6 @@ qtModule =
   makeQtModule "Core.QPoint"
   [ QtExport $ ExportClass c_QPoint ]
 
-this = c_QPoint
-
 c_QPoint =
   addReqIncludes [includeStd "QPoint"] $
   classModifyConversions
@@ -52,13 +50,13 @@ c_QPoint =
              }
            }) $
   makeClass (ident "QPoint") Nothing []
-  [ mkCtor this "newNull" []
-  , mkCtor this "new" [TInt, TInt]
+  [ mkCtor "newNull" []
+  , mkCtor "new" [TInt, TInt]
   ] $
-  [ mkConstMethod this "isNull" [] TBool
-  , mkConstMethod this "manhattanLength" [] TInt
+  [ mkConstMethod "isNull" [] TBool
+  , mkConstMethod "manhattanLength" [] TInt
   ] ++
   mkProps
-  [ mkProp this "x" TInt
-  , mkProp this "y" TInt
+  [ mkProp "x" TInt
+  , mkProp "y" TInt
   ]

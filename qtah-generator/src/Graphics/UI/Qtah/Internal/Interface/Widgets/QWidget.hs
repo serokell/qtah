@@ -28,249 +28,247 @@ qtModule =
   QtExport (ExportClass c_QWidget) :
   map QtExportSignal signals
 
-this = c_QWidget
-
 c_QWidget =
   addReqIncludes [includeStd "QWidget"] $
   makeClass (ident "QWidget") Nothing
   [ c_QObject ]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   ]
   (collect
-   [ just $ mkConstMethod this "acceptDrops" [] TBool
-   , just $ mkConstMethod this "accessibleDescription" [] $ TObj c_QString
-   , just $ mkConstMethod this "accessibleName" [] $ TObj c_QString
+   [ just $ mkConstMethod "acceptDrops" [] TBool
+   , just $ mkConstMethod "accessibleDescription" [] $ TObj c_QString
+   , just $ mkConstMethod "accessibleName" [] $ TObj c_QString
      -- TODO actions
-   , just $ mkMethod this "activateWindow" [] TVoid
-   , just $ mkMethod this "addAction" [TPtr $ TObj c_QAction] TVoid
+   , just $ mkMethod "activateWindow" [] TVoid
+   , just $ mkMethod "addAction" [TPtr $ TObj c_QAction] TVoid
      -- TODO addActions
-   , just $ mkMethod this "adjustSize" [] TVoid
-   , just $ mkConstMethod this "autoFillBackground" [] TBool
+   , just $ mkMethod "adjustSize" [] TVoid
+   , just $ mkConstMethod "autoFillBackground" [] TBool
      -- TODO backgroundRole
-   , just $ mkConstMethod this "baseSize" [] $ TObj c_QSize
-   , just $ mkConstMethod' this "childAt" "childAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod' this "childAt" "childAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod this "childrenRect" [] $ TObj c_QRect
+   , just $ mkConstMethod "baseSize" [] $ TObj c_QSize
+   , just $ mkConstMethod' "childAt" "childAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod' "childAt" "childAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "childrenRect" [] $ TObj c_QRect
      -- TODO childrenRegion
-   , just $ mkMethod this "clearFocus" [] TVoid
-   , just $ mkMethod this "clearMask" [] TVoid
-   , just $ mkMethod this "close" [] TVoid
-   , just $ mkConstMethod this "contentsMargins" [] $ TObj c_QMargins
-   , just $ mkConstMethod this "contentsRect" [] $ TObj c_QRect
+   , just $ mkMethod "clearFocus" [] TVoid
+   , just $ mkMethod "clearMask" [] TVoid
+   , just $ mkMethod "close" [] TVoid
+   , just $ mkConstMethod "contentsMargins" [] $ TObj c_QMargins
+   , just $ mkConstMethod "contentsRect" [] $ TObj c_QRect
      -- TODO contextMenuPolicy
      -- TODO cursor
      -- TODO effectiveWinId
-   , just $ mkConstMethod this "ensurePolished" [] TVoid
+   , just $ mkConstMethod "ensurePolished" [] TVoid
      -- TODO focusPolicy
-   , just $ mkConstMethod this "focusProxy" [] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod this "focusWidget" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "focusProxy" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "focusWidget" [] $ TPtr $ TObj c_QWidget
      -- TODO font
      -- TODO fontInfo
      -- TODO fontMetrics
      -- TODO foregroundRole
-   , just $ mkConstMethod this "frameGeometry" [] $ TObj c_QRect
-   , just $ mkConstMethod this "frameSize" [] $ TObj c_QSize
-   , just $ mkConstMethod this "geometry" [] $ TObj c_QRect
+   , just $ mkConstMethod "frameGeometry" [] $ TObj c_QRect
+   , just $ mkConstMethod "frameSize" [] $ TObj c_QSize
+   , just $ mkConstMethod "geometry" [] $ TObj c_QRect
      -- TODO grabGesture
-   , just $ mkMethod this "grabKeyboard" [] TVoid
-   , just $ mkMethod this "grabMouse" [] TVoid
+   , just $ mkMethod "grabKeyboard" [] TVoid
+   , just $ mkMethod "grabMouse" [] TVoid
      -- TODO grabMouse(const QCursor&)
      -- TODO grabShortcut
      -- TODO graphicsEffect
      -- TODO graphicsProxyWidget
-   , test keypadNavigation $ mkConstMethod this "hasEditFocus" [] TBool
-   , just $ mkConstMethod this "hasFocus" [] TBool
-   , just $ mkConstMethod this "hasMouseTracking" [] TBool
-   , just $ mkConstMethod this "height" [] TInt
-   , just $ mkConstMethod this "heightForWidth" [TInt] TInt
-   , just $ mkMethod this "hide" [] TVoid
+   , test keypadNavigation $ mkConstMethod "hasEditFocus" [] TBool
+   , just $ mkConstMethod "hasFocus" [] TBool
+   , just $ mkConstMethod "hasMouseTracking" [] TBool
+   , just $ mkConstMethod "height" [] TInt
+   , just $ mkConstMethod "heightForWidth" [TInt] TInt
+   , just $ mkMethod "hide" [] TVoid
      -- TODO inputContext
      -- TODO inputMethodHints
      -- TODO inputMethodQuery
-   , just $ mkMethod this "insertAction" [TPtr $ TObj c_QAction, TPtr $ TObj c_QAction] TVoid
+   , just $ mkMethod "insertAction" [TPtr $ TObj c_QAction, TPtr $ TObj c_QAction] TVoid
      -- TODO insertActions
-   , just $ mkConstMethod this "isActiveWindow" [] TBool
-   , just $ mkConstMethod this "isAncestorOf" [TPtr $ TObj c_QWidget] TBool
-   , just $ mkConstMethod this "isEnabled" [] TBool
-   , just $ mkConstMethod this "isEnabledTo" [TPtr $ TObj c_QWidget] TBool
-   , just $ mkConstMethod this "isFullScreen" [] TBool
-   , just $ mkConstMethod this "isHidden" [] TBool
-   , just $ mkConstMethod this "isMaximized" [] TBool
-   , just $ mkConstMethod this "isMinimized" [] TBool
-   , just $ mkConstMethod this "isModal" [] TBool
-   , just $ mkConstMethod this "isVisible" [] TBool
-   , just $ mkConstMethod this "isVisibleTo" [TPtr $ TObj c_QWidget] TBool
-   , just $ mkConstMethod this "isWindow" [] TBool
-   , just $ mkConstMethod this "isWindowModified" [] TBool
-   , just $ mkStaticMethod this "keyboardGrabber" [] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod this "layout" [] $ TPtr $ TObj c_QLayout
-   , just $ mkConstMethod this "layoutDirection" [] $ TEnum e_LayoutDirection
+   , just $ mkConstMethod "isActiveWindow" [] TBool
+   , just $ mkConstMethod "isAncestorOf" [TPtr $ TObj c_QWidget] TBool
+   , just $ mkConstMethod "isEnabled" [] TBool
+   , just $ mkConstMethod "isEnabledTo" [TPtr $ TObj c_QWidget] TBool
+   , just $ mkConstMethod "isFullScreen" [] TBool
+   , just $ mkConstMethod "isHidden" [] TBool
+   , just $ mkConstMethod "isMaximized" [] TBool
+   , just $ mkConstMethod "isMinimized" [] TBool
+   , just $ mkConstMethod "isModal" [] TBool
+   , just $ mkConstMethod "isVisible" [] TBool
+   , just $ mkConstMethod "isVisibleTo" [TPtr $ TObj c_QWidget] TBool
+   , just $ mkConstMethod "isWindow" [] TBool
+   , just $ mkConstMethod "isWindowModified" [] TBool
+   , just $ mkStaticMethod "keyboardGrabber" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "layout" [] $ TPtr $ TObj c_QLayout
+   , just $ mkConstMethod "layoutDirection" [] $ TEnum e_LayoutDirection
      -- TODO locale
      -- TODO macCGHandle
      -- TODO macQDHandle
-   , just $ mkMethod this "lower" [] TVoid
-   , just $ mkConstMethod this "mapFrom" [TPtr $ TObj c_QWidget, TObj c_QPoint] $ TObj c_QPoint
-   , just $ mkConstMethod this "mapFromGlobal" [TObj c_QPoint] $ TObj c_QPoint
-   , just $ mkConstMethod this "mapFromParent" [TObj c_QPoint] $ TObj c_QPoint
-   , just $ mkConstMethod this "mapTo" [TPtr $ TObj c_QWidget, TObj c_QPoint] $ TObj c_QPoint
-   , just $ mkConstMethod this "mapToGlobal" [TObj c_QPoint] $ TObj c_QPoint
-   , just $ mkConstMethod this "mapToParent" [TObj c_QPoint] $ TObj c_QPoint
-   , just $ mkConstMethod this "maximumHeight" [] TInt
-   , just $ mkConstMethod this "maximumSize" [] $ TObj c_QSize
-   , just $ mkConstMethod this "maximumWidth" [] TInt
-   , just $ mkConstMethod this "minimumHeight" [] TInt
-   , just $ mkConstMethod this "minimumSize" [] $ TObj c_QSize
-   , just $ mkConstMethod this "minimumWidth" [] TInt
-   , just $ mkStaticMethod this "mouseGrabber" [] $ TPtr $ TObj c_QWidget
-   , just $ mkMethod this "move" [TObj c_QPoint] TVoid
-   , just $ mkConstMethod this "nativeParentWidget" [] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod this "nextInFocusChain" [] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod this "normalGeometry" [] $ TObj c_QRect
+   , just $ mkMethod "lower" [] TVoid
+   , just $ mkConstMethod "mapFrom" [TPtr $ TObj c_QWidget, TObj c_QPoint] $ TObj c_QPoint
+   , just $ mkConstMethod "mapFromGlobal" [TObj c_QPoint] $ TObj c_QPoint
+   , just $ mkConstMethod "mapFromParent" [TObj c_QPoint] $ TObj c_QPoint
+   , just $ mkConstMethod "mapTo" [TPtr $ TObj c_QWidget, TObj c_QPoint] $ TObj c_QPoint
+   , just $ mkConstMethod "mapToGlobal" [TObj c_QPoint] $ TObj c_QPoint
+   , just $ mkConstMethod "mapToParent" [TObj c_QPoint] $ TObj c_QPoint
+   , just $ mkConstMethod "maximumHeight" [] TInt
+   , just $ mkConstMethod "maximumSize" [] $ TObj c_QSize
+   , just $ mkConstMethod "maximumWidth" [] TInt
+   , just $ mkConstMethod "minimumHeight" [] TInt
+   , just $ mkConstMethod "minimumSize" [] $ TObj c_QSize
+   , just $ mkConstMethod "minimumWidth" [] TInt
+   , just $ mkStaticMethod "mouseGrabber" [] $ TPtr $ TObj c_QWidget
+   , just $ mkMethod "move" [TObj c_QPoint] TVoid
+   , just $ mkConstMethod "nativeParentWidget" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "nextInFocusChain" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "normalGeometry" [] $ TObj c_QRect
      -- TODO overrideWindowFlags
      -- TODO palette
-   , just $ mkConstMethod this "parentWidget" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
      -- TODO platformWindow
      -- TODO platformWindowFormat
-   , just $ mkConstMethod this "pos" [] $ TObj c_QPoint
-   , just $ mkConstMethod this "previousInFocusChain" [] $ TPtr $ TObj c_QWidget
-   , just $ mkMethod this "raise" [] TVoid
-   , just $ mkConstMethod this "rect" [] $ TObj c_QRect
-   , just $ mkMethod this "releaseKeyboard" [] TVoid
-   , just $ mkMethod this "releaseMouse" [] TVoid
+   , just $ mkConstMethod "pos" [] $ TObj c_QPoint
+   , just $ mkConstMethod "previousInFocusChain" [] $ TPtr $ TObj c_QWidget
+   , just $ mkMethod "raise" [] TVoid
+   , just $ mkConstMethod "rect" [] $ TObj c_QRect
+   , just $ mkMethod "releaseKeyboard" [] TVoid
+   , just $ mkMethod "releaseMouse" [] TVoid
      -- TODO releaseShortcut
-   , just $ mkMethod this "removeAction" [TPtr $ TObj c_QAction] TVoid
+   , just $ mkMethod "removeAction" [TPtr $ TObj c_QAction] TVoid
      -- TODO render
-   , just $ mkMethod' this "repaint" "repaint" [] TVoid
-   , just $ mkMethod' this "repaint" "repaintRaw" [TInt, TInt, TInt, TInt] TVoid
-   , just $ mkMethod' this "repaint" "repaintRect" [TObj c_QRect] TVoid
+   , just $ mkMethod' "repaint" "repaint" [] TVoid
+   , just $ mkMethod' "repaint" "repaintRaw" [TInt, TInt, TInt, TInt] TVoid
+   , just $ mkMethod' "repaint" "repaintRect" [TObj c_QRect] TVoid
      -- TODO repaint(const QRegion&)
-   , just $ mkMethod' this "resize" "resize" [TObj c_QSize] TVoid
-   , just $ mkMethod' this "resize" "resizeRaw" [TInt, TInt] TVoid
+   , just $ mkMethod' "resize" "resize" [TObj c_QSize] TVoid
+   , just $ mkMethod' "resize" "resizeRaw" [TInt, TInt] TVoid
      -- TODO restoreGeometry
      -- TODO saveGeometry
-   , just $ mkMethod' this "scroll" "scrollRaw" [TInt, TInt] TVoid
-   , just $ mkMethod' this "scroll" "scrollRect" [TInt, TInt, TObj c_QRect] TVoid
-   , just $ mkMethod this "setAcceptDrops" [TBool] TVoid
-   , just $ mkMethod this "setAccessibleDescription" [TObj c_QString] TVoid
-   , just $ mkMethod this "setAccessibleName" [TObj c_QString] TVoid
+   , just $ mkMethod' "scroll" "scrollRaw" [TInt, TInt] TVoid
+   , just $ mkMethod' "scroll" "scrollRect" [TInt, TInt, TObj c_QRect] TVoid
+   , just $ mkMethod "setAcceptDrops" [TBool] TVoid
+   , just $ mkMethod "setAccessibleDescription" [TObj c_QString] TVoid
+   , just $ mkMethod "setAccessibleName" [TObj c_QString] TVoid
      -- TODO setAttribute
-   , just $ mkMethod this "setAutoFillBackground" [TBool] TVoid
+   , just $ mkMethod "setAutoFillBackground" [TBool] TVoid
      -- TODO setBackgroundRole
-   , just $ mkMethod' this "setBaseSize" "setBaseSize" [TObj c_QSize] TVoid
-   , just $ mkMethod' this "setBaseSize" "setBaseSizeRaw" [TInt, TInt] TVoid
-   , just $ mkMethod' this "setContentsMargins" "setContentsMargins" [TObj c_QMargins] TVoid
-   , just $ mkMethod' this "setContentsMargins" "setContentsMarginsRaw" [TInt, TInt, TInt, TInt] TVoid
+   , just $ mkMethod' "setBaseSize" "setBaseSize" [TObj c_QSize] TVoid
+   , just $ mkMethod' "setBaseSize" "setBaseSizeRaw" [TInt, TInt] TVoid
+   , just $ mkMethod' "setContentsMargins" "setContentsMargins" [TObj c_QMargins] TVoid
+   , just $ mkMethod' "setContentsMargins" "setContentsMarginsRaw" [TInt, TInt, TInt, TInt] TVoid
      -- TODO setContextMenuPolicy
-   , just $ mkMethod this "setEnabled" [TBool] TVoid
-   , just $ mkMethod this "setDisabled" [TBool] TVoid
-   , test keypadNavigation $ mkMethod this "setEditFocus" [TBool] TVoid
-   , just $ mkMethod this "setFixedHeight" [TInt] TVoid
-   , just $ mkMethod' this "setFixedSize" "setFixedSize" [TObj c_QSize] TVoid
-   , just $ mkMethod' this "setFixedSize" "setFixedSizeRaw" [TInt, TInt] TVoid
-   , just $ mkMethod this "setFixedWidth" [TInt] TVoid
-   , just $ mkMethod this "setFocus" [] TVoid
+   , just $ mkMethod "setEnabled" [TBool] TVoid
+   , just $ mkMethod "setDisabled" [TBool] TVoid
+   , test keypadNavigation $ mkMethod "setEditFocus" [TBool] TVoid
+   , just $ mkMethod "setFixedHeight" [TInt] TVoid
+   , just $ mkMethod' "setFixedSize" "setFixedSize" [TObj c_QSize] TVoid
+   , just $ mkMethod' "setFixedSize" "setFixedSizeRaw" [TInt, TInt] TVoid
+   , just $ mkMethod "setFixedWidth" [TInt] TVoid
+   , just $ mkMethod "setFocus" [] TVoid
      -- TODO setFocus(Qt::FocusReason)
      -- TODO setFocusPolicy
-   , just $ mkMethod this "setFocusProxy" [TPtr $ TObj c_QWidget] TVoid
+   , just $ mkMethod "setFocusProxy" [TPtr $ TObj c_QWidget] TVoid
      -- TODO setFont
      -- TODO setForegroundRole
-   , just $ mkMethod' this "setGeometry" "setGeometryRaw" [TInt, TInt, TInt, TInt] TVoid
-   , just $ mkMethod' this "setGeometry" "setGeometryRect" [TObj c_QRect] TVoid
+   , just $ mkMethod' "setGeometry" "setGeometryRaw" [TInt, TInt, TInt, TInt] TVoid
+   , just $ mkMethod' "setGeometry" "setGeometryRect" [TObj c_QRect] TVoid
      -- TODO setGraphicsEffect
-   , just $ mkMethod this "setHidden" [TBool] TVoid
+   , just $ mkMethod "setHidden" [TBool] TVoid
      -- TODO setInputContext
      -- TODO setInputMethodHints
-   , just $ mkMethod this "setLayout" [TPtr $ TObj c_QLayout] TVoid
-   , just $ mkMethod this "setLayoutDirection" [TEnum e_LayoutDirection] TVoid
+   , just $ mkMethod "setLayout" [TPtr $ TObj c_QLayout] TVoid
+   , just $ mkMethod "setLayoutDirection" [TEnum e_LayoutDirection] TVoid
      -- TODO setLocale
      -- TODO setMask
-   , just $ mkMethod this "setMaximumHeight" [TInt] TVoid
-   , just $ mkMethod' this "setMaximumSize" "setMaximumSize" [TObj c_QSize] TVoid
-   , just $ mkMethod' this "setMaximumSize" "setMaximumSizeRaw" [TInt, TInt] TVoid
-   , just $ mkMethod this "setMaximumWidth" [TInt] TVoid
-   , just $ mkMethod this "setMinimumHeight" [TInt] TVoid
-   , just $ mkMethod' this "setMinimumSize" "setMinimumSize" [TObj c_QSize] TVoid
-   , just $ mkMethod' this "setMinimumSize" "setMinimumSizeRaw" [TInt, TInt] TVoid
-   , just $ mkMethod this "setMinimumWidth" [TInt] TVoid
-   , just $ mkMethod this "setMouseTracking" [TBool] TVoid
+   , just $ mkMethod "setMaximumHeight" [TInt] TVoid
+   , just $ mkMethod' "setMaximumSize" "setMaximumSize" [TObj c_QSize] TVoid
+   , just $ mkMethod' "setMaximumSize" "setMaximumSizeRaw" [TInt, TInt] TVoid
+   , just $ mkMethod "setMaximumWidth" [TInt] TVoid
+   , just $ mkMethod "setMinimumHeight" [TInt] TVoid
+   , just $ mkMethod' "setMinimumSize" "setMinimumSize" [TObj c_QSize] TVoid
+   , just $ mkMethod' "setMinimumSize" "setMinimumSizeRaw" [TInt, TInt] TVoid
+   , just $ mkMethod "setMinimumWidth" [TInt] TVoid
+   , just $ mkMethod "setMouseTracking" [TBool] TVoid
      -- TODO setPalette
-   , just $ mkMethod this "setParent" [TPtr $ TObj c_QWidget] TVoid
+   , just $ mkMethod "setParent" [TPtr $ TObj c_QWidget] TVoid
      -- TODO setParent(QWidget*, Qt::WindowFlags)
      -- TODO setPlatformWindow
      -- TODO setPlatformWindowFormat
      -- TODO setShortcutAutoRepeat
      -- TODO setShortcutEnabled
-   , just $ mkMethod' this "setSizeIncrement" "setSizeIncrement" [TObj c_QSize] TVoid
-   , just $ mkMethod' this "setSizeIncrement" "setSizeIncrementRaw" [TInt, TInt] TVoid
+   , just $ mkMethod' "setSizeIncrement" "setSizeIncrement" [TObj c_QSize] TVoid
+   , just $ mkMethod' "setSizeIncrement" "setSizeIncrementRaw" [TInt, TInt] TVoid
      -- TODO setSizePolicy
-   , just $ mkMethod this "setStatusTip" [TObj c_QString] TVoid
+   , just $ mkMethod "setStatusTip" [TObj c_QString] TVoid
      -- TODO setStyle
-   , just $ mkMethod this "setStyleSheet" [TObj c_QString] TVoid
-   , just $ mkStaticMethod this "setTabOrder" [TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
-   , just $ mkMethod this "setToolTip" [TObj c_QString] TVoid
-   , just $ mkMethod this "setUpdatesEnabled" [TBool] TVoid
-   , just $ mkMethod this "setVisible" [TBool] TVoid
-   , just $ mkMethod this "setWhatsThis" [TObj c_QString] TVoid
-   , just $ mkMethod this "setWindowFilePath" [TObj c_QString] TVoid
+   , just $ mkMethod "setStyleSheet" [TObj c_QString] TVoid
+   , just $ mkStaticMethod "setTabOrder" [TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
+   , just $ mkMethod "setToolTip" [TObj c_QString] TVoid
+   , just $ mkMethod "setUpdatesEnabled" [TBool] TVoid
+   , just $ mkMethod "setVisible" [TBool] TVoid
+   , just $ mkMethod "setWhatsThis" [TObj c_QString] TVoid
+   , just $ mkMethod "setWindowFilePath" [TObj c_QString] TVoid
      -- TODO setWindowFlags
      -- TODO setWindowIcon
-   , just $ mkMethod this "setWindowIconText" [TObj c_QString] TVoid
+   , just $ mkMethod "setWindowIconText" [TObj c_QString] TVoid
      -- TODO setWindowModality
-   , just $ mkMethod this "setWindowModified" [TBool] TVoid
+   , just $ mkMethod "setWindowModified" [TBool] TVoid
      -- TODO setWindowOpacity
-   , just $ mkMethod this "setWindowRole" [TObj c_QString] TVoid
+   , just $ mkMethod "setWindowRole" [TObj c_QString] TVoid
      -- TODO setWindowState
      -- TODO setWindowSurface
-   , just $ mkMethod this "setWindowTitle" [TObj c_QString] TVoid
-   , test qdoc $ mkMethod this "setupUi" [TPtr $ TObj c_QWidget] TVoid
-   , just $ mkMethod this "show" [] TVoid
-   , just $ mkMethod this "showFullScreen" [] TVoid
-   , just $ mkMethod this "showMaximized" [] TVoid
-   , just $ mkMethod this "showMinimized" [] TVoid
-   , just $ mkMethod this "showNormal" [] TVoid
-   , just $ mkConstMethod this "size" [] $ TObj c_QSize
-   , just $ mkConstMethod this "sizeHint" [] $ TObj c_QSize
-   , just $ mkConstMethod this "sizeIncrement" [] $ TObj c_QSize
+   , just $ mkMethod "setWindowTitle" [TObj c_QString] TVoid
+   , test qdoc $ mkMethod "setupUi" [TPtr $ TObj c_QWidget] TVoid
+   , just $ mkMethod "show" [] TVoid
+   , just $ mkMethod "showFullScreen" [] TVoid
+   , just $ mkMethod "showMaximized" [] TVoid
+   , just $ mkMethod "showMinimized" [] TVoid
+   , just $ mkMethod "showNormal" [] TVoid
+   , just $ mkConstMethod "size" [] $ TObj c_QSize
+   , just $ mkConstMethod "sizeHint" [] $ TObj c_QSize
+   , just $ mkConstMethod "sizeIncrement" [] $ TObj c_QSize
      -- TODO sizePolicy
-   , just $ mkMethod this "stackUnder" [TPtr $ TObj c_QWidget] TVoid
-   , just $ mkConstMethod this "statusTip" [] $ TObj c_QString
-   , just $ mkConstMethod this "styleSheet" [] $ TObj c_QString
+   , just $ mkMethod "stackUnder" [TPtr $ TObj c_QWidget] TVoid
+   , just $ mkConstMethod "statusTip" [] $ TObj c_QString
+   , just $ mkConstMethod "styleSheet" [] $ TObj c_QString
      -- TODO testAttribute
-   , just $ mkConstMethod this "toolTip" [] $ TObj c_QString
-   , just $ mkConstMethod this "underMouse" [] TBool
+   , just $ mkConstMethod "toolTip" [] $ TObj c_QString
+   , just $ mkConstMethod "underMouse" [] TBool
      -- TODO ungrabGesture
-   , just $ mkMethod this "unsetCursor" [] TVoid
-   , just $ mkMethod this "unsetLayoutDirection" [] TVoid
-   , just $ mkMethod this "unsetLocale" [] TVoid
-   , just $ mkMethod' this "update" "update" [] TVoid
-   , just $ mkMethod' this "update" "updateRaw" [TInt, TInt, TInt, TInt] TVoid
-   , just $ mkMethod' this "update" "updateRect" [TObj c_QRect] TVoid
+   , just $ mkMethod "unsetCursor" [] TVoid
+   , just $ mkMethod "unsetLayoutDirection" [] TVoid
+   , just $ mkMethod "unsetLocale" [] TVoid
+   , just $ mkMethod' "update" "update" [] TVoid
+   , just $ mkMethod' "update" "updateRaw" [TInt, TInt, TInt, TInt] TVoid
+   , just $ mkMethod' "update" "updateRect" [TObj c_QRect] TVoid
      -- TODO update(const QRegion&)
-   , just $ mkMethod this "updateGeometry" [] TVoid
-   , just $ mkConstMethod this "updatesEnabled" [] TBool
+   , just $ mkMethod "updateGeometry" [] TVoid
+   , just $ mkConstMethod "updatesEnabled" [] TBool
      -- TODO visibleRegion
-   , just $ mkConstMethod this "whatsThis" [] $ TObj c_QString
-   , just $ mkConstMethod this "width" [] TInt
-   , just $ mkConstMethod this "window" [] $ TPtr $ TObj c_QWidget
-   , just $ mkConstMethod this "windowFilePath" [] $ TObj c_QString
+   , just $ mkConstMethod "whatsThis" [] $ TObj c_QString
+   , just $ mkConstMethod "width" [] TInt
+   , just $ mkConstMethod "window" [] $ TPtr $ TObj c_QWidget
+   , just $ mkConstMethod "windowFilePath" [] $ TObj c_QString
      -- TODO windowFlags
      -- TODO windowIcon
-   , just $ mkConstMethod this "windowIconText" [] $ TObj c_QString
+   , just $ mkConstMethod "windowIconText" [] $ TObj c_QString
      -- TODO windowModality
      -- TODO windowOpacity
-   , just $ mkConstMethod this "windowRole" [] $ TObj c_QString
+   , just $ mkConstMethod "windowRole" [] $ TObj c_QString
      -- TODO windowState
      -- TODO windowSurface
-   , just $ mkConstMethod this "windowTitle" [] $ TObj c_QString
+   , just $ mkConstMethod "windowTitle" [] $ TObj c_QString
      -- TODO windowType
      -- TODO winId
-   , just $ mkConstMethod this "x" [] TInt
+   , just $ mkConstMethod "x" [] TInt
      -- TODO x11Info
      -- TODO x11PictureHandle
-   , just $ mkConstMethod this "y" [] TInt
+   , just $ mkConstMethod "y" [] TInt
    ])
 
 signals =
-  [ makeSignal this "customContextMenuRequested" c_ListenerQPoint
+  [ makeSignal c_QWidget "customContextMenuRequested" c_ListenerQPoint
   ]

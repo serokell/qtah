@@ -31,8 +31,6 @@ qtModule =
   , QtExportFnRenamed f_QString_set "set"
   ]
 
-this = c_QString
-
 c_QString =
   addReqIncludes [includeStd "QString"] $
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
@@ -49,10 +47,10 @@ c_QString =
              }
            }) $
   makeClass (ident "QString") Nothing []
-  [ mkCtor this "newFromCString" [TPtr $ TConst TChar]
+  [ mkCtor "newFromCString" [TPtr $ TConst TChar]
   ]
-  [ mkConstMethod' this OpArray "at" [TInt] $ TObj c_QChar
-  , mkConstMethod this "toStdString" [] $ TObj c_string
+  [ mkConstMethod' OpArray "at" [TInt] $ TObj c_QChar
+  , mkConstMethod "toStdString" [] $ TObj c_string
   ]
 
 f_QString_set =

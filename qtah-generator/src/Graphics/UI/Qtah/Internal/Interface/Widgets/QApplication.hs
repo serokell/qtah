@@ -26,8 +26,6 @@ qtModule =
   ] ++ map QtExportSignal signals ++
   [ QtExport $ ExportEnum e_Type ]
 
-this = c_QApplication
-
 f_QApplication_new =
   addReqIncludes [includeLocal "shim_qapplication.hpp"] $
   makeFn (ident1 "qtah" "shim_QApplication_new") (Just $ toExtName "QApplication_new") Nonpure
@@ -40,93 +38,93 @@ c_QApplication =
     {-Ctor (toExtName "QApplication_new") []-}
   ] $
   collect
-  [ just $ mkMethod this "aboutQt" [] TVoid
-  , just $ mkStaticMethod this "activeModalWidget" [] $ TPtr $ TObj c_QWidget
-  , just $ mkStaticMethod this "activePopupWidget" [] $ TPtr $ TObj c_QWidget
-  , just $ mkStaticMethod this "alert" [TPtr $ TObj c_QWidget, TInt] TVoid
+  [ just $ mkMethod "aboutQt" [] TVoid
+  , just $ mkStaticMethod "activeModalWidget" [] $ TPtr $ TObj c_QWidget
+  , just $ mkStaticMethod "activePopupWidget" [] $ TPtr $ TObj c_QWidget
+  , just $ mkStaticMethod "alert" [TPtr $ TObj c_QWidget, TInt] TVoid
     -- TODO allWidgets
-  , just $ mkStaticMethod this "beep" [] TVoid
+  , just $ mkStaticMethod "beep" [] TVoid
     -- TODO changeOverrideCursor
     -- TODO clipboard
-  , just $ mkMethod this "closeAllWindows" [] TVoid
+  , just $ mkMethod "closeAllWindows" [] TVoid
     -- TODO commitData
     -- TODO desktop
-  , just $ mkMethod this "exec" [] TVoid
-  , just $ mkStaticMethod this "focusWidget" [] $ TPtr $ TObj c_QWidget
+  , just $ mkMethod "exec" [] TVoid
+  , just $ mkStaticMethod "focusWidget" [] $ TPtr $ TObj c_QWidget
     -- TODO font
     -- TODO fontMetrics
     -- TODO inputContext
     -- TODO isEffectEnabled
-  , just $ mkStaticMethod this "isLeftToRight" [] TBool
-  , just $ mkStaticMethod this "isRightToLeft" [] TBool
-  , just $ mkConstMethod this "isSessionRestored" [] TBool
-  , just $ mkStaticMethod this "keyboardInputDirection" [] $ TEnum e_LayoutDirection
-  , just $ mkStaticMethod this "keyboardInputInterval" [] TInt
+  , just $ mkStaticMethod "isLeftToRight" [] TBool
+  , just $ mkStaticMethod "isRightToLeft" [] TBool
+  , just $ mkConstMethod "isSessionRestored" [] TBool
+  , just $ mkStaticMethod "keyboardInputDirection" [] $ TEnum e_LayoutDirection
+  , just $ mkStaticMethod "keyboardInputInterval" [] TInt
     -- TODO keyboardInputLocale
     -- TODO keyboardModifiers
-  , just $ mkStaticMethod this "layoutDirection" [] $ TEnum e_LayoutDirection
+  , just $ mkStaticMethod "layoutDirection" [] $ TEnum e_LayoutDirection
     -- TODO macEventFilter
     -- TODO mouseButtons
-  , test keypadNavigation $ mkStaticMethod this "navigationMode" [] $ TEnum e_NavigationMode
+  , test keypadNavigation $ mkStaticMethod "navigationMode" [] $ TEnum e_NavigationMode
     -- TODO overrideCursor
     -- TODO palette
     -- TODO queryKeyboardModifiers
-  , just $ mkStaticMethod this "quitOnLastWindowClosed" [] TBool
+  , just $ mkStaticMethod "quitOnLastWindowClosed" [] TBool
     -- TODO qwsDecoration
     -- TODO qwsEventFilter
     -- TODO qwsSetCustomColors
     -- TODO qwsSetDecoration
-  , just $ mkStaticMethod this "restoreOverrideCursor" [] TVoid
+  , just $ mkStaticMethod "restoreOverrideCursor" [] TVoid
     -- TODO saveState
-  , just $ mkConstMethod this "sessionId" [] $ TObj c_QString
-  , just $ mkConstMethod this "sessionKey" [] $ TObj c_QString
+  , just $ mkConstMethod "sessionId" [] $ TObj c_QString
+  , just $ mkConstMethod "sessionKey" [] $ TObj c_QString
     -- TODO setEffectEnabled
     -- TODO setFont
     -- TODO setGraphicsSystem
     -- TODO setInputContext
-  , just $ mkStaticMethod this "setKeyboardInputInterval" [TInt] TVoid
-  , just $ mkStaticMethod this "setLayoutDirection" [TEnum e_LayoutDirection] TVoid
-  , test keypadNavigation $ mkStaticMethod this "setNavigationMode" [TEnum e_NavigationMode] TVoid
+  , just $ mkStaticMethod "setKeyboardInputInterval" [TInt] TVoid
+  , just $ mkStaticMethod "setLayoutDirection" [TEnum e_LayoutDirection] TVoid
+  , test keypadNavigation $ mkStaticMethod "setNavigationMode" [TEnum e_NavigationMode] TVoid
     -- TODO setOverrideCursor
     -- TODO setPalette
-  , just $ mkStaticMethod this "setQuitOnLastWindowClosed" [TBool] TVoid
+  , just $ mkStaticMethod "setQuitOnLastWindowClosed" [TBool] TVoid
     -- TODO setStyle
     -- TODO style
-  , just $ mkStaticMethod this "syncX" [] TVoid
+  , just $ mkStaticMethod "syncX" [] TVoid
     -- TODO symbianEventFilter
     -- TODO symbianProcessEvent
-  , just $ mkStaticMethod' this "topLevelAt" "topLevelAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
-  , just $ mkStaticMethod' this "topLevelAt" "topLevelAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
+  , just $ mkStaticMethod' "topLevelAt" "topLevelAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
+  , just $ mkStaticMethod' "topLevelAt" "topLevelAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
     -- TODO topLevelWidgets
     -- We rename type() since @type@ is a Haskell keyword.
-  , just $ mkStaticMethod' this "type" "applicationType" [] $ TEnum e_Type
-  , just $ mkStaticMethod' this "widgetAt" "widgetAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
-  , just $ mkStaticMethod' this "widgetAt" "widgetAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
+  , just $ mkStaticMethod' "type" "applicationType" [] $ TEnum e_Type
+  , just $ mkStaticMethod' "widgetAt" "widgetAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
+  , just $ mkStaticMethod' "widgetAt" "widgetAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
     -- TODO x11EventFilter
     -- TODO x11ProcessEvent
   ] ++
   mkProps
-  [ mkStaticProp this "activeWindow" $ TPtr $ TObj c_QWidget
-  , mkProp this "autoSipEnabled" TBool
-  , mkStaticProp this "colorSpec" TInt
-  , mkStaticProp this "cursorFlashTime" TInt
-  , mkStaticProp this "desktopSettingsAware" TBool
-  , mkStaticProp this "doubleClickInterval" TInt
-  , mkStaticProp this "globalStrut" $ TObj c_QSize
-  , mkProp this "startDragDistance" TInt
-  , mkProp this "startDragTime" TInt
-  , mkProp this "styleSheet" $ TObj c_QString
-  , mkStaticProp this "wheelScrollLines" TInt
+  [ mkStaticProp "activeWindow" $ TPtr $ TObj c_QWidget
+  , mkProp "autoSipEnabled" TBool
+  , mkStaticProp "colorSpec" TInt
+  , mkStaticProp "cursorFlashTime" TInt
+  , mkStaticProp "desktopSettingsAware" TBool
+  , mkStaticProp "doubleClickInterval" TInt
+  , mkStaticProp "globalStrut" $ TObj c_QSize
+  , mkProp "startDragDistance" TInt
+  , mkProp "startDragTime" TInt
+  , mkProp "styleSheet" $ TObj c_QString
+  , mkStaticProp "wheelScrollLines" TInt
     -- TODO windowIcon
   ]
 
 signals =
-  [ makeSignal this "aboutToReleaseGpuResources" c_Listener
-  , makeSignal this "aboutToUseGpuResources" c_Listener
+  [ makeSignal c_QApplication "aboutToReleaseGpuResources" c_Listener
+  , makeSignal c_QApplication "aboutToUseGpuResources" c_Listener
     -- TODO commitDataRequest
-  , makeSignal this "focusChanged" c_ListenerPtrQWidgetPtrQWidget
-  , makeSignal this "fontDatabaseChanged" c_Listener
-  , makeSignal this "lastWindowClosed" c_Listener
+  , makeSignal c_QApplication "focusChanged" c_ListenerPtrQWidgetPtrQWidget
+  , makeSignal c_QApplication "fontDatabaseChanged" c_Listener
+  , makeSignal c_QApplication "lastWindowClosed" c_Listener
     -- TODO saveStateRequest
   ]
 

@@ -28,8 +28,6 @@ qtModule =
   makeQtModule "Core.QMargins"
   [ QtExport $ ExportClass c_QMargins ]
 
-this = c_QMargins
-
 c_QMargins =
   addReqIncludes [includeStd "QMargins"] $
   classModifyConversions
@@ -56,14 +54,14 @@ c_QMargins =
              }
            }) $
   makeClass (ident "QMargins") Nothing []
-  [ mkCtor this "newNull" []
-  , mkCtor this "new" [TInt, TInt, TInt, TInt]
+  [ mkCtor "newNull" []
+  , mkCtor "new" [TInt, TInt, TInt, TInt]
   ] $
-  [ mkConstMethod this "isNull" [] TBool
+  [ mkConstMethod "isNull" [] TBool
   ] ++
   mkProps
-  [ mkProp this "bottom" TInt
-  , mkProp this "left" TInt
-  , mkProp this "right" TInt
-  , mkProp this "top" TInt
+  [ mkProp "bottom" TInt
+  , mkProp "left" TInt
+  , mkProp "right" TInt
+  , mkProp "top" TInt
   ]

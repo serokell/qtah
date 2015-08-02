@@ -28,8 +28,6 @@ qtModule =
   makeQtModule "Core.QSize"
   [ QtExport $ ExportClass c_QSize ]
 
-this = c_QSize
-
 c_QSize =
   addReqIncludes [includeStd "QSize"] $
   classModifyConversions
@@ -53,18 +51,18 @@ c_QSize =
              }
            }) $
   makeClass (ident "QSize") Nothing []
-  [ mkCtor this "newNull" []
-  , mkCtor this "new" [TInt, TInt]
+  [ mkCtor "newNull" []
+  , mkCtor "new" [TInt, TInt]
   ] $
-  [ mkConstMethod this "boundedTo" [TObj c_QSize] $ TObj c_QSize
-  , mkConstMethod this "expandedTo" [TObj c_QSize] $ TObj c_QSize
-  , mkConstMethod this "isEmpty" [] TBool
-  , mkConstMethod this "isNull" [] TBool
-  , mkConstMethod this "isValid" [] TBool
-  , mkMethod this "scale" [TObj c_QSize, TEnum e_AspectRatioMode] TVoid
-  , mkMethod this "transpose" [] TVoid
+  [ mkConstMethod "boundedTo" [TObj c_QSize] $ TObj c_QSize
+  , mkConstMethod "expandedTo" [TObj c_QSize] $ TObj c_QSize
+  , mkConstMethod "isEmpty" [] TBool
+  , mkConstMethod "isNull" [] TBool
+  , mkConstMethod "isValid" [] TBool
+  , mkMethod "scale" [TObj c_QSize, TEnum e_AspectRatioMode] TVoid
+  , mkMethod "transpose" [] TVoid
   ] ++
   mkProps
-  [ mkProp this "height" TInt
-  , mkProp this "width" TInt
+  [ mkProp "height" TInt
+  , mkProp "width" TInt
   ]

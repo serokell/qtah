@@ -20,27 +20,25 @@ qtModule =
   makeQtModule "Widgets.QLayoutItem"
   [ QtExport $ ExportClass c_QLayoutItem ]
 
-this = c_QLayoutItem
-
 c_QLayoutItem =
   addReqIncludes [includeStd "QLayoutItem"] $
   makeClass (ident "QLayoutItem") Nothing []
   [] $  -- Abstract.
   [ -- TODO controlTypes
     -- TODO expandingDirections
-    mkConstMethod this "hasHeightForWidth" [] TBool
-  , mkConstMethod this "heightForWidth" [TInt] TInt
-  , mkMethod this "invalidate" [] TVoid
-  , mkConstMethod this "isEmpty" [] TBool
-  , mkMethod this "layout" [] $ TPtr $ TObj c_QLayout
-  , mkConstMethod this "maximumSize" [] $ TObj c_QSize
-  , mkConstMethod this "minimumHeightForWidth" [TInt] TInt
-  , mkConstMethod this "minimumSize" [] $ TObj c_QSize
-  , mkConstMethod this "sizeHint" [] $ TObj c_QSize
+    mkConstMethod "hasHeightForWidth" [] TBool
+  , mkConstMethod "heightForWidth" [TInt] TInt
+  , mkMethod "invalidate" [] TVoid
+  , mkConstMethod "isEmpty" [] TBool
+  , mkMethod "layout" [] $ TPtr $ TObj c_QLayout
+  , mkConstMethod "maximumSize" [] $ TObj c_QSize
+  , mkConstMethod "minimumHeightForWidth" [TInt] TInt
+  , mkConstMethod "minimumSize" [] $ TObj c_QSize
+  , mkConstMethod "sizeHint" [] $ TObj c_QSize
     -- TODO spacerItem
-  , mkConstMethod this "widget" [] $ TPtr $ TObj c_QWidget
+  , mkConstMethod "widget" [] $ TPtr $ TObj c_QWidget
   ] ++
   mkProps
-  [ mkProp this "alignment" $ TEnum e_Alignment
-  , mkProp this "geometry" $ TObj c_QRect
+  [ mkProp "alignment" $ TEnum e_Alignment
+  , mkProp "geometry" $ TObj c_QRect
   ]

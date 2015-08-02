@@ -24,89 +24,87 @@ qtModule =
   map QtExportSignal signals ++
   [ QtExport $ ExportEnum e_LineWrapMode ]
 
-this = c_QTextEdit
-
 c_QTextEdit =
   addReqIncludes [includeStd "QTextEdit"] $
   makeClass (ident "QTextEdit") Nothing [c_QAbstractScrollArea]
-  [ mkCtor this "new" []
-  , mkCtor this "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor this "newWithText" [TObj c_QString]
-  , mkCtor this "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithText" [TObj c_QString]
+  , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
   ] $
-  [ mkConstMethod this "anchorAt" [TObj c_QPoint] $ TObj c_QString
-  , mkMethod this "append" [TObj c_QString] TVoid
-  , mkConstMethod this "canPaste" [] TBool
-  , mkMethod this "clear" [] TVoid
-  , mkMethod this "copy" [] TVoid
-  , mkMethod' this "createStandardContextMenu" "createStandardContextMenu" [] $ TPtr $ TObj c_QMenu
-  , mkMethod' this "createStandardContextMenu" "createStandardContextMenuAt" [TObj c_QPoint] $
+  [ mkConstMethod "anchorAt" [TObj c_QPoint] $ TObj c_QString
+  , mkMethod "append" [TObj c_QString] TVoid
+  , mkConstMethod "canPaste" [] TBool
+  , mkMethod "clear" [] TVoid
+  , mkMethod "copy" [] TVoid
+  , mkMethod' "createStandardContextMenu" "createStandardContextMenu" [] $ TPtr $ TObj c_QMenu
+  , mkMethod' "createStandardContextMenu" "createStandardContextMenuAt" [TObj c_QPoint] $
     TPtr $ TObj c_QMenu
     -- TODO cursorForPosition
-  , mkConstMethod' this "cursorRect" "cursorRect" [] $ TObj c_QRect
+  , mkConstMethod' "cursorRect" "cursorRect" [] $ TObj c_QRect
     -- TODO cursorRect(const QTextCursor&)
-  , mkMethod this "cut" [] TVoid
-  , mkMethod this "ensureCursorVisible" [] TVoid
-  , mkMethod' this "find" "find" [TObj c_QString] TBool
+  , mkMethod "cut" [] TVoid
+  , mkMethod "ensureCursorVisible" [] TVoid
+  , mkMethod' "find" "find" [TObj c_QString] TBool
     -- TODO find with FindFlags
-  , mkMethod this "insertHtml" [TObj c_QString] TVoid
-  , mkMethod this "insertPlainText" [TObj c_QString] TVoid
+  , mkMethod "insertHtml" [TObj c_QString] TVoid
+  , mkMethod "insertPlainText" [TObj c_QString] TVoid
     -- TODO loadResource
     -- TODO mergeCurrentCharFormat
     -- TODO moveCursor
-  , mkMethod this "paste" [] TVoid
+  , mkMethod "paste" [] TVoid
     -- TODO print
-  , mkMethod this "redo" [] TVoid
-  , mkMethod this "scrollToAnchor" [TObj c_QString] TVoid
-  , mkMethod this "selectAll" [] TVoid
-  , mkMethod this "setHtml" [TObj c_QString] TVoid
-  , mkMethod this "setPlainText" [TObj c_QString] TVoid
-  , mkMethod this "setText" [TObj c_QString] TVoid
-  , mkConstMethod this "toHtml" [] $ TObj c_QString
-  , mkConstMethod this "toPlainText" [] $ TObj c_QString
-  , mkMethod this "undo" [] TVoid
-  , mkMethod this "zoomIn" [] TVoid
-  , mkMethod' this "zoomIn" "zoomInPoints" [TInt] TVoid
-  , mkMethod this "zoomOut" [] TVoid
-  , mkMethod' this "zoomOut" "zoomOutPoints" [TInt] TVoid
+  , mkMethod "redo" [] TVoid
+  , mkMethod "scrollToAnchor" [TObj c_QString] TVoid
+  , mkMethod "selectAll" [] TVoid
+  , mkMethod "setHtml" [TObj c_QString] TVoid
+  , mkMethod "setPlainText" [TObj c_QString] TVoid
+  , mkMethod "setText" [TObj c_QString] TVoid
+  , mkConstMethod "toHtml" [] $ TObj c_QString
+  , mkConstMethod "toPlainText" [] $ TObj c_QString
+  , mkMethod "undo" [] TVoid
+  , mkMethod "zoomIn" [] TVoid
+  , mkMethod' "zoomIn" "zoomInPoints" [TInt] TVoid
+  , mkMethod "zoomOut" [] TVoid
+  , mkMethod' "zoomOut" "zoomOutPoints" [TInt] TVoid
   ] ++
   mkProps
-  [ mkProp this "acceptRichText" TBool
-  , mkProp this "alignment" $ TEnum e_Alignment
+  [ mkProp "acceptRichText" TBool
+  , mkProp "alignment" $ TEnum e_Alignment
     -- TODO autoFormatting
     -- TODO currentCharFormat
     -- TODO currentFont
-  , mkProp this "cursorWidth" TInt
+  , mkProp "cursorWidth" TInt
     -- TODO document
-  , mkProp this "documentTitle" $ TObj c_QString
+  , mkProp "documentTitle" $ TObj c_QString
     -- TODO extraSelections
-  , mkProp this "fontFamily" $ TObj c_QString
-  , mkProp this "fontItalic" TBool
+  , mkProp "fontFamily" $ TObj c_QString
+  , mkProp "fontItalic" TBool
     -- TODO fontPointSize
-  , mkProp this "fontUnderline" TBool
-  , mkProp this "fontWeight" TInt
-  , mkProp this "lineWrapColumnOrWidth" TInt
-  , mkProp this "lineWrapMode" $ TEnum e_LineWrapMode
-  , mkProp this "overwriteMode" TBool
-  , mkBoolIsProp this "readOnly"
-  , mkProp this "tabChangesFocus" TBool
-  , mkProp this "tabStopWidth" TInt
+  , mkProp "fontUnderline" TBool
+  , mkProp "fontWeight" TInt
+  , mkProp "lineWrapColumnOrWidth" TInt
+  , mkProp "lineWrapMode" $ TEnum e_LineWrapMode
+  , mkProp "overwriteMode" TBool
+  , mkBoolIsProp "readOnly"
+  , mkProp "tabChangesFocus" TBool
+  , mkProp "tabStopWidth" TInt
     -- TODO textBackgroundColor
     -- TODO textColor
     -- TODO textCursor
     -- TODO textInteractionFlags
-  , mkBoolIsProp this "undoRedoEnabled"
+  , mkBoolIsProp "undoRedoEnabled"
     -- TODO wordWrapMode
   ]
 
 signals =
-  [ makeSignal this "copyAvailable" c_ListenerBool
+  [ makeSignal c_QTextEdit "copyAvailable" c_ListenerBool
     -- TODO currentCharFormatChanged
-  , makeSignal this "cursorPositionChanged" c_Listener
-  , makeSignal this "redoAvailable" c_ListenerBool
-  , makeSignal this "selectionChanged" c_Listener
-  , makeSignal this "textChanged" c_Listener
-  , makeSignal this "undoAvailable" c_ListenerBool
+  , makeSignal c_QTextEdit "cursorPositionChanged" c_Listener
+  , makeSignal c_QTextEdit "redoAvailable" c_ListenerBool
+  , makeSignal c_QTextEdit "selectionChanged" c_Listener
+  , makeSignal c_QTextEdit "textChanged" c_Listener
+  , makeSignal c_QTextEdit "undoAvailable" c_ListenerBool
   ]
 
 e_LineWrapMode =
