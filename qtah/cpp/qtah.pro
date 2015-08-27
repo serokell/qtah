@@ -21,3 +21,9 @@ HEADERS += \
     listener.hpp \
     shim_qapplication.hpp \
     shim_qstring.hpp
+
+isEmpty( PREFIX ) {
+  PREFIX=/usr/local
+}
+target.path = $${PREFIX}/lib
+INSTALLS += target

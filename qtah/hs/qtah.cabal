@@ -2,6 +2,7 @@ name: qtah
 version: 0.1.0
 synopsis: Qt bindings for Haskell
 -- description:
+homepage: http://khumba.net/projects/qtah
 license: AGPL-3
 license-file: LICENSE
 author: Bryan Gardiner <bog@khumba.net>

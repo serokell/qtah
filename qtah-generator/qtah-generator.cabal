@@ -2,6 +2,7 @@ name: qtah-generator
 version: 0.1.0
 synopsis: Generator for Qtah Qt bindings
 -- description:
+homepage: http://khumba.net/projects/qtah
 license: AGPL-3
 license-file: LICENSE
 author: Bryan Gardiner <bog@khumba.net>
