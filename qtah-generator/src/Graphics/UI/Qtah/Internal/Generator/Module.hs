@@ -4,7 +4,6 @@ module Graphics.UI.Qtah.Internal.Generator.Module (
 
 import Control.Monad (forM_, when)
 import Data.List (find, intersperse, isPrefixOf, sort)
-import Data.Monoid (mconcat)
 import Data.Maybe (isJust)
 import Foreign.Cppop.Common (fromEitherM, fromMaybeM, writeFileIfDifferent)
 import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)

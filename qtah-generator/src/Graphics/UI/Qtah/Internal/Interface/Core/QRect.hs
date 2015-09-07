@@ -4,7 +4,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QRect (
   c_QRect,
   ) where
 
-import Data.Monoid (mconcat)
 import Foreign.Cppop.Generator.Language.Haskell.General (
   addImports,
   indent,
