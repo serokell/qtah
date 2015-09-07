@@ -1,8 +1,6 @@
 { stdenv, qt4, qtah-generator }:
-
 stdenv.mkDerivation {
-  name = "qtah-cpp";
-  version = "0.1.0";
+  name = "qtah-cpp-0.1.0";
   src = ./.;
   buildInputs = [ qt4 qtah-generator ];
   enableParallelBuilding = true;

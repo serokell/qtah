@@ -24,4 +24,3 @@ executable qtah-examples
   main-is: Main.hs
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
-  extra-libraries: qtah
