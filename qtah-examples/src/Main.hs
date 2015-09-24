@@ -15,7 +15,7 @@ import qualified Graphics.UI.Qtah.Widgets.QWidget as QWidget
 
 main :: IO ()
 main = do
-  app <- QApplication.qApplication_new
+  app <- QApplication.new
 
   mainWindow <- QMainWindow.new
   QWidget.setWindowTitle mainWindow "Greeter demo"

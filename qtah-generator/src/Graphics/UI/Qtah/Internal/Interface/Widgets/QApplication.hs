@@ -21,24 +21,19 @@ cppopModule = makeCppopModule "Widgets" "QApplication" qtModule
 
 qtModule =
   makeQtModule "Widgets.QApplication" $
-  [ QtExport $ ExportFn f_QApplication_new
-  , QtExport $ ExportClass c_QApplication
+  [ QtExport $ ExportClass c_QApplication
   ] ++ map QtExportSignal signals ++
   [ QtExport $ ExportEnum e_Type ]
 
-f_QApplication_new =
-  addReqIncludes [includeLocal "shim_qapplication.hpp"] $
-  makeFn (ident1 "qtah" "shim_QApplication_new") (Just $ toExtName "QApplication_new") Nonpure
-  [] $ TPtr $ TObj c_QApplication
-
 c_QApplication =
-  addReqIncludes [includeStd "QApplication"] $
-  makeClass (ident "QApplication") Nothing [c_QCoreApplication]
-  [ -- TODO Write proper "new" functions for QApplication.
-    {-Ctor (toExtName "QApplication_new") []-}
-  ] $
+  addReqIncludes [ includeStd "QApplication"
+                 , includeLocal "shim_qapplication.hpp"
+                 ] $
+  makeClass (ident "QApplication") Nothing [c_QCoreApplication] [] $
   collect
-  [ just $ mkMethod "aboutQt" [] TVoid
+  [ just $ makeFnMethod (ident1 "qtah" "shim_QApplication_new") "new" MStatic Nonpure
+    [] $ TPtr $ TObj c_QApplication
+  , just $ mkMethod "aboutQt" [] TVoid
   , just $ mkStaticMethod "activeModalWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "activePopupWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "alert" [TPtr $ TObj c_QWidget, TInt] TVoid

@@ -41,6 +41,7 @@ import Foreign.Cppop.Generator.Spec (
   Function,
   Interface,
   Method,
+  MethodImpl (RealMethod),
   Type (TCallback, TObj),
   callbackParams,
   classConversions,
@@ -55,8 +56,8 @@ import Foreign.Cppop.Generator.Spec (
   fromExtName,
   getClassyExtName,
   hsImports,
-  methodCName,
   methodExtName,
+  methodImpl,
   toExtName,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types (
@@ -260,7 +261,7 @@ saySignalExport signal = do
     fromMaybeM (abort $ concat
                 ["saySignalExport: Couldn't find the connectListener method in ",
                  show listenerClass, " for signal ", show name, "."]) $
-    find ((FnName "connectListener" ==) . methodCName) $ classMethods listenerClass
+    find ((RealMethod (FnName "connectListener") ==) . methodImpl) $ classMethods listenerClass
 
   callbackHsType <-
     fromEitherM
