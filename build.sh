@@ -6,7 +6,9 @@ set -euo pipefail
 declare -r projectDir="$(dirname "$(readlink -f "$0")")"
 . "$projectDir/common.sh"
 
-run "$projectDir/tools/listener-gen.sh"
+run "$projectDir/tools/listener-gen.sh" \
+    --gen-cpp-dir "$projectDir/qtah/cpp" \
+    --gen-hs-dir "$projectDir/qtah-generator"
 
 echo
 msg "Generating bindings."
@@ -30,5 +32,5 @@ run make ${MAKEOPTS:-}
 echo
 msg "Building the Haskell bindings."
 run cd "$projectDir/qtah/hs"
-run cabal configure
+run cabal configure --extra-lib-dirs="$projectDir/qtah/cpp-build"
 run cabal build

@@ -10,5 +10,4 @@ declare -r projectDir="$(dirname "$(readlink -f "$0")")"
 cd "$projectDir/qtah-examples"
 run cabal configure
 run cabal build
-LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}${cppBuildDir}" \
-    run dist/build/qtah-examples/qtah-examples "$@"
+run dist/build/qtah-examples/qtah-examples "$@"
