@@ -1,6 +1,14 @@
 module Graphics.UI.Qtah.Internal.Interface.Callback where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportCallback),
+  Type (TBool, TInt, TObj, TPtr, TVoid),
+  addModuleExports,
+  makeCallback,
+  makeModule,
+  modifyModule',
+  toExtName,
+  )
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)

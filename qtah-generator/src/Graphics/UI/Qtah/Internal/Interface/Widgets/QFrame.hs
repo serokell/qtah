@@ -4,7 +4,19 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (
   c_QFrame,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportEnum, ExportClass),
+  Type (TEnum, TInt, TObj, TPtr),
+  addReqIncludes,
+  ident,
+  ident1,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkCtor,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)

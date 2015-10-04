@@ -4,7 +4,18 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (
   c_QLayoutItem,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)

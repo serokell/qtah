@@ -4,7 +4,19 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (
   c_QAbstractScrollArea,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TEnum, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_ScrollBarPolicy)

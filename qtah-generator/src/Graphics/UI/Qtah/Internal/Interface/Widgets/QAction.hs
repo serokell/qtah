@@ -4,7 +4,21 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (
   c_QAction,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportEnum, ExportClass),
+  Type (TBool, TEnum, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  ident1,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)

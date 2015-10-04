@@ -9,7 +9,30 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   indent,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  ClassConversions (classHaskellConversion),
+  ClassHaskellConversion (
+      ClassHaskellConversion,
+      classHaskellConversionFromCppFn,
+      classHaskellConversionToCppFn,
+      classHaskellConversionType
+  ),
+  Export (ExportClass),
+  Type (TBool, TInt, TObj, TVoid),
+  addReqIncludes,
+  classModifyConversions,
+  hsImports,
+  hsQualifiedImport,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)

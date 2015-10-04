@@ -3,7 +3,19 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TObj, TPtr),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkCtor,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQSize)

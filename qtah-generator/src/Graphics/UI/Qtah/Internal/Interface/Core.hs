@@ -1,6 +1,6 @@
 module Graphics.UI.Qtah.Internal.Interface.Core (mods_Core) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (Module)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication as QCoreApplication

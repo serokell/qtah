@@ -3,7 +3,23 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportEnum, ExportClass),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  ident1,
+  includeStd,
+  makeClass,
+  mkBoolHasProp,
+  mkBoolIsProp,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
+  mkMethod',
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)

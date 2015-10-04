@@ -3,7 +3,26 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportEnum, ExportClass),
+  MethodApplicability (MStatic),
+  Purity (Nonpure),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  ident1,
+  includeLocal,
+  includeStd,
+  makeFnMethod,
+  makeClass,
+  mkConstMethod,
+  mkMethod,
+  mkProp,
+  mkProps,
+  mkStaticMethod,
+  mkStaticMethod',
+  mkStaticProp,
+  )
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (keypadNavigation)
 import Graphics.UI.Qtah.Internal.Generator.Types

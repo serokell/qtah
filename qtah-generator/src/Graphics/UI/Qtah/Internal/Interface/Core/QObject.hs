@@ -4,7 +4,18 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
   c_QObject,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)

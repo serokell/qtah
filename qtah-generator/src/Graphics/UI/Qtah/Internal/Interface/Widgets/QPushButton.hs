@@ -3,7 +3,19 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkCtor,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)

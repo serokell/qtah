@@ -4,7 +4,22 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (
   c_QLayout,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportEnum, ExportClass),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  ident1,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkConstMethod,
+  mkMethod,
+  mkMethod',
+  mkStaticMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)

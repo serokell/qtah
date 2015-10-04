@@ -8,8 +8,35 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   addImports,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec
-import Foreign.Cppop.Generator.Spec.ClassFeature
+import Foreign.Cppop.Generator.Spec (
+  ClassConversions (classHaskellConversion),
+  ClassHaskellConversion (
+      ClassHaskellConversion,
+      classHaskellConversionFromCppFn,
+      classHaskellConversionToCppFn,
+      classHaskellConversionType
+  ),
+  Export (ExportClass),
+  Operator (OpArray),
+  Purity (Nonpure),
+  Type (TChar, TConst, TInt, TObj, TPtr, TRef, TVoid),
+  addReqIncludes,
+  classModifyConversions,
+  ident,
+  ident1,
+  includeLocal,
+  includeStd,
+  makeClass,
+  makeFn,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  toExtName,
+  )
+import Foreign.Cppop.Generator.Spec.ClassFeature (
+  ClassFeature (Assignable, Copyable, Comparable, Equatable),
+  classAddFeatures,
+  )
 import Foreign.Cppop.Generator.Std.String (c_string)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QChar (c_QChar)

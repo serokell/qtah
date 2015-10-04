@@ -8,8 +8,34 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   addImports,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec
-import Foreign.Cppop.Generator.Spec.ClassFeature
+import Foreign.Cppop.Generator.Spec (
+  ClassConversions (classHaskellConversion),
+  ClassHaskellConversion (
+      ClassHaskellConversion,
+      classHaskellConversionFromCppFn,
+      classHaskellConversionToCppFn,
+      classHaskellConversionType
+  ),
+  Export (ExportClass, ExportEnum),
+  Type (TBool, TChar, TInt, TEnum, TObj, TRef, TUChar, TUShort),
+  addReqIncludes,
+  classModifyConversions,
+  hsImport1,
+  ident,
+  ident1,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  mkMethod',
+  mkStaticMethod,
+  mkStaticMethod',
+  )
+import Foreign.Cppop.Generator.Spec.ClassFeature (
+  ClassFeature (Assignable, Copyable, Comparable, Equatable),
+  classAddFeatures,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Imports

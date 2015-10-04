@@ -4,7 +4,21 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (
   c_QMenuBar,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TEnum, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
+  mkMethod',
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (wsWince)
 import Graphics.UI.Qtah.Internal.Generator.Types

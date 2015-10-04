@@ -4,7 +4,18 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
   c_QAbstractButton,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TInt, TObj, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)

@@ -3,7 +3,21 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkBoolHasProp,
+  mkConstMethod,
+  mkCtor,
+  mkMethod',
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_TextFormat)

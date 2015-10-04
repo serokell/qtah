@@ -4,7 +4,20 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (
   c_QWidget,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  mkMethod,
+  mkMethod',
+  mkStaticMethod,
+  )
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (keypadNavigation, qdoc)
 import Graphics.UI.Qtah.Internal.Generator.Types

@@ -4,7 +4,21 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (
   c_QMenu,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkBoolIsProp,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
+  mkMethod',
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)

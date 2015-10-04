@@ -13,7 +13,11 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_TextFormat,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportEnum),
+  Module,
+  ident1,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

@@ -4,7 +4,13 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (
   c_QCoreApplication,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 

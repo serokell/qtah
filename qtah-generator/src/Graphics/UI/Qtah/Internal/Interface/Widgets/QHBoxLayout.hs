@@ -3,7 +3,15 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TObj, TPtr),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkCtor,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (c_QBoxLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)

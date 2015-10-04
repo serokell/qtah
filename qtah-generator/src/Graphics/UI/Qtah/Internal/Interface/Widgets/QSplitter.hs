@@ -3,7 +3,19 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter (
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec
+import Foreign.Cppop.Generator.Spec (
+  Export (ExportClass),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
+  mkProp,
+  mkProps,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Orientation)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerIntInt)
