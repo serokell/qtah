@@ -1,11 +1,18 @@
+{-# LANGUAGE CPP #-}
+
 module Graphics.UI.Qtah.Internal.Generator.Module (
   generateModule,
   ) where
 
 import Control.Monad (forM_, when)
+#if MIN_VERSION_mtl(2,2,1)
+import Control.Monad.Except (throwError)
+#else
+import Control.Monad.Error (throwError)
+#endif
 import Data.List (find, intersperse, isPrefixOf, sort)
 import Data.Maybe (isJust)
-import Foreign.Cppop.Common (fromEitherM, fromMaybeM, writeFileIfDifferent)
+import Foreign.Cppop.Common (fromMaybeM, writeFileIfDifferent)
 import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
 import Foreign.Cppop.Generator.Language.Haskell.General (
   Generator,
@@ -13,11 +20,11 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   addExport,
   addExports,
   addImports,
-  abort,
   cppTypeToHsTypeAndUse,
   execGenerator,
   importHsModuleForExtName,
   indent,
+  inFunction,
   ln,
   prettyPrint,
   renderPartial,
@@ -154,18 +161,13 @@ getFnImportName :: Function -> String
 getFnImportName = toHsFnName . fnExtName
 
 sayClassEncodingFnReexports :: Class -> Generator ()
-sayClassEncodingFnReexports cls =
+sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
   when (isJust $ classHaskellConversion $ classConversions cls) $ do
     -- Generated encode and decode functions require some things from Cppop
     -- support and the Prelude.
     addImports $ mconcat [importForPrelude, importForSupport]
 
-    hsHsType <-
-      fromEitherM
-      (\e -> abort $ concat
-             ["sayClassEncodingFnReexports: Couldn't compute a Haskell type for ",
-              show cls, ": ", e]) =<<
-      cppTypeToHsTypeAndUse HsHsSide (TObj cls)
+    hsHsType <- cppTypeToHsTypeAndUse HsHsSide (TObj cls)
     let constPtrClassName = toHsPtrClassName Const cls
         dataTypeName = toHsDataTypeName Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
@@ -234,7 +236,7 @@ sayQtExport qtExport = case qtExport of
 -- | Generates and exports a @Signal@ definition.  We create the signal from
 -- scratch in this module, rather than reexporting it from somewhere else.
 saySignalExport :: Signal -> Generator ()
-saySignalExport signal = do
+saySignalExport signal = inFunction "saySignalExport" $ do
   addImports importForSignal
 
   let name = signalCName signal
@@ -247,9 +249,10 @@ saySignalExport signal = do
   importHsModuleForExtName $ classExtName listenerClass
   -- Find the listener constructor that only takes a callback.
   listenerCtor <-
-    fromMaybeM (abort $ "saySignalExport: Couldn't find an appropriate " ++
-                show (fromExtName $ classExtName listenerClass) ++
-                " constructor for signal " ++ show name ++ ".") $
+    fromMaybeM (throwError $ concat
+                ["Couldn't find an appropriate ",
+                show (fromExtName $ classExtName listenerClass),
+                " constructor for signal ", show name]) $
     flip find (classCtors listenerClass) $ \ctor -> case ctorParams ctor of
       [TCallback {}] -> True
       _ -> False
@@ -258,17 +261,12 @@ saySignalExport signal = do
 
   -- Also find the 'connectListener' method.
   listenerConnectMethod <-
-    fromMaybeM (abort $ concat
-                ["saySignalExport: Couldn't find the connectListener method in ",
-                 show listenerClass, " for signal ", show name, "."]) $
+    fromMaybeM (throwError $ concat
+                ["Couldn't find the connectListener method in ",
+                 show listenerClass, " for signal ", show name]) $
     find ((RealMethod (FnName "connectListener") ==) . methodImpl) $ classMethods listenerClass
 
-  callbackHsType <-
-    fromEitherM
-    (\e -> abort $ concat
-           ["saySignalExport: Couldn't generate a Haskell callback type for signal ",
-            show name, ": ", e]) =<<
-    cppTypeToHsTypeAndUse HsHsSide callbackType
+  callbackHsType <- cppTypeToHsTypeAndUse HsHsSide callbackType
 
   let varType = HsQualType [(UnQual $ HsIdent ptrClassName, [HsTyVar $ HsIdent "object"])] $
                 HsTyApp (HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahSignal.Signal") $

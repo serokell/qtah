@@ -7,8 +7,8 @@ import Foreign.Cppop.Generator.Main (Action (GenHaskell), run)
 import Foreign.Cppop.Generator.Spec (
   Interface,
   Module,
-  addInterfaceHaskellModuleBase,
   interface,
+  interfaceAddHaskellModuleBase,
   modifyModule',
   setModuleCppPath,
   setModuleHppPath,
@@ -42,7 +42,7 @@ modules =
 
 interfaceResult :: Either String Interface
 interfaceResult =
-  addInterfaceHaskellModuleBase ["Graphics", "UI", "Qtah", "Generated"] =<<
+  interfaceAddHaskellModuleBase ["Graphics", "UI", "Qtah", "Generated"] =<<
   interface "qtah" (map fst modules)
 
 main :: IO ()
