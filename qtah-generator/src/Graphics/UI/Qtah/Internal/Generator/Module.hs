@@ -4,7 +4,7 @@ module Graphics.UI.Qtah.Internal.Generator.Module (
   generateModule,
   ) where
 
-import Control.Monad (forM_, when)
+import Control.Monad (forM_, unless, when)
 #if MIN_VERSION_mtl(2,2,1)
 import Control.Monad.Except (throwError)
 #else
@@ -46,7 +46,7 @@ import Foreign.Cppop.Generator.Spec (
   Class,
   Constness (Const, Nonconst),
   Ctor,
-  Export (ExportBitspace, ExportCallback, ExportClass, ExportEnum, ExportFn),
+  Export (ExportBitspace, ExportCallback, ExportClass, ExportEnum, ExportFn, ExportVariable),
   ExtName,
   FnName (FnName),
   Function,
@@ -72,6 +72,10 @@ import Foreign.Cppop.Generator.Spec (
   methodExtName,
   methodImpl,
   toExtName,
+  varExtName,
+  varGetterExtName,
+  varIsConst,
+  varSetterExtName,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types (
   QtExport (QtExport, QtExportFnRenamed, QtExportSignal),
@@ -191,6 +195,11 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
 
 sayQtExport :: QtExport -> Generator ()
 sayQtExport qtExport = case qtExport of
+  QtExport (ExportVariable v) -> do
+    importHsModuleForExtName $ varExtName v
+    addExport $ toHsFnName $ varGetterExtName v
+    unless (varIsConst v) $ addExport $ toHsFnName $ varSetterExtName v
+
   QtExport (ExportEnum e) -> do
     importHsModuleForExtName $ enumExtName e
     let spec = toHsEnumTypeName e ++ " (..)"
