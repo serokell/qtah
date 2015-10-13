@@ -6,7 +6,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -25,7 +25,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (c_QLayoutItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -55,9 +55,11 @@ c_QLayout =
   , mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
   , mkMethod "removeItem" [TPtr $ TObj c_QLayoutItem] TVoid
   , mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "setAlignment" "setAlignment" [TEnum e_Alignment] TVoid
-  , mkMethod' "setAlignment" "setLayoutAlignment" [TPtr $ TObj c_QLayout, TEnum e_Alignment] TBool
-  , mkMethod' "setAlignment" "setWidgetAlignment" [TPtr $ TObj c_QWidget, TEnum e_Alignment] TBool
+  , mkMethod' "setAlignment" "setAlignment" [TBitspace bs_Alignment] TVoid
+  , mkMethod' "setAlignment" "setLayoutAlignment"
+    [TPtr $ TObj c_QLayout, TBitspace bs_Alignment] TBool
+  , mkMethod' "setAlignment" "setWidgetAlignment"
+    [TPtr $ TObj c_QWidget, TBitspace bs_Alignment] TBool
   , mkMethod "setContentsMargins" [TObj c_QMargins] TVoid
   , mkMethod "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
   , mkMethod "update" [] TVoid

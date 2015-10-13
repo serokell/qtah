@@ -9,24 +9,33 @@ module Graphics.UI.Qtah.Internal.Generator.Types (
   qtModuleExports,
   QtExport (..),
   makeQtEnum,
+  makeQtEnumBitspace,
   Signal, makeSignal, signalCName, signalClass, signalListenerClass,
   ) where
 
 import Data.Char (toLower)
 import Data.Maybe (mapMaybe)
 import Foreign.Cppop.Generator.Spec (
+  Bitspace,
   Class,
   CppEnum,
   Export (ExportClass, ExportFn),
   Function,
   Identifier,
   Module,
+  Type (TEnum, TInt),
   addModuleHaskellName,
   addModuleExports,
+  addReqIncludes,
+  bitspaceAddCppType,
+  bitspaceAddEnum,
   classExtName,
   fromExtName,
   identifierParts,
+  identT,
   idPartBase,
+  includeStd,
+  makeBitspace,
   makeEnum,
   makeModule,
   modifyModule',
@@ -86,6 +95,25 @@ makeQtEnum :: Identifier -> [(Int, [String])] -> CppEnum
 makeQtEnum identifier =
   makeEnum identifier $ Just $ toExtName $ concat $
   map idPartBase $ identifierParts identifier
+
+-- | Creates an (enum, bitspace) pair with the same values and similar names,
+-- and whose enum values can be converted to bitspace values.
+makeQtEnumBitspace :: Identifier -> String -> [(Int, [String])] -> (CppEnum, Bitspace)
+makeQtEnumBitspace identifier bitspaceName valueNames =
+  let enum = makeQtEnum identifier valueNames
+      bitspaceExtName = toExtName $ concat $
+                        replaceLast bitspaceName $
+                        map idPartBase (identifierParts identifier)
+  in (enum,
+      addReqIncludes [includeStd "QFlag", includeStd "QFlags"] $
+      bitspaceAddCppType (identT "QFlags" [TEnum enum])
+                         (Just "QFlag")
+                         (Just "int") $
+      bitspaceAddEnum enum $
+      makeBitspace bitspaceExtName TInt valueNames)
+  where replaceLast _ [] = []
+        replaceLast y [_] = [y]
+        replaceLast y (x:xs) = x:replaceLast y xs
 
 -- | Specification for a signal in the Qt signals and slots framework.
 data Signal = Signal

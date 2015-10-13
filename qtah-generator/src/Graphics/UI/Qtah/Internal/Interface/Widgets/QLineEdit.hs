@@ -5,7 +5,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -24,7 +24,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_CursorMoveStyle)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_CursorMoveStyle)
 import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
@@ -79,7 +79,7 @@ c_QLineEdit =
   , mkMethod "undo" [] TVoid
   ] ++
   mkProps
-  [ mkProp "alignment" $ TEnum e_Alignment
+  [ mkProp "alignment" $ TBitspace bs_Alignment
     -- TODO completer
   , mkProp "cursorMoveStyle" $ TEnum e_CursorMoveStyle
   , mkProp "cursorPosition" TInt

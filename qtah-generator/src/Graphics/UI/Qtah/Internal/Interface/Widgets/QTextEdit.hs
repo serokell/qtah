@@ -5,7 +5,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -25,7 +25,7 @@ import Graphics.UI.Qtah.Internal.Interface.Listener
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
@@ -86,7 +86,7 @@ c_QTextEdit =
   ] ++
   mkProps
   [ mkProp "acceptRichText" TBool
-  , mkProp "alignment" $ TEnum e_Alignment
+  , mkProp "alignment" $ TBitspace bs_Alignment
     -- TODO autoFormatting
     -- TODO currentCharFormat
     -- TODO currentFont

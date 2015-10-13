@@ -30,6 +30,10 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   renderPartial,
   sayLn,
   saysLn,
+  toHsBitspaceClassName,
+  toHsBitspaceToNumName,
+  toHsBitspaceTypeName,
+  toHsBitspaceValueName,
   toHsCastMethodName,
   toHsClassNullName,
   toHsDataTypeName,
@@ -42,7 +46,7 @@ import Foreign.Cppop.Generator.Spec (
   Class,
   Constness (Const, Nonconst),
   Ctor,
-  Export (ExportCallback, ExportClass, ExportEnum, ExportFn),
+  Export (ExportBitspace, ExportCallback, ExportClass, ExportEnum, ExportFn),
   ExtName,
   FnName (FnName),
   Function,
@@ -50,6 +54,8 @@ import Foreign.Cppop.Generator.Spec (
   Method,
   MethodImpl (RealMethod),
   Type (TCallback, TObj),
+  bitspaceExtName,
+  bitspaceValueNames,
   callbackParams,
   classConversions,
   classCtors,
@@ -189,6 +195,14 @@ sayQtExport qtExport = case qtExport of
     importHsModuleForExtName $ enumExtName e
     let spec = toHsEnumTypeName e ++ " (..)"
     addExport spec
+
+  QtExport (ExportBitspace b) -> do
+    importHsModuleForExtName $ bitspaceExtName b
+    addExport $ toHsBitspaceTypeName b
+    addExport $ toHsBitspaceToNumName b
+    addExport $ toHsBitspaceClassName b ++ " (..)"
+    forM_ (bitspaceValueNames b) $ \(_, valueName) ->
+      addExport $ toHsBitspaceValueName b valueName
 
   QtExport (ExportFn fn) -> do
     importHsModuleForExtName $ fnExtName fn

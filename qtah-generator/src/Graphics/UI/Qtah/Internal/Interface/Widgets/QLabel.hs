@@ -5,7 +5,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -20,7 +20,7 @@ import Foreign.Cppop.Generator.Spec (
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_TextFormat)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_TextFormat)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
@@ -52,7 +52,7 @@ c_QLabel =
   , mkMethod "setSelection" [TInt, TInt] TVoid
   ] ++
   mkProps
-  [ mkProp "alignment" $ TEnum e_Alignment
+  [ mkProp "alignment" $ TBitspace bs_Alignment
   , mkProp "buddy" $ TPtr $ TObj c_QWidget
   , mkProp "indent" TInt
   , mkProp "margin" TInt

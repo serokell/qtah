@@ -6,7 +6,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -19,7 +19,7 @@ import Foreign.Cppop.Generator.Spec (
   mkProps,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -48,7 +48,7 @@ c_QBoxLayout =
   , mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
   , mkMethod' "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
   , mkMethod' "addWidget" "addWidgetWithStretchAndAlignment"
-    [TPtr $ TObj c_QWidget, TInt, TEnum e_Alignment] TVoid
+    [TPtr $ TObj c_QWidget, TInt, TBitspace bs_Alignment] TVoid
   , mkMethod' "insertLayout" "insertLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
   , mkMethod' "insertLayout" "insertLayoutWithStretch" [TInt, TPtr $ TObj c_QLayout, TInt] TVoid
     -- TODO insertSpacerItem
@@ -58,7 +58,7 @@ c_QBoxLayout =
   , mkMethod' "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
   , mkMethod' "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
   , mkMethod' "insertWidget" "insertWidgetWithStretchAndAlignment"
-    [TInt, TPtr $ TObj c_QWidget, TInt, TEnum e_Alignment] TVoid
+    [TInt, TPtr $ TObj c_QWidget, TInt, TBitspace bs_Alignment] TVoid
   , mkMethod "setStretch" [TInt, TInt] TVoid
   , mkMethod' "setStretchFactor" "setWidgetStretchFactor" [TPtr $ TObj c_QWidget, TInt] TBool
   , mkMethod' "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool

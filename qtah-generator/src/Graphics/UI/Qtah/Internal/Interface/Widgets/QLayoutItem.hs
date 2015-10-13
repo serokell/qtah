@@ -6,7 +6,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -19,7 +19,7 @@ import Foreign.Cppop.Generator.Spec (
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -50,6 +50,6 @@ c_QLayoutItem =
   , mkConstMethod "widget" [] $ TPtr $ TObj c_QWidget
   ] ++
   mkProps
-  [ mkProp "alignment" $ TEnum e_Alignment
+  [ mkProp "alignment" $ TBitspace bs_Alignment
   , mkProp "geometry" $ TObj c_QRect
   ]

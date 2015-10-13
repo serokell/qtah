@@ -2,19 +2,21 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   cppopModule,
   qtModule,
-  e_Alignment,
+  e_AlignmentFlag,
+  bs_Alignment,
   e_AspectRatioMode,
   e_Corner,
   e_CursorMoveStyle,
   e_LayoutDirection,
   e_NavigationMode,
   e_Orientation,
+  bs_Orientations,
   e_ScrollBarPolicy,
   e_TextFormat,
   ) where
 
 import Foreign.Cppop.Generator.Spec (
-  Export (ExportEnum),
+  Export (ExportBitspace, ExportEnum),
   Module,
   ident1,
   )
@@ -30,19 +32,21 @@ qtModule = makeQtModule "Core.Types" $ map QtExport exports
 
 exports :: [Export]
 exports =
-  [ ExportEnum e_Alignment
+  [ ExportEnum e_AlignmentFlag
+  , ExportBitspace bs_Alignment
   , ExportEnum e_AspectRatioMode
   , ExportEnum e_Corner
   , ExportEnum e_CursorMoveStyle
   , ExportEnum e_LayoutDirection
   , ExportEnum e_NavigationMode
   , ExportEnum e_Orientation
+  , ExportBitspace bs_Orientations
   , ExportEnum e_ScrollBarPolicy
   , ExportEnum e_TextFormat
   ]
 
-e_Alignment =
-  makeQtEnum (ident1 "Qt" "Alignment")
+(e_AlignmentFlag, bs_Alignment) =
+  makeQtEnumBitspace (ident1 "Qt" "AlignmentFlag") "Alignment"
   [ -- Horizontal flags.
     (0x01, ["align", "left"])
   , (0x02, ["align", "right"])
@@ -93,9 +97,8 @@ e_NavigationMode =
   , (4, ["navigation", "mode", "cursor", "force", "visible"])
   ]
 
--- TODO Qt::Orientations
-e_Orientation =
-  makeQtEnum (ident1 "Qt" "Orientation")
+(e_Orientation, bs_Orientations) =
+  makeQtEnumBitspace (ident1 "Qt" "Orientation") "Orientations"
   [ (1, ["horizontal"])
   , (2, ["vertical"])
   ]

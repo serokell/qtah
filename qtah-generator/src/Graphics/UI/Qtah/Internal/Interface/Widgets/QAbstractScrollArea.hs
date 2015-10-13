@@ -6,7 +6,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (
 
 import Foreign.Cppop.Generator.Spec (
   Export (ExportClass),
-  Type (TEnum, TObj, TPtr, TVoid),
+  Type (TBitspace, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -19,7 +19,7 @@ import Foreign.Cppop.Generator.Spec (
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Alignment, e_ScrollBarPolicy)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_ScrollBarPolicy)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -36,7 +36,7 @@ c_QAbstractScrollArea =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   ] $
-  [ mkMethod "addScrollBarWidget" [TPtr $ TObj c_QWidget, TEnum e_Alignment] TVoid
+  [ mkMethod "addScrollBarWidget" [TPtr $ TObj c_QWidget, TBitspace bs_Alignment] TVoid
   , mkConstMethod "maximumViewportSize" [] $ TObj c_QSize
     -- TODO scrollBarWidgets
   ] ++
