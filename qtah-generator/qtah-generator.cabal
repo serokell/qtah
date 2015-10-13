@@ -46,6 +46,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAction
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout

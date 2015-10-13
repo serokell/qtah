@@ -8,6 +8,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication as QAp
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAction as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup as QActionGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxLayout
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame as QFrame
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout as QHBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel as QLabel
@@ -33,6 +34,7 @@ mods_Widgets =
   , (QAction.cppopModule, QAction.qtModule)
   , (QActionGroup.cppopModule, QActionGroup.qtModule)
   , (QBoxLayout.cppopModule, QBoxLayout.qtModule)
+  , (QCheckBox.cppopModule, QCheckBox.qtModule)
   , (QFrame.cppopModule, QFrame.qtModule)
   , (QHBoxLayout.cppopModule, QHBoxLayout.qtModule)
   , (QLabel.cppopModule, QLabel.qtModule)

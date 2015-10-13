@@ -5,6 +5,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_AlignmentFlag,
   bs_Alignment,
   e_AspectRatioMode,
+  e_CheckState,
   e_Corner,
   e_CursorMoveStyle,
   e_LayoutDirection,
@@ -35,6 +36,7 @@ exports =
   [ ExportEnum e_AlignmentFlag
   , ExportBitspace bs_Alignment
   , ExportEnum e_AspectRatioMode
+  , ExportEnum e_CheckState
   , ExportEnum e_Corner
   , ExportEnum e_CursorMoveStyle
   , ExportEnum e_LayoutDirection
@@ -65,6 +67,13 @@ e_AspectRatioMode =
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
+  ]
+
+e_CheckState =
+  makeQtEnum (ident1 "Qt" "CheckState")
+  [ (0, ["unchecked"])
+  , (1, ["partially", "checked"])
+  , (2, ["checked"])
   ]
 
 e_Corner =

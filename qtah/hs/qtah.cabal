@@ -38,6 +38,7 @@ library
     , Graphics.UI.Qtah.Widgets.QAction
     , Graphics.UI.Qtah.Widgets.QActionGroup
     , Graphics.UI.Qtah.Widgets.QApplication
+    , Graphics.UI.Qtah.Widgets.QCheckBox
     , Graphics.UI.Qtah.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Widgets.QFrame
     , Graphics.UI.Qtah.Widgets.QHBoxLayout
@@ -70,6 +71,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QAction
     , Graphics.UI.Qtah.Generated.Widgets.QActionGroup
     , Graphics.UI.Qtah.Generated.Widgets.QApplication
+    , Graphics.UI.Qtah.Generated.Widgets.QCheckBox
     , Graphics.UI.Qtah.Generated.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QFrame
     , Graphics.UI.Qtah.Generated.Widgets.QHBoxLayout
