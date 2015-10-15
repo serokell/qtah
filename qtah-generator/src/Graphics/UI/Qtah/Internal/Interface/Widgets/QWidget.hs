@@ -1,10 +1,10 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QWidget,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
@@ -34,7 +34,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QWidget" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QWidget" qtModule
 
 qtModule =
   makeQtModule "Widgets.QWidget" $

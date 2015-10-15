@@ -1,6 +1,6 @@
 -- | Bindings in the top-level @Qt::@ namespace.
 module Graphics.UI.Qtah.Internal.Interface.Core.Types (
-  cppopModule,
+  hoppyModule,
   qtModule,
   e_AlignmentFlag,
   bs_Alignment,
@@ -16,7 +16,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_TextFormat,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum),
   Module,
   ident1,
@@ -25,8 +25,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule :: Module
-cppopModule = makeCppopModule "Core" "Types" qtModule
+hoppyModule :: Module
+hoppyModule = makeHoppyModule "Core" "Types" qtModule
 
 qtModule :: QtModule
 qtModule = makeQtModule "Core.Types" $ map QtExport exports

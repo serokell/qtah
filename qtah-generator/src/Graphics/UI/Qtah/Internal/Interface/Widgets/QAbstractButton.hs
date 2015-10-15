@@ -1,10 +1,10 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QAbstractButton,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TBool, TInt, TObj, TVoid),
   addReqIncludes,
@@ -24,7 +24,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QAbstractButton" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QAbstractButton" qtModule
 
 qtModule =
   makeQtModule "Widgets.QAbstractButton" $

@@ -1,9 +1,9 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox (
-  cppopModule,
+  hoppyModule,
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TEnum, TObj, TPtr),
   addReqIncludes,
@@ -23,7 +23,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QCheckBox" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QCheckBox" qtModule
 
 qtModule =
   makeQtModule "Widgets.QCheckBox"

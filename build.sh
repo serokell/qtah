@@ -12,7 +12,7 @@ run "$projectDir/tools/listener-gen.sh" \
 
 echo
 msg "Generating bindings."
-run mkdir -p "$projectDir/qtah/hs/src/Foreign/Cppop/Generated"
+run mkdir -p "$projectDir/qtah/hs/src/Foreign/Hoppy/Generated"
 run cd "$projectDir/qtah-generator"
 run cabal configure
 run cabal build

@@ -1,14 +1,14 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QString (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QString,
   ) where
 
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   addImports,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   ClassConversions (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
@@ -33,11 +33,11 @@ import Foreign.Cppop.Generator.Spec (
   mkCtor,
   toExtName,
   )
-import Foreign.Cppop.Generator.Spec.ClassFeature (
+import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Comparable, Equatable),
   classAddFeatures,
   )
-import Foreign.Cppop.Generator.Std.String (c_string)
+import Foreign.Hoppy.Generator.Std.String (c_string)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QChar (c_QChar)
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -49,7 +49,7 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QString" qtModule
+hoppyModule = makeHoppyModule "Core" "QString" qtModule
 
 qtModule =
   makeQtModule "Core.QString"

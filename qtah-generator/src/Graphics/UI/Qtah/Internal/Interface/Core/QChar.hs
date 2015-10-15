@@ -1,14 +1,14 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QChar (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QChar,
   ) where
 
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   addImports,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   ClassConversions (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
@@ -32,7 +32,7 @@ import Foreign.Cppop.Generator.Spec (
   mkStaticMethod,
   mkStaticMethod',
   )
-import Foreign.Cppop.Generator.Spec.ClassFeature (
+import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Comparable, Equatable),
   classAddFeatures,
   )
@@ -47,7 +47,7 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QChar" qtModule
+hoppyModule = makeHoppyModule "Core" "QChar" qtModule
 
 qtModule =
   makeQtModule "Core.QChar"
@@ -73,11 +73,11 @@ c_QChar =
           return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
         , classHaskellConversionToCppFn = do
           addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForSupport]
-          sayLn "qChar_newFromInt . QtahFCRS.coerceIntegral . QtahDC.ord"
+          sayLn "qChar_newFromInt . QtahFHRS.coerceIntegral . QtahDC.ord"
         , classHaskellConversionFromCppFn = do
           addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
                                 importForSupport]
-          sayLn "QtahP.fmap (QtahDC.chr . QtahFCRS.coerceIntegral) . qChar_unicode"
+          sayLn "QtahP.fmap (QtahDC.chr . QtahFHRS.coerceIntegral) . qChar_unicode"
         }
       }) $
   makeClass (ident "QChar") Nothing []

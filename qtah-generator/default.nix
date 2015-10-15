@@ -1,5 +1,5 @@
-{ mkDerivation, base, containers, cppop, directory, filepath
-, haskell-src, mtl, stdenv, lib
+{ mkDerivation, base, containers, directory, filepath, haskell-src
+, hoppy, mtl, stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
@@ -13,7 +13,7 @@ mkDerivation ({
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base containers cppop directory filepath haskell-src mtl
+    base containers directory filepath haskell-src hoppy mtl
   ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Generator for Qtah Qt bindings";

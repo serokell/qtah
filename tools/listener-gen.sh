@@ -14,7 +14,7 @@ Options:
   --help              : Display this menu.
   --gen-cpp-dir <dir> : Generates C++ listener classes in listener.cpp and
                         listener.hpp in the given directory.
-  --gen-hs-dir <dir>  : Generates bindings to be linked into a Cppop generator
+  --gen-hs-dir <dir>  : Generates bindings to be linked into a Hoppy generator
                         in the Haskell project rooted at the given directory.
 
 At least one of --gen-cpp-dir or --gen-hs-dir is required.
@@ -168,8 +168,8 @@ if [[ -n $hsDir ]]; then
     say
     say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
     say
-    say 'import qualified Foreign.Cppop.Generator.Spec as S'
-    say 'import qualified Foreign.Cppop.Generator.Std.String as String'
+    say 'import qualified Foreign.Hoppy.Generator.Spec as S'
+    say 'import qualified Foreign.Hoppy.Generator.Std.String as String'
     say 'import qualified Graphics.UI.Qtah.Internal.Generator.Types as T'
     say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
     say 'import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject'
@@ -230,7 +230,7 @@ if [[ -n $hsDir ]]; then
     say
     say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
     say
-    say 'import Foreign.Cppop.Generator.Spec (Class)'
+    say 'import Foreign.Hoppy.Generator.Spec (Class)'
     say
 
     writeHs() {

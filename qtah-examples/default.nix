@@ -1,4 +1,4 @@
-{ mkDerivation, base, binary, bytestring, cppop, qtah, stdenv, lib
+{ mkDerivation, base, binary, bytestring, hoppy, qtah, stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
@@ -8,7 +8,7 @@ mkDerivation ({
   src = ./.;
   isLibrary = false;
   isExecutable = true;
-  executableHaskellDepends = [ base binary bytestring cppop qtah ];
+  executableHaskellDepends = [ base binary bytestring hoppy qtah ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Example programs for Qtah Qt bindings";
   license = stdenv.lib.licenses.agpl3;

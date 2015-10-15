@@ -1,9 +1,9 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
-  cppopModule,
+  hoppyModule,
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TBitspace, TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
@@ -27,7 +27,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QLabel" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QLabel" qtModule
 
 qtModule =
   makeQtModule "Widgets.QLabel" $

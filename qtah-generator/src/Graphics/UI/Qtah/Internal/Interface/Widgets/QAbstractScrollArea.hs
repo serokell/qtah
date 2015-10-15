@@ -1,10 +1,10 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QAbstractScrollArea,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TBitspace, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
@@ -24,7 +24,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QAbstractScrollArea" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QAbstractScrollArea" qtModule
 
 qtModule =
   makeQtModule "Widgets.QAbstractScrollArea"

@@ -1,9 +1,9 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
-  cppopModule,
+  hoppyModule,
   qtModule,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
@@ -31,7 +31,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QLineEdit" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QLineEdit" qtModule
 
 qtModule =
   makeQtModule "Widgets.QLineEdit" $

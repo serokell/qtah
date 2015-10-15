@@ -1,8 +1,8 @@
 Nix expressions are provided to ease building Qtah within
 [Nixpkgs](https://nixos.org/nixpkgs).  Qtah can be inserted into Nixpkgs with
 the following overrides, after updating `qtahDir` as appropriate for your
-environment.  Cppop must already be at `haskellPackages.cppop`; if it's not,
-follow the similar setup instructions for Cppop.
+environment.  Hoppy must already be at `haskellPackages.hoppy`; if it's not,
+follow the similar setup instructions for Hoppy.
 
     packageOverrides = let qtahDir = /my/projects/qtah.git; in pkgs: rec {
       qtah-cpp = pkgs.callPackage (qtahDir + /qtah/cpp) {

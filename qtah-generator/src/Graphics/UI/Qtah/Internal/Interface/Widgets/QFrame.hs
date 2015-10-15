@@ -1,10 +1,10 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QFrame,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   Type (TEnum, TInt, TObj, TPtr),
   addReqIncludes,
@@ -23,7 +23,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Widgets" "QFrame" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QFrame" qtModule
 
 qtModule =
   makeQtModule "Widgets.QFrame"

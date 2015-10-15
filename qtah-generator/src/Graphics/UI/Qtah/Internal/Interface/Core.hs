@@ -1,6 +1,6 @@
 module Graphics.UI.Qtah.Internal.Interface.Core (mods_Core) where
 
-import Foreign.Cppop.Generator.Spec (Module)
+import Foreign.Hoppy.Generator.Spec (Module)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication as QCoreApplication
@@ -16,13 +16,13 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Core.Types as Types
 
 mods_Core :: [(Module, QtModule)]
 mods_Core =
-  [ (QChar.cppopModule, QChar.qtModule)
-  , (QCoreApplication.cppopModule, QCoreApplication.qtModule)
-  , (QMargins.cppopModule, QMargins.qtModule)
-  , (QObject.cppopModule, QObject.qtModule)
-  , (QPoint.cppopModule, QPoint.qtModule)
-  , (QRect.cppopModule, QRect.qtModule)
-  , (QSize.cppopModule, QSize.qtModule)
-  , (QString.cppopModule, QString.qtModule)
-  , (Types.cppopModule, Types.qtModule)
+  [ (QChar.hoppyModule, QChar.qtModule)
+  , (QCoreApplication.hoppyModule, QCoreApplication.qtModule)
+  , (QMargins.hoppyModule, QMargins.qtModule)
+  , (QObject.hoppyModule, QObject.qtModule)
+  , (QPoint.hoppyModule, QPoint.qtModule)
+  , (QRect.hoppyModule, QRect.qtModule)
+  , (QSize.hoppyModule, QSize.qtModule)
+  , (QString.hoppyModule, QString.qtModule)
+  , (Types.hoppyModule, Types.qtModule)
   ]

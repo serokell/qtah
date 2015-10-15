@@ -2,9 +2,9 @@ module Main where
 
 import Control.Arrow (second)
 import Data.Foldable (forM_)
-import Foreign.Cppop.Common (maybeFail)
-import Foreign.Cppop.Generator.Main (Action (GenHaskell), run)
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Common (maybeFail)
+import Foreign.Hoppy.Generator.Main (Action (GenHaskell), run)
+import Foreign.Hoppy.Generator.Spec (
   Interface,
   Module,
   interface,
@@ -13,7 +13,7 @@ import Foreign.Cppop.Generator.Spec (
   setModuleCppPath,
   setModuleHppPath,
   )
-import qualified Foreign.Cppop.Generator.Std as Std
+import qualified Foreign.Hoppy.Generator.Std as Std
 import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Callback (mod_Callback, qmods_Callback)

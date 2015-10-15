@@ -12,9 +12,9 @@ import Control.Monad.Error (throwError)
 #endif
 import Data.List (find, intersperse, isPrefixOf, sort)
 import Data.Maybe (isJust)
-import Foreign.Cppop.Common (fromMaybeM, writeFileIfDifferent)
-import Foreign.Cppop.Generator.Language.Cpp.General (execChunkWriter, sayType)
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Common (fromMaybeM, writeFileIfDifferent)
+import Foreign.Hoppy.Generator.Language.Cpp.General (execChunkWriter, sayType)
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   Generator,
   HsTypeSide (HsHsSide),
   addExport,
@@ -42,7 +42,7 @@ import Foreign.Cppop.Generator.Language.Haskell.General (
   toHsPtrClassName,
   toHsValueClassName,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Class,
   Constness (Const, Nonconst),
   Ctor,
@@ -107,7 +107,7 @@ generateModule iface srcDir baseModuleName qtModule = do
   let generation =
         fmap (("{-# LANGUAGE NoMonomorphismRestriction #-}\n\n" ++) . renderPartial) $
         execGenerator iface fullModuleName $ do
-          -- As in generated Cppop bindings, avoid non-qualified Prelude uses in
+          -- As in generated Hoppy bindings, avoid non-qualified Prelude uses in
           -- generated code here.
           addImports $ hsImports "Prelude" []
 
@@ -173,7 +173,7 @@ getFnImportName = toHsFnName . fnExtName
 sayClassEncodingFnReexports :: Class -> Generator ()
 sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
   when (isJust $ classHaskellConversion $ classConversions cls) $ do
-    -- Generated encode and decode functions require some things from Cppop
+    -- Generated encode and decode functions require some things from Hoppy
     -- support and the Prelude.
     addImports $ mconcat [importForPrelude, importForSupport]
 
@@ -188,10 +188,10 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
                        HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") hsHsType
     ln
     saysLn [classEncodeReexportName, " :: ", prettyPrint encodeFnType]
-    saysLn [classEncodeReexportName, " = QtahFCRS.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
+    saysLn [classEncodeReexportName, " = QtahFHRS.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
     ln
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
-    saysLn [classDecodeReexportName, " = QtahFCRS.decode QtahP.. ", toHsCastMethodName Const cls]
+    saysLn [classDecodeReexportName, " = QtahFHRS.decode QtahP.. ", toHsCastMethodName Const cls]
 
 sayQtExport :: QtExport -> Generator ()
 sayQtExport qtExport = case qtExport of

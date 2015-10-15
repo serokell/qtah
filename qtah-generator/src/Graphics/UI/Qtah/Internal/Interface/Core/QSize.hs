@@ -1,15 +1,15 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QSize,
   ) where
 
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   addImports,
   indent,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   ClassConversions (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
@@ -43,7 +43,7 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QSize" qtModule
+hoppyModule = makeHoppyModule "Core" "QSize" qtModule
 
 qtModule =
   makeQtModule "Core.QSize"

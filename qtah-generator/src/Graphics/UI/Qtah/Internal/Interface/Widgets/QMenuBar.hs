@@ -1,10 +1,10 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QMenuBar,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
@@ -31,7 +31,7 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
-cppopModule = makeCppopModule "Widgets" "QMenuBar" qtModule
+hoppyModule = makeHoppyModule "Widgets" "QMenuBar" qtModule
 
 qtModule =
   makeQtModule "Widgets.QMenuBar" $

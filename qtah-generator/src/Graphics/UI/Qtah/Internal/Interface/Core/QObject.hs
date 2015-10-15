@@ -1,10 +1,10 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QObject,
   ) where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
@@ -22,7 +22,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QObject" qtModule
+hoppyModule = makeHoppyModule "Core" "QObject" qtModule
 
 qtModule =
   makeQtModule "Core.QObject" $

@@ -1,15 +1,15 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QRect (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QRect,
   ) where
 
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   addImports,
   indent,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   ClassConversions (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
@@ -45,7 +45,7 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QRect" qtModule
+hoppyModule = makeHoppyModule "Core" "QRect" qtModule
 
 qtModule =
   makeQtModule "Core.QRect"

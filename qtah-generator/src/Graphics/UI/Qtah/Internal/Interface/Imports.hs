@@ -10,7 +10,7 @@ module Graphics.UI.Qtah.Internal.Interface.Imports (
   importForSupport,
   ) where
 
-import Foreign.Cppop.Generator.Spec (HsImportSet, hsQualifiedImport)
+import Foreign.Hoppy.Generator.Spec (HsImportSet, hsQualifiedImport)
 
 importForChar :: HsImportSet
 importForChar = hsQualifiedImport "Data.Char" "QtahDC"
@@ -28,4 +28,4 @@ importForSignal :: HsImportSet
 importForSignal = hsQualifiedImport "Graphics.UI.Qtah.Signal" "QtahSignal"
 
 importForSupport :: HsImportSet
-importForSupport = hsQualifiedImport "Foreign.Cppop.Runtime.Support" "QtahFCRS"
+importForSupport = hsQualifiedImport "Foreign.Hoppy.Runtime.Support" "QtahFHRS"

@@ -1,16 +1,16 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QMargins (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QMargins,
   ) where
 
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   addImports,
   indent,
   sayLn,
   saysLn,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   ClassConversions (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
@@ -42,7 +42,7 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QMargins" qtModule
+hoppyModule = makeHoppyModule "Core" "QMargins" qtModule
 
 qtModule =
   makeQtModule "Core.QMargins"

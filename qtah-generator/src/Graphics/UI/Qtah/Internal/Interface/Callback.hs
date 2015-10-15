@@ -1,6 +1,6 @@
 module Graphics.UI.Qtah.Internal.Interface.Callback where
 
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   Export (ExportCallback),
   Type (TBool, TInt, TObj, TPtr, TVoid),
   addModuleExports,

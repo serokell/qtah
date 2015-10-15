@@ -1,15 +1,15 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
-  cppopModule,
+  hoppyModule,
   qtModule,
   c_QPoint,
   ) where
 
-import Foreign.Cppop.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell.General (
   addImports,
   indent,
   sayLn,
   )
-import Foreign.Cppop.Generator.Spec (
+import Foreign.Hoppy.Generator.Spec (
   ClassConversions (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
@@ -41,7 +41,7 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-cppopModule = makeCppopModule "Core" "QPoint" qtModule
+hoppyModule = makeHoppyModule "Core" "QPoint" qtModule
 
 qtModule =
   makeQtModule "Core.QPoint"

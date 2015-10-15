@@ -1,4 +1,4 @@
-{ mkDerivation, base, binary, bytestring, cppop, stdenv, lib
+{ mkDerivation, base, binary, bytestring, hoppy, stdenv, lib
 , qtah-generator
 , qtah-cpp
 , enableSplitObjs ? null
@@ -8,7 +8,7 @@ mkDerivation ({
   pname = "qtah";
   version = "0.1.0";
   src = ./.;
-  libraryHaskellDepends = [ base binary bytestring cppop ];
+  libraryHaskellDepends = [ base binary bytestring hoppy ];
   librarySystemDepends = [ qtah-cpp ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Qt bindings for Haskell";

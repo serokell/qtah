@@ -1,6 +1,6 @@
 module Graphics.UI.Qtah.Internal.Interface.Widgets (mods_Widgets) where
 
-import Foreign.Cppop.Generator.Spec (Module)
+import Foreign.Hoppy.Generator.Spec (Module)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
@@ -28,25 +28,25 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
 
 mods_Widgets :: [(Module, QtModule)]
 mods_Widgets =
-  [ (QAbstractButton.cppopModule, QAbstractButton.qtModule)
-  , (QAbstractScrollArea.cppopModule, QAbstractScrollArea.qtModule)
-  , (QApplication.cppopModule, QApplication.qtModule)
-  , (QAction.cppopModule, QAction.qtModule)
-  , (QActionGroup.cppopModule, QActionGroup.qtModule)
-  , (QBoxLayout.cppopModule, QBoxLayout.qtModule)
-  , (QCheckBox.cppopModule, QCheckBox.qtModule)
-  , (QFrame.cppopModule, QFrame.qtModule)
-  , (QHBoxLayout.cppopModule, QHBoxLayout.qtModule)
-  , (QLabel.cppopModule, QLabel.qtModule)
-  , (QLayout.cppopModule, QLayout.qtModule)
-  , (QLayoutItem.cppopModule, QLayoutItem.qtModule)
-  , (QLineEdit.cppopModule, QLineEdit.qtModule)
-  , (QMainWindow.cppopModule, QMainWindow.qtModule)
-  , (QMenu.cppopModule, QMenu.qtModule)
-  , (QMenuBar.cppopModule, QMenuBar.qtModule)
-  , (QPushButton.cppopModule, QPushButton.qtModule)
-  , (QSplitter.cppopModule, QSplitter.qtModule)
-  , (QTextEdit.cppopModule, QTextEdit.qtModule)
-  , (QVBoxLayout.cppopModule, QVBoxLayout.qtModule)
-  , (QWidget.cppopModule, QWidget.qtModule)
+  [ (QAbstractButton.hoppyModule, QAbstractButton.qtModule)
+  , (QAbstractScrollArea.hoppyModule, QAbstractScrollArea.qtModule)
+  , (QApplication.hoppyModule, QApplication.qtModule)
+  , (QAction.hoppyModule, QAction.qtModule)
+  , (QActionGroup.hoppyModule, QActionGroup.qtModule)
+  , (QBoxLayout.hoppyModule, QBoxLayout.qtModule)
+  , (QCheckBox.hoppyModule, QCheckBox.qtModule)
+  , (QFrame.hoppyModule, QFrame.qtModule)
+  , (QHBoxLayout.hoppyModule, QHBoxLayout.qtModule)
+  , (QLabel.hoppyModule, QLabel.qtModule)
+  , (QLayout.hoppyModule, QLayout.qtModule)
+  , (QLayoutItem.hoppyModule, QLayoutItem.qtModule)
+  , (QLineEdit.hoppyModule, QLineEdit.qtModule)
+  , (QMainWindow.hoppyModule, QMainWindow.qtModule)
+  , (QMenu.hoppyModule, QMenu.qtModule)
+  , (QMenuBar.hoppyModule, QMenuBar.qtModule)
+  , (QPushButton.hoppyModule, QPushButton.qtModule)
+  , (QSplitter.hoppyModule, QSplitter.qtModule)
+  , (QTextEdit.hoppyModule, QTextEdit.qtModule)
+  , (QVBoxLayout.hoppyModule, QVBoxLayout.qtModule)
+  , (QWidget.hoppyModule, QWidget.qtModule)
   ]
