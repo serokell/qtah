@@ -228,8 +228,8 @@ sayQtExport qtExport = case qtExport of
     importHsModuleForExtName $ classExtName cls
     addExports $
       (toHsValueClassName cls ++ " (..)") :
-      toHsPtrClassName Const cls :
-      toHsPtrClassName Nonconst cls :
+      (toHsPtrClassName Const cls ++ " (..)") :
+      (toHsPtrClassName Nonconst cls ++ " (..)") :
       toHsDataTypeName Const cls :
       toHsDataTypeName Nonconst cls :
       classConstCastReexportName :
