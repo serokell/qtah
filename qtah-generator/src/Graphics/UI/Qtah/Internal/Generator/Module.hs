@@ -1,3 +1,19 @@
+-- This file is part of Qtah.
+--
+-- Copyright 2015 Bryan Gardiner <bog@khumba.net>
+--
+-- This program is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU Affero General Public License version 3
+-- as published by the Free Software Foundation.
+--
+-- This program is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU Affero General Public License for more details.
+--
+-- You should have received a copy of the GNU Affero General Public License
+-- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Internal.Generator.Module (
@@ -302,7 +318,7 @@ saySignalExport signal = inFunction "saySignalExport" $ do
     sayLn "{ QtahSignal.internalConnectSignal = \\object' fn' -> do"
     indent $ do
       saysLn ["listener' <- ", toHsFnName $ getClassyExtName listenerClass listenerCtor, " fn'"]
-      saysLn [toHsFnName $ getClassyExtName listenerClass listenerConnectMethod, 
+      saysLn [toHsFnName $ getClassyExtName listenerClass listenerConnectMethod,
               " listener' object' ", show (toSignalConnectName signal paramTypes)]
     sayLn "}"
 

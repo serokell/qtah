@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+
+# This file is part of Qtah.
+#
+# Copyright 2015 Bryan Gardiner <bog@khumba.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License version 3
+# as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# This is a Git pre-commit script.  Enable it by symlinking it to
+# .git/hooks/pre-commit.
+
+set -euo pipefail  # "Unofficial Bash strict mode."
+
+# Merging these lines won't cause the command to fail (for set -e).
+projectDir=$(git rev-parse --git-dir)
+projectDir=$(readlink -f "$projectDir")
+projectDir=$(dirname "$projectDir")
+declare -r projectDir
+cd "$projectDir"
+
+if git --no-pager grep -q --cached '\s\+$'; then
+    echo
+    echo "Trailing whitespace found:"
+    echo
+    git --no-pager grep -n --cached --no-color '\s\+$'
+    whitespaceResult=1
+else
+    whitespaceResult=0
+fi
+
+tabsResult=0
+# Tabs are not allowed anywhere in Haskell files.
+hsFiles=$(find . -type f -name '*.hs')
+if [[ -n $hsFiles ]] && git --no-pager grep -q --cached '	' $hsFiles; then
+    if [[ $tabsResult -eq 0 ]]; then
+        echo
+        echo 'Tabs found:'
+        echop
+        tabsResult=1
+    fi
+    git --no-pager grep -n --no-color --cached '	' $hsFiles
+fi
+# Tabs shouldn't be used for leading whitespace anywhere.
+if git ls-files | grep -v '/Makefile$' | xargs git --no-pager grep -q --cached '^	'; then
+    if test $tabsResult -eq 0; then
+        echo
+        echo 'Leading tabs found:'
+        echo
+        tabsResult=1
+    fi
+    git ls-files | grep -v '/Makefile$' | git --no-pager grep -n --cached --no-color '^	'
+fi
+
+# Check for long lines.  Ignore long import statements without lists.
+if git --no-pager grep -h --cached '.\{101\}' | \
+        grep -qv '^import [^(]\+$'; then
+    echo
+    echo '>100-char lines found:'
+    echo
+    git --no-pager grep -n --cached --no-color '.\{101\}' | \
+        grep -v '^[^:]\+:[0-9]\+:import [^(]\+$'
+    longLinesResult=1
+else
+    longLinesResult=0
+fi
+
+# Check that all files contain copyright and license notices.
+legalResult=0
+while read file; do
+    set +e
+    case "$file" in
+        *README*)
+            # Readmes contain a copyright statement with email addresses, plus a
+            # license statement.
+            grep -q 'Copyright 2' "$file" && \
+                ! grep -q 'Copyright 2[^<]*$' "$file" && \
+                grep -q 'Affero General Public License version 3' "$file";;
+        *LICENSE*)
+            # License files are assumed to be okay.
+            true;;
+        *.cabal)
+            # Cabal files include a brief copyright statement and specify the
+            # license.
+            grep -iq '^copyright:.*[a-z]' "$file" && grep -q '^license: AGPL-3$' "$file";;
+        *)
+            # Other source files must include copyright statements with email
+            # addresses, plus a license statement.
+            head -10 "$file" | grep -q Copyright && \
+                (! head -20 "$file" | grep -q 'Copyright[^<]\+$') && \
+                head -20 "$file" | grep -q 'Affero General Public License version 3';;
+    esac
+    result=$?
+    set -e
+    if [[ $result -ne 0 ]]; then
+        if [[ $legalResult -eq 0 ]]; then
+            legalResult=1
+            echo
+            echo "Missing or bad copyright/license notices for files:"
+            echo
+        fi
+        echo "$file"
+    fi
+done < <(git ls-files)
+
+# Check that all staged files have copyright notices for the current year.
+copyrightYearResult=0
+curYear=$(date +%Y)
+declare -r curYear
+while read file; do
+    file="$projectDir/$file"
+    # Check for existance -- the file may be staged for deletion.
+    if [[ -e $file ]] && ! grep -iq "copyright.*$curYear" "$file"; then
+        if test $copyrightYearResult -eq 0; then
+            echo
+            echo "These files are missing copyright notices for $curYear:"
+            echo
+            copyrightYearResult=1
+        fi
+        echo "$file"
+    fi
+done < <(git --no-pager diff --name-only --cached . | grep -v LICENSE)
+
+if [[ $whitespaceResult -ne 0 ]] || \
+    [[ $tabsResult -ne 0 ]] || \
+    [[ $longLinesResult -ne 0 ]] || \
+    [[ $legalResult -ne 0 ]] || \
+    [[ $copyrightYearResult -ne 0 ]]; then
+    exit 1
+else
+    exit 0
+fi
