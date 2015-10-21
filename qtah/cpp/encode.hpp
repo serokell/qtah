@@ -1,3 +1,6 @@
+#ifndef QTAH_ENCODE_HPP
+#define QTAH_ENCODE_HPP
+
 // This file is part of Qtah.
 //
 // Copyright 2015 Bryan Gardiner <bog@khumba.net>
@@ -32,3 +35,5 @@ int* qRectEncode(const QRect& rect);
 QSize qSizeDecode(int* values);
 
 int* qSizeEncode(const QSize& size);
+
+#endif
