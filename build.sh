@@ -30,7 +30,7 @@ echo
 msg "Generating bindings."
 run mkdir -p "$projectDir/qtah/hs/src/Foreign/Hoppy/Generated"
 run cd "$projectDir/qtah-generator"
-run cabal configure
+run cabal configure --flags="${QTAH_QT_FLAG:-qt54}"
 run cabal build
 run dist/build/qtah-generator/qtah-generator \
     --gen-cpp "$projectDir/qtah/cpp" \

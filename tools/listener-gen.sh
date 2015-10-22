@@ -69,6 +69,7 @@ forEachListener() {
 
     # Keep the includes in the C++ section up-to-date with the types used here.
     $fn Bool "bool"
+    $fn Int "int"
     $fn IntInt "int|int"
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"

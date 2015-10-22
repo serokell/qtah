@@ -40,7 +40,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkStaticProp,
   )
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
-import Graphics.UI.Qtah.Internal.Flags (keypadNavigation)
+import Graphics.UI.Qtah.Internal.Flags (keypadNavigation, qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (c_QCoreApplication)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
@@ -58,7 +58,9 @@ qtModule =
   makeQtModule "Widgets.QApplication" $
   [ QtExport $ ExportClass c_QApplication
   ] ++ map QtExportSignal signals ++
-  [ QtExport $ ExportEnum e_Type ]
+  collect
+  [ test (qtVersion < [5]) $ QtExport $ ExportEnum e_Type
+  ]
 
 c_QApplication =
   addReqIncludes [ includeStd "QApplication"
@@ -88,9 +90,9 @@ c_QApplication =
   , just $ mkStaticMethod "isLeftToRight" [] TBool
   , just $ mkStaticMethod "isRightToLeft" [] TBool
   , just $ mkConstMethod "isSessionRestored" [] TBool
-  , just $ mkStaticMethod "keyboardInputDirection" [] $ TEnum e_LayoutDirection
+  , test (qtVersion < [5]) $ mkStaticMethod "keyboardInputDirection" [] $ TEnum e_LayoutDirection
   , just $ mkStaticMethod "keyboardInputInterval" [] TInt
-    -- TODO keyboardInputLocale
+    -- TODO keyboardInputLocale (<5)
     -- TODO keyboardModifiers
   , just $ mkStaticMethod "layoutDirection" [] $ TEnum e_LayoutDirection
     -- TODO macEventFilter
@@ -110,7 +112,7 @@ c_QApplication =
   , just $ mkConstMethod "sessionKey" [] $ TObj c_QString
     -- TODO setEffectEnabled
     -- TODO setFont
-    -- TODO setGraphicsSystem
+    -- TODO setGraphicsSystem (<5)
     -- TODO setInputContext
   , just $ mkStaticMethod "setKeyboardInputInterval" [TInt] TVoid
   , just $ mkStaticMethod "setLayoutDirection" [TEnum e_LayoutDirection] TVoid
@@ -120,14 +122,14 @@ c_QApplication =
   , just $ mkStaticMethod "setQuitOnLastWindowClosed" [TBool] TVoid
     -- TODO setStyle
     -- TODO style
-  , just $ mkStaticMethod "syncX" [] TVoid
+  , test (qtVersion < [5]) $ mkStaticMethod "syncX" [] TVoid
     -- TODO symbianEventFilter
     -- TODO symbianProcessEvent
   , just $ mkStaticMethod' "topLevelAt" "topLevelAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod' "topLevelAt" "topLevelAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
     -- TODO topLevelWidgets
     -- We rename type() since @type@ is a Haskell keyword.
-  , just $ mkStaticMethod' "type" "applicationType" [] $ TEnum e_Type
+  , test (qtVersion < [5]) $ mkStaticMethod' "type" "applicationType" [] $ TEnum e_Type
   , just $ mkStaticMethod' "widgetAt" "widgetAtPoint" [TObj c_QPoint] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod' "widgetAt" "widgetAtRaw" [TInt, TInt] $ TPtr $ TObj c_QWidget
     -- TODO x11EventFilter
@@ -155,9 +157,11 @@ signals =
   , makeSignal c_QApplication "focusChanged" c_ListenerPtrQWidgetPtrQWidget
   , makeSignal c_QApplication "fontDatabaseChanged" c_Listener
   , makeSignal c_QApplication "lastWindowClosed" c_Listener
+    -- TODO quit (static!)
     -- TODO saveStateRequest
   ]
 
+-- | Removed in Qt 5.
 e_Type =
   makeQtEnum (ident1 "QApplication" "Type")
   [ (0, ["tty"])

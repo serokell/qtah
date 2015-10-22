@@ -38,6 +38,7 @@ mod_Callback =
   modifyModule' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
   addModuleExports
   [ ExportCallback cb_BoolVoid
+  , ExportCallback cb_IntVoid
   , ExportCallback cb_IntIntVoid
   , ExportCallback cb_PtrQActionVoid
   , ExportCallback cb_PtrQObjectVoid
@@ -53,6 +54,10 @@ qmods_Callback = []
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")
   [TBool] TVoid
+
+cb_IntVoid =
+  makeCallback (toExtName "CallbackIntVoid")
+  [TInt] TVoid
 
 cb_IntIntVoid =
   makeCallback (toExtName "CallbackIntIntVoid")

@@ -37,6 +37,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQSize)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (c_QMenuBar)
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar (c_QStatusBar)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -86,7 +87,7 @@ c_QMainWindow =
   , mkProp "iconSize" $ TObj c_QSize
   , mkProp "menuBar" $ TPtr $ TObj c_QMenuBar
   , mkProp "menuWidget" $ TPtr $ TObj c_QWidget
-    -- TODO statusBar
+  , mkProp "statusBar" $ TPtr $ TObj c_QStatusBar
     -- TODO tabShape
     -- TODO toolButtonStyle
   , mkProp "unifiedTitleAndToolBarOnMac" TBool

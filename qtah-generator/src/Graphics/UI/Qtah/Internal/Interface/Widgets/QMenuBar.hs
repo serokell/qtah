@@ -58,7 +58,7 @@ c_QMenuBar =
   addReqIncludes [includeStd "QMenuBar"] $
   makeClass (ident "QMenuBar") Nothing
   [ c_QWidget ]
-  [ mkCtor "new" [TPtr $ TObj c_QWidget]
+  [ mkCtor "new" []
   , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   ] $
   [ mkConstMethod "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction

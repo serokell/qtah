@@ -25,6 +25,8 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAction as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup as QActionGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog as QDialog
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame as QFrame
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout as QHBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel as QLabel
@@ -36,6 +38,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar as QStatusBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout as QVBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
@@ -51,6 +54,8 @@ mods_Widgets =
   , (QActionGroup.hoppyModule, QActionGroup.qtModule)
   , (QBoxLayout.hoppyModule, QBoxLayout.qtModule)
   , (QCheckBox.hoppyModule, QCheckBox.qtModule)
+  , (QDialog.hoppyModule, QDialog.qtModule)
+  , (QFileDialog.hoppyModule, QFileDialog.qtModule)
   , (QFrame.hoppyModule, QFrame.qtModule)
   , (QHBoxLayout.hoppyModule, QHBoxLayout.qtModule)
   , (QLabel.hoppyModule, QLabel.qtModule)
@@ -62,6 +67,7 @@ mods_Widgets =
   , (QMenuBar.hoppyModule, QMenuBar.qtModule)
   , (QPushButton.hoppyModule, QPushButton.qtModule)
   , (QSplitter.hoppyModule, QSplitter.qtModule)
+  , (QStatusBar.hoppyModule, QStatusBar.qtModule)
   , (QTextEdit.hoppyModule, QTextEdit.qtModule)
   , (QVBoxLayout.hoppyModule, QVBoxLayout.qtModule)
   , (QWidget.hoppyModule, QWidget.qtModule)

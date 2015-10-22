@@ -52,6 +52,8 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Comparable, Equatable),
   classAddFeatures,
   )
+import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -66,14 +68,16 @@ import Language.Haskell.Syntax (
 hoppyModule = makeHoppyModule "Core" "QChar" qtModule
 
 qtModule =
-  makeQtModule "Core.QChar"
-  [ QtExport $ ExportClass c_QChar
-  , QtExport $ ExportEnum e_Category
-  , QtExport $ ExportEnum e_Decomposition
-  , QtExport $ ExportEnum e_Joining
-  , QtExport $ ExportEnum e_Direction
-  , QtExport $ ExportEnum e_SpecialCharacter
-  , QtExport $ ExportEnum e_UnicodeVersion
+  makeQtModule "Core.QChar" $
+  collect
+  [ just $ QtExport $ ExportClass c_QChar
+  , just $ QtExport $ ExportEnum e_Category
+  , just $ QtExport $ ExportEnum e_Decomposition
+  , test (qtVersion < [5, 3]) $ QtExport $ ExportEnum e_Joining
+  , test (qtVersion >= [5, 3]) $ QtExport $ ExportEnum e_JoiningType
+  , just $ QtExport $ ExportEnum e_Direction
+  , just $ QtExport $ ExportEnum e_SpecialCharacter
+  , just $ QtExport $ ExportEnum e_UnicodeVersion
   ]
 
 -- TODO Add more QChar methods.
@@ -101,45 +105,48 @@ c_QChar =
   , mkCtor "newFromCellRow" [TUChar, TUChar]
   , mkCtor "newFromInt" [TInt]
   , mkCtor "newFromSpecialCharacter" [TEnum e_SpecialCharacter]
-  ]
-  [ mkStaticMethod' "fromAscii" "newFromAscii" [TChar] $ TObj c_QChar
-  , mkStaticMethod' "fromLatin1" "newFromLatin1" [TChar] $ TObj c_QChar
-  , mkConstMethod "category" [] $ TEnum e_Category
-  , mkConstMethod "cell" [] TUChar
-  , mkConstMethod "combiningClass" [] TUChar
-  , mkStaticMethod "currentUnicodeVersion" [] $ TEnum e_UnicodeVersion
-  , mkConstMethod "decomposition" [] $ TObj c_QString
-  , mkConstMethod "decompositionTag" [] $ TEnum e_Decomposition
-  , mkConstMethod "digitValue" [] TInt
-  , mkConstMethod "direction" [] $ TEnum e_Direction
-  , mkConstMethod "hasMirrored" [] TBool
-  , mkConstMethod "isDigit" [] TBool
-  , mkConstMethod "isHighSurrogate" [] TBool
-  , mkConstMethod "isLetter" [] TBool
-  , mkConstMethod "isLetterOrNumber" [] TBool
-  , mkConstMethod "isLowSurrogate" [] TBool
-  , mkConstMethod "isLower" [] TBool
-  , mkConstMethod "isMark" [] TBool
-  , mkConstMethod "isNull" [] TBool
-  , mkConstMethod "isNumber" [] TBool
-  , mkConstMethod "isPrint" [] TBool
-  , mkConstMethod "isPunct" [] TBool
-  , mkConstMethod "isSpace" [] TBool
-  , mkConstMethod "isSymbol" [] TBool
-  , mkConstMethod "isTitleCase" [] TBool
-  , mkConstMethod "isUpper" [] TBool
-  , mkConstMethod "joining" [] $ TEnum e_Joining
-  , mkConstMethod "mirroredChar" [] $ TObj c_QChar
-  , mkConstMethod "row" [] TUChar
-  , mkConstMethod "toAscii" [] TChar
-  , mkConstMethod "toCaseFolded" [] $ TObj c_QChar
-  , mkConstMethod "toLatin1" [] TChar
-  , mkConstMethod "toLower" [] $ TObj c_QChar
-  , mkConstMethod "toTitleCase" [] $ TObj c_QChar
-  , mkConstMethod "toUpper" [] $ TObj c_QChar
-  , mkConstMethod' "unicode" "unicode" [] TUShort
-  , mkMethod' "unicode" "unicodeRef" [] $ TRef TUShort
-  , mkConstMethod "unicodeVersion" [] $ TEnum e_UnicodeVersion
+  ] $
+  collect
+  [ test (qtVersion < [5]) $ mkStaticMethod' "fromAscii" "newFromAscii" [TChar] $ TObj c_QChar
+  , just $ mkStaticMethod' "fromLatin1" "newFromLatin1" [TChar] $ TObj c_QChar
+  , just $ mkConstMethod "category" [] $ TEnum e_Category
+  , just $ mkConstMethod "cell" [] TUChar
+  , just $ mkConstMethod "combiningClass" [] TUChar
+  , just $ mkStaticMethod "currentUnicodeVersion" [] $ TEnum e_UnicodeVersion
+  , just $ mkConstMethod "decomposition" [] $ TObj c_QString
+  , just $ mkConstMethod "decompositionTag" [] $ TEnum e_Decomposition
+  , just $ mkConstMethod "digitValue" [] TInt
+  , just $ mkConstMethod "direction" [] $ TEnum e_Direction
+  , just $ mkConstMethod "hasMirrored" [] TBool
+  , just $ mkConstMethod "isDigit" [] TBool
+  , just $ mkConstMethod "isHighSurrogate" [] TBool
+  , just $ mkConstMethod "isLetter" [] TBool
+  , just $ mkConstMethod "isLetterOrNumber" [] TBool
+  , just $ mkConstMethod "isLowSurrogate" [] TBool
+  , just $ mkConstMethod "isLower" [] TBool
+  , just $ mkConstMethod "isMark" [] TBool
+  , just $ mkConstMethod "isNull" [] TBool
+  , just $ mkConstMethod "isNumber" [] TBool
+  , just $ mkConstMethod "isPrint" [] TBool
+  , just $ mkConstMethod "isPunct" [] TBool
+  , just $ mkConstMethod "isSpace" [] TBool
+  , just $ mkConstMethod "isSymbol" [] TBool
+  , just $ mkConstMethod "isTitleCase" [] TBool
+  , just $ mkConstMethod "isUpper" [] TBool
+  , test (qtVersion < [5, 3]) $ mkConstMethod "joining" [] $ TEnum e_Joining
+  , test (qtVersion >= [5, 3]) $ mkConstMethod "joiningType" [] $ TEnum e_JoiningType
+  , just $ mkConstMethod "mirroredChar" [] $ TObj c_QChar
+  , just $ mkConstMethod "row" [] TUChar
+    -- TODO script (>=5.1)
+  , test (qtVersion < [5]) $ mkConstMethod "toAscii" [] TChar
+  , just $ mkConstMethod "toCaseFolded" [] $ TObj c_QChar
+  , just $ mkConstMethod "toLatin1" [] TChar
+  , just $ mkConstMethod "toLower" [] $ TObj c_QChar
+  , just $ mkConstMethod "toTitleCase" [] $ TObj c_QChar
+  , just $ mkConstMethod "toUpper" [] $ TObj c_QChar
+  , just $ mkConstMethod' "unicode" "unicode" [] TUShort
+  , just $ mkMethod' "unicode" "unicodeRef" [] $ TRef TUShort
+  , just $ mkConstMethod "unicodeVersion" [] $ TEnum e_UnicodeVersion
   ]
 
 e_Category =
@@ -224,12 +231,24 @@ e_Direction =
   , (9, ["dir", "ws"])
   ]
 
+-- | Removed in Qt 5.3.0.
 e_Joining =
   makeQtEnum (ident1 "QChar" "Joining")
   [ (3, ["center"])
   , (1, ["dual"])
   , (0, ["other", "joining"])
   , (2, ["right"])
+  ]
+
+-- | Since Qt 5.3.0.
+e_JoiningType =
+  makeQtEnum (ident1 "QChar" "JoiningType")
+  [ (0, ["joining", "none"])
+  , (1, ["joining", "causing"])
+  , (2, ["joining", "dual"])
+  , (3, ["joining", "right"])
+  , (4, ["joining", "left"])
+  , (5, ["joining", "transparent"])
   ]
 
 e_SpecialCharacter =

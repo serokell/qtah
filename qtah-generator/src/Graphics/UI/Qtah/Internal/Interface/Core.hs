@@ -20,6 +20,7 @@ import Foreign.Hoppy.Generator.Spec (Module)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication as QCoreApplication
+import qualified Graphics.UI.Qtah.Internal.Interface.Core.QDir as QDir
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QPoint as QPoint
@@ -34,6 +35,7 @@ mods_Core :: [(Module, QtModule)]
 mods_Core =
   [ (QChar.hoppyModule, QChar.qtModule)
   , (QCoreApplication.hoppyModule, QCoreApplication.qtModule)
+  , (QDir.hoppyModule, QDir.qtModule)
   , (QMargins.hoppyModule, QMargins.qtModule)
   , (QObject.hoppyModule, QObject.qtModule)
   , (QPoint.hoppyModule, QPoint.qtModule)

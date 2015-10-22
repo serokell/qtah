@@ -30,8 +30,11 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   bs_Orientations,
   e_ScrollBarPolicy,
   e_TextFormat,
+  e_WindowType,
+  bs_WindowFlags,
   ) where
 
+import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum),
   Module,
@@ -61,6 +64,8 @@ exports =
   , ExportBitspace bs_Orientations
   , ExportEnum e_ScrollBarPolicy
   , ExportEnum e_TextFormat
+  , ExportEnum e_WindowType
+  , ExportBitspace bs_WindowFlags
   ]
 
 (e_AlignmentFlag, bs_Alignment) =
@@ -142,3 +147,33 @@ e_TextFormat =
   , (2, ["auto", "text"])
   , (3, ["log", "text"])
   ]
+
+(e_WindowType, bs_WindowFlags) =
+  makeQtEnumBitspace (ident1 "Qt" "WindowType") "WindowFlags" $
+  let widget = 0x0
+      window = 0x1
+      dialog = 0x2 .|. window
+      sheet = 0x4 .|. window
+      drawer = sheet .|. dialog
+      popup = 0x8 .|. window
+      tool = popup .|. dialog
+      toolTip = popup .|. sheet
+      splashScreen = toolTip .|. dialog
+      desktop = 0x10 .|. window
+      subWindow = 0x12 .|. window
+      foreignWindow = 0x20 .|. window
+      coverWindow = 0x40 .|. window
+  in [ (widget, ["widget"])
+     , (window, ["window"])
+     , (dialog, ["dialog"])
+     , (sheet, ["sheet"])
+     , (drawer, ["drawer"])
+     , (popup, ["popup"])
+     , (tool, ["tool"])
+     , (toolTip, ["tool", "tip"])
+     , (splashScreen, ["splash", "screen"])
+     , (desktop, ["desktop"])
+     , (subWindow, ["sub", "window"])
+     , (foreignWindow, ["foreign", "window"])
+     , (coverWindow, ["cover", "window"])
+     ]

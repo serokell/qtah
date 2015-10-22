@@ -36,6 +36,8 @@ import Foreign.Hoppy.Generator.Spec (
   mkProps,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerBool)
@@ -51,12 +53,12 @@ qtModule =
   makeQtModule "Widgets.QAction" $
   QtExport (ExportClass c_QAction) :
   map QtExportSignal signals ++
-  map (QtExport . ExportEnum)
-      [ e_ActionEvent
-      , e_MenuRole
-      , e_Priority
-      , e_SoftKeyRole
-      ]
+  (map (QtExport . ExportEnum) . collect)
+  [ just $ e_ActionEvent
+  , just $ e_MenuRole
+  , just $ e_Priority
+  , test (qtVersion < [5]) $ e_SoftKeyRole
+  ]
 
 c_QAction =
   addReqIncludes [includeStd "QAction"] $
@@ -75,34 +77,33 @@ c_QAction =
   , mkMethod "setDisabled" [TBool] TVoid
   , mkMethod "setPriority" [TEnum e_Priority] TVoid
     -- TODO setShortcuts
-  , mkMethod "setSoftKeyRole" [TEnum e_SoftKeyRole] TVoid
     -- TODO shortcuts
   , mkMethod "showStatusText" [TPtr $ TObj c_QWidget] TBool
-  , mkConstMethod "softKeyRole" [] $ TEnum e_SoftKeyRole
   , mkMethod "toggle" [] TVoid
   , mkMethod "trigger" [] TVoid
   ] ++
-  mkProps
-  [ mkProp "actionGroup" $ TPtr $ TObj c_QActionGroup
-  , mkProp "autoRepeat" TBool
-  , mkBoolIsProp "checkable"
-  , mkBoolIsProp "checked"
+  (mkProps . collect)
+  [ just $ mkProp "actionGroup" $ TPtr $ TObj c_QActionGroup
+  , just $ mkProp "autoRepeat" TBool
+  , just $ mkBoolIsProp "checkable"
+  , just $ mkBoolIsProp "checked"
     -- TODO data
-  , mkBoolIsProp "enabled"
+  , just $ mkBoolIsProp "enabled"
     -- TODO font
     -- TODO icon
-  , mkProp "iconText" $ TObj c_QString
-  , mkBoolIsProp "iconVisibleInMenu"
-  , mkProp "menu" $ TPtr $ TObj c_QMenu
-  , mkProp "menuRole" $ TEnum e_MenuRole
-  , mkBoolIsProp "separator"
+  , just $ mkProp "iconText" $ TObj c_QString
+  , just $ mkBoolIsProp "iconVisibleInMenu"
+  , just $ mkProp "menu" $ TPtr $ TObj c_QMenu
+  , just $ mkProp "menuRole" $ TEnum e_MenuRole
+  , just $ mkBoolIsProp "separator"
     -- TODO shortcut
     -- TODO shortcutContext
-  , mkProp "statusTip" $ TObj c_QString
-  , mkProp "text" $ TObj c_QString
-  , mkProp "toolTip" $ TObj c_QString
-  , mkBoolIsProp "visible"
-  , mkProp "whatsThis" $ TObj c_QString
+  , test (qtVersion < [5]) $ mkProp "softKeyRole" $ TEnum e_SoftKeyRole
+  , just $ mkProp "statusTip" $ TObj c_QString
+  , just $ mkProp "text" $ TObj c_QString
+  , just $ mkProp "toolTip" $ TObj c_QString
+  , just $ mkBoolIsProp "visible"
+  , just $ mkProp "whatsThis" $ TObj c_QString
   ]
 
 signals =
@@ -136,6 +137,7 @@ e_Priority =
   , (256, ["high", "priority"])
   ]
 
+-- | Removed in Qt 5.
 e_SoftKeyRole =
   makeQtEnum (ident1 "QAction" "SoftKeyRole")
   [ (0, ["no", "soft", "key"])
