@@ -107,4 +107,4 @@ fileSave me = do
     writeFile fileName contents
 
 fileDialogFilter :: String
-fileDialogFilter = "Text Files (*.txt);;C++ Files (*.cpp *.h)"
+fileDialogFilter = "Text Files (*.txt);;C++ Files (*.cpp *.h);;All Files (*)"
