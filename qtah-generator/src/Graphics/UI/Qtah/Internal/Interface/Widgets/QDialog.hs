@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QDialog,
   ) where
 
@@ -43,10 +42,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Widgets" "QDialog" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QDialog" $
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QDialog"] $
   [ QtExport $ ExportClass c_QDialog
   , QtExport $ ExportEnum e_DialogCode
   ] ++ map QtExportSignal signals

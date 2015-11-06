@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QSize,
   ) where
 
@@ -59,10 +58,9 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QSize" qtModule
-
-qtModule =
-  makeQtModule "Core.QSize"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QSize"]
   [ QtExport $ ExportClass c_QSize ]
 
 c_QSize =

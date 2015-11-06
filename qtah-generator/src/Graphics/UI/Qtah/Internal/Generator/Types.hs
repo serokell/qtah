@@ -16,13 +16,13 @@
 
 module Graphics.UI.Qtah.Internal.Generator.Types (
   moduleNameAppend,
+  AModule (..),
+  aModuleHoppy,
   QtModule,
-  makeHoppyModule,
   makeQtModule,
-  makeQtModuleForClass,
-  qtModuleSubname,
+  qtModulePath,
   qtModuleQtExports,
-  qtModuleExports,
+  qtModuleHoppy,
   QtExport (..),
   makeQtEnum,
   makeQtEnumBitspace,
@@ -35,7 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
   Bitspace,
   Class,
   CppEnum,
-  Export (ExportClass, ExportFn),
+  Export (ExportFn),
   Function,
   Identifier,
   Module,
@@ -45,8 +45,6 @@ import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
   bitspaceAddCppType,
   bitspaceAddEnum,
-  classExtName,
-  fromExtName,
   identifierParts,
   identT,
   idPartBase,
@@ -63,6 +61,14 @@ moduleNameAppend "" y = y
 moduleNameAppend x "" = x
 moduleNameAppend x y = concat [x, ".", y]
 
+-- | A union of Hoppy and Qt modules.
+data AModule = AHoppyModule Module | AQtModule QtModule
+
+-- | Extracts the Hoppy 'Module' for an 'AModule'.
+aModuleHoppy :: AModule -> Module
+aModuleHoppy (AHoppyModule m) = m
+aModuleHoppy (AQtModule qm) = qtModuleHoppy qm
+
 -- | A @QtModule@ (distinct from a Hoppy 'Module'), is a description of a
 -- Haskell module in the @Graphics.UI.Qtah.Q@ namespace that:
 --
@@ -70,35 +76,33 @@ moduleNameAppend x y = concat [x, ".", y]
 --        prefixes from the reexported names.
 --     2. generates Signal definitions for Qt signals.
 data QtModule = QtModule
-  { qtModuleSubname :: String
+  { qtModulePath :: [String]
   , qtModuleQtExports :: [QtExport]
     -- ^ A list of exports whose generated Hoppy bindings will be re-exported in
     -- this module.
+  , qtModuleHoppy :: Module
   }
 
-makeHoppyModule :: String -> String -> QtModule -> Module
-makeHoppyModule moduleParentName moduleBaseName qtModule =
-  let lowerBaseName = map toLower moduleBaseName
-  in modifyModule' (makeModule lowerBaseName
-                    (concat ["b_", lowerBaseName, ".hpp"])
-                    (concat ["b_", lowerBaseName, ".cpp"])) $ do
-    addModuleHaskellName [moduleParentName, moduleBaseName]
-    addModuleExports $ qtModuleExports qtModule
+makeQtModule :: [String] -> [QtExport] -> QtModule
+makeQtModule [] _ = error "makeQtModule: Module path must be nonempty."
+makeQtModule modulePath@(_:moduleNameParts) qtExports =
+  let lowerName = map toLower $ concat moduleNameParts
+  in QtModule
+     { qtModulePath = modulePath
+     , qtModuleQtExports = qtExports
+     , qtModuleHoppy =
+       modifyModule' (makeModule lowerName
+                     (concat ["b_", lowerName, ".hpp"])
+                     (concat ["b_", lowerName, ".cpp"])) $ do
+         addModuleHaskellName modulePath
+         addModuleExports $ mapMaybe qtExportToExport qtExports
+     }
 
-makeQtModule :: String -> [QtExport] -> QtModule
-makeQtModule = QtModule
-
-makeQtModuleForClass :: Class -> [QtExport] -> QtModule
-makeQtModuleForClass cls exports =
-  QtModule (fromExtName $ classExtName cls) $
-  QtExport (ExportClass cls) : exports
-
-qtModuleExports :: QtModule -> [Export]
-qtModuleExports = mapMaybe getExport . qtModuleQtExports
-  where getExport qtExport = case qtExport of
-          QtExport export -> Just export
-          QtExportFnRenamed fn _ -> Just $ ExportFn fn
-          QtExportSignal {} -> Nothing
+qtExportToExport :: QtExport -> Maybe Export
+qtExportToExport qtExport = case qtExport of
+  QtExport export -> Just export
+  QtExportFnRenamed fn _ -> Just $ ExportFn fn
+  QtExportSignal {} -> Nothing
 
 data QtExport =
   QtExport Export

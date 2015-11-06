@@ -16,7 +16,6 @@
 
 module Main where
 
-import Control.Arrow (second)
 import Data.Foldable (forM_)
 import Foreign.Hoppy.Common (maybeFail)
 import Foreign.Hoppy.Generator.Main (Action (GenHaskell), run)
@@ -32,10 +31,10 @@ import Foreign.Hoppy.Generator.Spec (
 import qualified Foreign.Hoppy.Generator.Std as Std
 import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
-import Graphics.UI.Qtah.Internal.Interface.Callback (mod_Callback, qmods_Callback)
-import Graphics.UI.Qtah.Internal.Interface.Core (mods_Core)
-import Graphics.UI.Qtah.Internal.Interface.Listener (mod_Listener, qmods_Listener)
-import Graphics.UI.Qtah.Internal.Interface.Widgets (mods_Widgets)
+import qualified Graphics.UI.Qtah.Internal.Interface.Callback as Callback
+import qualified Graphics.UI.Qtah.Internal.Interface.Core as Core
+import qualified Graphics.UI.Qtah.Internal.Interface.Listener as Listener
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets as Widgets
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import System.FilePath (
@@ -49,17 +48,21 @@ mod_std = modifyModule' Std.mod_std $ do
   setModuleHppPath "b_std.hpp"
   setModuleCppPath "b_std.cpp"
 
-modules :: [(Module, [QtModule])]
+modules :: [AModule]
 modules =
-  [ (mod_std, [])
-  , (mod_Callback, qmods_Callback)
-  , (mod_Listener, qmods_Listener)
-  ] ++ map (second (:[])) (mods_Core ++ mods_Widgets)
+  concat
+  [ [ AHoppyModule mod_std
+    , Callback.aModule
+    , Listener.aModule
+    ]
+  , Core.modules
+  , Widgets.modules
+  ]
 
 interfaceResult :: Either String Interface
 interfaceResult =
   interfaceAddHaskellModuleBase ["Graphics", "UI", "Qtah", "Generated"] =<<
-  interface "qtah" (map fst modules)
+  interface "qtah" (map aModuleHoppy modules)
 
 main :: IO ()
 main =
@@ -77,9 +80,9 @@ main =
           srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
                                " to generate Qt modules.") $
                     findSrcDir path
-          forM_ modules $ \(_, qtModules) ->
-            forM_ qtModules $ \qm ->
-            generateModule iface srcDir "Graphics.UI.Qtah" qm
+          forM_ modules $ \aModule -> case aModule of
+            AHoppyModule _ -> return ()
+            AQtModule qm -> generateModule iface srcDir "Graphics.UI.Qtah" qm
 
         _ -> return ()
 

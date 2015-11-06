@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication (
-  hoppyModule,
-  qtModule,
+  aModule,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -43,6 +42,7 @@ import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (keypadNavigation, qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (c_QCoreApplication)
+import Graphics.UI.Qtah.Internal.Interface.Core.QList (c_QListQWidget)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
@@ -52,10 +52,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Widgets" "QApplication" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QApplication" $
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QApplication"] $
   [ QtExport $ ExportClass c_QApplication
   ] ++ map QtExportSignal signals ++
   collect
@@ -74,7 +73,7 @@ c_QApplication =
   , just $ mkStaticMethod "activeModalWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "activePopupWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "alert" [TPtr $ TObj c_QWidget, TInt] TVoid
-    -- TODO allWidgets
+  , just $ mkStaticMethod' "allWidgets" "allWidgetsNew" [] $ TObj c_QListQWidget
   , just $ mkStaticMethod "beep" [] TVoid
     -- TODO changeOverrideCursor
     -- TODO clipboard

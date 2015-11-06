@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QRect (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QRect,
   ) where
 
@@ -61,10 +60,9 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QRect" qtModule
-
-qtModule =
-  makeQtModule "Core.QRect"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QRect"]
   [ QtExport $ ExportClass c_QRect ]
 
 c_QRect =

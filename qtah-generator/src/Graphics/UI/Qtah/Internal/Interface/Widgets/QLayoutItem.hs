@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QLayoutItem,
   ) where
 
@@ -41,10 +40,9 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWi
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Widgets" "QLayoutItem" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QLayoutItem"
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QLayoutItem"]
   [ QtExport $ ExportClass c_QLayoutItem ]
 
 c_QLayoutItem =

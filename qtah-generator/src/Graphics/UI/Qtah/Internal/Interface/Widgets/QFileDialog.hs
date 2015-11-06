@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog (
-  hoppyModule,
-  qtModule,
+  aModule,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -48,10 +47,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Widgets" "QFileDialog" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QFileDialog" $
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QFileDialog"] $
   [ QtExport $ ExportClass c_QFileDialog
   , QtExport $ ExportEnum e_AcceptMode
   , QtExport $ ExportEnum e_DialogLabel

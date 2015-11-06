@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QPoint (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QPoint,
   ) where
 
@@ -57,10 +56,9 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QPoint" qtModule
-
-qtModule =
-  makeQtModule "Core.QPoint"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QPoint"]
   [ QtExport $ ExportClass c_QPoint ]
 
 c_QPoint =

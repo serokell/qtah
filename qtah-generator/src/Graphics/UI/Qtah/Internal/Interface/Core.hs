@@ -14,13 +14,13 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Internal.Interface.Core (mods_Core) where
+module Graphics.UI.Qtah.Internal.Interface.Core (modules) where
 
-import Foreign.Hoppy.Generator.Spec (Module)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication as QCoreApplication
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QDir as QDir
+import qualified Graphics.UI.Qtah.Internal.Interface.Core.QList as QList
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QPoint as QPoint
@@ -31,16 +31,16 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Core.Types as Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-mods_Core :: [(Module, QtModule)]
-mods_Core =
-  [ (QChar.hoppyModule, QChar.qtModule)
-  , (QCoreApplication.hoppyModule, QCoreApplication.qtModule)
-  , (QDir.hoppyModule, QDir.qtModule)
-  , (QMargins.hoppyModule, QMargins.qtModule)
-  , (QObject.hoppyModule, QObject.qtModule)
-  , (QPoint.hoppyModule, QPoint.qtModule)
-  , (QRect.hoppyModule, QRect.qtModule)
-  , (QSize.hoppyModule, QSize.qtModule)
-  , (QString.hoppyModule, QString.qtModule)
-  , (Types.hoppyModule, Types.qtModule)
-  ]
+modules :: [AModule]
+modules =
+  [ QChar.aModule
+  , QCoreApplication.aModule
+  , QDir.aModule
+  , QMargins.aModule
+  , QObject.aModule
+  , QPoint.aModule
+  , QRect.aModule
+  , QSize.aModule
+  , QString.aModule
+  , Types.aModule
+  ] ++ QList.allModules

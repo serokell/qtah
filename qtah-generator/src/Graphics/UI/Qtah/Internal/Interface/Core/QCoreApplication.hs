@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QCoreApplication,
   ) where
 
@@ -32,10 +31,9 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QCoreApplication" qtModule
-
-qtModule =
-  makeQtModule "Core.QCoreApplication"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QCoreApplication"]
   [ QtExport $ ExportClass c_QCoreApplication ]
 
 c_QCoreApplication =

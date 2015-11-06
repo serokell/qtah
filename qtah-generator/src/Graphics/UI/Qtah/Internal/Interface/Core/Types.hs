@@ -16,8 +16,7 @@
 
 -- | Bindings in the top-level @Qt::@ namespace.
 module Graphics.UI.Qtah.Internal.Interface.Core.Types (
-  hoppyModule,
-  qtModule,
+  aModule,
   e_AlignmentFlag,
   bs_Alignment,
   e_AspectRatioMode,
@@ -37,18 +36,14 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
 import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum),
-  Module,
   ident1,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule :: Module
-hoppyModule = makeHoppyModule "Core" "Types" qtModule
-
-qtModule :: QtModule
-qtModule = makeQtModule "Core.Types" $ map QtExport exports
+aModule :: AModule
+aModule = AQtModule $ makeQtModule ["Core", "Types"] $ map QtExport exports
 
 exports :: [Export]
 exports =

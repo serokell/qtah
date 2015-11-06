@@ -25,6 +25,7 @@ import Foreign.Hoppy.Generator.Spec (
   modifyModule',
   toExtName,
   )
+import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
@@ -34,7 +35,8 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWi
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-mod_Callback =
+aModule =
+  AHoppyModule $
   modifyModule' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
   addModuleExports
   [ ExportCallback cb_BoolVoid
@@ -48,8 +50,6 @@ mod_Callback =
   , ExportCallback cb_QStringVoid
   , ExportCallback cb_Void
   ]
-
-qmods_Callback = []
 
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")

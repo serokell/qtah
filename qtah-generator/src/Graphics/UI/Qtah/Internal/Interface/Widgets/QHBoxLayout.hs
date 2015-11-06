@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout (
-  hoppyModule,
-  qtModule,
+  aModule,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -34,10 +33,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Widgets" "QHBoxLayout" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QHBoxLayout"
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QHBoxLayout"]
   [ QtExport $ ExportClass c_QHBoxLayout ]
 
 c_QHBoxLayout =

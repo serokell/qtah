@@ -41,6 +41,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QChar
     , Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication
     , Graphics.UI.Qtah.Internal.Interface.Core.QDir
+    , Graphics.UI.Qtah.Internal.Interface.Core.QList
     , Graphics.UI.Qtah.Internal.Interface.Core.QMargins
     , Graphics.UI.Qtah.Internal.Interface.Core.QObject
     , Graphics.UI.Qtah.Internal.Interface.Core.QPoint

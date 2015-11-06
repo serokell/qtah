@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QMargins (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QMargins,
   ) where
 
@@ -58,10 +57,9 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QMargins" qtModule
-
-qtModule =
-  makeQtModule "Core.QMargins"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QMargins"]
   [ QtExport $ ExportClass c_QMargins ]
 
 c_QMargins =

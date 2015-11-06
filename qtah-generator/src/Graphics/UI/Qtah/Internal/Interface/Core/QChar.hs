@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QChar (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QChar,
   ) where
 
@@ -65,10 +64,9 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QChar" qtModule
-
-qtModule =
-  makeQtModule "Core.QChar" $
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QChar"] $
   collect
   [ just $ QtExport $ ExportClass c_QChar
   , just $ QtExport $ ExportEnum e_Category

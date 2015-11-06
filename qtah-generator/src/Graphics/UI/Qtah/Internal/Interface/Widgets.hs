@@ -14,9 +14,8 @@
 -- You should have received a copy of the GNU Affero General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Internal.Interface.Widgets (mods_Widgets) where
+module Graphics.UI.Qtah.Internal.Interface.Widgets (modules) where
 
-import Foreign.Hoppy.Generator.Spec (Module)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
@@ -45,30 +44,30 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-mods_Widgets :: [(Module, QtModule)]
-mods_Widgets =
-  [ (QAbstractButton.hoppyModule, QAbstractButton.qtModule)
-  , (QAbstractScrollArea.hoppyModule, QAbstractScrollArea.qtModule)
-  , (QApplication.hoppyModule, QApplication.qtModule)
-  , (QAction.hoppyModule, QAction.qtModule)
-  , (QActionGroup.hoppyModule, QActionGroup.qtModule)
-  , (QBoxLayout.hoppyModule, QBoxLayout.qtModule)
-  , (QCheckBox.hoppyModule, QCheckBox.qtModule)
-  , (QDialog.hoppyModule, QDialog.qtModule)
-  , (QFileDialog.hoppyModule, QFileDialog.qtModule)
-  , (QFrame.hoppyModule, QFrame.qtModule)
-  , (QHBoxLayout.hoppyModule, QHBoxLayout.qtModule)
-  , (QLabel.hoppyModule, QLabel.qtModule)
-  , (QLayout.hoppyModule, QLayout.qtModule)
-  , (QLayoutItem.hoppyModule, QLayoutItem.qtModule)
-  , (QLineEdit.hoppyModule, QLineEdit.qtModule)
-  , (QMainWindow.hoppyModule, QMainWindow.qtModule)
-  , (QMenu.hoppyModule, QMenu.qtModule)
-  , (QMenuBar.hoppyModule, QMenuBar.qtModule)
-  , (QPushButton.hoppyModule, QPushButton.qtModule)
-  , (QSplitter.hoppyModule, QSplitter.qtModule)
-  , (QStatusBar.hoppyModule, QStatusBar.qtModule)
-  , (QTextEdit.hoppyModule, QTextEdit.qtModule)
-  , (QVBoxLayout.hoppyModule, QVBoxLayout.qtModule)
-  , (QWidget.hoppyModule, QWidget.qtModule)
+modules :: [AModule]
+modules =
+  [ QAbstractButton.aModule
+  , QAbstractScrollArea.aModule
+  , QApplication.aModule
+  , QAction.aModule
+  , QActionGroup.aModule
+  , QBoxLayout.aModule
+  , QCheckBox.aModule
+  , QDialog.aModule
+  , QFileDialog.aModule
+  , QFrame.aModule
+  , QHBoxLayout.aModule
+  , QLabel.aModule
+  , QLayout.aModule
+  , QLayoutItem.aModule
+  , QLineEdit.aModule
+  , QMainWindow.aModule
+  , QMenu.aModule
+  , QMenuBar.aModule
+  , QPushButton.aModule
+  , QSplitter.aModule
+  , QStatusBar.aModule
+  , QTextEdit.aModule
+  , QVBoxLayout.aModule
+  , QWidget.aModule
   ]

@@ -26,17 +26,15 @@ QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
     $$files(b_*.cpp) \
+    $$files(shim_*.cpp) \
     encode.cpp \
-    listener.cpp \
-    shim_qapplication.cpp \
-    shim_qstring.cpp
+    listener.cpp
 
 HEADERS += \
     $$files(b_*.hpp) \
+    $$files(shim_*.hpp) \
     encode.hpp \
-    listener.hpp \
-    shim_qapplication.hpp \
-    shim_qstring.hpp
+    listener.hpp
 
 isEmpty( PREFIX ) {
   PREFIX=/usr/local

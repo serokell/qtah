@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QObject,
   ) where
 
@@ -38,10 +37,9 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QObject" qtModule
-
-qtModule =
-  makeQtModule "Core.QObject" $
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QObject"] $
   [ QtExport $ ExportClass c_QObject
   ] ++ map QtExportSignal signals
 

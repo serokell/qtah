@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QString (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QString,
   ) where
 
@@ -65,10 +64,9 @@ import Language.Haskell.Syntax (
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QString" qtModule
-
-qtModule =
-  makeQtModule "Core.QString"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QString"]
   [ QtExport $ ExportClass c_QString
   , QtExportFnRenamed f_QString_set "set"
   ]

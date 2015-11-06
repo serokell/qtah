@@ -214,8 +214,9 @@ if [[ -n $hsDir ]]; then
     forEachListener writeHs
 
     say
-    say "mod_Listener :: S.Module"
-    say "mod_Listener ="
+    say "aModule :: T.AModule"
+    say "aModule ="
+    say "  T.AHoppyModule \$"
     say "  S.addReqIncludes [S.includeLocal \"listener.hpp\"] \$"
     say "  S.modifyModule' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$"
     say "  S.addModuleExports"
@@ -230,9 +231,6 @@ if [[ -n $hsDir ]]; then
     }
     forEachListener writeHs
     say "  ]"
-    say
-    say "qmods_Listener :: [T.QtModule]"
-    say "qmods_Listener = []"
 
     exec {fhs}>&-
     unset fhs writeHs

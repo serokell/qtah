@@ -26,7 +26,7 @@ import Control.Monad.Except (throwError)
 #else
 import Control.Monad.Error (throwError)
 #endif
-import Data.List (find, intersperse, isPrefixOf, sort)
+import Data.List (find, intercalate, intersperse, isPrefixOf, sort)
 import Data.Maybe (isJust)
 import Foreign.Hoppy.Common (fromMaybeM, writeFileIfDifferent)
 import Foreign.Hoppy.Generator.Language.Cpp.General (execChunkWriter, sayType)
@@ -98,8 +98,8 @@ import Graphics.UI.Qtah.Internal.Generator.Types (
   QtModule,
   Signal,
   moduleNameAppend,
+  qtModulePath,
   qtModuleQtExports,
-  qtModuleSubname,
   signalClass,
   signalCName,
   signalListenerClass,
@@ -117,7 +117,7 @@ import System.FilePath ((</>), (<.>), pathSeparator, takeDirectory)
 
 generateModule :: Interface -> FilePath -> String -> QtModule -> IO ()
 generateModule iface srcDir baseModuleName qtModule = do
-  let fullModuleName = moduleNameAppend baseModuleName $ qtModuleSubname qtModule
+  let fullModuleName = moduleNameAppend baseModuleName $ intercalate "." $ qtModulePath qtModule
       qtExports = qtModuleQtExports qtModule
 
   let generation =

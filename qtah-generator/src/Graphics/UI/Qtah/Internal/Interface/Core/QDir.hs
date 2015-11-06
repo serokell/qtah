@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Core.QDir (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QDir,
   e_Filter,
   bs_Filters,
@@ -54,10 +53,9 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Core" "QDir" qtModule
-
-qtModule =
-  makeQtModule "Core.QDir"
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QDir"]
   [ QtExport $ ExportClass c_QDir
   , QtExport $ ExportEnum e_Filter
   , QtExport $ ExportBitspace bs_Filters

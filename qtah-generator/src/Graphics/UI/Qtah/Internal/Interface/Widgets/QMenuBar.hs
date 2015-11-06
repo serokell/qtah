@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar (
-  hoppyModule,
-  qtModule,
+  aModule,
   c_QMenuBar,
   ) where
 
@@ -47,10 +46,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
-hoppyModule = makeHoppyModule "Widgets" "QMenuBar" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QMenuBar" $
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QMenuBar"] $
   QtExport (ExportClass c_QMenuBar) :
   map QtExportSignal signals
 

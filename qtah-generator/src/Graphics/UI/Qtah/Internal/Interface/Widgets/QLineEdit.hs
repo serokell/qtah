@@ -15,8 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
-  hoppyModule,
-  qtModule,
+  aModule,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -41,16 +40,19 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_CursorMoveStyle)
-import Graphics.UI.Qtah.Internal.Interface.Listener
+import Graphics.UI.Qtah.Internal.Interface.Listener (
+  c_Listener,
+  c_ListenerIntInt,
+  c_ListenerQString,
+  )
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-hoppyModule = makeHoppyModule "Widgets" "QLineEdit" qtModule
-
-qtModule =
-  makeQtModule "Widgets.QLineEdit" $
+aModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QLineEdit"] $
   QtExport (ExportClass c_QLineEdit) :
   map QtExportSignal signals ++
   [ QtExport $ ExportEnum e_EchoMode ]
