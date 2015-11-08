@@ -36,6 +36,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow as QMai
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton as QRadioButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar as QStatusBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextEdit
@@ -65,6 +66,7 @@ modules =
   , QMenu.aModule
   , QMenuBar.aModule
   , QPushButton.aModule
+  , QRadioButton.aModule
   , QSplitter.aModule
   , QStatusBar.aModule
   , QTextEdit.aModule

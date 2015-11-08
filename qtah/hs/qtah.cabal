@@ -56,6 +56,7 @@ library
     , Graphics.UI.Qtah.Widgets.QMenu
     , Graphics.UI.Qtah.Widgets.QMenuBar
     , Graphics.UI.Qtah.Widgets.QPushButton
+    , Graphics.UI.Qtah.Widgets.QRadioButton
     , Graphics.UI.Qtah.Widgets.QSplitter
     , Graphics.UI.Qtah.Widgets.QStatusBar
     , Graphics.UI.Qtah.Widgets.QTextEdit
@@ -96,6 +97,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QMenu
     , Graphics.UI.Qtah.Generated.Widgets.QMenuBar
     , Graphics.UI.Qtah.Generated.Widgets.QPushButton
+    , Graphics.UI.Qtah.Generated.Widgets.QRadioButton
     , Graphics.UI.Qtah.Generated.Widgets.QSplitter
     , Graphics.UI.Qtah.Generated.Widgets.QStatusBar
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
