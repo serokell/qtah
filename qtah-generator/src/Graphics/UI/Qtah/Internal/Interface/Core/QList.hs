@@ -27,6 +27,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QList (
   toExports,
   -- * Instantiations
   allModules,
+  c_QListQString,
   c_QListQWidget,
   ) where
 
@@ -58,6 +59,7 @@ import Foreign.Hoppy.Generator.Std (ValueConversion (ConvertPtr, ConvertValue))
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Imports
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -65,8 +67,8 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 data Options = Options
   { optListClassFeatures :: [ClassFeature]
     -- ^ Additional features to add to the @QList@ class.  Lists are always
-    -- 'Assignable' and 'Copyable', but you may want to add 'Equatable' and
-    -- 'Comparable' if your value type supports those.
+    -- 'Assignable' and 'Copyable', but you may want to add 'Equatable' if your
+    -- value type supports it.
   , optValueConversion :: Maybe ValueConversion
   }
 
@@ -231,8 +233,20 @@ createModule name contents = makeQtModule ["Core", "QList", name] $ toExports co
 allModules :: [AModule]
 allModules =
   map AQtModule
-  [ qmod_QWidget
+  [ qmod_QString
+  , qmod_QWidget
   ]
+
+qmod_QString :: QtModule
+qmod_QString = createModule "QString" contents_QString
+
+contents_QString :: Contents
+contents_QString =
+  instantiate' "QListQString" (TObj c_QString) mempty $
+  defaultOptions { optValueConversion = Just ConvertValue }
+
+c_QListQString :: Class
+c_QListQString = c_QList contents_QString
 
 qmod_QWidget :: QtModule
 qmod_QWidget = createModule "QWidget" contents_QWidget

@@ -40,6 +40,7 @@ import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QDir (bs_Filters, c_QDir)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_WindowFlags)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog (c_QDialog)
@@ -74,8 +75,6 @@ c_QFileDialog =
   collect
   [ just $ mkConstMethod "directory" [] $ TObjToHeap c_QDir
     -- TODO directoryUrl (>=5.2)
-    -- TODO history
-
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectory"
     [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TObj c_QString
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectoryWithOptions"
@@ -87,7 +86,12 @@ c_QFileDialog =
     [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
      TObj c_QString, TPtr $ TObj c_QString, TBitspace bs_Options] $
     TObj c_QString
-    -- TODO getOpenFileNames
+  , just $ mkStaticMethod' "getOpenFileNames" "getOpenFileNames"
+    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TObj c_QString] $ TObj c_QStringList
+  , just $ mkStaticMethod' "getOpenFileNames" "getOpenFileNamesWithOptions"
+    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
+     TObj c_QString, TPtr $ TObj c_QString, TBitspace bs_Options] $
+    TObj c_QStringList
     -- TODO getOpenFileUrl (>=5.2)
     -- TODO getOpenFileUrls (>=5.2)
   , just $ mkStaticMethod' "getSaveFileName" "getSaveFileName"
@@ -101,7 +105,6 @@ c_QFileDialog =
     -- TODO iconProvider
     -- TODO itemDelegate
   , just $ mkConstMethod "labelText" [TEnum e_DialogLabel] $ TObj c_QString
-    -- TODO nameFilters (>=4.4)
     -- TODO open (>=4.5)
     -- TODO proxyModel
     -- TODO restoreState (>=4.3)
@@ -110,7 +113,7 @@ c_QFileDialog =
     -- TODO selectMimeTypeFilter (>=5.2)
   , just $ mkMethod "selectNameFilter" [TObj c_QString] TVoid
     -- TODO selectUrl (>=5.2)
-    -- TODO selectedFiles
+  , just $ mkConstMethod "selectedFiles" [] $ TObj c_QStringList
   , test (qtVersion >= [4, 4]) $ mkConstMethod "selectedNameFilter" [] $ TObj c_QString
     -- TODO selectedUrls (>=5.2)
   , just $ mkMethod' "setDirectory" "setDirectory" [TObj c_QDir] TVoid
@@ -121,7 +124,6 @@ c_QFileDialog =
     -- TODO setItemDelegate
   , just $ mkMethod "setLabelText" [TEnum e_DialogLabel, TObj c_QString] TVoid
   , test (qtVersion >= [4, 4]) $ mkMethod "setNameFilter" [TObj c_QString] TVoid
-    -- TODO setNameFilters (>=4.4)
   , test (qtVersion >= [4, 5]) $ mkMethod "setOption" [TEnum e_Option, TBool] TVoid
     -- TODO setProxyModel (>=4.3)
     -- TODO testOption (>=4.5)
@@ -131,7 +133,9 @@ c_QFileDialog =
   , just $ mkProp "defaultSuffix" $ TObj c_QString
   , just $ mkProp "fileMode" $ TEnum e_FileMode
   , test (qtVersion >= [4, 4]) $ mkProp "filter" $ TBitspace bs_Filters
-    -- TODO mimeTypeFilters (>=5.2)
+  , just $ mkProp "history" $ TObj c_QStringList
+  , test (qtVersion >= [5, 2]) $ mkProp "mimeTypeFilters" $ TObj c_QStringList
+  , test (qtVersion >= [4, 4]) $ mkProp "nameFilters" $ TObj c_QStringList
   , test (qtVersion >= [4, 5]) $ mkProp "options" $ TBitspace bs_Options
     -- TODO sidebarUrls (>=4.3)
   , just $ mkProp "viewMode" $ TEnum e_ViewMode

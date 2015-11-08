@@ -21,13 +21,18 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
+  Type (TObj),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
+  mkStaticMethod,
   )
+import Foreign.Hoppy.Generator.Version (collect, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Internal.Interface.Core.QStringList (c_QStringList)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
@@ -38,4 +43,8 @@ aModule =
 
 c_QCoreApplication =
   addReqIncludes [includeStd "QCoreApplication"] $
-  makeClass (ident "QCoreApplication") Nothing [c_QObject] [] []
+  makeClass (ident "QCoreApplication") Nothing [c_QObject]
+  [] $
+  collect
+  [ test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ TObj c_QStringList
+  ]

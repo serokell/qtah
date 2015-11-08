@@ -27,6 +27,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Core.QPoint as QPoint
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QRect as QRect
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QSize as QSize
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QString as QString
+import qualified Graphics.UI.Qtah.Internal.Interface.Core.QStringList as QStringList
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.Types as Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -42,5 +43,6 @@ modules =
   , QRect.aModule
   , QSize.aModule
   , QString.aModule
+  , QStringList.aModule
   , Types.aModule
   ] ++ QList.allModules

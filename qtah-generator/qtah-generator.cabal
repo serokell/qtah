@@ -48,6 +48,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QRect
     , Graphics.UI.Qtah.Internal.Interface.Core.QSize
     , Graphics.UI.Qtah.Internal.Interface.Core.QString
+    , Graphics.UI.Qtah.Internal.Interface.Core.QStringList
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
     , Graphics.UI.Qtah.Internal.Interface.Imports
     , Graphics.UI.Qtah.Internal.Interface.Listener

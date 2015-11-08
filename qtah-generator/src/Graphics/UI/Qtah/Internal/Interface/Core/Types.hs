@@ -20,6 +20,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_AlignmentFlag,
   bs_Alignment,
   e_AspectRatioMode,
+  e_CaseSensitivity,
   e_CheckState,
   e_Corner,
   e_CursorMoveStyle,
@@ -50,6 +51,7 @@ exports =
   [ ExportEnum e_AlignmentFlag
   , ExportBitspace bs_Alignment
   , ExportEnum e_AspectRatioMode
+  , ExportEnum e_CaseSensitivity
   , ExportEnum e_CheckState
   , ExportEnum e_Corner
   , ExportEnum e_CursorMoveStyle
@@ -83,6 +85,12 @@ e_AspectRatioMode =
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
+  ]
+
+e_CaseSensitivity =
+  makeQtEnum (ident1 "Qt" "CaseSensitivity")
+  [ (0, ["case", "insensitive"])
+  , (1, ["case", "sensitive"])
   ]
 
 e_CheckState =
