@@ -26,6 +26,7 @@ import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
   ident,
   ident1,
+  ident2,
   includeLocal,
   includeStd,
   makeFnMethod,
@@ -46,6 +47,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QList (c_QListQWidget)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Internal.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_LayoutDirection, e_NavigationMode)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerPtrQWidgetPtrQWidget)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
@@ -67,8 +69,8 @@ c_QApplication =
                  ] $
   makeClass (ident "QApplication") Nothing [c_QCoreApplication] [] $
   collect
-  [ just $ makeFnMethod (ident1 "qtah" "shim_QApplication_new") "new" MStatic Nonpure
-    [] $ TPtr $ TObj c_QApplication
+  [ just $ makeFnMethod (ident2 "qtah" "qapplication" "create") "new" MStatic Nonpure
+    [TObj c_QStringList] $ TPtr $ TObj c_QApplication
   , just $ mkMethod "aboutQt" [] TVoid
   , just $ mkStaticMethod "activeModalWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "activePopupWidget" [] $ TPtr $ TObj c_QWidget

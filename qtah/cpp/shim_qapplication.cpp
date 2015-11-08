@@ -16,24 +16,23 @@
 
 #include "shim_qapplication.hpp"
 
-#include <QApplication>
-
-namespace {
-
-static int shim_argc;
-static char** shim_argv;
-
-}
+#include <cstring>
 
 namespace qtah {
+namespace qapplication {
 
-void shiminit_QApplication(int argc, char **argv) {
-    shim_argc = argc;
-    shim_argv = argv;
+QApplication* create(const QStringList& args) {
+    // These leak.  That's okay.  Only one QApplication may be created, and
+    // these must be valid for its entire life.
+    int* argc = new int(args.size());
+    char** argv = new char*[*argc];
+
+    for (int i = 0; i < *argc; ++i) {
+        argv[i] = strdup(args[i].toStdString().c_str());
+    }
+
+    return new QApplication(*argc, argv);
 }
 
-QApplication* shim_QApplication_new() {
-    return new QApplication(shim_argc, shim_argv);
 }
-
 }

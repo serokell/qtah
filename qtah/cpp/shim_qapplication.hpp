@@ -18,13 +18,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QApplication>
+#include <QStringList>
 
 namespace qtah {
+namespace qapplication {
 
-void shiminit_QApplication(int argc, char *argv[]);
+QApplication* create(const QStringList&);
 
-QApplication* shim_QApplication_new();
-
+}
 }
 
 #endif // QTAH_SHIM_QAPPLICATION_HPP

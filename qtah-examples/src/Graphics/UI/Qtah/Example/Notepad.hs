@@ -34,6 +34,7 @@ import qualified Graphics.UI.Qtah.Widgets.QTextEdit as QTextEdit
 import Graphics.UI.Qtah.Widgets.QTextEdit (QTextEdit)
 import qualified Graphics.UI.Qtah.Widgets.QVBoxLayout as QVBoxLayout
 import qualified Graphics.UI.Qtah.Widgets.QWidget as QWidget
+import System.Environment (getArgs)
 
 data Notepad = Notepad
   { myWindow :: QMainWindow
@@ -41,7 +42,7 @@ data Notepad = Notepad
   }
 
 run :: IO ()
-run = withScopedPtr QApplication.new $ \app -> do
+run = withScopedPtr (getArgs >>= QApplication.new) $ \app -> do
   mainWindow <- makeMainWindow
   QWidget.show mainWindow
   QApplication.exec app
