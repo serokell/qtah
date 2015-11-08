@@ -31,9 +31,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QList (
   c_QListQWidget,
   ) where
 
-#if !MIN_VERSION_base(4,8,0)
-import Control.Applicative ((<$>))
-#endif
 import Control.Monad (forM_, when)
 #if !MIN_VERSION_base(4,8,0)
 import Data.Monoid (mconcat, mempty)

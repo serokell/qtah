@@ -28,6 +28,9 @@ import Control.Monad.Error (throwError)
 #endif
 import Data.List (find, intercalate, intersperse, isPrefixOf, sort)
 import Data.Maybe (isJust)
+#if !MIN_VERSION_base(4,8,0)
+import Data.Monoid (mconcat)
+#endif
 import Foreign.Hoppy.Common (fromMaybeM, writeFileIfDifferent)
 import Foreign.Hoppy.Generator.Language.Cpp.General (execChunkWriter, sayType)
 import Foreign.Hoppy.Generator.Language.Haskell.General (
