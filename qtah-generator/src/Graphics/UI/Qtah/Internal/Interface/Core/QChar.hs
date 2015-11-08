@@ -95,12 +95,12 @@ c_QChar =
           addImports importForPrelude
           return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
         , classHaskellConversionToCppFn = do
-          addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForSupport]
-          sayLn "qChar_newFromInt . QtahFHRS.coerceIntegral . QtahDC.ord"
+          addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForRuntime]
+          sayLn "qChar_newFromInt . QtahFHR.coerceIntegral . QtahDC.ord"
         , classHaskellConversionFromCppFn = do
           addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
-                                importForSupport]
-          sayLn "QtahP.fmap (QtahDC.chr . QtahFHRS.coerceIntegral) . qChar_unicode"
+                                importForRuntime]
+          sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . qChar_unicode"
         }
       }) $
   makeClass (ident "QChar") Nothing []

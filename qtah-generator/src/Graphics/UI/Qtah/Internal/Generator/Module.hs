@@ -194,7 +194,7 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
   when (isJust $ classHaskellConversion $ classConversions cls) $ do
     -- Generated encode and decode functions require some things from Hoppy
     -- support and the Prelude.
-    addImports $ mconcat [importForPrelude, importForSupport]
+    addImports $ mconcat [importForPrelude, importForRuntime]
 
     hsHsType <- cppTypeToHsTypeAndUse HsHsSide (TObj cls)
     let constPtrClassName = toHsPtrClassName Const cls
@@ -207,10 +207,10 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
                        HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") hsHsType
     ln
     saysLn [classEncodeReexportName, " :: ", prettyPrint encodeFnType]
-    saysLn [classEncodeReexportName, " = QtahFHRS.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
+    saysLn [classEncodeReexportName, " = QtahFHR.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
     ln
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
-    saysLn [classDecodeReexportName, " = QtahFHRS.decode QtahP.. ", toHsCastMethodName Const cls]
+    saysLn [classDecodeReexportName, " = QtahFHR.decode QtahP.. ", toHsCastMethodName Const cls]
 
 sayQtExport :: QtExport -> Generator ()
 sayQtExport qtExport = case qtExport of

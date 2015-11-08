@@ -94,11 +94,11 @@ c_QStringList =
                  HsTyApp (HsTyCon $ Special $ HsListCon) $
                  HsTyCon $ UnQual $ HsIdent "QtahP.String"
              , classHaskellConversionToCppFn = do
-               addImports importForSupport
-               sayLn "QtahFHRS.fromContents"
+               addImports importForRuntime
+               sayLn "QtahFHR.fromContents"
              , classHaskellConversionFromCppFn = do
-               addImports importForSupport
-               sayLn "QtahFHRS.toContents"
+               addImports importForRuntime
+               sayLn "QtahFHR.toContents"
              }
            }) $
   addAddendumHaskell addendum $
@@ -125,17 +125,17 @@ c_QStringList =
               hsDataTypeNameConst = toHsDataTypeName Const c_QStringList
           addImports $ mconcat [hsImport1 "Prelude" "(.)",
                                 importForPrelude,
-                                importForSupport]
+                                importForRuntime]
           ln
-          saysLn ["instance QtahFHRS.HasContents ", hsDataTypeNameConst, " QtahP.String where"]
+          saysLn ["instance QtahFHR.HasContents ", hsDataTypeNameConst, " QtahP.String where"]
           indent $
-            saysLn ["toContents = QtahFHRS.toContents . ", toHsCastMethodName Const c_QListQString]
+            saysLn ["toContents = QtahFHR.toContents . ", toHsCastMethodName Const c_QListQString]
           ln
-          saysLn ["instance QtahFHRS.HasContents ", hsDataTypeName, " QtahP.String where"]
+          saysLn ["instance QtahFHR.HasContents ", hsDataTypeName, " QtahP.String where"]
           indent $
-            saysLn ["toContents = QtahFHRS.toContents . ", toHsCastMethodName Const c_QStringList]
+            saysLn ["toContents = QtahFHR.toContents . ", toHsCastMethodName Const c_QStringList]
           ln
-          saysLn ["instance QtahFHRS.FromContents ", hsDataTypeName, " QtahP.String where"]
+          saysLn ["instance QtahFHR.FromContents ", hsDataTypeName, " QtahP.String where"]
           indent $ do
             sayLn "fromContents strs' = do"
             indent $ do

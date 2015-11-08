@@ -166,7 +166,7 @@ instantiate' listName t tReqs opts =
       makeAddendum conversion = do
         addImports $ mconcat [hsImport1 "Prelude" "(-)",
                               importForPrelude,
-                              importForSupport]
+                              importForRuntime]
         when (conversion == ConvertValue) $
           addImports $ hsImport1 "Control.Monad" "(<=<)"
         when hasReserve $
@@ -185,7 +185,7 @@ instantiate' listName t tReqs opts =
 
           -- Generate const and nonconst HasContents instances.
           ln
-          saysLn ["instance QtahFHRS.HasContents ", hsDataTypeName,
+          saysLn ["instance QtahFHR.HasContents ", hsDataTypeName,
                   " (", prettyPrint hsValueType, ") where"]
           indent $ do
             sayLn "toContents this' = do"
@@ -197,13 +197,13 @@ instantiate' listName t tReqs opts =
               saysLn ["QtahP.mapM (",
                       case conversion of
                         ConvertPtr -> ""
-                        ConvertValue -> "QtahFHRS.decode <=< ",
+                        ConvertValue -> "QtahFHR.decode <=< ",
                       toHsMethodName' list listAt, " this') [0..size'-1]"]
 
           -- Only generate a nonconst FromContents instance.
           when (cst == Nonconst) $ do
             ln
-            saysLn ["instance QtahFHRS.FromContents ", hsDataTypeName,
+            saysLn ["instance QtahFHR.FromContents ", hsDataTypeName,
                     " (", prettyPrint hsValueType, ") where"]
             indent $ do
               sayLn "fromContents values' = do"
@@ -211,7 +211,7 @@ instantiate' listName t tReqs opts =
                 saysLn ["list' <- ", toHsMethodName' list "new"]
                 when hasReserve $
                   saysLn [toHsMethodName' list "reserve",
-                          " list' $ QtahFHRS.coerceIntegral $ QtahP.length values'"]
+                          " list' $ QtahFHR.coerceIntegral $ QtahP.length values'"]
                 saysLn ["QtahP.mapM_ (", toHsMethodName' list "append", " list') values'"]
                 sayLn "QtahP.return list'"
 

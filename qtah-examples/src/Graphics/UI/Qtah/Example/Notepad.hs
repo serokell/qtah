@@ -18,7 +18,7 @@
 module Graphics.UI.Qtah.Example.Notepad (run) where
 
 import Control.Monad (unless)
-import Foreign.Hoppy.Runtime.Support (withScopedPtr)
+import Foreign.Hoppy.Runtime (withScopedPtr)
 import Graphics.UI.Qtah.Signal (on)
 import Graphics.UI.Qtah.Widgets.QAbstractButton (clickedSignal)
 import Graphics.UI.Qtah.Widgets.QAction (triggeredSignal)

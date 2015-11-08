@@ -23,7 +23,7 @@ module Graphics.UI.Qtah.Internal.Interface.Imports (
   importForForeignC,
   importForPrelude,
   importForSignal,
-  importForSupport,
+  importForRuntime,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (HsImportSet, hsQualifiedImport)
@@ -43,5 +43,5 @@ importForPrelude = hsQualifiedImport "Prelude" "QtahP"
 importForSignal :: HsImportSet
 importForSignal = hsQualifiedImport "Graphics.UI.Qtah.Signal" "QtahSignal"
 
-importForSupport :: HsImportSet
-importForSupport = hsQualifiedImport "Foreign.Hoppy.Runtime.Support" "QtahFHRS"
+importForRuntime :: HsImportSet
+importForRuntime = hsQualifiedImport "Foreign.Hoppy.Runtime" "QtahFHR"
