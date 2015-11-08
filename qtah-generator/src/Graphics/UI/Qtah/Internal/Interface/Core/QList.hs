@@ -60,11 +60,6 @@ import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Imports
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
-import Language.Haskell.Syntax (
-  HsQName (Special),
-  HsSpecialCon (HsListCon),
-  HsType (HsTyApp, HsTyCon),
-  )
 
 -- | Options for instantiating the list classes.
 data Options = Options
@@ -106,9 +101,6 @@ instantiate' listName t tReqs opts =
       hasReserve = qtVersion >= [4, 7]
 
       list =
-        (if isValueConvertible
-         then classModifyConversions addConversions
-         else id) $
         (case conversion of
            Nothing -> id
            Just conversion -> addAddendumHaskell $ makeAddendum conversion) $
@@ -169,24 +161,6 @@ instantiate' listName t tReqs opts =
           -- OMIT operator+ because it creates a new object quietly (would need
           -- TObjToHeap).
         ]
-
-      -- TODO The value type used for the const Decodable and HasContents
-      -- instances is wrong: when it's a pointer, the pointer target type should
-      -- be constified (possible for object pointers, not possible for number
-      -- pointers because the Haskell FFI has no @PtrConst@).
-
-      addConversions c =
-        c { classHaskellConversion = Just ClassHaskellConversion
-            { classHaskellConversionType =
-              HsTyApp (HsTyCon $ Special HsListCon) <$> cppTypeToHsTypeAndUse HsHsSide t
-            , classHaskellConversionToCppFn = do
-              addImports importForSupport
-              sayLn "QtahFHRS.fromContents"
-            , classHaskellConversionFromCppFn = do
-              addImports importForSupport
-              sayLn "QtahFHRS.toContents"
-            }
-          }
 
       -- The addendum for the list class contains HasContents and FromContents
       -- instances.
