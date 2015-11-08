@@ -115,7 +115,7 @@ library
       base >=4.8 && <4.9
     , binary >=0.7 && <0.8
     , bytestring >=0.10 && <0.11
-    , hoppy
+    , hoppy >=0.1 && <0.2
   hs-source-dirs: src
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
