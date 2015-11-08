@@ -16,6 +16,8 @@
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets (modules) where
 
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
@@ -26,7 +28,9 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxL
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog as QDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog as QFileDialog
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout as QFormLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame as QFrame
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QGridLayout as QGridLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout as QHBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel as QLabel
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout as QLayout
@@ -38,6 +42,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBa
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton as QRadioButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout as QStackedLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar as QStatusBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout as QVBoxLayout
@@ -47,29 +52,33 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
 
 modules :: [AModule]
 modules =
-  [ QAbstractButton.aModule
-  , QAbstractScrollArea.aModule
-  , QApplication.aModule
-  , QAction.aModule
-  , QActionGroup.aModule
-  , QBoxLayout.aModule
-  , QCheckBox.aModule
-  , QDialog.aModule
-  , QFileDialog.aModule
-  , QFrame.aModule
-  , QHBoxLayout.aModule
-  , QLabel.aModule
-  , QLayout.aModule
-  , QLayoutItem.aModule
-  , QLineEdit.aModule
-  , QMainWindow.aModule
-  , QMenu.aModule
-  , QMenuBar.aModule
-  , QPushButton.aModule
-  , QRadioButton.aModule
-  , QSplitter.aModule
-  , QStatusBar.aModule
-  , QTextEdit.aModule
-  , QVBoxLayout.aModule
-  , QWidget.aModule
+  collect
+  [ just QAbstractButton.aModule
+  , just QAbstractScrollArea.aModule
+  , just QApplication.aModule
+  , just QAction.aModule
+  , just QActionGroup.aModule
+  , just QBoxLayout.aModule
+  , just QCheckBox.aModule
+  , just QDialog.aModule
+  , just QFileDialog.aModule
+  , test (qtVersion >= QFormLayout.minVersion) QFormLayout.aModule
+  , just QFrame.aModule
+  , just QGridLayout.aModule
+  , just QHBoxLayout.aModule
+  , just QLabel.aModule
+  , just QLayout.aModule
+  , just QLayoutItem.aModule
+  , just QLineEdit.aModule
+  , just QMainWindow.aModule
+  , just QMenu.aModule
+  , just QMenuBar.aModule
+  , just QPushButton.aModule
+  , just QRadioButton.aModule
+  , just QSplitter.aModule
+  , just QStackedLayout.aModule
+  , just QStatusBar.aModule
+  , just QTextEdit.aModule
+  , just QVBoxLayout.aModule
+  , just QWidget.aModule
   ]

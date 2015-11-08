@@ -1,0 +1,65 @@
+// This file is part of Qtah.
+//
+// Copyright 2015 Bryan Gardiner <bog@khumba.net>
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License version 3
+// as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "shim_qformlayout.hpp"
+
+namespace qtah {
+namespace qformlayout {
+
+int getItemRow(const QFormLayout& layout, int index) {
+    int row;
+    QFormLayout::ItemRole role;
+    layout.getItemPosition(index, &row, &role);
+    return row;
+}
+
+QFormLayout::ItemRole getItemRole(const QFormLayout& layout, int index) {
+    int row;
+    QFormLayout::ItemRole role;
+    layout.getItemPosition(index, &row, &role);
+    return role;
+}
+
+int getLayoutRow(const QFormLayout& layout, QLayout* layout2) {
+    int row;
+    QFormLayout::ItemRole role;
+    layout.getLayoutPosition(layout2, &row, &role);
+    return row;
+}
+
+QFormLayout::ItemRole getLayoutRole(const QFormLayout& layout, QLayout* layout2) {
+    int row;
+    QFormLayout::ItemRole role;
+    layout.getLayoutPosition(layout2, &row, &role);
+    return role;
+}
+
+int getWidgetRow(const QFormLayout& layout, QWidget* widget) {
+    int row;
+    QFormLayout::ItemRole role;
+    layout.getWidgetPosition(widget, &row, &role);
+    return row;
+}
+
+QFormLayout::ItemRole getWidgetRole(const QFormLayout& layout, QWidget* widget) {
+    int row;
+    QFormLayout::ItemRole role;
+    layout.getWidgetPosition(widget, &row, &role);
+    return role;
+}
+
+}
+}

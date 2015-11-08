@@ -61,7 +61,9 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QGridLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem
@@ -71,6 +73,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout

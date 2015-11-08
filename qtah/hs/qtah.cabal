@@ -46,7 +46,9 @@ library
     , Graphics.UI.Qtah.Widgets.QCheckBox
     , Graphics.UI.Qtah.Widgets.QDialog
     , Graphics.UI.Qtah.Widgets.QFileDialog
+    , Graphics.UI.Qtah.Widgets.QFormLayout
     , Graphics.UI.Qtah.Widgets.QFrame
+    , Graphics.UI.Qtah.Widgets.QGridLayout
     , Graphics.UI.Qtah.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Widgets.QLabel
     , Graphics.UI.Qtah.Widgets.QLayout
@@ -58,6 +60,7 @@ library
     , Graphics.UI.Qtah.Widgets.QPushButton
     , Graphics.UI.Qtah.Widgets.QRadioButton
     , Graphics.UI.Qtah.Widgets.QSplitter
+    , Graphics.UI.Qtah.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Widgets.QStatusBar
     , Graphics.UI.Qtah.Widgets.QTextEdit
     , Graphics.UI.Qtah.Widgets.QVBoxLayout
@@ -87,7 +90,9 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QCheckBox
     , Graphics.UI.Qtah.Generated.Widgets.QDialog
     , Graphics.UI.Qtah.Generated.Widgets.QFileDialog
+    , Graphics.UI.Qtah.Generated.Widgets.QFormLayout
     , Graphics.UI.Qtah.Generated.Widgets.QFrame
+    , Graphics.UI.Qtah.Generated.Widgets.QGridLayout
     , Graphics.UI.Qtah.Generated.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QLabel
     , Graphics.UI.Qtah.Generated.Widgets.QLayout
@@ -99,6 +104,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QPushButton
     , Graphics.UI.Qtah.Generated.Widgets.QRadioButton
     , Graphics.UI.Qtah.Generated.Widgets.QSplitter
+    , Graphics.UI.Qtah.Generated.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generated.Widgets.QStatusBar
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
