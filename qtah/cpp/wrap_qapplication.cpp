@@ -1,6 +1,3 @@
-#ifndef QTAH_SHIM_QAPPLICATION_HPP
-#define QTAH_SHIM_QAPPLICATION_HPP
-
 // This file is part of Qtah.
 //
 // Copyright 2015 Bryan Gardiner <bog@khumba.net>
@@ -18,15 +15,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QApplication>
-#include <QStringList>
+#include "wrap_qapplication.hpp"
+
+#include <cstring>
 
 namespace qtah {
 namespace qapplication {
 
-QApplication* create(const QStringList&);
+QApplication* create(const QStringList& args) {
+    // These leak.  That's okay.  Only one QApplication may be created, and
+    // these must be valid for its entire life.
+    int* argc = new int(args.size());
+    char** argv = new char*[*argc];
 
-}
+    for (int i = 0; i < *argc; ++i) {
+        argv[i] = strdup(args[i].toStdString().c_str());
+    }
+
+    return new QApplication(*argc, argv);
 }
 
-#endif // QTAH_SHIM_QAPPLICATION_HPP
+}  // namespace qapplication
+}  // namespace qtah

@@ -90,7 +90,7 @@ instantiate' :: String -> Type -> Reqs -> Options -> Contents
 instantiate' listName t tReqs opts =
   let reqs = mconcat [ tReqs
                      , reqInclude $ includeStd "QList"
-                     , reqInclude $ includeLocal "shim_qlist.hpp"
+                     , reqInclude $ includeLocal "wrap_qlist.hpp"
                      ]
       features = Assignable : Copyable : optListClassFeatures opts
       conversion = optValueConversion opts

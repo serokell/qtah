@@ -65,7 +65,7 @@ aModule =
 
 c_QFormLayout =
   addReqIncludes [includeStd "QFormLayout",
-                  includeLocal "shim_qformlayout.hpp"] $
+                  includeLocal "wrap_qformlayout.hpp"] $
   makeClass (ident "QFormLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]

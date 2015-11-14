@@ -56,7 +56,7 @@ aModule =
 
 c_QGridLayout =
   addReqIncludes [includeStd "QGridLayout",
-                  includeLocal "shim_qgridlayout.hpp"] $
+                  includeLocal "wrap_qgridlayout.hpp"] $
   makeClass (ident "QGridLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]

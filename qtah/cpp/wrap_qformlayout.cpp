@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "shim_qformlayout.hpp"
+#include "wrap_qformlayout.hpp"
 
 namespace qtah {
 namespace qformlayout {
@@ -62,5 +62,5 @@ QFormLayout::ItemRole getWidgetRole(const QFormLayout& layout, QWidget* widget) 
     return role;
 }
 
-}
-}
+}  // namespace qformlayout
+}  // namespace qtah

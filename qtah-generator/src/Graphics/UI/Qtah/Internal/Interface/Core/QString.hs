@@ -38,21 +38,21 @@ import Foreign.Hoppy.Generator.Spec (
       classHaskellConversionType
   ),
   Export (ExportClass),
+  MethodApplicability (MNormal),
   Operator (OpArray),
   Purity (Nonpure),
   Type (TChar, TConst, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
   classModifyConversions,
   ident,
-  ident1,
+  ident2,
   includeLocal,
   includeStd,
   makeClass,
-  makeFn,
+  makeFnMethod,
   mkConstMethod,
   mkConstMethod',
   mkCtor,
-  toExtName,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Comparable, Equatable),
@@ -74,11 +74,11 @@ aModule =
   AQtModule $
   makeQtModule ["Core", "QString"]
   [ QtExport $ ExportClass c_QString
-  , QtExportFnRenamed f_QString_set "set"
   ]
 
 c_QString =
-  addReqIncludes [includeStd "QString"] $
+  addReqIncludes [includeStd "QString",
+                  includeLocal "wrap_qstring.hpp"] $
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
   classModifyConversions
   (\c -> c { classHaskellConversion =
@@ -96,10 +96,7 @@ c_QString =
   [ mkCtor "newFromCString" [TPtr $ TConst TChar]
   ]
   [ mkConstMethod' OpArray "at" [TInt] $ TObj c_QChar
+  , makeFnMethod (ident2 "qtah" "qstring" "set") "set" MNormal Nonpure
+    [TRef $ TObj c_QString, TInt, TObj c_QChar] TVoid
   , mkConstMethod "toStdString" [] $ TObj c_string
   ]
-
-f_QString_set =
-  addReqIncludes [includeLocal "shim_qstring.hpp"] $
-  makeFn (ident1 "qtah" "shim_QString_set") (Just $ toExtName "QString_set")
-  Nonpure [TRef $ TObj c_QString, TInt, TObj c_QChar] TVoid

@@ -1,6 +1,3 @@
-#ifndef QTAH_SHIM_QSTRING_HPP
-#define QTAH_SHIM_QSTRING_HPP
-
 // This file is part of Qtah.
 //
 // Copyright 2015 Bryan Gardiner <bog@khumba.net>
@@ -18,12 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QString>
+#include "wrap_qstring.hpp"
 
 namespace qtah {
+namespace qstring {
 
-void shim_QString_set(QString& str, int position, const QChar& ch);
-
+void set(QString& str, int position, const QChar& ch) {
+    str[position] = ch;
 }
 
-#endif // QTAH_SHIM_QSTRING_HPP
+}  // namespace qstring
+}  // namespace qtah

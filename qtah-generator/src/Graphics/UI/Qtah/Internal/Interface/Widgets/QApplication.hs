@@ -66,7 +66,7 @@ aModule =
 
 c_QApplication =
   addReqIncludes [ includeStd "QApplication"
-                 , includeLocal "shim_qapplication.hpp"
+                 , includeLocal "wrap_qapplication.hpp"
                  ] $
   makeClass (ident "QApplication") Nothing [c_QCoreApplication] [] $
   collect

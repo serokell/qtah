@@ -1,5 +1,5 @@
-#ifndef QTAH_SHIM_QGRIDLAYOUT_HPP
-#define QTAH_SHIM_QGRIDLAYOUT_HPP
+#ifndef QTAH_WRAP_QAPPLICATION_HPP
+#define QTAH_WRAP_QAPPLICATION_HPP
 
 // This file is part of Qtah.
 //
@@ -18,26 +18,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QGridLayout>
-#include <QLayout>
-#include <QWidget>
+#include <QApplication>
+#include <QStringList>
 
 namespace qtah {
-namespace qgridlayout {
+namespace qapplication {
 
-#if QT_VERSION >= 0x050000
-int getItemRow(const QGridLayout& layout, int index);
-int getItemColumn(const QGridLayout& layout, int index);
-int getItemRowSpan(const QGridLayout& layout, int index);
-int getItemColumnSpan(const QGridLayout& layout, int index);
-#else
-int getItemRow(QGridLayout& layout, int index);
-int getItemColumn(QGridLayout& layout, int index);
-int getItemRowSpan(QGridLayout& layout, int index);
-int getItemColumnSpan(QGridLayout& layout, int index);
-#endif
+QApplication* create(const QStringList&);
 
-}
-}
+}  // namespace qapplication
+}  // namespace qtah
 
-#endif // QTAH_SHIM_QSTRING_HPP
+#endif // QTAH_WRAP_QAPPLICATION_HPP

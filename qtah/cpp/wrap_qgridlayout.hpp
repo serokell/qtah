@@ -1,3 +1,6 @@
+#ifndef QTAH_WRAP_QGRIDLAYOUT_HPP
+#define QTAH_WRAP_QGRIDLAYOUT_HPP
+
 // This file is part of Qtah.
 //
 // Copyright 2015 Bryan Gardiner <bog@khumba.net>
@@ -15,12 +18,26 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "shim_qstring.hpp"
+#include <QGridLayout>
+#include <QLayout>
+#include <QWidget>
 
 namespace qtah {
+namespace qgridlayout {
 
-void shim_QString_set(QString& str, int position, const QChar& ch) {
-    str[position] = ch;
-}
+#if QT_VERSION >= 0x050000
+int getItemRow(const QGridLayout& layout, int index);
+int getItemColumn(const QGridLayout& layout, int index);
+int getItemRowSpan(const QGridLayout& layout, int index);
+int getItemColumnSpan(const QGridLayout& layout, int index);
+#else
+int getItemRow(QGridLayout& layout, int index);
+int getItemColumn(QGridLayout& layout, int index);
+int getItemRowSpan(QGridLayout& layout, int index);
+int getItemColumnSpan(QGridLayout& layout, int index);
+#endif
 
-}
+}  // namespace qgridlayout
+}  // namespace qtah
+
+#endif // QTAH_WRAP_QGRIDLAYOUT_HPP

@@ -27,13 +27,13 @@ QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
     $$files(b_*.cpp) \
-    $$files(shim_*.cpp) \
+    $$files(wrap_*.cpp) \
     encode.cpp \
     listener.cpp
 
 HEADERS += \
     $$files(b_*.hpp) \
-    $$files(shim_*.hpp) \
+    $$files(wrap_*.hpp) \
     encode.hpp \
     listener.hpp
 

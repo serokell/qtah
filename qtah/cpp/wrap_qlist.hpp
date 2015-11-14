@@ -1,5 +1,5 @@
-#ifndef QTAH_SHIM_QFORMLAYOUT_HPP
-#define QTAH_SHIM_QFORMLAYOUT_HPP
+#ifndef QTAH_WRAP_QLIST_HPP
+#define QTAH_WRAP_QLIST_HPP
 
 // This file is part of Qtah.
 //
@@ -18,26 +18,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QFormLayout>
-#include <QLayout>
-#include <QWidget>
+#include <QList>
 
 namespace qtah {
-namespace qformlayout {
+namespace qlist {
 
-int getItemRow(const QFormLayout& layout, int index);
-
-QFormLayout::ItemRole getItemRole(const QFormLayout& layout, int index);
-
-int getLayoutRow(const QFormLayout& layout, QLayout* layout2);
-
-QFormLayout::ItemRole getLayoutRole(const QFormLayout& layout, QLayout* layout2);
-
-int getWidgetRow(const QFormLayout& layout, QWidget* widget);
-
-QFormLayout::ItemRole getWidgetRole(const QFormLayout& layout, QWidget* widget);
-
-}
+template <typename T>
+void put(QList<T>& list, int index, const T& value) {
+  list[index] = value;
 }
 
-#endif // QTAH_SHIM_QSTRING_HPP
+}  // namespace qlist
+}  // namespace qtah
+
+#endif // QTAH_WRAP_QLIST_HPP
