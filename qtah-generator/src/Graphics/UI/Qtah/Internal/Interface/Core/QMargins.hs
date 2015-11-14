@@ -32,7 +32,7 @@ import Foreign.Hoppy.Generator.Language.Haskell.General (
   saysLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversions (classHaskellConversion),
+  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
       classHaskellConversionFromCppFn,
@@ -42,7 +42,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Type (TBool, TInt),
   addReqIncludes,
-  classModifyConversions,
+  classModifyConversion,
   hsImports,
   hsQualifiedImport,
   ident,
@@ -70,7 +70,7 @@ aModule =
 
 c_QMargins =
   addReqIncludes [includeStd "QMargins"] $
-  classModifyConversions
+  classModifyConversion
   (\c -> c { classHaskellConversion =
              Just ClassHaskellConversion
              { classHaskellConversionType = do

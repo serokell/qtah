@@ -30,7 +30,7 @@ import Foreign.Hoppy.Generator.Language.Haskell.General (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversions (classHaskellConversion),
+  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
       classHaskellConversionFromCppFn,
@@ -43,7 +43,7 @@ import Foreign.Hoppy.Generator.Spec (
   Purity (Nonpure),
   Type (TChar, TConst, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
-  classModifyConversions,
+  classModifyConversion,
   ident,
   ident2,
   includeLocal,
@@ -80,7 +80,7 @@ c_QString =
   addReqIncludes [includeStd "QString",
                   includeLocal "wrap_qstring.hpp"] $
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
-  classModifyConversions
+  classModifyConversion
   (\c -> c { classHaskellConversion =
              Just ClassHaskellConversion
              { classHaskellConversionType = do

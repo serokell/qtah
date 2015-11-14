@@ -219,8 +219,8 @@ if [[ -n $hsDir ]]; then
     say "aModule ="
     say "  T.AHoppyModule \$"
     say "  S.addReqIncludes [S.includeLocal \"listener.hpp\"] \$"
-    say "  S.modifyModule' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$"
-    say "  S.addModuleExports"
+    say "  S.moduleModify' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$"
+    say "  S.moduleAddExports"
     cont="["
     writeHs() {
         local -r name="${1?}"

@@ -76,7 +76,7 @@ import Foreign.Hoppy.Generator.Spec (
   bitspaceExtName,
   bitspaceValueNames,
   callbackParams,
-  classConversions,
+  classConversion,
   classCtors,
   classExtName,
   classHaskellConversion,
@@ -192,7 +192,7 @@ getFnImportName = toHsFnName . fnExtName
 
 sayClassEncodingFnReexports :: Class -> Generator ()
 sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
-  when (isJust $ classHaskellConversion $ classConversions cls) $ do
+  when (isJust $ classHaskellConversion $ classConversion cls) $ do
     -- Generated encode and decode functions require some things from Hoppy
     -- support and the Prelude.
     addImports $ mconcat [importForPrelude, importForRuntime]
@@ -255,7 +255,7 @@ sayQtExport qtExport = case qtExport of
       classConstCastReexportName :
       classCastReexportName :
       classNullReexportName :
-      concat [ case classHaskellConversion $ classConversions cls of
+      concat [ case classHaskellConversion $ classConversion cls of
                  Nothing -> []
                  Just _ -> [classEncodeReexportName, classDecodeReexportName]
              , sort $ map (getCtorReexportName cls) $ classCtors cls

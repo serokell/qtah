@@ -30,7 +30,7 @@ import Foreign.Hoppy.Generator.Language.Haskell.General (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversions (classHaskellConversion),
+  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
       classHaskellConversionFromCppFn,
@@ -40,7 +40,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   Type (TBool, TChar, TInt, TEnum, TObj, TRef, TUChar, TUShort),
   addReqIncludes,
-  classModifyConversions,
+  classModifyConversion,
   hsImport1,
   ident,
   ident1,
@@ -88,7 +88,7 @@ aModule =
 c_QChar =
   addReqIncludes [includeStd "QChar"] $
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
-  classModifyConversions
+  classModifyConversion
   (\c ->
     c { classHaskellConversion =
         Just ClassHaskellConversion

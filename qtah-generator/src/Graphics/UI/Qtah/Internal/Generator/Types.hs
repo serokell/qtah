@@ -41,8 +41,6 @@ import Foreign.Hoppy.Generator.Spec (
   Identifier,
   Module,
   Type (TEnum, TInt),
-  addModuleHaskellName,
-  addModuleExports,
   addReqIncludes,
   bitspaceAddCppType,
   bitspaceAddEnum,
@@ -53,7 +51,9 @@ import Foreign.Hoppy.Generator.Spec (
   makeBitspace,
   makeEnum,
   makeModule,
-  modifyModule',
+  moduleAddExports,
+  moduleAddHaskellName,
+  moduleModify',
   toExtName,
   )
 
@@ -92,11 +92,11 @@ makeQtModule modulePath@(_:moduleNameParts) qtExports =
      { qtModulePath = modulePath
      , qtModuleQtExports = qtExports
      , qtModuleHoppy =
-       modifyModule' (makeModule lowerName
+       moduleModify' (makeModule lowerName
                      (concat ["b_", lowerName, ".hpp"])
                      (concat ["b_", lowerName, ".cpp"])) $ do
-         addModuleHaskellName modulePath
-         addModuleExports $ mapMaybe qtExportToExport qtExports
+         moduleAddHaskellName modulePath
+         moduleAddExports $ mapMaybe qtExportToExport qtExports
      }
 
 qtExportToExport :: QtExport -> Maybe Export

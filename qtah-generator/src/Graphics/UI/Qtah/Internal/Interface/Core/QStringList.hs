@@ -36,7 +36,7 @@ import Foreign.Hoppy.Generator.Language.Haskell.General (
   toHsMethodName',
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversions (classHaskellConversion),
+  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
       ClassHaskellConversion,
       classHaskellConversionFromCppFn,
@@ -48,7 +48,7 @@ import Foreign.Hoppy.Generator.Spec (
   Type (TBool, TEnum, TInt, TObj, TVoid),
   addAddendumHaskell,
   addReqIncludes,
-  classModifyConversions,
+  classModifyConversion,
   hsImport1,
   ident,
   includeStd,
@@ -86,7 +86,7 @@ aModule =
 
 c_QStringList =
   addReqIncludes [includeStd "QStringList"] $
-  classModifyConversions
+  classModifyConversion
   (\c -> c { classHaskellConversion =
              Just ClassHaskellConversion
              { classHaskellConversionType = do

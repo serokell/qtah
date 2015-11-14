@@ -24,9 +24,9 @@ import Foreign.Hoppy.Generator.Spec (
   Module,
   interface,
   interfaceAddHaskellModuleBase,
-  modifyModule',
-  setModuleCppPath,
-  setModuleHppPath,
+  moduleModify',
+  moduleSetCppPath,
+  moduleSetHppPath,
   )
 import qualified Foreign.Hoppy.Generator.Std as Std
 import Graphics.UI.Qtah.Internal.Generator.Common (maybeFail)
@@ -45,9 +45,9 @@ import System.FilePath (
   )
 
 mod_std :: Module
-mod_std = modifyModule' Std.mod_std $ do
-  setModuleHppPath "b_std.hpp"
-  setModuleCppPath "b_std.cpp"
+mod_std = moduleModify' Std.mod_std $ do
+  moduleSetHppPath "b_std.hpp"
+  moduleSetCppPath "b_std.cpp"
 
 modules :: [AModule]
 modules =

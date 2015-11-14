@@ -20,10 +20,10 @@ module Graphics.UI.Qtah.Internal.Interface.Callback where
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportCallback),
   Type (TBool, TInt, TObj, TPtr, TVoid),
-  addModuleExports,
   makeCallback,
   makeModule,
-  modifyModule',
+  moduleAddExports,
+  moduleModify',
   toExtName,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -38,8 +38,8 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWi
 
 aModule =
   AHoppyModule $
-  modifyModule' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
-  addModuleExports
+  moduleModify' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
+  moduleAddExports
   [ ExportCallback cb_BoolVoid
   , ExportCallback cb_IntVoid
   , ExportCallback cb_IntIntVoid
