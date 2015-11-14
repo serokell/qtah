@@ -5,15 +5,20 @@ traditional imperative interface to a mature GUI toolkit.
 
 Homepage: http://khumba.net/projects/qtah
 
-Qtah is free software under the GNU Affero General Public License version 3,
-the terms of which are in the `LICENSE` file.  I, Bryan Gardiner, reserve the
-right (a) to release all AGPL parts of Qtah under a future version of the AGPL
-per section 14 of the AGPLv3, at my sole discretion, as well as the right (b) to
-extend rights (a) and (b) to another entity.  By offering contributions to the
-project, you accept these terms, and agree to license your contributions under
-the project's current license(s) at the time of your submission.
-
 Copyright 2015 Bryan Gardiner <bog@khumba.net>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Building
 

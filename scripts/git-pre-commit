@@ -5,15 +5,16 @@
 # Copyright 2015 Bryan Gardiner <bog@khumba.net>
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License version 3
-# as published by the Free Software Foundation.
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
+# GNU Lesser General Public License for more details.
 #
-# You should have received a copy of the GNU Affero General Public License
+# You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # This is a Git pre-commit script.  Enable it by symlinking it to
@@ -58,7 +59,7 @@ if git ls-files | grep -v '/Makefile$' | xargs git --no-pager grep -q --cached '
         echo
         tabsResult=1
     fi
-    git ls-files | grep -v '/Makefile$' | git --no-pager grep -n --cached --no-color '^	'
+    git ls-files | grep -v '/Makefile$' | xargs git --no-pager grep -n --cached --no-color '^	'
 fi
 
 # Check for long lines.  Ignore long import statements without lists.
@@ -81,23 +82,37 @@ while read file; do
     case "$file" in
         *README*)
             # Readmes contain a copyright statement with email addresses, plus a
-            # license statement.
+            # license statement.  This is the same as the general case, except
+            # readmes can contain this notice anywhere in the file.
             grep -q 'Copyright 2' "$file" && \
                 ! grep -q 'Copyright 2[^<]*$' "$file" && \
-                grep -q 'Affero General Public License version 3' "$file";;
+                grep -qF 'GNU Lesser General Public License' "$file" && \
+                grep -qF 'either version 3 of the License, or' "$file" && \
+                grep -qF '(at your option) any later version.' "$file";;
         *LICENSE*)
             # License files are assumed to be okay.
             true;;
         *.cabal)
             # Cabal files include a brief copyright statement and specify the
             # license.
-            grep -iq '^copyright:.*[a-z]' "$file" && grep -q '^license: AGPL-3$' "$file";;
+            grep -iq '^copyright:.*[a-z]' "$file" && grep -q '^license: LGPL-3$' "$file";;
+        *default.nix)
+            # Nix derivations should have their license set correctly.  This
+            # includes the general header license check.
+            head -10 "$file" | grep -q Copyright && \
+                (! head -20 "$file" | grep -q 'Copyright[^<]\+$') && \
+                head -20 "$file" | grep -qF 'GNU Lesser General Public License' && \
+                head -20 "$file" | grep -qF 'either version 3 of the License, or' "$file" && \
+                head -20 "$file" | grep -qF '(at your option) any later version.' "$file" && \
+                grep -q 'license =.*\blgpl3Plus;' "$file";;
         *)
             # Other source files must include copyright statements with email
             # addresses, plus a license statement.
             head -10 "$file" | grep -q Copyright && \
                 (! head -20 "$file" | grep -q 'Copyright[^<]\+$') && \
-                head -20 "$file" | grep -q 'Affero General Public License version 3';;
+                head -20 "$file" | grep -qF 'GNU Lesser General Public License' && \
+                head -20 "$file" | grep -qF 'either version 3 of the License, or' && \
+                head -20 "$file" | grep -qF '(at your option) any later version.';;
     esac
     result=$?
     set -e
