@@ -31,6 +31,9 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
+  c_QAbstractButton,
+  )
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -42,7 +45,10 @@ aModule =
   moduleAddExports
   [ ExportCallback cb_BoolVoid
   , ExportCallback cb_IntVoid
+  , ExportCallback cb_IntBoolVoid
   , ExportCallback cb_IntIntVoid
+  , ExportCallback cb_PtrQAbstractButtonVoid
+  , ExportCallback cb_PtrQAbstractButtonBoolVoid
   , ExportCallback cb_PtrQActionVoid
   , ExportCallback cb_PtrQObjectVoid
   , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
@@ -60,9 +66,21 @@ cb_IntVoid =
   makeCallback (toExtName "CallbackIntVoid")
   [TInt] TVoid
 
+cb_IntBoolVoid =
+  makeCallback (toExtName "CallbackIntBoolVoid")
+  [TInt, TBool] TVoid
+
 cb_IntIntVoid =
   makeCallback (toExtName "CallbackIntIntVoid")
   [TInt, TInt] TVoid
+
+cb_PtrQAbstractButtonVoid =
+  makeCallback (toExtName "CallbackPtrQAbstractButtonVoid")
+  [TPtr $ TObj c_QAbstractButton] TVoid
+
+cb_PtrQAbstractButtonBoolVoid =
+  makeCallback (toExtName "CallbackPtrQAbstractButtonBoolVoid")
+  [TPtr $ TObj c_QAbstractButton, TBool] TVoid
 
 cb_PtrQActionVoid =
   makeCallback (toExtName "CallbackPtrQActionVoid")

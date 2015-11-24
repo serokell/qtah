@@ -28,6 +28,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QList (
   toExports,
   -- * Instantiations
   allModules,
+  c_QListQAbstractButton,
   c_QListQString,
   c_QListQWidget,
   ) where
@@ -59,6 +60,7 @@ import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Imports
+import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 -- | Options for instantiating the list classes.
@@ -231,9 +233,21 @@ createModule name contents = makeQtModule ["Core", "QList", name] $ toExports co
 allModules :: [AModule]
 allModules =
   map AQtModule
-  [ qmod_QString
+  [ qmod_QAbstractButton
+  , qmod_QString
   , qmod_QWidget
   ]
+
+qmod_QAbstractButton :: QtModule
+qmod_QAbstractButton = createModule "QAbstractButton" contents_QAbstractButton
+
+contents_QAbstractButton :: Contents
+contents_QAbstractButton =
+  instantiate' "QListQAbstractButton" (TPtr $ TObj c_QAbstractButton) mempty $
+  defaultOptions { optValueConversion = Just ConvertValue }
+
+c_QListQAbstractButton :: Class
+c_QListQAbstractButton = c_QList contents_QAbstractButton
 
 qmod_QString :: QtModule
 qmod_QString = createModule "QString" contents_QString

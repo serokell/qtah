@@ -71,7 +71,10 @@ forEachListener() {
     # Keep the includes in the C++ section up-to-date with the types used here.
     $fn Bool "bool"
     $fn Int "int"
+    $fn IntBool "int|bool"
     $fn IntInt "int|int"
+    $fn PtrQAbstractButton "QAbstractButton*"
+    $fn PtrQAbstractButtonBool "QAbstractButton*|bool"
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
@@ -97,10 +100,12 @@ if [[ -n $cppDir ]]; then
     sayHpp '#define QTAH_LISTENERS_HPP'
     sayHpp
     sayHpp '#include <string>'
+    sayHpp '#include <QAbstractButton>'
     sayHpp '#include <QAction>'
     sayHpp '#include <QObject>'
     sayHpp '#include <QPoint>'
     sayHpp '#include <QSize>'
+    sayHpp '#include <QWidget>'
     sayHpp '#include "b_callback.hpp"'
 
     sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'

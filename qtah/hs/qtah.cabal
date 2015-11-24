@@ -43,12 +43,14 @@ library
     , Graphics.UI.Qtah.Widgets.QActionGroup
     , Graphics.UI.Qtah.Widgets.QApplication
     , Graphics.UI.Qtah.Widgets.QBoxLayout
+    , Graphics.UI.Qtah.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Widgets.QCheckBox
     , Graphics.UI.Qtah.Widgets.QDialog
     , Graphics.UI.Qtah.Widgets.QFileDialog
     , Graphics.UI.Qtah.Widgets.QFormLayout
     , Graphics.UI.Qtah.Widgets.QFrame
     , Graphics.UI.Qtah.Widgets.QGridLayout
+    , Graphics.UI.Qtah.Widgets.QGroupBox
     , Graphics.UI.Qtah.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Widgets.QLabel
     , Graphics.UI.Qtah.Widgets.QLayout
@@ -87,12 +89,14 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QActionGroup
     , Graphics.UI.Qtah.Generated.Widgets.QApplication
     , Graphics.UI.Qtah.Generated.Widgets.QBoxLayout
+    , Graphics.UI.Qtah.Generated.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Generated.Widgets.QCheckBox
     , Graphics.UI.Qtah.Generated.Widgets.QDialog
     , Graphics.UI.Qtah.Generated.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generated.Widgets.QFormLayout
     , Graphics.UI.Qtah.Generated.Widgets.QFrame
     , Graphics.UI.Qtah.Generated.Widgets.QGridLayout
+    , Graphics.UI.Qtah.Generated.Widgets.QGroupBox
     , Graphics.UI.Qtah.Generated.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QLabel
     , Graphics.UI.Qtah.Generated.Widgets.QLayout

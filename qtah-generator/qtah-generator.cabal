@@ -60,12 +60,14 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QGridLayout
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QGroupBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem

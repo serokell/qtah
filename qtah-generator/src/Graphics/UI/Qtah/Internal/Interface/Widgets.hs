@@ -26,12 +26,14 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication as QAp
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAction as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup as QActionGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxLayout
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup as QButtonGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog as QDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout as QFormLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame as QFrame
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QGridLayout as QGridLayout
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QGroupBox as QGroupBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout as QHBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel as QLabel
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout as QLayout
@@ -60,12 +62,14 @@ modules =
   , just QAction.aModule
   , just QActionGroup.aModule
   , just QBoxLayout.aModule
+  , just QButtonGroup.aModule
   , just QCheckBox.aModule
   , just QDialog.aModule
   , just QFileDialog.aModule
   , test (qtVersion >= QFormLayout.minVersion) QFormLayout.aModule
   , just QFrame.aModule
   , just QGridLayout.aModule
+  , just QGroupBox.aModule
   , just QHBoxLayout.aModule
   , just QLabel.aModule
   , just QLayout.aModule
