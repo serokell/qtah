@@ -45,6 +45,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Gui.QColor (c_QColor)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
@@ -123,8 +124,8 @@ c_QTextEdit =
   , mkBoolIsProp "readOnly"
   , mkProp "tabChangesFocus" TBool
   , mkProp "tabStopWidth" TInt
-    -- TODO textBackgroundColor
-    -- TODO textColor
+  , mkProp "textBackgroundColor" $ TObj c_QColor
+  , mkProp "textColor" $ TObj c_QColor
     -- TODO textCursor
     -- TODO textInteractionFlags
   , mkBoolIsProp "undoRedoEnabled"

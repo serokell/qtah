@@ -36,6 +36,7 @@ library
     -- TODO This should not be exposed directly, but there is no nice interface
     -- to it right now.
     , Graphics.UI.Qtah.Generated.Std
+    , Graphics.UI.Qtah.Gui.HColor
     , Graphics.UI.Qtah.Gui.QClipboard
     , Graphics.UI.Qtah.Gui.QColor
     , Graphics.UI.Qtah.Signal

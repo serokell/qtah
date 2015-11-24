@@ -20,10 +20,27 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QColor (
   c_QColor,
   ) where
 
+import Control.Monad (forM_)
+import Foreign.Hoppy.Generator.Language.Haskell.General (
+  addImports,
+  indent,
+  sayLn,
+  saysLn,
+  )
 import Foreign.Hoppy.Generator.Spec (
+  ClassConversion (classHaskellConversion),
+  ClassHaskellConversion (
+      ClassHaskellConversion,
+      classHaskellConversionFromCppFn,
+      classHaskellConversionToCppFn,
+      classHaskellConversionType
+  ),
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TObjToHeap, TVoid),
+  Type (TBool, TEnum, TInt, TObj, TVoid),
   addReqIncludes,
+  classModifyConversion,
+  hsImports,
+  hsQualifiedImport,
   ident,
   ident1,
   includeStd,
@@ -47,6 +64,12 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_GlobalColor, qreal)
+import Graphics.UI.Qtah.Internal.Interface.Imports
+import Language.Haskell.Syntax (
+  HsName (HsIdent),
+  HsQName (UnQual),
+  HsType (HsTyCon),
+  )
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
@@ -62,6 +85,7 @@ aModule =
 -- TODO Everything using QRgb.
 c_QColor =
   addReqIncludes [includeStd "QColor"] $
+  classModifyConversion addConversion $
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QColor") Nothing []
   [ mkCtor "new" []
@@ -74,11 +98,11 @@ c_QColor =
   [ just $ mkConstMethod "black" [] TInt
   , just $ mkConstMethod "blackF" [] qreal
   , just $ mkStaticMethod "colorNames" [] $ TObj c_QStringList
-  , just $ mkConstMethod' "convertTo" "convertToNew" [TEnum e_Spec] $ TObjToHeap c_QColor
+  , just $ mkConstMethod "convertTo" [TEnum e_Spec] $ TObj c_QColor
   , just $ mkConstMethod "cyan" [] TInt
   , just $ mkConstMethod "cyanF" [] qreal
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darkerNew" [] $ TObjToHeap c_QColor
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darkerByNew" [TInt] $ TObjToHeap c_QColor
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darker" [] $ TObj c_QColor
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darkerBy" [TInt] $ TObj c_QColor
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHue" [] TInt
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHueF" [] qreal
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslSaturation" [] TInt
@@ -91,9 +115,8 @@ c_QColor =
   , just $ mkConstMethod "hueF" [] qreal
   , just $ mkConstMethod "isValid" [] TBool
   , test (qtVersion >= [4, 7]) $ mkStaticMethod "isValidColor" [TObj c_QString] TBool
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighterNew" [] $ TObjToHeap c_QColor
-  , test (qtVersion >= [4, 3]) $
-    mkConstMethod' "lighter" "lighterByNew" [TInt] $ TObjToHeap c_QColor
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighter" [] $ TObj c_QColor
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighterBy" [TInt] $ TObj c_QColor
   , test (qtVersion >= [4, 6]) $ mkConstMethod "lightness" [] TInt
   , test (qtVersion >= [4, 6]) $ mkConstMethod "lightnessF" [] qreal
   , just $ mkConstMethod "magenta" [] TInt
@@ -121,10 +144,10 @@ c_QColor =
   , just $ mkMethod' "setRgbF" "setRgbF" [qreal, qreal, qreal] TVoid
   , just $ mkMethod' "setRgbF" "setRgbaF" [qreal, qreal, qreal, qreal] TVoid
   , just $ mkConstMethod "spec" [] $ TEnum e_Spec
-  , just $ mkConstMethod' "toCmyk" "toCmykNew" [] $ TObjToHeap c_QColor
-  , just $ mkConstMethod' "toHsl" "toHslNew" [] $ TObjToHeap c_QColor
-  , just $ mkConstMethod' "toHsv" "toHsvNew" [] $ TObjToHeap c_QColor
-  , just $ mkConstMethod' "toRgb" "toRgbNew" [] $ TObjToHeap c_QColor
+  , just $ mkConstMethod "toCmyk" [] $ TObj c_QColor
+  , just $ mkConstMethod "toHsl" [] $ TObj c_QColor
+  , just $ mkConstMethod "toHsv" [] $ TObj c_QColor
+  , just $ mkConstMethod "toRgb" [] $ TObj c_QColor
   , just $ mkConstMethod "value" [] TInt
   , just $ mkConstMethod "valueF" [] qreal
   , just $ mkConstMethod "yellow" [] TInt
@@ -140,6 +163,59 @@ c_QColor =
   , mkProp "red" TInt
   , mkProp "redF" qreal
   ]
+
+  where
+    components =
+      [ ("Invalid", "", [])
+      , ("Rgb", "rgba", ["red", "green", "blue", "alpha"])
+      , ("Cmyk", "cmyka", ["cyan", "magenta", "yellow", "black", "alpha"])
+      , ("Hsl", "hsla", ["hslHue", "hslSaturation", "lightness", "alpha"])
+      , ("Hsv", "hsva", ["hsvHue", "hsvSaturation", "value", "alpha"])
+      ]
+
+    hColorImport = hsQualifiedImport "Graphics.UI.Qtah.Gui.HColor" "HColor"
+
+    addConversion cls =
+      cls
+      { classHaskellConversion =
+        Just ClassHaskellConversion
+        { classHaskellConversionType = do
+          addImports hColorImport
+          return $ HsTyCon $ UnQual $ HsIdent "HColor.HColor"
+
+        , classHaskellConversionToCppFn = do
+          addImports $ mconcat [importForPrelude,
+                                importForRuntime,
+                                hColorImport]
+          sayLn "\\color' -> do"
+          indent $ do
+            sayLn "this' <- qColor_new"
+            sayLn "case color' of"
+            indent $ forM_ components $ \(spec, letters, _) ->
+              saysLn $ concat
+              [ ["HColor.", spec]
+              , map (\var -> [' ', var, '\'']) letters
+              , if null letters
+                then [" -> QtahP.return ()"]
+                else [" -> qColor_set", spec, "a this'"]
+              , concatMap (\var -> [" (QtahFHR.coerceIntegral ", [var], "')"]) letters
+              ]
+            sayLn "QtahP.return this'"
+
+        , classHaskellConversionFromCppFn = do
+          addImports $ mconcat [hsImports "Prelude" ["($)", "(>>=)"],
+                                importForPrelude,
+                                importForRuntime,
+                                hColorImport]
+          sayLn "\\this' -> qColor_spec this' >>= \\spec' -> case spec' of"
+          indent $ forM_ components $ \(spec, letters, getters) -> do
+            saysLn ["QColorSpec_", spec, " -> do"]
+            indent $ do
+              forM_ (zip letters getters) $ \(var, get) ->
+                saysLn [[var], "' <- QtahP.fmap QtahFHR.coerceIntegral $ qColor_", get, " this'"]
+              saysLn $ ["QtahP.return $ HColor.", spec] ++ map (\var -> [' ', var, '\'']) letters
+        }
+      }
 
 -- Introduced in Qt 5.2.
 e_NameFormat =
