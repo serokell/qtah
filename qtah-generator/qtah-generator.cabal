@@ -20,6 +20,10 @@ flag qt54
      description: Compile for Qt 5.4.
      default: False
 
+flag qrealFloat
+     description: Whether Qt was configured with qreal=float instead of double.
+     default: False
+
 executable qtah-generator
   build-depends:
       base >=4.7 && <4.9
@@ -54,6 +58,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
     , Graphics.UI.Qtah.Internal.Interface.Gui
     , Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QColor
     , Graphics.UI.Qtah.Internal.Interface.Imports
     , Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.Widgets
@@ -92,3 +97,8 @@ executable qtah-generator
     cpp-options: -DQT_MAJOR=4 -DQT_MINOR=8
   if flag(qt54)
     cpp-options: -DQT_MAJOR=5 -DQT_MINOR=4
+
+  if flag(qrealFloat)
+    cpp-options: -DQREAL_FLOAT=True
+  else
+    cpp-options: -DQREAL_FLOAT=False

@@ -30,6 +30,7 @@ module Graphics.UI.Qtah.Internal.Flags (
   qtVersion,
   keypadNavigation,
   qdoc,
+  qrealFloat,
   wsWince,
   ) where
 
@@ -43,6 +44,9 @@ keypadNavigation = False
 
 qdoc :: Bool
 qdoc = False
+
+qrealFloat :: Bool
+qrealFloat = QREAL_FLOAT
 
 wsWince :: Bool
 wsWince = False

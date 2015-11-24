@@ -19,10 +19,12 @@ module Graphics.UI.Qtah.Internal.Interface.Gui (modules) where
 
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard as QClipboard
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QColor as QColor
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 modules :: [AModule]
 modules =
   [ QClipboard.aModule
+  , QColor.aModule
   ]

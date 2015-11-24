@@ -37,6 +37,7 @@ library
     -- to it right now.
     , Graphics.UI.Qtah.Generated.Std
     , Graphics.UI.Qtah.Gui.QClipboard
+    , Graphics.UI.Qtah.Gui.QColor
     , Graphics.UI.Qtah.Signal
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
@@ -84,6 +85,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QStringList
     , Graphics.UI.Qtah.Generated.Core.Types
     , Graphics.UI.Qtah.Generated.Gui.QClipboard
+    , Graphics.UI.Qtah.Generated.Gui.QColor
     , Graphics.UI.Qtah.Generated.Listener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea

@@ -15,9 +15,10 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
--- | Bindings in the top-level @Qt::@ namespace.
+-- | Top-level bindings and bindings in the @Qt::@ namespace.
 module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   aModule,
+  qreal,
   e_AlignmentFlag,
   bs_Alignment,
   e_AspectRatioMode,
@@ -25,6 +26,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_CheckState,
   e_Corner,
   e_CursorMoveStyle,
+  e_GlobalColor,
   e_LayoutDirection,
   e_NavigationMode,
   e_Orientation,
@@ -38,8 +40,10 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
 import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum),
+  Type (TDouble, TFloat),
   ident1,
   )
+import Graphics.UI.Qtah.Internal.Flags (qrealFloat)
 import Graphics.UI.Qtah.Internal.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -56,6 +60,7 @@ exports =
   , ExportEnum e_CheckState
   , ExportEnum e_Corner
   , ExportEnum e_CursorMoveStyle
+  , ExportEnum e_GlobalColor
   , ExportEnum e_LayoutDirection
   , ExportEnum e_NavigationMode
   , ExportEnum e_Orientation
@@ -65,6 +70,9 @@ exports =
   , ExportEnum e_WindowType
   , ExportBitspace bs_WindowFlags
   ]
+
+qreal :: Type
+qreal = if qrealFloat then TFloat else TDouble
 
 (e_AlignmentFlag, bs_Alignment) =
   makeQtEnumBitspace (ident1 "Qt" "AlignmentFlag") "Alignment"
@@ -113,6 +121,30 @@ e_CursorMoveStyle =
   makeQtEnum (ident1 "Qt" "CursorMoveStyle")
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
+  ]
+
+e_GlobalColor =
+  makeQtEnum (ident1 "Qt" "GlobalColor")
+  [ (3, ["white"])
+  , (2, ["black"])
+  , (7, ["red"])
+  , (13, ["dark", "red"])
+  , (8, ["green"])
+  , (14, ["dark", "green"])
+  , (9, ["blue"])
+  , (15, ["dark", "blue"])
+  , (10, ["cyan"])
+  , (16, ["dark", "cyan"])
+  , (11, ["magenta"])
+  , (17, ["dark", "magenta"])
+  , (12, ["yellow"])
+  , (18, ["dark", "yellow"])
+  , (5, ["gray"])
+  , (4, ["dark", "gray"])
+  , (6, ["light", "gray"])
+  , (19, ["transparent"])
+  , (0, ["color0"])
+  , (1, ["color1"])
   ]
 
 e_LayoutDirection =
