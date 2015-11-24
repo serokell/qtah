@@ -52,8 +52,11 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QString
     , Graphics.UI.Qtah.Internal.Interface.Core.QStringList
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
+    , Graphics.UI.Qtah.Internal.Interface.Gui
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard
     , Graphics.UI.Qtah.Internal.Interface.Imports
     , Graphics.UI.Qtah.Internal.Interface.Listener
+    , Graphics.UI.Qtah.Internal.Interface.Widgets
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAction

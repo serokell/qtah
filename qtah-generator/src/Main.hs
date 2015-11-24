@@ -34,6 +34,7 @@ import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Callback as Callback
 import qualified Graphics.UI.Qtah.Internal.Interface.Core as Core
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui as Gui
 import qualified Graphics.UI.Qtah.Internal.Interface.Listener as Listener
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets as Widgets
 import System.Environment (getArgs)
@@ -57,6 +58,7 @@ modules =
     , Listener.aModule
     ]
   , Core.modules
+  , Gui.modules
   , Widgets.modules
   ]
 

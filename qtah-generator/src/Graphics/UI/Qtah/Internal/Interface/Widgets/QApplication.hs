@@ -50,6 +50,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_LayoutDirection, e_NavigationMode)
+import Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard (c_QClipboard)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerPtrQWidgetPtrQWidget)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -79,7 +80,7 @@ c_QApplication =
   , just $ mkStaticMethod' "allWidgets" "allWidgetsNew" [] $ TObjToHeap c_QListQWidget
   , just $ mkStaticMethod "beep" [] TVoid
     -- TODO changeOverrideCursor
-    -- TODO clipboard
+  , just $ mkStaticMethod "clipboard" [] $ TPtr $ TObj c_QClipboard
   , just $ mkMethod "closeAllWindows" [] TVoid
     -- TODO commitData
     -- TODO desktop

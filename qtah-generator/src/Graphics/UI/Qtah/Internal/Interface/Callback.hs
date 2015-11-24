@@ -19,7 +19,7 @@ module Graphics.UI.Qtah.Internal.Interface.Callback where
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportCallback),
-  Type (TBool, TInt, TObj, TPtr, TVoid),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
   makeCallback,
   makeModule,
   moduleAddExports,
@@ -31,6 +31,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
+import {-# SOURCE #-} qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard as QClipboard
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
   c_QAbstractButton,
   )
@@ -52,6 +53,7 @@ aModule =
   , ExportCallback cb_PtrQActionVoid
   , ExportCallback cb_PtrQObjectVoid
   , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
+  , ExportCallback cb_QClipboardModeVoid
   , ExportCallback cb_QPointVoid
   , ExportCallback cb_QSizeVoid
   , ExportCallback cb_QStringVoid
@@ -93,6 +95,10 @@ cb_PtrQObjectVoid =
 cb_PtrQWidgetPtrQWidgetVoid =
   makeCallback (toExtName "CallbackPtrQWidgetPtrQWidgetVoid")
   [TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
+
+cb_QClipboardModeVoid =
+  makeCallback (toExtName "CallbackQClipboardModeVoid")
+  [TEnum QClipboard.e_Mode] TVoid
 
 cb_QPointVoid =
   makeCallback (toExtName "CallbackQPointVoid")
