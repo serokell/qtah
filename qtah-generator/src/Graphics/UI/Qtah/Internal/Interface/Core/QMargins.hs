@@ -40,7 +40,8 @@ import Foreign.Hoppy.Generator.Spec (
       classHaskellConversionType
   ),
   Export (ExportClass),
-  Type (TBool, TInt),
+  Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
+  Type (TBool, TInt, TObj, TRef),
   addReqIncludes,
   classModifyConversion,
   hsImports,
@@ -50,10 +51,19 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkConstMethod,
   mkCtor,
+  mkMethod',
   mkProp,
   mkProps,
+  operatorPreferredExtName',
   )
+import Foreign.Hoppy.Generator.Spec.ClassFeature (
+  ClassFeature (Assignable, Copyable, Equatable),
+  classAddFeatures,
+  )
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
@@ -93,11 +103,37 @@ c_QMargins =
                  sayLn "QtahP.return (HMargins.HMargins l t r b)"
              }
            }) $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QMargins") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [TInt, TInt, TInt, TInt]
   ] $
-  [ mkConstMethod "isNull" [] TBool
+  collect
+  [ just $ mkConstMethod "isNull" [] TBool
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign)
+    [TObj c_QMargins] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign ++ "Int")
+    [TInt] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpSubtractAssign (operatorPreferredExtName' OpSubtractAssign)
+    [TObj c_QMargins] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpSubtractAssign (operatorPreferredExtName' OpSubtractAssign ++ "Int")
+    [TInt] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign)
+    [TInt] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign ++ "Real")
+    [qreal] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpDivideAssign (operatorPreferredExtName' OpDivideAssign)
+    [TInt] $ TRef $ TObj c_QMargins
+  , test (qtVersion >= [5, 1]) $
+    mkMethod' OpDivideAssign (operatorPreferredExtName' OpDivideAssign ++ "Real")
+    [qreal] $ TRef $ TObj c_QMargins
   ] ++
   mkProps
   [ mkProp "bottom" TInt

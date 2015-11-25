@@ -56,7 +56,7 @@ c_QLabel =
   , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
   , mkCtor "newWithText" [TObj c_QString]
   , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
-    -- Ctors taking Qt::WindowFlags.
+    -- TODO Ctors taking Qt::WindowFlags.
   ] $
   [ mkMethod "clear" [] TVoid
   , mkConstMethod "hasSelectedText" [] TBool

@@ -21,7 +21,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBool, TEnum, TInt, TObj, TObjToHeap, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -29,10 +29,12 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   mkMethod,
+  mkMethod',
   mkProp,
   mkProps,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QList (c_QListInt)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Orientation)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerIntInt)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (c_QFrame)
@@ -65,9 +67,9 @@ c_QSplitter =
     -- TODO restoreState
     -- TODO saveState
   , mkMethod "setCollapsible" [TInt, TBool] TVoid
-    -- TODO setSizes
+  , mkMethod "setSizes" [TObj c_QListInt] TVoid
   , mkMethod "setStretchFactor" [TInt, TInt] TVoid
-    -- TODO sizes
+  , mkMethod' "sizes" "sizesNew" [] $ TObjToHeap c_QListInt
   , mkConstMethod "widget" [TInt] $ TPtr $ TObj c_QWidget
   ] ++
   mkProps

@@ -39,7 +39,8 @@ import Foreign.Hoppy.Generator.Spec (
       classHaskellConversionType
   ),
   Export (ExportClass),
-  Type (TBool, TInt),
+  Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
+  Type (TBool, TInt, TObj, TRef),
   addReqIncludes,
   classModifyConversion,
   hsImports,
@@ -49,10 +50,21 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkConstMethod,
   mkCtor,
+  mkMethod,
+  mkMethod',
   mkProp,
   mkProps,
+  mkStaticMethod,
+  operatorPreferredExtName',
   )
+import Foreign.Hoppy.Generator.Spec.ClassFeature (
+  ClassFeature (Assignable, Copyable, Equatable),
+  classAddFeatures,
+  )
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Internal.Interface.Imports
 import Language.Haskell.Syntax (
   HsName (HsIdent),
@@ -89,12 +101,22 @@ c_QPoint =
                  sayLn "QtahP.return (HPoint.HPoint x y)"
              }
            }) $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QPoint") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [TInt, TInt]
   ] $
-  [ mkConstMethod "isNull" [] TBool
-  , mkConstMethod "manhattanLength" [] TInt
+  collect
+  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [TObj c_QPoint, TObj c_QPoint] TInt
+  , just $ mkConstMethod "isNull" [] TBool
+  , just $ mkConstMethod "manhattanLength" [] TInt
+  , just $ mkMethod OpAddAssign [TObj c_QPoint] $ TRef $ TObj c_QPoint
+  , just $ mkMethod OpSubtractAssign [TObj c_QPoint] $ TRef $ TObj c_QPoint
+  , just $ mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign)
+    [TInt] $ TRef $ TObj c_QPoint
+  , just $ mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign ++ "Real")
+    [qreal] $ TRef $ TObj c_QPoint
+  , just $ mkMethod OpDivideAssign [qreal] $ TRef $ TObj c_QPoint
   ] ++
   mkProps
   [ mkProp "x" TInt

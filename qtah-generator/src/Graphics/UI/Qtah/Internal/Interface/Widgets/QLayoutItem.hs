@@ -35,7 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, bs_Orientations)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -51,8 +51,8 @@ c_QLayoutItem =
   makeClass (ident "QLayoutItem") Nothing []
   [] $  -- Abstract.
   [ -- TODO controlTypes
-    -- TODO expandingDirections
-    mkConstMethod "hasHeightForWidth" [] TBool
+    mkConstMethod "expandingDirections" [] $ TBitspace bs_Orientations
+  , mkConstMethod "hasHeightForWidth" [] TBool
   , mkConstMethod "heightForWidth" [TInt] TInt
   , mkMethod "invalidate" [] TVoid
   , mkConstMethod "isEmpty" [] TBool

@@ -54,7 +54,14 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Spec.ClassFeature (
+  ClassFeature (Assignable, Copyable, Equatable),
+  classAddFeatures,
+  )
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -95,38 +102,42 @@ c_QRect =
                  sayLn "QtahP.return (HRect.HRect x y w h)"
              }
            }) $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QRect") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "newWithPoints" [TObj c_QPoint, TObj c_QPoint]
   , mkCtor "newWithPointAndSize" [TObj c_QPoint, TObj c_QSize]
   , mkCtor "newWithRaw" [TInt, TInt, TInt, TInt]
   ] $
-  [ mkMethod "adjust" [TInt, TInt, TInt, TInt] TVoid
-  , mkConstMethod "adjusted" [TInt, TInt, TInt, TInt] $ TObj c_QRect
-  , mkConstMethod "center" [] $ TObj c_QPoint
-  , mkConstMethod' "contains" "containsPoint" [TObj c_QPoint, TBool] TBool
-  , mkConstMethod' "contains" "containsRect" [TObj c_QRect, TBool] TBool
-  , mkConstMethod "intersected" [TObj c_QRect] $ TObj c_QRect
-  , mkConstMethod "intersects" [TObj c_QRect] TBool
-  , mkConstMethod "isEmpty" [] TBool
-  , mkConstMethod "isNull" [] TBool
-  , mkConstMethod "isValid" [] TBool
-  , mkMethod "moveBottom" [TInt] TVoid
-  , mkMethod "moveBottomLeft" [TObj c_QPoint] TVoid
-  , mkMethod "moveBottomRight" [TObj c_QPoint] TVoid
-  , mkMethod "moveCenter" [TObj c_QPoint] TVoid
-  , mkMethod "moveLeft" [TInt] TVoid
-  , mkMethod "moveRight" [TInt] TVoid
-  , mkMethod "moveTo" [TObj c_QPoint] TVoid
-  , mkMethod "moveTop" [TInt] TVoid
-  , mkMethod "moveTopLeft" [TObj c_QPoint] TVoid
-  , mkMethod "moveTopRight" [TObj c_QPoint] TVoid
-  , mkConstMethod "normalized" [] $ TObj c_QRect
-  , mkMethod "setCoords" [TInt, TInt, TInt, TInt] TVoid
-  , mkMethod "setRect" [TInt, TInt, TInt, TInt] TVoid
-  , mkMethod "translate" [TObj c_QPoint] TVoid
-  , mkConstMethod "translated" [TObj c_QPoint] $ TObj c_QRect
-  , mkMethod "united" [TObj c_QRect] $ TObj c_QRect
+  collect
+  [ just $ mkMethod "adjust" [TInt, TInt, TInt, TInt] TVoid
+  , just $ mkConstMethod "adjusted" [TInt, TInt, TInt, TInt] $ TObj c_QRect
+  , just $ mkConstMethod "center" [] $ TObj c_QPoint
+  , just $ mkConstMethod' "contains" "containsPoint" [TObj c_QPoint, TBool] TBool
+  , just $ mkConstMethod' "contains" "containsRect" [TObj c_QRect, TBool] TBool
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "intersected" [TObj c_QRect] $ TObj c_QRect
+  , just $ mkConstMethod "intersects" [TObj c_QRect] TBool
+  , just $ mkConstMethod "isEmpty" [] TBool
+  , just $ mkConstMethod "isNull" [] TBool
+  , just $ mkConstMethod "isValid" [] TBool
+  , test (qtVersion >= [5, 1]) $ mkConstMethod "marginsAdded" [TObj c_QMargins] $ TObj c_QRect
+  , test (qtVersion >= [5, 1]) $ mkConstMethod "marginsRemoved" [TObj c_QMargins] $ TObj c_QRect
+  , just $ mkMethod "moveBottom" [TInt] TVoid
+  , just $ mkMethod "moveBottomLeft" [TObj c_QPoint] TVoid
+  , just $ mkMethod "moveBottomRight" [TObj c_QPoint] TVoid
+  , just $ mkMethod "moveCenter" [TObj c_QPoint] TVoid
+  , just $ mkMethod "moveLeft" [TInt] TVoid
+  , just $ mkMethod "moveRight" [TInt] TVoid
+  , just $ mkMethod "moveTo" [TObj c_QPoint] TVoid
+  , just $ mkMethod "moveTop" [TInt] TVoid
+  , just $ mkMethod "moveTopLeft" [TObj c_QPoint] TVoid
+  , just $ mkMethod "moveTopRight" [TObj c_QPoint] TVoid
+  , just $ mkConstMethod "normalized" [] $ TObj c_QRect
+  , just $ mkMethod "setCoords" [TInt, TInt, TInt, TInt] TVoid
+  , just $ mkMethod "setRect" [TInt, TInt, TInt, TInt] TVoid
+  , just $ mkMethod "translate" [TObj c_QPoint] TVoid
+  , just $ mkConstMethod "translated" [TObj c_QPoint] $ TObj c_QRect
+  , test (qtVersion >= [4, 2]) $ mkMethod "united" [TObj c_QRect] $ TObj c_QRect
   ] ++
   mkProps
   [ mkProp "bottom" TInt

@@ -28,7 +28,9 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QList (
   toExports,
   -- * Instantiations
   allModules,
+  c_QListInt,
   c_QListQAbstractButton,
+  c_QListQObject,
   c_QListQString,
   c_QListQWidget,
   ) where
@@ -58,6 +60,7 @@ import Foreign.Hoppy.Generator.Std (ValueConversion (ConvertPtr, ConvertValue))
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Imports
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)
@@ -233,10 +236,23 @@ createModule name contents = makeQtModule ["Core", "QList", name] $ toExports co
 allModules :: [AModule]
 allModules =
   map AQtModule
-  [ qmod_QAbstractButton
+  [ qmod_Int
+  , qmod_QAbstractButton
+  , qmod_QObject
   , qmod_QString
   , qmod_QWidget
   ]
+
+qmod_Int :: QtModule
+qmod_Int = createModule "Int" contents_Int
+
+contents_Int :: Contents
+contents_Int =
+  instantiate' "QListInt" TInt mempty $
+  defaultOptions { optValueConversion = Just ConvertValue }
+
+c_QListInt :: Class
+c_QListInt = c_QList contents_Int
 
 qmod_QAbstractButton :: QtModule
 qmod_QAbstractButton = createModule "QAbstractButton" contents_QAbstractButton
@@ -248,6 +264,17 @@ contents_QAbstractButton =
 
 c_QListQAbstractButton :: Class
 c_QListQAbstractButton = c_QList contents_QAbstractButton
+
+qmod_QObject :: QtModule
+qmod_QObject = createModule "QObject" contents_QObject
+
+contents_QObject :: Contents
+contents_QObject =
+  instantiate' "QListQObject" (TPtr $ TObj c_QObject) mempty $
+  defaultOptions { optValueConversion = Just ConvertValue }
+
+c_QListQObject :: Class
+c_QListQObject = c_QList contents_QObject
 
 qmod_QString :: QtModule
 qmod_QString = createModule "QString" contents_QString

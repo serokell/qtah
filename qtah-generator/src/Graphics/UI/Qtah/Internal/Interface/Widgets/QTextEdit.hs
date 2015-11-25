@@ -44,7 +44,7 @@ import Graphics.UI.Qtah.Internal.Interface.Listener (
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
+import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, qreal)
 import Graphics.UI.Qtah.Internal.Interface.Gui.QColor (c_QColor)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (c_QMenu)
@@ -115,7 +115,7 @@ c_QTextEdit =
     -- TODO extraSelections
   , mkProp "fontFamily" $ TObj c_QString
   , mkProp "fontItalic" TBool
-    -- TODO fontPointSize
+  , mkProp "fontPointSize" qreal
   , mkProp "fontUnderline" TBool
   , mkProp "fontWeight" TInt
   , mkProp "lineWrapColumnOrWidth" TInt
