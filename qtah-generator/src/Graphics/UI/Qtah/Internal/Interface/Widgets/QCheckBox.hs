@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox (
   aModule,
+  c_QCheckBox,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

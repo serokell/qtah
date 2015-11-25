@@ -44,6 +44,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit as QLineE
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow as QMainWindow
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBar
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMessageBox as QMessageBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton as QRadioButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar as QScrollBar
@@ -84,6 +85,7 @@ modules =
   , just QMainWindow.aModule
   , just QMenu.aModule
   , just QMenuBar.aModule
+  , just QMessageBox.aModule
   , just QPushButton.aModule
   , just QRadioButton.aModule
   , just QScrollBar.aModule

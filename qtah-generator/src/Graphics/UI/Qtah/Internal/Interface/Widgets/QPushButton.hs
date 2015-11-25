@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton (
   aModule,
+  c_QPushButton,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

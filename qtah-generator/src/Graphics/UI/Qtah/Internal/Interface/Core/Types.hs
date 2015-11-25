@@ -33,6 +33,9 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   bs_Orientations,
   e_ScrollBarPolicy,
   e_TextFormat,
+  e_TextInteractionFlag,
+  bs_TextInteractionFlags,
+  e_WindowModality,
   e_WindowType,
   bs_WindowFlags,
   ) where
@@ -67,6 +70,9 @@ exports =
   , ExportBitspace bs_Orientations
   , ExportEnum e_ScrollBarPolicy
   , ExportEnum e_TextFormat
+  , ExportEnum e_TextInteractionFlag
+  , ExportBitspace bs_TextInteractionFlags
+  , ExportEnum e_WindowModality
   , ExportEnum e_WindowType
   , ExportBitspace bs_WindowFlags
   ]
@@ -182,6 +188,34 @@ e_TextFormat =
   , (1, ["rich", "text"])
   , (2, ["auto", "text"])
   , (3, ["log", "text"])
+  ]
+
+(e_TextInteractionFlag, bs_TextInteractionFlags) =
+  makeQtEnumBitspace (ident1 "Qt" "TextInteractionFlag") "TextInteractionFlags" $
+  let noTextInteraction = 0
+      textSelectableByMouse = 1
+      textSelectableByKeyboard = 2
+      linksAccessibleByMouse = 4
+      linksAccessibleByKeyboard = 8
+      textEditable = 16
+      textEditorInteraction = textSelectableByMouse .|. textSelectableByKeyboard .|. textEditable
+      textBrowserInteraction =
+        textSelectableByMouse .|. linksAccessibleByMouse .|. linksAccessibleByKeyboard
+  in [ (noTextInteraction, ["no", "text", "interaction"])
+     , (textSelectableByMouse, ["text", "selectable", "by", "mouse"])
+     , (textSelectableByKeyboard, ["text", "selectable", "by", "keyboard"])
+     , (linksAccessibleByMouse, ["links", "accessible", "by", "mouse"])
+     , (linksAccessibleByKeyboard, ["links", "accessible", "by", "keyboard"])
+     , (textEditable, ["text", "editable"])
+     , (textEditorInteraction, ["text", "editor", "interaction"])
+     , (textBrowserInteraction, ["text", "browser", "interaction"])
+     ]
+
+e_WindowModality =
+  makeQtEnum (ident1 "Qt" "WindowModality")
+  [ (0, ["non", "modal"])
+  , (1, ["window", "modal"])
+  , (2, ["application", "modal"])
   ]
 
 (e_WindowType, bs_WindowFlags) =
