@@ -87,7 +87,7 @@ c_QLayout =
   ]
 
 e_SizeConstraint =
-  makeQtEnum (ident1 "QLayout" "SizeConstraint")
+  makeQtEnum (ident1 "QLayout" "SizeConstraint") [includeStd "QLayout"]
   [ (0, ["set", "default", "size", "constraint"])
   , (1, ["set", "no", "constraint"])
   , (2, ["set", "minimum", "size"])

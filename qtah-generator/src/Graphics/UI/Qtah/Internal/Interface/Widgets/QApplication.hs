@@ -166,7 +166,7 @@ signals =
 
 -- | Removed in Qt 5.
 e_Type =
-  makeQtEnum (ident1 "QApplication" "Type")
+  makeQtEnum (ident1 "QApplication" "Type") [includeStd "QApplication"]
   [ (0, ["tty"])
   , (1, ["gui", "client"])
   , (2, ["gui", "server"])

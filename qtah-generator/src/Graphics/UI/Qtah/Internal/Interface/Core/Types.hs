@@ -43,8 +43,10 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
 import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum),
+  Include,
   Type (TDouble, TFloat),
   ident1,
+  includeStd,
   )
 import Graphics.UI.Qtah.Internal.Flags (qrealFloat)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -77,11 +79,14 @@ exports =
   , ExportBitspace bs_WindowFlags
   ]
 
+qtInclude :: [Include]
+qtInclude = [includeStd "Qt"]
+
 qreal :: Type
 qreal = if qrealFloat then TFloat else TDouble
 
 (e_AlignmentFlag, bs_Alignment) =
-  makeQtEnumBitspace (ident1 "Qt" "AlignmentFlag") "Alignment"
+  makeQtEnumBitspace (ident1 "Qt" "AlignmentFlag") "Alignment" qtInclude
   [ -- Horizontal flags.
     (0x01, ["align", "left"])
   , (0x02, ["align", "right"])
@@ -96,27 +101,27 @@ qreal = if qrealFloat then TFloat else TDouble
   ]
 
 e_AspectRatioMode =
-  makeQtEnum (ident1 "Qt" "AspectRatioMode")
+  makeQtEnum (ident1 "Qt" "AspectRatioMode") qtInclude
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
   ]
 
 e_CaseSensitivity =
-  makeQtEnum (ident1 "Qt" "CaseSensitivity")
+  makeQtEnum (ident1 "Qt" "CaseSensitivity") qtInclude
   [ (0, ["case", "insensitive"])
   , (1, ["case", "sensitive"])
   ]
 
 e_CheckState =
-  makeQtEnum (ident1 "Qt" "CheckState")
+  makeQtEnum (ident1 "Qt" "CheckState") qtInclude
   [ (0, ["unchecked"])
   , (1, ["partially", "checked"])
   , (2, ["checked"])
   ]
 
 e_Corner =
-  makeQtEnum (ident1 "Qt" "Corner")
+  makeQtEnum (ident1 "Qt" "Corner") qtInclude
   [ (0x00000, ["top", "left", "corner"])
   , (0x00001, ["top", "right", "corner"])
   , (0x00002, ["bottom", "left", "corner"])
@@ -124,13 +129,13 @@ e_Corner =
   ]
 
 e_CursorMoveStyle =
-  makeQtEnum (ident1 "Qt" "CursorMoveStyle")
+  makeQtEnum (ident1 "Qt" "CursorMoveStyle") qtInclude
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
   ]
 
 e_GlobalColor =
-  makeQtEnum (ident1 "Qt" "GlobalColor")
+  makeQtEnum (ident1 "Qt" "GlobalColor") qtInclude
   [ (3, ["white"])
   , (2, ["black"])
   , (7, ["red"])
@@ -154,14 +159,14 @@ e_GlobalColor =
   ]
 
 e_LayoutDirection =
-  makeQtEnum (ident1 "Qt" "LayoutDirection")
+  makeQtEnum (ident1 "Qt" "LayoutDirection") qtInclude
   [ (0, ["left", "to", "right"])
   , (1, ["right", "to", "left"])
   , (2, ["layout", "direction", "auto"])
   ]
 
 e_NavigationMode =
-  makeQtEnum (ident1 "Qt" "NavigationMode")
+  makeQtEnum (ident1 "Qt" "NavigationMode") qtInclude
   [ (0, ["navigation", "mode", "none"])
   , (1, ["navigation", "mode", "keypad", "tab", "order"])
   , (2, ["navigation", "mode", "keypad", "directional"])
@@ -170,20 +175,20 @@ e_NavigationMode =
   ]
 
 (e_Orientation, bs_Orientations) =
-  makeQtEnumBitspace (ident1 "Qt" "Orientation") "Orientations"
+  makeQtEnumBitspace (ident1 "Qt" "Orientation") "Orientations" qtInclude
   [ (1, ["horizontal"])
   , (2, ["vertical"])
   ]
 
 e_ScrollBarPolicy =
-  makeQtEnum (ident1 "Qt" "ScrollBarPolicy")
+  makeQtEnum (ident1 "Qt" "ScrollBarPolicy") qtInclude
   [ (0, ["scroll", "bar", "as", "needed"])
   , (1, ["scroll", "bar", "always", "off"])
   , (2, ["scroll", "bar", "always", "on"])
   ]
 
 e_TextFormat =
-  makeQtEnum (ident1 "Qt" "TextFormat")
+  makeQtEnum (ident1 "Qt" "TextFormat") qtInclude
   [ (0, ["plain", "text"])
   , (1, ["rich", "text"])
   , (2, ["auto", "text"])
@@ -191,7 +196,7 @@ e_TextFormat =
   ]
 
 (e_TextInteractionFlag, bs_TextInteractionFlags) =
-  makeQtEnumBitspace (ident1 "Qt" "TextInteractionFlag") "TextInteractionFlags" $
+  makeQtEnumBitspace (ident1 "Qt" "TextInteractionFlag") "TextInteractionFlags" qtInclude $
   let noTextInteraction = 0
       textSelectableByMouse = 1
       textSelectableByKeyboard = 2
@@ -212,14 +217,14 @@ e_TextFormat =
      ]
 
 e_WindowModality =
-  makeQtEnum (ident1 "Qt" "WindowModality")
+  makeQtEnum (ident1 "Qt" "WindowModality") qtInclude
   [ (0, ["non", "modal"])
   , (1, ["window", "modal"])
   , (2, ["application", "modal"])
   ]
 
 (e_WindowType, bs_WindowFlags) =
-  makeQtEnumBitspace (ident1 "Qt" "WindowType") "WindowFlags" $
+  makeQtEnumBitspace (ident1 "Qt" "WindowType") "WindowFlags" qtInclude $
   let widget = 0x0
       window = 0x1
       dialog = 0x2 .|. window

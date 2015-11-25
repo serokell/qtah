@@ -39,6 +39,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportFn),
   Function,
   Identifier,
+  Include,
   Module,
   Type (TEnum, TInt),
   addReqIncludes,
@@ -112,21 +113,23 @@ data QtExport =
 
 -- | Creates a 'CppEnum' whose 'ExtName' is the concatenation of all part of its
 -- 'Identifier'.  This should be used for all Qt enums.
-makeQtEnum :: Identifier -> [(Int, [String])] -> CppEnum
-makeQtEnum identifier =
-  makeEnum identifier $ Just $ toExtName $ concat $
-  map idPartBase $ identifierParts identifier
+makeQtEnum :: Identifier -> [Include] -> [(Int, [String])] -> CppEnum
+makeQtEnum identifier includes valueNames =
+  addReqIncludes includes $
+  makeEnum identifier
+           (Just $ toExtName $ concat $ map idPartBase $ identifierParts identifier)
+           valueNames
 
 -- | Creates an (enum, bitspace) pair with the same values and similar names,
 -- and whose enum values can be converted to bitspace values.
-makeQtEnumBitspace :: Identifier -> String -> [(Int, [String])] -> (CppEnum, Bitspace)
-makeQtEnumBitspace identifier bitspaceName valueNames =
-  let enum = makeQtEnum identifier valueNames
+makeQtEnumBitspace :: Identifier -> String -> [Include] -> [(Int, [String])] -> (CppEnum, Bitspace)
+makeQtEnumBitspace identifier bitspaceName includes valueNames =
+  let enum = makeQtEnum identifier includes valueNames
       bitspaceExtName = toExtName $ concat $
                         replaceLast bitspaceName $
                         map idPartBase (identifierParts identifier)
   in (enum,
-      addReqIncludes [includeStd "QFlag", includeStd "QFlags"] $
+      addReqIncludes (includeStd "QFlag" : includeStd "QFlags" : includes) $
       bitspaceAddCppType (identT "QFlags" [TEnum enum])
                          (Just "QFlag")
                          (Just "int") $

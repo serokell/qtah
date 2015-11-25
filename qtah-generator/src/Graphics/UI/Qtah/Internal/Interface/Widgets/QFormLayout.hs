@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   includeLocal,
   includeStd,
   makeClass,
-  makeEnum,
   makeFnMethod,
   mkConstMethod,
   mkConstMethod',
@@ -119,24 +118,21 @@ c_QFormLayout =
   ]
 
 e_FieldGrowthPolicy =
-  addReqIncludes [includeStd "QFormLayout"] $
-  makeEnum (ident1 "QFormLayout" "FieldGrowthPolicy") Nothing
+  makeQtEnum (ident1 "QFormLayout" "FieldGrowthPolicy") [includeStd "QFormLayout"]
   [ (0, ["fields", "stay", "at", "size", "hint"])
   , (1, ["expanding", "fields", "grow"])
   , (2, ["all", "non", "fixed", "fields", "grow"])
   ]
 
 e_ItemRole =
-  addReqIncludes [includeStd "QFormLayout"] $
-  makeEnum (ident1 "QFormLayout" "ItemRole") Nothing
+  makeQtEnum (ident1 "QFormLayout" "ItemRole") [includeStd "QFormLayout"]
   [ (0, ["label", "role"])
   , (1, ["field", "role"])
   , (2, ["spanning", "role"])
   ]
 
 e_RowWrapPolicy =
-  addReqIncludes [includeStd "QFormLayout"] $
-  makeEnum (ident1 "QFormLayout" "RowWrapPolicy") Nothing
+  makeQtEnum (ident1 "QFormLayout" "RowWrapPolicy") [includeStd "QFormLayout"]
   [ (0, ["dont", "wrap", "rows"])
   , (1, ["wrap", "long", "rows"])
   , (2, ["wrap", "all", "rows"])

@@ -88,6 +88,9 @@ signals =
   , makeSignal c_QAbstractSlider "valueChanged" c_ListenerInt
   ]
 
+-- This uses 'makeEnum' rather than 'makeQtEnum' and also drops a "Slider"
+-- prefix off of the start of each value name, unlike most Qt enums, because
+-- 'QAbstractSliderSliderAction_SliderNoAction' is a tad too repetetive.
 e_SliderAction =
   addReqIncludes [includeStd "QAbstractSlider"] $
   makeEnum (ident1 "QAbstractSlider" "SliderAction") (Just $ toExtName "QAbstractSliderAction")

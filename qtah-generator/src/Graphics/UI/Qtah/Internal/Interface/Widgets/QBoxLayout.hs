@@ -84,7 +84,7 @@ c_QBoxLayout =
   ]
 
 e_Direction =
-  makeQtEnum (ident1 "QBoxLayout" "Direction")
+  makeQtEnum (ident1 "QBoxLayout" "Direction") [includeStd "QBoxLayout"]
   [ (0, ["left", "to", "right"])
   , (1, ["right", "to", "left"])
   , (2, ["top", "to", "bottom"])

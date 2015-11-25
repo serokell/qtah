@@ -27,7 +27,6 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   makeClass,
-  makeEnum,
   mkConstMethod,
   mkCtor,
   mkMethod,
@@ -79,8 +78,7 @@ signals =
   ]
 
 e_StackingMode =
-  addReqIncludes [includeStd "QStackedLayout"] $
-  makeEnum (ident1 "QStackedLayout" "StackingMode") Nothing
+  makeQtEnum (ident1 "QStackedLayout" "StackingMode") [includeStd "QStackedLayout"]
   [ (0, ["stack", "one"])
   , (1, ["stack", "all"])
   ]

@@ -28,7 +28,6 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   makeClass,
-  makeEnum,
   mkBoolIsProp,
   mkCtor,
   mkMethod,
@@ -46,9 +45,9 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 aModule =
   AQtModule $
   makeQtModule ["Widgets", "QDialog"] $
-  [ QtExport $ ExportClass c_QDialog
-  , QtExport $ ExportEnum e_DialogCode
-  ] ++ map QtExportSignal signals
+  QtExport (ExportClass c_QDialog) :
+  map QtExportSignal signals ++
+  [ QtExport $ ExportEnum e_DialogCode ]
 
 c_QDialog =
   addReqIncludes [includeStd "QDialog"] $
@@ -76,7 +75,7 @@ signals =
   ]
 
 e_DialogCode =
-  makeEnum (ident1 "QDialog" "DialogCode") Nothing
+  makeQtEnum (ident1 "QDialog" "DialogCode") [includeStd "QDialog"]
   [ (0, ["rejected"])
   , (1, ["accepted"])
   ]

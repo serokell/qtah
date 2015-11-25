@@ -59,8 +59,7 @@ c_QSlider =
   ]
 
 e_TickPosition =
-  addReqIncludes [includeStd "QSlider"] $
-  makeQtEnum (ident1 "QSlider" "TickPosition")
+  makeQtEnum (ident1 "QSlider" "TickPosition") [includeStd "QSlider"]
   [ (0, ["no", "ticks"])
   , (1, ["ticks", "both", "sides"])
   , (2, ["ticks", "above"])

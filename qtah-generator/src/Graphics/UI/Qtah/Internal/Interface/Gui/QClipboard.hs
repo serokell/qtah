@@ -89,8 +89,7 @@ signals =
   ]
 
 e_Mode =
-  addReqIncludes [includeStd "QClipboard"] $
-  makeQtEnum (ident1 "QClipboard" "Mode")
+  makeQtEnum (ident1 "QClipboard" "Mode") [includeStd "QClipboard"]
   [ (0, ["clipboard"])
   , (1, ["selection"])
   , (2, ["find", "buffer"])

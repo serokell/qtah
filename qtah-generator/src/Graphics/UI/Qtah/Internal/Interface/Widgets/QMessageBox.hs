@@ -147,8 +147,7 @@ signals =
   ]
 
 e_ButtonRole =
-  addReqIncludes [includeStd "QMessageBox"] $
-  makeQtEnum (ident1 "QMessageBox" "ButtonRole")
+  makeQtEnum (ident1 "QMessageBox" "ButtonRole") [includeStd "QMessageBox"]
   [ (-1, ["invalid", "role"])
   , (0, ["accept", "role"])
   , (1, ["reject", "role"])
@@ -162,8 +161,7 @@ e_ButtonRole =
   ]
 
 e_Icon =
-  addReqIncludes [includeStd "QMessageBox"] $
-  makeQtEnum (ident1 "QMessageBox" "Icon")
+  makeQtEnum (ident1 "QMessageBox" "Icon") [includeStd "QMessageBox"]
   [ (0, ["no", "icon"])
   , (1, ["information"])
   , (2, ["warning"])
@@ -173,6 +171,7 @@ e_Icon =
 
 (e_StandardButton, bs_StandardButtons) =
   makeQtEnumBitspace (ident1 "QMessageBox" "StandardButton") "StandardButtons"
+  [includeStd "QMessageBox"]
   [ (0x00000400, ["ok"])
   , (0x00002000, ["open"])
   , (0x00000800, ["save"])

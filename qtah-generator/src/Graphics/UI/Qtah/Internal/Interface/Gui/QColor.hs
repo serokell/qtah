@@ -219,15 +219,13 @@ c_QColor =
 
 -- Introduced in Qt 5.2.
 e_NameFormat =
-  addReqIncludes [includeStd "QColor"] $
-  makeQtEnum (ident1 "QColor" "NameFormat")
+  makeQtEnum (ident1 "QColor" "NameFormat") [includeStd "QColor"]
   [ (0, ["hex", "rgb"])
   , (1, ["hex", "argb"])
   ]
 
 e_Spec =
-  addReqIncludes [includeStd "QColor"] $
-  makeQtEnum (ident1 "QColor" "Spec")
+  makeQtEnum (ident1 "QColor" "Spec") [includeStd "QColor"]
   [ (0, ["invalid"])
   , (1, ["rgb"])
   , (2, ["hsv"])

@@ -131,7 +131,7 @@ c_QDir =
   ]
 
 (e_Filter, bs_Filters) =
-  makeQtEnumBitspace (ident1 "QDir" "Filter") "Filters" $
+  makeQtEnumBitspace (ident1 "QDir" "Filter") "Filters" [includeStd "QDir"] $
   let dirs = 0x1
       allDirs = 0x400
       files = 0x2
@@ -167,7 +167,7 @@ c_QDir =
      ]
 
 (e_SortFlag, bs_SortFlags) =
-  makeQtEnumBitspace (ident1 "QDir" "SortFlag") "SortFlags"
+  makeQtEnumBitspace (ident1 "QDir" "SortFlag") "SortFlags" [includeStd "QDir"]
   [ (0x00, ["name"])
   , (0x01, ["time"])
   , (0x02, ["size"])

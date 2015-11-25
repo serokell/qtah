@@ -154,7 +154,7 @@ c_QChar =
   ]
 
 e_Category =
-  makeQtEnum (ident1 "QChar" "Category")
+  makeQtEnum (ident1 "QChar" "Category") [includeStd "QChar"]
   [ -- Normative.
     (1, ["mark", "non", "spacing"])
   , (2, ["mark", "spacing", "combining"])
@@ -191,7 +191,7 @@ e_Category =
   ]
 
 e_Decomposition =
-  makeQtEnum (ident1 "QChar" "Decomposition")
+  makeQtEnum (ident1 "QChar" "Decomposition") [includeStd "QChar"]
   [ (0, ["no", "decomposition"])
   , (1, ["canonical"])
   , (8, ["circle"])
@@ -213,7 +213,7 @@ e_Decomposition =
   ]
 
 e_Direction =
-  makeQtEnum (ident1 "QChar" "Direction")
+  makeQtEnum (ident1 "QChar" "Direction") [includeStd "QChar"]
   [ (13, ["dir", "al"])
   , (5, ["dir", "an"])
   , (7, ["dir", "b"])
@@ -237,7 +237,7 @@ e_Direction =
 
 -- | Removed in Qt 5.3.0.
 e_Joining =
-  makeQtEnum (ident1 "QChar" "Joining")
+  makeQtEnum (ident1 "QChar" "Joining") [includeStd "QChar"]
   [ (3, ["center"])
   , (1, ["dual"])
   , (0, ["other", "joining"])
@@ -246,7 +246,7 @@ e_Joining =
 
 -- | Since Qt 5.3.0.
 e_JoiningType =
-  makeQtEnum (ident1 "QChar" "JoiningType")
+  makeQtEnum (ident1 "QChar" "JoiningType") [includeStd "QChar"]
   [ (0, ["joining", "none"])
   , (1, ["joining", "causing"])
   , (2, ["joining", "dual"])
@@ -256,7 +256,7 @@ e_JoiningType =
   ]
 
 e_SpecialCharacter =
-  makeQtEnum (ident1 "QChar" "SpecialCharacter")
+  makeQtEnum (ident1 "QChar" "SpecialCharacter") [includeStd "QChar"]
   [ (0x0000, ["null"])
   , (0x00a0, ["nbsp"])
   , (0x2028, ["line", "separator"])
@@ -268,7 +268,7 @@ e_SpecialCharacter =
   ]
 
 e_UnicodeVersion =
-  makeQtEnum (ident1 "QChar" "UnicodeVersion")
+  makeQtEnum (ident1 "QChar" "UnicodeVersion") [includeStd "QChar"]
   [ (1, ["unicode", "1_1"])
   , (2, ["unicode", "2_0"])
   , (3, ["unicode", "2_1_2"])

@@ -27,7 +27,6 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   makeClass,
-  makeEnum,
   mkConstMethod,
   mkCtor,
   mkMethod,
@@ -156,13 +155,13 @@ signals =
   ]
 
 e_AcceptMode =
-  makeEnum (ident1 "QFileDialog" "AcceptMode") Nothing
+  makeQtEnum (ident1 "QFileDialog" "AcceptMode") [includeStd "QFileDialog"]
   [ (0, ["accept", "open"])
   , (1, ["accept", "save"])
   ]
 
 e_DialogLabel =
-  makeEnum (ident1 "QFileDialog" "DialogLabel") Nothing
+  makeQtEnum (ident1 "QFileDialog" "DialogLabel") [includeStd "QFileDialog"]
   [ (0, ["look", "in"])
   , (1, ["file", "name"])
   , (2, ["file", "type"])
@@ -171,7 +170,7 @@ e_DialogLabel =
   ]
 
 e_FileMode =
-  makeEnum (ident1 "QFileDialog" "FileMode") Nothing $
+  makeQtEnum (ident1 "QFileDialog" "FileMode") [includeStd "QFileDialog"] $
   collect
   [ just (0, ["any", "file"])
   , just (1, ["existing", "file"])
@@ -181,7 +180,7 @@ e_FileMode =
   ]
 
 (e_Option, bs_Options) =
-  makeQtEnumBitspace (ident1 "QFileDialog" "Option") "Options"
+  makeQtEnumBitspace (ident1 "QFileDialog" "Option") "Options" [includeStd "QFileDialog"]
   [ (0x1, ["show", "dirs", "only"])
   , (0x2, ["dont", "resolve", "symlinks"])
   , (0x4, ["dont", "confirm", "overwrite"])
@@ -193,7 +192,7 @@ e_FileMode =
   ]
 
 e_ViewMode =
-  makeEnum (ident1 "QFileDialog" "ViewMode") Nothing
+  makeQtEnum (ident1 "QFileDialog" "ViewMode") [includeStd "QFileDialog"]
   [ (0, ["detail"])
   , (1, ["list"])
   ]

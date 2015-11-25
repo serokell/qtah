@@ -124,7 +124,7 @@ signals =
   ]
 
 e_EchoMode =
-  makeQtEnum (ident1 "QLineEdit" "EchoMode")
+  makeQtEnum (ident1 "QLineEdit" "EchoMode") [includeStd "QLineEdit"]
   [ (0, ["normal"])
   , (1, ["no", "echo"])
   , (2, ["password"])
