@@ -22,12 +22,14 @@ import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider as QAbstractSlider
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication as QApplication
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAction as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup as QActionGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup as QButtonGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog as QDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout as QFormLayout
@@ -44,6 +46,8 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton as QRadioButton
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar as QScrollBar
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider as QSlider
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout as QStackedLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar as QStatusBar
@@ -58,12 +62,14 @@ modules =
   collect
   [ just QAbstractButton.aModule
   , just QAbstractScrollArea.aModule
+  , just QAbstractSlider.aModule
   , just QApplication.aModule
   , just QAction.aModule
   , just QActionGroup.aModule
   , just QBoxLayout.aModule
   , just QButtonGroup.aModule
   , just QCheckBox.aModule
+  , just QDial.aModule
   , just QDialog.aModule
   , just QFileDialog.aModule
   , test (qtVersion >= QFormLayout.minVersion) QFormLayout.aModule
@@ -80,6 +86,8 @@ modules =
   , just QMenuBar.aModule
   , just QPushButton.aModule
   , just QRadioButton.aModule
+  , just QScrollBar.aModule
+  , just QSlider.aModule
   , just QSplitter.aModule
   , just QStackedLayout.aModule
   , just QStatusBar.aModule

@@ -64,12 +64,14 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QAction
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QDial
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout
@@ -84,6 +86,8 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar

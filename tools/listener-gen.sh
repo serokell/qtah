@@ -78,6 +78,7 @@ forEachListener() {
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
+    $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
     $fn QClipboardMode "QClipboard::Mode"
     $fn QPoint "QPoint"
     $fn QSize "QSize"
@@ -102,6 +103,7 @@ if [[ -n $cppDir ]]; then
     sayHpp
     sayHpp '#include <string>'
     sayHpp '#include <QAbstractButton>'
+    sayHpp '#include <QAbstractSlider>'
     sayHpp '#include <QAction>'
     sayHpp '#include <QClipboard>'
     sayHpp '#include <QObject>'

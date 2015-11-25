@@ -35,6 +35,9 @@ import {-# SOURCE #-} qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboa
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
   c_QAbstractButton,
   )
+import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider (
+  e_SliderAction,
+  )
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
@@ -53,6 +56,7 @@ aModule =
   , ExportCallback cb_PtrQActionVoid
   , ExportCallback cb_PtrQObjectVoid
   , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
+  , ExportCallback cb_QAbstractSliderActionVoid
   , ExportCallback cb_QClipboardModeVoid
   , ExportCallback cb_QPointVoid
   , ExportCallback cb_QSizeVoid
@@ -95,6 +99,10 @@ cb_PtrQObjectVoid =
 cb_PtrQWidgetPtrQWidgetVoid =
   makeCallback (toExtName "CallbackPtrQWidgetPtrQWidgetVoid")
   [TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
+
+cb_QAbstractSliderActionVoid =
+  makeCallback (toExtName "CallbackQAbstractSliderActionVoid")
+  [TEnum e_SliderAction] TVoid
 
 cb_QClipboardModeVoid =
   makeCallback (toExtName "CallbackQClipboardModeVoid")
