@@ -32,8 +32,8 @@ import Data.Maybe (isJust)
 #if !MIN_VERSION_base(4,8,0)
 import Data.Monoid (mconcat)
 #endif
-import Foreign.Hoppy.Generator.Language.Cpp.General (execChunkWriter, sayType)
-import Foreign.Hoppy.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Cpp (execChunkWriter, sayType)
+import Foreign.Hoppy.Generator.Language.Haskell (
   Generator,
   HsTypeSide (HsHsSide),
   addExport,

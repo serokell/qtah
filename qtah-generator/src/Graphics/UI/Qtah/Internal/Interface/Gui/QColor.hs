@@ -21,7 +21,7 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QColor (
   ) where
 
 import Control.Monad (forM_)
-import Foreign.Hoppy.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
   indent,
   sayLn,

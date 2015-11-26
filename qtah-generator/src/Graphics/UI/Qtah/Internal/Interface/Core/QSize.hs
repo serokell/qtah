@@ -25,7 +25,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QSize (
 #if !MIN_VERSION_base(4,8,0)
 import Data.Monoid (mconcat)
 #endif
-import Foreign.Hoppy.Generator.Language.Haskell.General (
+import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
   indent,
   sayLn,
