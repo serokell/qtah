@@ -104,7 +104,7 @@ instantiate' listName t tReqs opts =
       hasReserve = qtVersion >= [4, 7]
 
       list =
-        addUseReqs reqs $
+        addReqs reqs $
         addAddendumHaskell addendum $
         classModifyConversion addConversion $
         classAddFeatures features $
