@@ -23,7 +23,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   MethodApplicability (MStatic),
   Purity (Nonpure),
-  Type (TBool, TEnum, TInt, TObj, TObjToHeap, TPtr, TVoid),
+  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -77,7 +77,7 @@ c_QApplication =
   , just $ mkStaticMethod "activeModalWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "activePopupWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "alert" [TPtr $ TObj c_QWidget, TInt] TVoid
-  , just $ mkStaticMethod' "allWidgets" "allWidgetsNew" [] $ TObjToHeap c_QListQWidget
+  , just $ mkStaticMethod "allWidgets" [] $ TObj c_QListQWidget
   , just $ mkStaticMethod "beep" [] TVoid
     -- TODO changeOverrideCursor
   , just $ mkStaticMethod "clipboard" [] $ TPtr $ TObj c_QClipboard

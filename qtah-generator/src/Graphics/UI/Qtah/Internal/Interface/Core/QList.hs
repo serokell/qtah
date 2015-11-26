@@ -56,7 +56,6 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Std (ValueConversion (ConvertPtr, ConvertValue))
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -65,6 +64,11 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Imports
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
+import Language.Haskell.Syntax (
+  HsQName (Special),
+  HsSpecialCon (HsListCon),
+  HsType (HsTyApp, HsTyCon),
+  )
 
 -- | Options for instantiating the list classes.
 data Options = Options
@@ -72,12 +76,11 @@ data Options = Options
     -- ^ Additional features to add to the @QList@ class.  Lists are always
     -- 'Assignable' and 'Copyable', but you may want to add 'Equatable' if your
     -- value type supports it.
-  , optValueConversion :: Maybe ValueConversion
   }
 
 -- | The default options have no additional 'ClassFeature's.
 defaultOptions :: Options
-defaultOptions = Options [] Nothing
+defaultOptions = Options []
 
 -- | A set of instantiated classes.
 data Contents = Contents
@@ -98,18 +101,12 @@ instantiate' listName t tReqs opts =
                      , reqInclude $ includeLocal "wrap_qlist.hpp"
                      ]
       features = Assignable : Copyable : optListClassFeatures opts
-      conversion = optValueConversion opts
-      isValueConvertible = case conversion of
-        Nothing -> False
-        Just ConvertPtr -> False
-        Just ConvertValue -> True
       hasReserve = qtVersion >= [4, 7]
 
       list =
-        (case conversion of
-           Nothing -> id
-           Just conversion -> addAddendumHaskell $ makeAddendum conversion) $
         addUseReqs reqs $
+        addAddendumHaskell addendum $
+        classModifyConversion addConversion $
         classAddFeatures features $
         makeClass (identT "QList" [t]) (Just $ toExtName listName) []
         [ mkCtor "new" []
@@ -128,7 +125,7 @@ instantiate' listName t tReqs opts =
           -- OMIT erase
         , just $ mkMethod' "first" "first" [] $ TRef t
         , just $ mkConstMethod' "first" "firstConst" [] $ TRef $ TConst t
-        , test isValueConvertible $ mkConstMethod' OpArray "get" [TInt] t
+        , just $ mkConstMethod' OpArray "get" [TInt] t
         , just $ mkConstMethod' "indexOf" "indexOf" [t] TInt
         , just $ mkConstMethod' "indexOf" "indexOfFrom" [t, TInt] TInt
         , just $ mkMethod "insert" [TInt, t] TVoid
@@ -155,39 +152,33 @@ instantiate' listName t tReqs opts =
         , test (qtVersion >= [4, 5]) $ mkConstMethod "startsWith" [t] TBool
         , just $ mkMethod "swap" [TInt, TInt] TVoid
           -- OMIT swap(QList<T>&)
-        , test isValueConvertible $ mkMethod "takeAt" [TInt] t
-        , test isValueConvertible $ mkMethod "takeFirst" [] t
-        , test isValueConvertible $ mkMethod "takeLast" [] t
+        , just $ mkMethod "takeAt" [TInt] t
+        , just $ mkMethod "takeFirst" [] t
+        , just $ mkMethod "takeLast" [] t
           -- TODO toSet
           -- TODO toStdList
           -- TODO toVector
-        , test isValueConvertible $ mkConstMethod' "value" "value" [TInt] t
-        , test isValueConvertible $ mkConstMethod' "value" "valueOr" [TInt, t] t
+        , just $ mkConstMethod' "value" "value" [TInt] t
+        , just $ mkConstMethod' "value" "valueOr" [TInt, t] t
           -- OMIT operator+ because it creates a new object quietly (would need
           -- TObjToHeap).
         ]
 
       -- The addendum for the list class contains HasContents and FromContents
       -- instances.
-      makeAddendum conversion = do
+      addendum = do
         addImports $ mconcat [hsImport1 "Prelude" "(-)",
+                              hsImport1 "Control.Monad" "(<=<)",
                               importForPrelude,
                               importForRuntime]
-        when (conversion == ConvertValue) $
-          addImports $ hsImport1 "Control.Monad" "(<=<)"
         when hasReserve $
           addImports $ hsImport1 "Prelude" "($)"
 
         forM_ [Const, Nonconst] $ \cst -> do
           let hsDataTypeName = toHsDataTypeName cst list
-          hsValueType <-
-            cppTypeToHsTypeAndUse HsHsSide $
-            (case conversion of
-               ConvertPtr -> TPtr
-               ConvertValue -> id) $
-            case cst of
-              Const -> TConst t
-              Nonconst -> t
+          hsValueType <- cppTypeToHsTypeAndUse HsHsSide $ case cst of
+            Const -> TConst t
+            Nonconst -> t
 
           -- Generate const and nonconst HasContents instances.
           ln
@@ -200,10 +191,7 @@ instantiate' listName t tReqs opts =
                     Const -> "atConst"
                     Nonconst -> "at"
               saysLn ["size' <- ", toHsMethodName' list "size", " this'"]
-              saysLn ["QtahP.mapM (",
-                      case conversion of
-                        ConvertPtr -> ""
-                        ConvertValue -> "QtahFHR.decode <=< ",
+              saysLn ["QtahP.mapM (QtahFHR.decode <=< ",
                       toHsMethodName' list listAt, " this') [0..size'-1]"]
 
           -- Only generate a nonconst FromContents instance.
@@ -220,6 +208,23 @@ instantiate' listName t tReqs opts =
                           " list' $ QtahFHR.coerceIntegral $ QtahP.length values'"]
                 saysLn ["QtahP.mapM_ (", toHsMethodName' list "append", " list') values'"]
                 sayLn "QtahP.return list'"
+
+      -- A QList of some type converts into a Haskell list of the corresponding
+      -- type using HasContents/FromContents.
+      addConversion c =
+        c { classHaskellConversion =
+            Just ClassHaskellConversion
+            { classHaskellConversionType = do
+              hsType <- cppTypeToHsTypeAndUse HsHsSide t
+              return $ HsTyApp (HsTyCon $ Special $ HsListCon) hsType
+            , classHaskellConversionToCppFn = do
+              addImports importForRuntime
+              sayLn "QtahFHR.fromContents"
+            , classHaskellConversionFromCppFn = do
+              addImports importForRuntime
+              sayLn "QtahFHR.toContents"
+            }
+          }
 
   in Contents
      { c_QList = list
@@ -248,8 +253,7 @@ qmod_Int = createModule "Int" contents_Int
 
 contents_Int :: Contents
 contents_Int =
-  instantiate' "QListInt" TInt mempty $
-  defaultOptions { optValueConversion = Just ConvertValue }
+  instantiate "QListInt" TInt mempty
 
 c_QListInt :: Class
 c_QListInt = c_QList contents_Int
@@ -258,9 +262,7 @@ qmod_QAbstractButton :: QtModule
 qmod_QAbstractButton = createModule "QAbstractButton" contents_QAbstractButton
 
 contents_QAbstractButton :: Contents
-contents_QAbstractButton =
-  instantiate' "QListQAbstractButton" (TPtr $ TObj c_QAbstractButton) mempty $
-  defaultOptions { optValueConversion = Just ConvertValue }
+contents_QAbstractButton = instantiate "QListQAbstractButton" (TPtr $ TObj c_QAbstractButton) mempty
 
 c_QListQAbstractButton :: Class
 c_QListQAbstractButton = c_QList contents_QAbstractButton
@@ -269,9 +271,7 @@ qmod_QObject :: QtModule
 qmod_QObject = createModule "QObject" contents_QObject
 
 contents_QObject :: Contents
-contents_QObject =
-  instantiate' "QListQObject" (TPtr $ TObj c_QObject) mempty $
-  defaultOptions { optValueConversion = Just ConvertValue }
+contents_QObject = instantiate "QListQObject" (TPtr $ TObj c_QObject) mempty
 
 c_QListQObject :: Class
 c_QListQObject = c_QList contents_QObject
@@ -280,9 +280,7 @@ qmod_QString :: QtModule
 qmod_QString = createModule "QString" contents_QString
 
 contents_QString :: Contents
-contents_QString =
-  instantiate' "QListQString" (TObj c_QString) mempty $
-  defaultOptions { optValueConversion = Just ConvertValue }
+contents_QString = instantiate "QListQString" (TObj c_QString) mempty
 
 c_QListQString :: Class
 c_QListQString = c_QList contents_QString
@@ -291,9 +289,7 @@ qmod_QWidget :: QtModule
 qmod_QWidget = createModule "QWidget" contents_QWidget
 
 contents_QWidget :: Contents
-contents_QWidget =
-  instantiate' "QListQWidget" (TPtr $ TObj c_QWidget) mempty $
-  defaultOptions { optValueConversion = Just ConvertValue }
+contents_QWidget = instantiate "QListQWidget" (TPtr $ TObj c_QWidget) mempty
 
 c_QListQWidget :: Class
 c_QListQWidget = c_QList contents_QWidget

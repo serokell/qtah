@@ -22,14 +22,13 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TInt, TObj, TObjToHeap, TPtr, TVoid),
+  Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
   mkConstMethod,
   mkMethod,
-  mkMethod',
   mkProp,
   mkProps,
   )
@@ -54,7 +53,7 @@ c_QObject =
   [] $
   collect
   [ just $ mkMethod "blockSignals" [TBool] TBool
-  , just $ mkMethod' "children" "childrenNew" [] $ TObjToHeap c_QListQObject
+  , just $ mkMethod "children" [] $ TObj c_QListQObject
     -- TODO connect
   , just $ mkMethod "deleteLater" [] TVoid
     -- TODO disconnect

@@ -21,13 +21,12 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TInt, TObj, TObjToHeap, TPtr, TVoid),
+  Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
   mkConstMethod,
-  mkConstMethod',
   mkCtor,
   mkMethod,
   mkMethod',
@@ -65,7 +64,7 @@ c_QButtonGroup =
   [ just $ mkMethod' "addButton" "addButton" [TPtr $ TObj c_QAbstractButton] TVoid
   , just $ mkMethod' "addButton" "addButtonWithId" [TPtr $ TObj c_QAbstractButton, TInt] TVoid
   , test (qtVersion >= [4, 1]) $ mkConstMethod "button" [TInt] $ TPtr $ TObj c_QAbstractButton
-  , just $ mkConstMethod' "buttons" "buttonsNew" [] $ TObjToHeap c_QListQAbstractButton
+  , just $ mkConstMethod "buttons" [] $ TObj c_QListQAbstractButton
   , just $ mkConstMethod "checkedButton" [] $ TPtr $ TObj c_QAbstractButton
   , test (qtVersion >= [4, 1]) $ mkConstMethod "checkedId" [] TInt
   , test (qtVersion >= [4, 1]) $ mkConstMethod "id" [TPtr $ TObj c_QAbstractButton] TInt

@@ -21,14 +21,13 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMessageBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportClass, ExportEnum),
-  Type (TBitspace, TEnum, TObj, TObjToHeap, TPtr, TVoid),
+  Type (TBitspace, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
   includeStd,
   makeClass,
   mkConstMethod,
-  mkConstMethod',
   mkCtor,
   mkMethod,
   mkMethod',
@@ -86,8 +85,7 @@ c_QMessageBox =
     [TEnum e_StandardButton] $ TPtr $ TObj c_QAbstractButton
   , test (qtVersion >= [4, 5]) $ mkConstMethod "buttonRole"
     [TPtr $ TObj c_QAbstractButton] $ TEnum e_ButtonRole
-  , test (qtVersion >= [4, 5]) $ mkConstMethod' "buttons" "buttonsNew"
-    [] $ TObjToHeap c_QListQAbstractButton
+  , test (qtVersion >= [4, 5]) $ mkConstMethod "buttons" [] $ TObj c_QListQAbstractButton
   , test (qtVersion >= [4, 2]) $ mkConstMethod "clickedButton" [] $ TPtr $ TObj c_QAbstractButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "critical" "critical"
     [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TEnum e_StandardButton
