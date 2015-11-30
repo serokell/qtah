@@ -65,8 +65,11 @@ library
     , Graphics.UI.Qtah.Widgets.QMenu
     , Graphics.UI.Qtah.Widgets.QMenuBar
     , Graphics.UI.Qtah.Widgets.QMessageBox
+    , Graphics.UI.Qtah.Widgets.QProgressBar
     , Graphics.UI.Qtah.Widgets.QPushButton
     , Graphics.UI.Qtah.Widgets.QRadioButton
+    , Graphics.UI.Qtah.Widgets.QRubberBand
+    , Graphics.UI.Qtah.Widgets.QScrollArea
     , Graphics.UI.Qtah.Widgets.QScrollBar
     , Graphics.UI.Qtah.Widgets.QSlider
     , Graphics.UI.Qtah.Widgets.QSplitter
@@ -118,8 +121,11 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QMenu
     , Graphics.UI.Qtah.Generated.Widgets.QMenuBar
     , Graphics.UI.Qtah.Generated.Widgets.QMessageBox
+    , Graphics.UI.Qtah.Generated.Widgets.QProgressBar
     , Graphics.UI.Qtah.Generated.Widgets.QPushButton
     , Graphics.UI.Qtah.Generated.Widgets.QRadioButton
+    , Graphics.UI.Qtah.Generated.Widgets.QRubberBand
+    , Graphics.UI.Qtah.Generated.Widgets.QScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QScrollBar
     , Graphics.UI.Qtah.Generated.Widgets.QSlider
     , Graphics.UI.Qtah.Generated.Widgets.QSplitter

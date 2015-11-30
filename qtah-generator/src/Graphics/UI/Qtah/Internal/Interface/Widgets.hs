@@ -45,8 +45,11 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow as QMai
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar as QMenuBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QMessageBox as QMessageBox
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QProgressBar as QProgressBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton as QRadioButton
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRubberBand as QRubberBand
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollArea as QScrollArea
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar as QScrollBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider as QSlider
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
@@ -86,8 +89,11 @@ modules =
   , just QMenu.aModule
   , just QMenuBar.aModule
   , just QMessageBox.aModule
+  , just QProgressBar.aModule
   , just QPushButton.aModule
   , just QRadioButton.aModule
+  , just QRubberBand.aModule
+  , just QScrollArea.aModule
   , just QScrollBar.aModule
   , just QSlider.aModule
   , just QSplitter.aModule

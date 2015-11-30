@@ -85,8 +85,11 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMessageBox
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QProgressBar
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QRubberBand
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollArea
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter
