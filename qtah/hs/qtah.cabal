@@ -78,6 +78,7 @@ library
     , Graphics.UI.Qtah.Widgets.QSplitter
     , Graphics.UI.Qtah.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Widgets.QTabWidget
     , Graphics.UI.Qtah.Widgets.QTextEdit
     , Graphics.UI.Qtah.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Widgets.QWidget
@@ -137,6 +138,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QSplitter
     , Graphics.UI.Qtah.Generated.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generated.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Generated.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QWidget

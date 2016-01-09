@@ -95,6 +95,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QTabWidget
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget

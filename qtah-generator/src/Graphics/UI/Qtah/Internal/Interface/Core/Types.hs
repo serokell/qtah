@@ -32,6 +32,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_Orientation,
   bs_Orientations,
   e_ScrollBarPolicy,
+  e_TextElideMode,
   e_TextFormat,
   e_TextInteractionFlag,
   bs_TextInteractionFlags,
@@ -71,6 +72,7 @@ exports =
   , ExportEnum e_Orientation
   , ExportBitspace bs_Orientations
   , ExportEnum e_ScrollBarPolicy
+  , ExportEnum e_TextElideMode
   , ExportEnum e_TextFormat
   , ExportEnum e_TextInteractionFlag
   , ExportBitspace bs_TextInteractionFlags
@@ -185,6 +187,14 @@ e_ScrollBarPolicy =
   [ (0, ["scroll", "bar", "as", "needed"])
   , (1, ["scroll", "bar", "always", "off"])
   , (2, ["scroll", "bar", "always", "on"])
+  ]
+
+e_TextElideMode =
+  makeQtEnum (ident1 "Qt" "TextElideMode") qtInclude
+  [ (0, ["elide", "left"])
+  , (1, ["elide", "right"])
+  , (2, ["elide", "middle"])
+  , (3, ["elide", "none"])
   ]
 
 e_TextFormat =
