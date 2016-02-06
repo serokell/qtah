@@ -12,12 +12,84 @@ category: Graphics
 build-type: Simple
 cabal-version: >=1.10
 
-flag qt48
+flag qt4_0
+     description: Compile for Qt 4.0.
+     default: False
+
+flag qt4_1
+     description: Compile for Qt 4.1.
+     default: False
+
+flag qt4_2
+     description: Compile for Qt 4.2.
+     default: False
+
+flag qt4_3
+     description: Compile for Qt 4.3.
+     default: False
+
+flag qt4_4
+     description: Compile for Qt 4.4.
+     default: False
+
+flag qt4_5
+     description: Compile for Qt 4.5.
+     default: False
+
+flag qt4_6
+     description: Compile for Qt 4.6.
+     default: False
+
+flag qt4_7
+     description: Compile for Qt 4.7.
+     default: False
+
+flag qt4_8
      description: Compile for Qt 4.8.
      default: False
 
-flag qt54
+flag qt4_9
+     description: Compile for Qt 4.9.
+     default: False
+
+flag qt5_0
+     description: Compile for Qt 5.0.
+     default: False
+
+flag qt5_1
+     description: Compile for Qt 5.1.
+     default: False
+
+flag qt5_2
+     description: Compile for Qt 5.2.
+     default: False
+
+flag qt5_3
+     description: Compile for Qt 5.3.
+     default: False
+
+flag qt5_4
      description: Compile for Qt 5.4.
+     default: False
+
+flag qt5_5
+     description: Compile for Qt 5.5.
+     default: False
+
+flag qt5_6
+     description: Compile for Qt 5.6.
+     default: False
+
+flag qt5_7
+     description: Compile for Qt 5.7.
+     default: False
+
+flag qt5_8
+     description: Compile for Qt 5.8.
+     default: False
+
+flag qt5_9
+     description: Compile for Qt 5.9.
      default: False
 
 flag qrealFloat
@@ -104,10 +176,46 @@ executable qtah-generator
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
 
-  if flag(qt48)
+  if flag(qt4_0)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=0
+  if flag(qt4_1)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=1
+  if flag(qt4_2)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=2
+  if flag(qt4_3)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=3
+  if flag(qt4_4)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=4
+  if flag(qt4_5)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=5
+  if flag(qt4_6)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=6
+  if flag(qt4_7)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=7
+  if flag(qt4_8)
     cpp-options: -DQT_MAJOR=4 -DQT_MINOR=8
-  if flag(qt54)
+  if flag(qt4_9)
+    cpp-options: -DQT_MAJOR=4 -DQT_MINOR=9
+  if flag(qt5_0)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=0
+  if flag(qt5_1)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=1
+  if flag(qt5_2)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=2
+  if flag(qt5_3)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=3
+  if flag(qt5_4)
     cpp-options: -DQT_MAJOR=5 -DQT_MINOR=4
+  if flag(qt5_5)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=5
+  if flag(qt5_6)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=6
+  if flag(qt5_7)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=7
+  if flag(qt5_8)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=8
+  if flag(qt5_9)
+    cpp-options: -DQT_MAJOR=5 -DQT_MINOR=9
 
   if flag(qrealFloat)
     cpp-options: -DQREAL_FLOAT=True

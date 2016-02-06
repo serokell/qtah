@@ -17,9 +17,26 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Cleans up generated build outputs.
+
 set -euo pipefail
-declare -r projectDir="$(dirname "$(readlink -f "$0")")"
+projectDir=$(readlink -f "$0")
+projectDir=$(dirname "$projectDir")
+declare -r projectDir
 . "$projectDir/common.sh"
+
+usage() {
+    cat <<EOF
+clean.sh - Qtah build clean-up script
+
+Removes all build outputs created by the build script build.sh.
+EOF
+}
+
+if [[ ${1:-} = --help ]]; then
+    usage
+    exit 0
+fi
 
 run cd "$projectDir/qtah/hs"
 run cabal clean

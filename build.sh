@@ -17,11 +17,51 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Accepts MAKEOPTS.
+# Builds Qtah.  See --help.
 
 set -euo pipefail
-declare -r projectDir="$(dirname "$(readlink -f "$0")")"
+projectDir=$(readlink -f "$0")
+projectDir=$(dirname "$projectDir")
+declare -r projectDir
 . "$projectDir/common.sh"
+
+usage() {
+    cat <<EOF
+build.sh - Qtah build script
+
+Builds Qtah for a specific version of Qt's API.  Performs an incremental build,
+unless clean.sh is run first.  Some environment variables control this script's
+operation:
+
+  QTAH_QT_FLAG (required):
+
+    Specifies a version of the Qt API to generate bindings for.  This should be
+    a string of the form "qtX_Y" for Qt version X.Y.  Currently all 4.x and 5.x
+    versions are recognized by this script.
+
+  QT_SELECT:
+
+    For systems with qtchooser(1), this can be used to select which version of
+    the Qt headers and libraries to build against.  If omitted, then your
+    system's default Qt version will be used, and you should set a compatible
+    QTAH_QT_FLAG.
+
+  MAKEOPTS:
+
+    Arguments in this string are passed along to 'make' for building the C++
+    side of the bindings.
+EOF
+}
+
+if [[ ${1:-} = --help ]]; then
+    usage
+    exit 0
+fi
+
+if ! [[ $QTAH_QT_FLAG = qt*_* ]]; then
+    echo "build.sh: Please set QTAH_QT_FLAG.  See --help."
+    exit 1
+fi
 
 run "$projectDir/tools/listener-gen.sh" \
     --gen-cpp-dir "$projectDir/qtah/cpp" \
@@ -31,7 +71,7 @@ echo
 msg "Generating bindings."
 run mkdir -p "$projectDir/qtah/hs/src/Foreign/Hoppy/Generated"
 run cd "$projectDir/qtah-generator"
-run cabal configure --flags="${QTAH_QT_FLAG:-qt54}"
+run cabal configure --flags="${QTAH_QT_FLAG}"
 run cabal build
 run dist/build/qtah-generator/qtah-generator \
     --gen-cpp "$projectDir/qtah/cpp" \

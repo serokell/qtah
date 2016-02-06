@@ -34,9 +34,12 @@ Dependencies:
 Currently packaging for Qtah isn't entirely worked out, since it is split
 between a C++ glue component and a Haskell component.  The `build.sh` script
 takes care of building everything up to the bindings themselves (in `qtah/`).
-After building, the Haskell package in `qtah/hs` is installable and ready to
-use, although it's hard-coded to work with the C++ library built in
+After building, the Haskell package in `qtah/hs` is installable (`install.sh`)
+and ready to use, although it's hard-coded to work with the C++ library built in
 `qtah/cpp-build`.
+
+There is an example program that can be run with `run-example.sh` after building
+and installing Qtah.
 
 ## Developing
 
