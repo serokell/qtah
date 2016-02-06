@@ -21,6 +21,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication as QCoreApplication
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QDir as QDir
+import qualified Graphics.UI.Qtah.Internal.Interface.Core.QEvent as QEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QList as QList
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject
@@ -38,6 +39,7 @@ modules =
   [ QChar.aModule
   , QCoreApplication.aModule
   , QDir.aModule
+  , QEvent.aModule
   , QMargins.aModule
   , QObject.aModule
   , QPoint.aModule

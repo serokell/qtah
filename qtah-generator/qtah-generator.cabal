@@ -47,6 +47,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QChar
     , Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication
     , Graphics.UI.Qtah.Internal.Interface.Core.QDir
+    , Graphics.UI.Qtah.Internal.Interface.Core.QEvent
     , Graphics.UI.Qtah.Internal.Interface.Core.QList
     , Graphics.UI.Qtah.Internal.Interface.Core.QMargins
     , Graphics.UI.Qtah.Internal.Interface.Core.QObject
@@ -56,6 +57,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QString
     , Graphics.UI.Qtah.Internal.Interface.Core.QStringList
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
+    , Graphics.UI.Qtah.Internal.Interface.EventListener
     , Graphics.UI.Qtah.Internal.Interface.Gui
     , Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard
     , Graphics.UI.Qtah.Internal.Interface.Gui.QColor

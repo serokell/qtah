@@ -54,8 +54,8 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   toHsBitspaceTypeName,
   toHsBitspaceValueName,
   toHsCastMethodName,
-  toHsClassNullName,
   toHsDataTypeName,
+  toHsDownCastMethodName,
   toHsEnumTypeName,
   toHsFnName,
   toHsPtrClassName,
@@ -87,6 +87,7 @@ import Foreign.Hoppy.Generator.Spec (
   fnExtName,
   fromExtName,
   getClassyExtName,
+  hsImport1,
   hsImports,
   methodExtName,
   methodImpl,
@@ -98,7 +99,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import Graphics.UI.Qtah.Internal.Generator.Common (fromMaybeM, writeFileIfDifferent)
 import Graphics.UI.Qtah.Internal.Generator.Types (
-  QtExport (QtExport, QtExportFnRenamed, QtExportSignal),
+  QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal),
   QtModule,
   Signal,
   moduleNameAppend,
@@ -132,7 +133,7 @@ generateModule iface srcDir baseModuleName qtModule = do
           addImports $ hsImports "Prelude" []
 
           -- Generate bindings for all of the exports.
-          mapM_ sayQtExport qtExports
+          mapM_ (sayQtExport $ qtModulePath qtModule) qtExports
 
   case generation of
     Left errorMsg -> do
@@ -149,14 +150,17 @@ generateModule iface srcDir baseModuleName qtModule = do
 getFnReexportName :: Function -> String
 getFnReexportName = getFnImportName
 
-classCastReexportName :: String
-classCastReexportName = "cast"
+classUpCastReexportName :: String
+classUpCastReexportName = "cast"
 
-classConstCastReexportName :: String
-classConstCastReexportName = "castConst"
+classUpCastConstReexportName :: String
+classUpCastConstReexportName = "castConst"
 
-classNullReexportName :: String
-classNullReexportName = "null"
+classDownCastReexportName :: String
+classDownCastReexportName = "downCast"
+
+classDownCastConstReexportName :: String
+classDownCastConstReexportName = "downCastConst"
 
 classEncodeReexportName :: String
 classEncodeReexportName = "encode"
@@ -213,8 +217,8 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
     saysLn [classDecodeReexportName, " = QtahFHR.decode QtahP.. ", toHsCastMethodName Const cls]
 
-sayQtExport :: QtExport -> Generator ()
-sayQtExport qtExport = case qtExport of
+sayQtExport :: [String] -> QtExport -> Generator ()
+sayQtExport path qtExport = case qtExport of
   QtExport (ExportVariable v) -> do
     importHsModuleForExtName $ varExtName v
     addExport $ toHsFnName $ varGetterExtName v
@@ -244,42 +248,65 @@ sayQtExport qtExport = case qtExport of
 
   QtExport (ExportCallback _) -> return ()
 
-  QtExport (ExportClass cls) -> do
-    importHsModuleForExtName $ classExtName cls
-    addExports $
-      (toHsValueClassName cls ++ " (..)") :
-      (toHsPtrClassName Const cls ++ " (..)") :
-      (toHsPtrClassName Nonconst cls ++ " (..)") :
-      toHsDataTypeName Const cls :
-      toHsDataTypeName Nonconst cls :
-      classConstCastReexportName :
-      classCastReexportName :
-      classNullReexportName :
-      concat [ case classHaskellConversion $ classConversion cls of
-                 Nothing -> []
-                 Just _ -> [classEncodeReexportName, classDecodeReexportName]
-             , sort $ map (getCtorReexportName cls) $ classCtors cls
-             , sort $ map (getMethodReexportName cls) $ classMethods cls
-             ]
+  QtExport (ExportClass cls) -> sayExportClass cls
 
+  QtExportSignal sig -> sayExportSignal sig
+
+  QtExportEvent cls -> do
+    sayExportClass cls
+
+    let typeName = toHsDataTypeName Nonconst cls
+    addImports $ mconcat [hsImport1 "Prelude" "($)",
+                          importForEvent]
     ln
-    sayBind classConstCastReexportName $ toHsCastMethodName Const cls
-    sayBind classCastReexportName $ toHsCastMethodName Nonconst cls
-    sayBind classNullReexportName $ toHsClassNullName cls
-    sayClassEncodingFnReexports cls
-    forM_ (classCtors cls) $ \ctor ->
-      sayBind (getCtorReexportName cls ctor) $ toHsFnName $ getClassyExtName cls ctor
-    forM_ (classMethods cls) $ \method ->
-      sayBind (getMethodReexportName cls method) $ toHsFnName $ getClassyExtName cls method
+    saysLn ["instance QtahEvent.Event ", typeName, " where"]
+    indent $ do
+      sayLn "onEvent receiver' handler' = QtahEvent.onAnyEvent receiver' $ \\_ qevent' ->"
+      indent $
+        if path == ["Core", "QEvent"]
+        then sayLn "handler' qevent'"
+        else do
+          addImports $ mconcat [hsImport1 "Prelude" "(==)",
+                                importForPrelude,
+                                importForRuntime]
+          saysLn ["let event' = ", classDownCastReexportName, " qevent'"]
+          sayLn "in if event' == QtahFHR.nullptr then QtahP.return QtahP.False else handler' event'"
 
-  QtExportSignal sig -> saySignalExport sig
+sayExportClass :: Class -> Generator ()
+sayExportClass cls = do
+  importHsModuleForExtName $ classExtName cls
+  addExports $
+    (toHsValueClassName cls ++ " (..)") :
+    (toHsPtrClassName Const cls ++ " (..)") :
+    (toHsPtrClassName Nonconst cls ++ " (..)") :
+    toHsDataTypeName Const cls :
+    toHsDataTypeName Nonconst cls :
+    classUpCastConstReexportName :
+    classUpCastReexportName :
+    classDownCastConstReexportName :
+    classDownCastReexportName :
+    concat [ case classHaskellConversion $ classConversion cls of
+               Nothing -> []
+               Just _ -> [classEncodeReexportName, classDecodeReexportName]
+           , sort $ map (getCtorReexportName cls) $ classCtors cls
+           , sort $ map (getMethodReexportName cls) $ classMethods cls
+           ]
 
-  where sayBind name value = saysLn [name, " = ", value]
+  ln
+  sayBind classUpCastConstReexportName $ toHsCastMethodName Const cls
+  sayBind classUpCastReexportName $ toHsCastMethodName Nonconst cls
+  sayBind classDownCastConstReexportName $ toHsDownCastMethodName Const cls
+  sayBind classDownCastReexportName $ toHsDownCastMethodName Nonconst cls
+  sayClassEncodingFnReexports cls
+  forM_ (classCtors cls) $ \ctor ->
+    sayBind (getCtorReexportName cls ctor) $ toHsFnName $ getClassyExtName cls ctor
+  forM_ (classMethods cls) $ \method ->
+    sayBind (getMethodReexportName cls method) $ toHsFnName $ getClassyExtName cls method
 
 -- | Generates and exports a @Signal@ definition.  We create the signal from
 -- scratch in this module, rather than reexporting it from somewhere else.
-saySignalExport :: Signal -> Generator ()
-saySignalExport signal = inFunction "saySignalExport" $ do
+sayExportSignal :: Signal -> Generator ()
+sayExportSignal signal = inFunction "sayExportSignal" $ do
   addImports importForSignal
 
   let name = signalCName signal
@@ -325,6 +352,9 @@ saySignalExport signal = inFunction "saySignalExport" $ do
       saysLn [toHsFnName $ getClassyExtName listenerClass listenerConnectMethod,
               " listener' object' ", show (toSignalConnectName signal paramTypes)]
     sayLn "}"
+
+sayBind :: String -> String -> Generator ()
+sayBind name value = saysLn [name, " = ", value]
 
 toSignalBindingName :: Signal -> String
 toSignalBindingName = (++ "Signal") . signalCName

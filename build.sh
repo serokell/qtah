@@ -49,5 +49,5 @@ run make ${MAKEOPTS:-}
 echo
 msg "Building the Haskell bindings."
 run cd "$projectDir/qtah/hs"
-run cabal configure --extra-lib-dirs="$projectDir/qtah/cpp-build"
+run cabal configure --extra-lib-dirs="$projectDir/qtah/cpp-build" --enable-tests
 run cabal build

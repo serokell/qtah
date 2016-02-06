@@ -35,6 +35,7 @@ HEADERS += \
     $$files(b_*.hpp) \
     $$files(wrap_*.hpp) \
     encode.hpp \
+    event.hpp \
     listener.hpp
 
 isEmpty( PREFIX ) {

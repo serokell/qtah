@@ -20,6 +20,7 @@
 -- imports are one-off and are not listed here.
 module Graphics.UI.Qtah.Internal.Interface.Imports (
   importForChar,
+  importForEvent,
   importForForeign,
   importForForeignC,
   importForPrelude,
@@ -31,6 +32,9 @@ import Foreign.Hoppy.Generator.Spec (HsImportSet, hsQualifiedImport)
 
 importForChar :: HsImportSet
 importForChar = hsQualifiedImport "Data.Char" "QtahDC"
+
+importForEvent :: HsImportSet
+importForEvent = hsQualifiedImport "Graphics.UI.Qtah.Event" "QtahEvent"
 
 importForForeign :: HsImportSet
 importForForeign = hsQualifiedImport "Foreign" "QtahF"

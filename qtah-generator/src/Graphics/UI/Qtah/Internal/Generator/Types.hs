@@ -36,7 +36,7 @@ import Foreign.Hoppy.Generator.Spec (
   Bitspace,
   Class,
   CppEnum,
-  Export (ExportFn),
+  Export (ExportClass, ExportFn),
   Function,
   Identifier,
   Include,
@@ -105,11 +105,13 @@ qtExportToExport qtExport = case qtExport of
   QtExport export -> Just export
   QtExportFnRenamed fn _ -> Just $ ExportFn fn
   QtExportSignal {} -> Nothing
+  QtExportEvent cls -> Just $ ExportClass cls
 
 data QtExport =
   QtExport Export
   | QtExportFnRenamed Function String
   | QtExportSignal Signal
+  | QtExportEvent Class
 
 -- | Creates a 'CppEnum' whose 'ExtName' is the concatenation of all part of its
 -- 'Identifier'.  This should be used for all Qt enums.

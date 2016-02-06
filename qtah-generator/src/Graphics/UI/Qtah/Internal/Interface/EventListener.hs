@@ -1,6 +1,6 @@
 -- This file is part of Qtah.
 --
--- Copyright 2015-2016 Bryan Gardiner <bog@khumba.net>
+-- Copyright 2016 Bryan Gardiner <bog@khumba.net>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU Lesser General Public License as published by
@@ -15,18 +15,33 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Internal.Interface.Gui (modules) where
+module Graphics.UI.Qtah.Internal.Interface.EventListener (
+  aModule,
+  ) where
 
+import Foreign.Hoppy.Generator.Spec (
+  Export (ExportClass),
+  Type (TCallback, TInt, TPtr),
+  addReqIncludes,
+  ident2,
+  includeLocal,
+  makeClass,
+  mkCtor,
+  )
 import Graphics.UI.Qtah.Internal.Generator.Types
-import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard as QClipboard
-import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent as QCloseEvent
-import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QColor as QColor
+import Graphics.UI.Qtah.Internal.Interface.Callback (cb_PtrQObjectPtrQEventBool)
+import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-modules :: [AModule]
-modules =
-  [ QClipboard.aModule
-  , QCloseEvent.aModule
-  , QColor.aModule
+aModule =
+  AQtModule $
+  makeQtModule ["Internal", "EventListener"]
+  [ QtExport $ ExportClass c_EventListener ]
+
+c_EventListener =
+  addReqIncludes [includeLocal "event.hpp"] $
+  makeClass (ident2 "qtah" "event" "EventListener") Nothing [c_QObject]
+  [ mkCtor "new" [TCallback cb_PtrQObjectPtrQEventBool, TPtr TInt]
   ]
+  []

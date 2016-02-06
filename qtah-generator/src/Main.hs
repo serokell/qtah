@@ -34,6 +34,7 @@ import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Callback as Callback
 import qualified Graphics.UI.Qtah.Internal.Interface.Core as Core
+import qualified Graphics.UI.Qtah.Internal.Interface.EventListener as EventListener
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui as Gui
 import qualified Graphics.UI.Qtah.Internal.Interface.Listener as Listener
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets as Widgets
@@ -55,6 +56,7 @@ modules =
   concat
   [ [ AHoppyModule mod_std
     , Callback.aModule
+    , EventListener.aModule
     , Listener.aModule
     ]
   , Core.modules

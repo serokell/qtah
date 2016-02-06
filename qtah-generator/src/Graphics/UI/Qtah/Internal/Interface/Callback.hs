@@ -27,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   toExtName,
   )
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
@@ -54,6 +55,7 @@ aModule =
   , ExportCallback cb_PtrQAbstractButtonVoid
   , ExportCallback cb_PtrQAbstractButtonBoolVoid
   , ExportCallback cb_PtrQActionVoid
+  , ExportCallback cb_PtrQObjectPtrQEventBool
   , ExportCallback cb_PtrQObjectVoid
   , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
   , ExportCallback cb_QAbstractSliderActionVoid
@@ -91,6 +93,10 @@ cb_PtrQAbstractButtonBoolVoid =
 cb_PtrQActionVoid =
   makeCallback (toExtName "CallbackPtrQActionVoid")
   [TPtr $ TObj c_QAction] TVoid
+
+cb_PtrQObjectPtrQEventBool =
+  makeCallback (toExtName "CallbackPtrQObjectPtrQEventBool")
+  [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
 
 cb_PtrQObjectVoid =
   makeCallback (toExtName "CallbackPtrQObjectVoid")

@@ -28,6 +28,7 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkConstMethod,
+  mkCtor,
   mkMethod,
   mkProp,
   mkProps,
@@ -37,6 +38,7 @@ import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Listener
 import {-# SOURCE #-} Graphics.UI.Qtah.Internal.Interface.Core.QList (c_QListQObject)
+import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -50,7 +52,9 @@ aModule =
 c_QObject =
   addReqIncludes [includeStd "QObject"] $
   makeClass (ident "QObject") Nothing []
-  [] $
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [TPtr $ TObj c_QObject]
+  ] $
   collect
   [ just $ mkMethod "blockSignals" [TBool] TBool
   , just $ mkMethod "children" [] $ TObj c_QListQObject
@@ -60,8 +64,8 @@ c_QObject =
   , just $ mkMethod "dumpObjectInfo" [] TVoid
   , just $ mkMethod "dumpObjectTree" [] TVoid
     -- TODO dynamicPropertyNames (>=4.2)
-    -- TODO event
-    -- TODO eventFilter
+  , just $ mkMethod "event" [TPtr $ TObj c_QEvent] TBool
+  , just $ mkMethod "eventFilter" [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
     -- TODO findChild
     -- TODO findChildren
     -- TODO inherits

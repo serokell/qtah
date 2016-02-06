@@ -108,6 +108,7 @@ instantiate' listName t tReqs opts =
         addAddendumHaskell addendum $
         classModifyConversion addConversion $
         classAddFeatures features $
+        classSetMonomorphicSuperclass $
         makeClass (identT "QList" [t]) (Just $ toExtName listName) []
         [ mkCtor "new" []
         ] $

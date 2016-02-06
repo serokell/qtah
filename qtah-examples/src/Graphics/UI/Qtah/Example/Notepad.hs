@@ -15,11 +15,15 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+{-# LANGUAGE ScopedTypeVariables #-}
+
 -- | The Qt notepad example.
 module Graphics.UI.Qtah.Example.Notepad (run) where
 
 import Control.Monad (unless)
 import Foreign.Hoppy.Runtime (withScopedPtr)
+import Graphics.UI.Qtah.Event
+import Graphics.UI.Qtah.Gui.QCloseEvent (QCloseEvent)
 import Graphics.UI.Qtah.Signal (on)
 import Graphics.UI.Qtah.Widgets.QAbstractButton (clickedSignal)
 import Graphics.UI.Qtah.Widgets.QAction (triggeredSignal)
@@ -73,6 +77,10 @@ makeMainWindow = do
            { myWindow = window
            , myText = text
            }
+
+  _ <- onEvent window $ \(_ :: QCloseEvent) -> do
+    putStrLn "Goodbye!"
+    return False
 
   _ <- on menuFileNew triggeredSignal $ \_ -> fileNew me
   _ <- on menuFileOpen triggeredSignal $ \_ -> fileOpen me

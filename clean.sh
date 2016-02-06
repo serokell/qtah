@@ -29,6 +29,7 @@ run rm -rf "$projectDir/qtah/cpp-build"
 run rm -rf "$projectDir/qtah/hs/src/Graphics/UI/Qtah/Generated"
 run rm -rf "$projectDir/qtah/hs/src/Graphics/UI/Qtah/Core/Q"*
 run rm -rf "$projectDir/qtah/hs/src/Graphics/UI/Qtah/Core/Types.hs"*
+run rm -rf "$projectDir/qtah/hs/src/Graphics/UI/Qtah/Internal/Event.hs"
 run rm -rf "$projectDir/qtah/hs/src/Graphics/UI/Qtah/Gui/Q"*
 run rm -rf "$projectDir/qtah/hs/src/Graphics/UI/Qtah/Widgets/Q"*
 

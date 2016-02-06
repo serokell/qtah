@@ -1,6 +1,6 @@
 -- This file is part of Qtah.
 --
--- Copyright 2015-2016 Bryan Gardiner <bog@khumba.net>
+-- Copyright 2016 Bryan Gardiner <bog@khumba.net>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU Lesser General Public License as published by
@@ -15,17 +15,30 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
--- | General routines for managing Qt signals.
-module Graphics.UI.Qtah.Signal (
-  Signal (..),
-  on,
+module Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent (
+  aModule,
   ) where
 
--- | A signal that can be connected to an instance of the @object@ (C++) class,
--- and when invoked will call a function of the given @handler@ type.
-newtype Signal object handler = Signal { internalConnectSignal :: object -> handler -> IO Bool }
+import Foreign.Hoppy.Generator.Spec (
+  addReqIncludes,
+  ident,
+  includeStd,
+  makeClass,
+  mkCtor,
+  )
+import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 
--- | Registers a handler function to listen to a signal an object emits.
--- Returns true if the connection succeeded.
-on :: object -> Signal object handler -> handler -> IO Bool
-on = flip internalConnectSignal
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
+aModule =
+  AQtModule $
+  makeQtModule ["Gui", "QCloseEvent"]
+  [ QtExportEvent c_QCloseEvent ]
+
+c_QCloseEvent =
+  addReqIncludes [includeStd "QCloseEvent"] $
+  makeClass (ident "QCloseEvent") Nothing [c_QEvent]
+  [ mkCtor "new" []
+  ]
+  []

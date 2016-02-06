@@ -22,16 +22,19 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TObj),
+  Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
+  mkMethod,
+  mkMethod',
   mkStaticMethod,
   )
-import Foreign.Hoppy.Generator.Version (collect, test)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QStringList (c_QStringList)
 
@@ -48,4 +51,10 @@ c_QCoreApplication =
   [] $
   collect
   [ test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ TObj c_QStringList
+  , test (qtVersion >= [4, 3]) $ mkMethod' "postEvent" "postEvent"
+    [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TVoid
+  , test (qtVersion >= [4, 3]) $ mkMethod' "postEvent" "postEventWithPriority"
+    [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent, TInt] TVoid
+  , just $ mkMethod "sendEvent" [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
+    -- TODO Other methods.
   ]

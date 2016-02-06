@@ -26,6 +26,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_CheckState,
   e_Corner,
   e_CursorMoveStyle,
+  e_EventPriority,
   e_GlobalColor,
   e_LayoutDirection,
   e_NavigationMode,
@@ -66,6 +67,7 @@ exports =
   , ExportEnum e_CheckState
   , ExportEnum e_Corner
   , ExportEnum e_CursorMoveStyle
+  , ExportEnum e_EventPriority
   , ExportEnum e_GlobalColor
   , ExportEnum e_LayoutDirection
   , ExportEnum e_NavigationMode
@@ -134,6 +136,13 @@ e_CursorMoveStyle =
   makeQtEnum (ident1 "Qt" "CursorMoveStyle") qtInclude
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
+  ]
+
+e_EventPriority =
+  makeQtEnum (ident1 "Qt" "EventPriority") qtInclude
+  [ (1, ["high", "event", "priority"])
+  , (0, ["normal", "event", "priority"])
+  , (-1, ["low", "event", "priority"])
   ]
 
 e_GlobalColor =
