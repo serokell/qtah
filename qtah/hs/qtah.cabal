@@ -15,8 +15,7 @@ cabal-version: >=1.10
 
 library
   exposed-modules:
-      Graphics.UI.Qtah
-    , Graphics.UI.Qtah.Core.HMargins
+      Graphics.UI.Qtah.Core.HMargins
     , Graphics.UI.Qtah.Core.HPoint
     , Graphics.UI.Qtah.Core.HRect
     , Graphics.UI.Qtah.Core.HSize
