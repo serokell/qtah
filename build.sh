@@ -58,7 +58,7 @@ if [[ ${1:-} = --help ]]; then
     exit 0
 fi
 
-if ! [[ $QTAH_QT_FLAG = qt*_* ]]; then
+if ! [[ ${QTAH_QT_FLAG:-} = qt*_* ]]; then
     echo "build.sh: Please set QTAH_QT_FLAG.  See --help."
     exit 1
 fi
@@ -89,5 +89,5 @@ run make ${MAKEOPTS:-}
 echo
 msg "Building the Haskell bindings."
 run cd "$projectDir/qtah/hs"
-run cabal configure --extra-lib-dirs="$projectDir/qtah/cpp-build" --enable-tests
+run cabal configure --extra-lib-dirs="$projectDir/qtah/cpp-build"
 run cabal build

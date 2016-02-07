@@ -39,4 +39,4 @@ if [[ ${1:-} = --help ]]; then
 fi
 
 cd "$projectDir/qtah/hs"
-cabal install --extra-lib-dirs="$projectDir/qtah/cpp-build" --enable-tests
+cabal install --extra-lib-dirs="$projectDir/qtah/cpp-build"
