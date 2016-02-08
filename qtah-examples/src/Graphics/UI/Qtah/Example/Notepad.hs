@@ -24,7 +24,7 @@ import Control.Monad (unless)
 import Foreign.Hoppy.Runtime (withScopedPtr)
 import Graphics.UI.Qtah.Event
 import Graphics.UI.Qtah.Gui.QCloseEvent (QCloseEvent)
-import Graphics.UI.Qtah.Signal (on)
+import Graphics.UI.Qtah.Signal (connect)
 import Graphics.UI.Qtah.Widgets.QAbstractButton (clickedSignal)
 import Graphics.UI.Qtah.Widgets.QAction (triggeredSignal)
 import qualified Graphics.UI.Qtah.Widgets.QApplication as QApplication
@@ -82,10 +82,10 @@ makeMainWindow = do
     putStrLn "Goodbye!"
     return False
 
-  _ <- on menuFileNew triggeredSignal $ \_ -> fileNew me
-  _ <- on menuFileOpen triggeredSignal $ \_ -> fileOpen me
-  _ <- on menuFileSave triggeredSignal $ \_ -> fileSave me
-  _ <- on quitButton clickedSignal $ \_ -> QWidget.close window
+  _ <- connect menuFileNew triggeredSignal $ \_ -> fileNew me
+  _ <- connect menuFileOpen triggeredSignal $ \_ -> fileOpen me
+  _ <- connect menuFileSave triggeredSignal $ \_ -> fileSave me
+  _ <- connect quitButton clickedSignal $ \_ -> QWidget.close window
 
   return window
 

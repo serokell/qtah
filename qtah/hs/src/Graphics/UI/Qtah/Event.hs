@@ -41,7 +41,7 @@ import qualified Graphics.UI.Qtah.Core.QObject as QObject
 import Graphics.UI.Qtah.Generated.Core.QEvent (QEvent)
 import Graphics.UI.Qtah.Internal.EventListener (EventListener)
 import qualified Graphics.UI.Qtah.Internal.EventListener as EventListener
-import Graphics.UI.Qtah.Signal (on)
+import Graphics.UI.Qtah.Signal (connect)
 
 data Receiver = forall a. QObjectPtr a => Receiver a
 
@@ -90,7 +90,7 @@ internalOnEvent receiver deletedPtr filter = do
             , regActive = activeVar
             }
   QObject.installEventFilter receiver listener
-  _ <- on receiver QObject.destroyedSignal $ \_ -> unregister reg
+  _ <- connect receiver QObject.destroyedSignal $ \_ -> unregister reg
   return reg
 
 -- | Disconnects an event handler and frees its resources.  This function is

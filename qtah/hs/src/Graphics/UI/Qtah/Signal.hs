@@ -18,7 +18,7 @@
 -- | General routines for managing Qt signals.
 module Graphics.UI.Qtah.Signal (
   Signal (..),
-  on,
+  connect,
   ) where
 
 -- | A signal that can be connected to an instance of the @object@ (C++) class,
@@ -27,5 +27,5 @@ newtype Signal object handler = Signal { internalConnectSignal :: object -> hand
 
 -- | Registers a handler function to listen to a signal an object emits.
 -- Returns true if the connection succeeded.
-on :: object -> Signal object handler -> handler -> IO Bool
-on = flip internalConnectSignal
+connect :: object -> Signal object handler -> handler -> IO Bool
+connect = flip internalConnectSignal
