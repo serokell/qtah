@@ -41,6 +41,45 @@ and ready to use, although it's hard-coded to work with the C++ library built in
 There is an example program that can be run with `run-example.sh` after building
 and installing Qtah.
 
+## Code layout
+
+There is a Hoppy generator in `/qtah-generator`.  Within there, all API
+definitions are in `src/Graphics/UI/Qtah/Internal/Interface`.  Generated
+bindings go into `/qtah/cpp` and `/qtah/hs` for the C++ and Haskell sides,
+respectively, and the C++ build outputs end up in `/qtah/cpp-build`.
+
+For each supported Qt class, Hoppy creates the module
+`Graphics.UI.Qtah.Generated.<module>.<class>`.  These bindings' names are
+prefixed with their class name, for example
+`Graphics.UI.Qtah.Generated.Core.QPoint.qPoint_setX`.  Rather than expose this
+interface directly, Qtah includes a second generator that creates wrapper
+modules that are meant to be imported qualified, and leave out the class name
+from their bindings:
+
+    import qualified Graphics.UI.Qtah.Core.QPoint as QPoint
+
+    ... QPoint.setX ...
+
+These wrapper modules are also where Qtah adds support for signals and events.
+Core support for these is in `Graphics.UI.Qtah.Signal` and
+`Graphics.UI.Qtah.Event`.  Signals are represented by `Signal` objects in the
+module for the defining class.  Events are classes in their own right, but also
+have an `Event` instance.
+
+Most Qt classes are not convertible in the Hoppy `ClassConversion` sense.
+Select classes are, including `QString` (which converts to a native Haskell
+string) and some simple classes that have pure Haskell implementations to mirror
+their C++ ones, such as `QPoint` and `HPoint`.  These make it easier to
+construct values, since the Haskell version can be passed anywhere a const C++
+version is expected.
+
+Bindings for the `Qt::` namespace are in `Graphics.UI.Qtah.Core.Types`.  Many
+enums in Qt also support bitwise or on their values in certain contexts, so
+these types have both a Hoppy enum and a bitspace defined.
+
+For templates, a separate module is created for each instantiation:
+`Graphics.UI.Qtah.Core.QList.QObject` is for `QList<QObject*>`.
+
 ## Developing
 
 When creating patches, please enable the pre-commit hook at
@@ -48,4 +87,4 @@ When creating patches, please enable the pre-commit hook at
 try to ensure that your changes compile cleanly without warnings when `-W` is
 used, and follow the style guide at:
 
-http://khumba.net/projects/haskell-style
+https://gitlab.com/khumba/haskell-style/blob/master/haskell-style.md
