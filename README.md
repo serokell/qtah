@@ -38,6 +38,11 @@ After building, the Haskell package in `qtah/hs` is installable (`install.sh`)
 and ready to use, although it's hard-coded to work with the C++ library built in
 `qtah/cpp-build`.
 
+    Build for Qt 5.4 with four threads:
+    $ QT_SELECT=5 QTAH_QT_FLAG=qt5_4 MAKEOPTS=-j4 ./build.sh
+    Do a user install of the Cabal package:
+    $ ./install.sh
+
 There is an example program that can be run with `run-example.sh` after building
 and installing Qtah.
 

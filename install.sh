@@ -27,9 +27,11 @@ declare -r projectDir
 
 usage() {
     cat <<EOF
-build.sh - Qtah install script
+install.sh - Qtah install script
 
-Installs Qtah after it has been compiled with build.sh.
+Installs Qtah after it has been compiled with build.sh.  This runs
+"cabal install" on the Haskell package, but doesn't install the C++
+shared library anywhere.
 EOF
 }
 
