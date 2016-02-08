@@ -147,6 +147,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QWidget
+    , Graphics.UI.Qtah.Internal.EventListener
   other-extensions:
       NoMonomorphismRestriction
   build-depends:
