@@ -117,6 +117,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Callback
     , Graphics.UI.Qtah.Internal.Interface.Core
     , Graphics.UI.Qtah.Internal.Interface.Core.QChar
+    , Graphics.UI.Qtah.Internal.Interface.Core.QChildEvent
     , Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication
     , Graphics.UI.Qtah.Internal.Interface.Core.QDir
     , Graphics.UI.Qtah.Internal.Interface.Core.QEvent
@@ -124,15 +125,24 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QMargins
     , Graphics.UI.Qtah.Internal.Interface.Core.QObject
     , Graphics.UI.Qtah.Internal.Interface.Core.QPoint
+    , Graphics.UI.Qtah.Internal.Interface.Core.QPointF
     , Graphics.UI.Qtah.Internal.Interface.Core.QRect
     , Graphics.UI.Qtah.Internal.Interface.Core.QSize
     , Graphics.UI.Qtah.Internal.Interface.Core.QString
     , Graphics.UI.Qtah.Internal.Interface.Core.QStringList
+    , Graphics.UI.Qtah.Internal.Interface.Core.QTimerEvent
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
     , Graphics.UI.Qtah.Internal.Interface.EventListener
     , Graphics.UI.Qtah.Internal.Interface.Gui
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QActionEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QColor
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent
     , Graphics.UI.Qtah.Internal.Interface.Imports
     , Graphics.UI.Qtah.Internal.Interface.Listener
     , Graphics.UI.Qtah.Internal.Interface.Widgets

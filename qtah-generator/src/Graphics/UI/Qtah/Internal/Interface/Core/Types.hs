@@ -28,11 +28,19 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_CursorMoveStyle,
   e_EventPriority,
   e_GlobalColor,
+  e_KeyboardModifier,
+  bs_KeyboardModifiers,
   e_LayoutDirection,
+  e_MouseButton,
+  bs_MouseButtons,
+  e_MouseEventFlag,
+  bs_MouseEventFlags,
+  e_MouseEventSource,
   e_NavigationMode,
   e_Orientation,
   bs_Orientations,
   e_ScrollBarPolicy,
+  e_ScrollPhase,
   e_TextElideMode,
   e_TextFormat,
   e_TextInteractionFlag,
@@ -50,37 +58,48 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   )
-import Graphics.UI.Qtah.Internal.Flags (qrealFloat)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qrealFloat, qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 aModule :: AModule
-aModule = AQtModule $ makeQtModule ["Core", "Types"] $ map QtExport exports
+aModule = AQtModule $ makeQtModule ["Core", "Types"] exports
 
-exports :: [Export]
+exports :: [QtExport]
 exports =
-  [ ExportEnum e_AlignmentFlag
-  , ExportBitspace bs_Alignment
-  , ExportEnum e_AspectRatioMode
-  , ExportEnum e_CaseSensitivity
-  , ExportEnum e_CheckState
-  , ExportEnum e_Corner
-  , ExportEnum e_CursorMoveStyle
-  , ExportEnum e_EventPriority
-  , ExportEnum e_GlobalColor
-  , ExportEnum e_LayoutDirection
-  , ExportEnum e_NavigationMode
-  , ExportEnum e_Orientation
-  , ExportBitspace bs_Orientations
-  , ExportEnum e_ScrollBarPolicy
-  , ExportEnum e_TextElideMode
-  , ExportEnum e_TextFormat
-  , ExportEnum e_TextInteractionFlag
-  , ExportBitspace bs_TextInteractionFlags
-  , ExportEnum e_WindowModality
-  , ExportEnum e_WindowType
-  , ExportBitspace bs_WindowFlags
+  QtExportSpecials :
+  (map QtExport . collect)
+  [ just $ ExportEnum e_AlignmentFlag
+  , just $ ExportBitspace bs_Alignment
+  , just $ ExportEnum e_AspectRatioMode
+  , just $ ExportEnum e_CaseSensitivity
+  , just $ ExportEnum e_CheckState
+  , just $ ExportEnum e_Corner
+  , just $ ExportEnum e_CursorMoveStyle
+  , just $ ExportEnum e_EventPriority
+  , just $ ExportEnum e_GlobalColor
+  , just $ ExportEnum e_KeyboardModifier
+  , just $ ExportBitspace bs_KeyboardModifiers
+  , just $ ExportEnum e_LayoutDirection
+  , just $ ExportEnum e_MouseButton
+  , just $ ExportBitspace bs_MouseButtons
+  , test (qtVersion >= e_MouseEventFlag_version) $ ExportEnum e_MouseEventFlag
+  , test (qtVersion >= e_MouseEventFlag_version) $ ExportBitspace bs_MouseEventFlags
+  , test (qtVersion >= e_MouseEventSource_version) $ ExportEnum e_MouseEventSource
+  , just $ ExportEnum e_NavigationMode
+  , just $ ExportEnum e_Orientation
+  , just $ ExportBitspace bs_Orientations
+  , just $ ExportEnum e_ScrollBarPolicy
+  , test (qtVersion >= e_ScrollPhase_version) $ ExportEnum e_ScrollPhase
+  , just $ ExportEnum e_TextElideMode
+  , just $ ExportEnum e_TextFormat
+  , just $ ExportEnum e_TextInteractionFlag
+  , just $ ExportBitspace bs_TextInteractionFlags
+  , just $ ExportEnum e_WindowModality
+  , just $ ExportEnum e_WindowType
+  , just $ ExportBitspace bs_WindowFlags
   ]
 
 qtInclude :: [Include]
@@ -169,12 +188,49 @@ e_GlobalColor =
   , (1, ["color1"])
   ]
 
+(e_KeyboardModifier, bs_KeyboardModifiers) =
+  makeQtEnumBitspace (ident1 "Qt" "KeyboardModifier") "KeyboardModifiers" qtInclude
+  [ (0x00000000, ["no", "modifier"])
+  , (0x02000000, ["shift", "modifier"])
+  , (0x04000000, ["control", "modifier"])
+  , (0x08000000, ["alt", "modifier"])
+  , (0x10000000, ["meta", "modifier"])
+  , (0x20000000, ["keypad", "modifier"])
+  , (0x40000000, ["group", "switch", "modifier"])
+  ]
+
 e_LayoutDirection =
   makeQtEnum (ident1 "Qt" "LayoutDirection") qtInclude
   [ (0, ["left", "to", "right"])
   , (1, ["right", "to", "left"])
   , (2, ["layout", "direction", "auto"])
   ]
+
+(e_MouseButton, bs_MouseButtons) =
+  makeQtEnumBitspace (ident1 "Qt" "MouseButton") "MouseButtons" qtInclude
+  [ (0x00000000, ["no", "button"])
+  , (0x07ffffff, ["all", "buttons"])
+  , (0x00000001, ["left", "button"])
+  , (0x00000002, ["right", "button"])
+  , (0x00000004, ["middle", "button"])
+    -- TODO Other mouse buttons.  Lots of synonyms here which Hoppy doesn't support.
+  ]
+
+(e_MouseEventFlag, bs_MouseEventFlags) =
+  makeQtEnumBitspace (ident1 "Qt" "MouseEventFlag") "MouseEventFlags" qtInclude
+  [ (0x01, ["mouse", "event", "created", "double", "click"])
+  ]
+
+e_MouseEventFlag_version = [5, 3]
+
+e_MouseEventSource =
+  makeQtEnum (ident1 "Qt" "MouseEventSource") qtInclude
+  [ (0, ["mouse", "event", "not", "synthesized"])
+  , (1, ["mouse", "event", "synthesized", "by", "system"])
+  , (2, ["mouse", "event", "synthesized", "by", "qt"])
+  ]
+
+e_MouseEventSource_version = [5, 3]
 
 e_NavigationMode =
   makeQtEnum (ident1 "Qt" "NavigationMode") qtInclude
@@ -197,6 +253,15 @@ e_ScrollBarPolicy =
   , (1, ["scroll", "bar", "always", "off"])
   , (2, ["scroll", "bar", "always", "on"])
   ]
+
+e_ScrollPhase =
+  makeQtEnum (ident1 "Qt" "ScrollPhase") qtInclude
+  [ (1, ["scroll", "begin"])
+  , (2, ["scroll", "update"])
+  , (3, ["scroll", "end"])
+  ]
+
+e_ScrollPhase_version = [5, 2]
 
 e_TextElideMode =
   makeQtEnum (ident1 "Qt" "TextElideMode") qtInclude

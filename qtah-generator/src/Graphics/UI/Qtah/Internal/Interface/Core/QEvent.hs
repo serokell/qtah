@@ -18,6 +18,7 @@
 module Graphics.UI.Qtah.Internal.Interface.Core.QEvent (
   aModule,
   c_QEvent,
+  e_Type,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

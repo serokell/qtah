@@ -18,15 +18,27 @@
 module Graphics.UI.Qtah.Internal.Interface.Gui (modules) where
 
 import Graphics.UI.Qtah.Internal.Generator.Types
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QActionEvent as QActionEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard as QClipboard
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent as QCloseEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QColor as QColor
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent as QHoverEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent as QInputEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent as QKeyEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent as QMouseEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent as QWheelEvent
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 modules :: [AModule]
 modules =
-  [ QClipboard.aModule
+  [ QActionEvent.aModule
+  , QClipboard.aModule
   , QCloseEvent.aModule
   , QColor.aModule
+  , QHoverEvent.aModule
+  , QInputEvent.aModule
+  , QKeyEvent.aModule
+  , QMouseEvent.aModule
+  , QWheelEvent.aModule
   ]

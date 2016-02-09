@@ -17,9 +17,11 @@ library
   exposed-modules:
       Graphics.UI.Qtah.Core.HMargins
     , Graphics.UI.Qtah.Core.HPoint
+    , Graphics.UI.Qtah.Core.HPointF
     , Graphics.UI.Qtah.Core.HRect
     , Graphics.UI.Qtah.Core.HSize
     , Graphics.UI.Qtah.Core.QChar
+    , Graphics.UI.Qtah.Core.QChildEvent
     , Graphics.UI.Qtah.Core.QCoreApplication
     , Graphics.UI.Qtah.Core.QDir
     , Graphics.UI.Qtah.Core.QEvent
@@ -31,19 +33,27 @@ library
     , Graphics.UI.Qtah.Core.QMargins
     , Graphics.UI.Qtah.Core.QObject
     , Graphics.UI.Qtah.Core.QPoint
+    , Graphics.UI.Qtah.Core.QPointF
     , Graphics.UI.Qtah.Core.QRect
     , Graphics.UI.Qtah.Core.QSize
     , Graphics.UI.Qtah.Core.QString
     , Graphics.UI.Qtah.Core.QStringList
+    , Graphics.UI.Qtah.Core.QTimerEvent
     , Graphics.UI.Qtah.Core.Types
     , Graphics.UI.Qtah.Event
     -- TODO This should not be exposed directly, but there is no nice interface
     -- to it right now.
     , Graphics.UI.Qtah.Generated.Std
     , Graphics.UI.Qtah.Gui.HColor
+    , Graphics.UI.Qtah.Gui.QActionEvent
     , Graphics.UI.Qtah.Gui.QClipboard
     , Graphics.UI.Qtah.Gui.QCloseEvent
     , Graphics.UI.Qtah.Gui.QColor
+    , Graphics.UI.Qtah.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Gui.QInputEvent
+    , Graphics.UI.Qtah.Gui.QKeyEvent
+    , Graphics.UI.Qtah.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Gui.QWheelEvent
     , Graphics.UI.Qtah.Signal
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
@@ -87,6 +97,7 @@ library
   other-modules:
       Graphics.UI.Qtah.Generated.Callback
     , Graphics.UI.Qtah.Generated.Core.QChar
+    , Graphics.UI.Qtah.Generated.Core.QChildEvent
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
     , Graphics.UI.Qtah.Generated.Core.QDir
     , Graphics.UI.Qtah.Generated.Core.QEvent
@@ -98,14 +109,22 @@ library
     , Graphics.UI.Qtah.Generated.Core.QMargins
     , Graphics.UI.Qtah.Generated.Core.QObject
     , Graphics.UI.Qtah.Generated.Core.QPoint
+    , Graphics.UI.Qtah.Generated.Core.QPointF
     , Graphics.UI.Qtah.Generated.Core.QRect
     , Graphics.UI.Qtah.Generated.Core.QSize
     , Graphics.UI.Qtah.Generated.Core.QString
     , Graphics.UI.Qtah.Generated.Core.QStringList
+    , Graphics.UI.Qtah.Generated.Core.QTimerEvent
     , Graphics.UI.Qtah.Generated.Core.Types
+    , Graphics.UI.Qtah.Generated.Gui.QActionEvent
     , Graphics.UI.Qtah.Generated.Gui.QClipboard
     , Graphics.UI.Qtah.Generated.Gui.QCloseEvent
     , Graphics.UI.Qtah.Generated.Gui.QColor
+    , Graphics.UI.Qtah.Generated.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Generated.Gui.QInputEvent
+    , Graphics.UI.Qtah.Generated.Gui.QKeyEvent
+    , Graphics.UI.Qtah.Generated.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generated.Gui.QWheelEvent
     , Graphics.UI.Qtah.Generated.Internal.EventListener
     , Graphics.UI.Qtah.Generated.Listener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton

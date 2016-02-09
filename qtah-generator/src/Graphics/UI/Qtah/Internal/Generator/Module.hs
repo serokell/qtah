@@ -99,7 +99,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import Graphics.UI.Qtah.Internal.Generator.Common (fromMaybeM, writeFileIfDifferent)
 import Graphics.UI.Qtah.Internal.Generator.Types (
-  QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal),
+  QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal, QtExportSpecials),
   QtModule,
   Signal,
   moduleNameAppend,
@@ -271,6 +271,13 @@ sayQtExport path qtExport = case qtExport of
                                 importForRuntime]
           saysLn ["let event' = ", classDownCastReexportName, " qevent'"]
           sayLn "in if event' == QtahFHR.nullptr then QtahP.return QtahP.False else handler' event'"
+
+  QtExportSpecials -> do
+    -- Generate a type synonym for qreal.
+    addImports importForForeignC
+    addExport "QReal"
+    ln
+    saysLn ["type QReal = ", if QREAL_FLOAT then "QtahFC.CFloat" else "QtahFC.CDouble"]
 
 sayExportClass :: Class -> Generator ()
 sayExportClass cls = do
