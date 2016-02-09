@@ -28,8 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Dependencies:
 
-- GHC >=7.10
-- Hoppy
+- GHC 7.8-7.10
+- haskell-src
+- hoppy-generator (for compilation only)
+- hoppy-runtime
+- hoppy-std (for compilation only)
+- mtl
 
 Currently packaging for Qtah isn't entirely worked out, since it is split
 between a C++ glue component and a Haskell component.  The `build.sh` script
