@@ -54,6 +54,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar as QScro
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider as QSlider
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout as QStackedLayout
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedWidget as QStackedWidget
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar as QStatusBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTabWidget as QTabWidget
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QTextEdit as QTextEdit
@@ -99,6 +100,7 @@ modules =
   , just QSlider.aModule
   , just QSplitter.aModule
   , just QStackedLayout.aModule
+  , just QStackedWidget.aModule
   , just QStatusBar.aModule
   , just QTabWidget.aModule
   , just QTextEdit.aModule
