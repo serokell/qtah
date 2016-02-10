@@ -46,6 +46,8 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_TextInteractionFlag,
   bs_TextInteractionFlags,
   e_WindowModality,
+  e_WindowState,
+  bs_WindowStates,
   e_WindowType,
   bs_WindowFlags,
   ) where
@@ -98,6 +100,8 @@ exports =
   , just $ ExportEnum e_TextInteractionFlag
   , just $ ExportBitspace bs_TextInteractionFlags
   , just $ ExportEnum e_WindowModality
+  , just $ ExportEnum e_WindowState
+  , just $ ExportEnum bs_WindowStates
   , just $ ExportEnum e_WindowType
   , just $ ExportBitspace bs_WindowFlags
   ]
@@ -305,6 +309,15 @@ e_WindowModality =
   [ (0, ["non", "modal"])
   , (1, ["window", "modal"])
   , (2, ["application", "modal"])
+  ]
+
+(e_WindowState, bs_WindowStates) =
+  makeQtEnumBitspace (ident1 "Qt" "WindowState") "WindowStates" qtInclude
+  [ (0x00, ["window", "no", "state"])
+  , (0x01, ["window", "minimized"])
+  , (0x02, ["window", "maximized"])
+  , (0x04, ["window", "full", "screen"])
+  , (0x08, ["window", "active"])
   ]
 
 (e_WindowType, bs_WindowFlags) =
