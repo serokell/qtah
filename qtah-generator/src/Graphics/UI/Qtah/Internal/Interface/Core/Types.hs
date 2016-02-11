@@ -101,7 +101,7 @@ exports =
   , just $ ExportBitspace bs_TextInteractionFlags
   , just $ ExportEnum e_WindowModality
   , just $ ExportEnum e_WindowState
-  , just $ ExportEnum bs_WindowStates
+  , just $ ExportBitspace bs_WindowStates
   , just $ ExportEnum e_WindowType
   , just $ ExportBitspace bs_WindowFlags
   ]

@@ -22,7 +22,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,10 +32,12 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkMethod',
+  mkProp,
+  mkProps,
   mkStaticMethod,
   )
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
-import Graphics.UI.Qtah.Internal.Flags (keypadNavigation, qdoc)
+import Graphics.UI.Qtah.Internal.Flags (keypadNavigation, qdoc, qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
@@ -48,6 +50,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.Types (
   bs_WindowStates,
   e_LayoutDirection,
   e_WindowModality,
+  e_WindowType,
   qreal,
   )
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQPoint)
