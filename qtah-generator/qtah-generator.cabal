@@ -165,6 +165,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QHBoxLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QMenuBar
