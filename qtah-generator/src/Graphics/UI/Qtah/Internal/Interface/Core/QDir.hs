@@ -28,7 +28,7 @@ import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportClass),
   Operator (OpArray),
-  Type (TBitspace, TBool, TInt, TObj, TObjToHeap, TRef, TVoid),
+  Type (TBitspace, TBool, TInt, TObj, TRef, TToGc, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -80,7 +80,7 @@ c_QDir =
   , just $ mkMethod "cdUp" [] TBool
   , just $ mkStaticMethod "cleanPath" [TObj c_QString] $ TObj c_QString
   , just $ mkConstMethod "count" [] TInt
-  , just $ mkStaticMethod "current" [] $ TObjToHeap c_QDir
+  , just $ mkStaticMethod "current" [] $ TToGc $ TObj c_QDir
   , just $ mkStaticMethod "currentPath" [] $ TObj c_QString
   , just $ mkConstMethod "dirName" [] $ TObj c_QString
     -- TODO drives
@@ -91,7 +91,7 @@ c_QDir =
   , just $ mkConstMethod "filePath" [TObj c_QString] $ TObj c_QString
   , test (qtVersion >= [4, 2]) $
     mkStaticMethod "fromNativeSeparators" [TObj c_QString] $ TObj c_QString
-  , just $ mkStaticMethod "home" [] $ TObjToHeap c_QDir
+  , just $ mkStaticMethod "home" [] $ TToGc $ TObj c_QDir
   , just $ mkStaticMethod "homePath" [] $ TObj c_QString
   , just $ mkConstMethod "isAbsolute" [] TBool
   , just $ mkStaticMethod "isAbsolutePath" [TObj c_QString] TBool
@@ -111,12 +111,12 @@ c_QDir =
   , just $ mkMethod "rename" [TObj c_QString, TObj c_QString] TBool
   , just $ mkConstMethod "rmdir" [TObj c_QString] TBool
   , just $ mkConstMethod "rmpath" [TObj c_QString] TBool
-  , just $ mkStaticMethod "root" [] $ TObjToHeap c_QDir
+  , just $ mkStaticMethod "root" [] $ TToGc $ TObj c_QDir
   , just $ mkStaticMethod "rootPath" [] $ TObj c_QString
   , just $ mkStaticMethod "separator" [] $ TObj c_QChar
   , just $ mkStaticMethod "setCurrent" [TObj c_QString] TBool
   , test (qtVersion >= [5, 0]) $ mkMethod "swap" [TRef $ TObj c_QDir] TVoid
-  , just $ mkStaticMethod "temp" [] $ TObjToHeap c_QDir
+  , just $ mkStaticMethod "temp" [] $ TToGc $ TObj c_QDir
   , just $ mkStaticMethod "tempPath" [] $ TObj c_QString
   , test (qtVersion >= [4, 2]) $
     mkStaticMethod "toNativeSeparators" [TObj c_QString] $ TObj c_QString

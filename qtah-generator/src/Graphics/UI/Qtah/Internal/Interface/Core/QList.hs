@@ -136,8 +136,8 @@ instantiate' listName t tReqs opts =
         , just $ mkConstMethod' "lastIndexOf" "lastIndexOf" [t] TInt
         , just $ mkConstMethod' "lastIndexOf" "lastIndexOfFrom" [t, TInt] TInt
           -- OMIT length
-        , just $ mkConstMethod' "mid" "newSubseq" [TInt] $ TObjToHeap list
-        , just $ mkConstMethod' "mid" "newSubseqLength" [TInt, TInt] $ TObjToHeap list
+        , just $ mkConstMethod' "mid" "mid" [TInt] $ TToGc $ TObj list
+        , just $ mkConstMethod' "mid" "midLength" [TInt, TInt] $ TToGc $ TObj list
         , just $ mkMethod "move" [TInt, TInt] TVoid
         , just $ mkMethod "prepend" [t] TVoid
         , just $ makeFnMethod (ident2 "qtah" "qlist" "put") "put" MNormal Nonpure
@@ -161,8 +161,7 @@ instantiate' listName t tReqs opts =
           -- TODO toVector
         , just $ mkConstMethod' "value" "value" [TInt] t
         , just $ mkConstMethod' "value" "valueOr" [TInt, t] t
-          -- OMIT operator+ because it creates a new object quietly (would need
-          -- TObjToHeap).
+        , just $ mkConstMethod OpAdd [TObj list] $ TToGc $ TObj list
         ]
 
       -- The addendum for the list class contains HasContents and FromContents

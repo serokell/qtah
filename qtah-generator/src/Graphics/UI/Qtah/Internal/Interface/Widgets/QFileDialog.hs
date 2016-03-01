@@ -21,7 +21,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportClass),
-  Type (TBitspace, TBool, TEnum, TObj, TObjToHeap, TPtr, TVoid),
+  Type (TBitspace, TBool, TEnum, TObj, TPtr, TToGc, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -73,7 +73,7 @@ c_QFileDialog =
     [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TObj c_QString]
   ] $
   collect
-  [ just $ mkConstMethod "directory" [] $ TObjToHeap c_QDir
+  [ just $ mkConstMethod "directory" [] $ TToGc $ TObj c_QDir
     -- TODO directoryUrl (>=5.2)
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectory"
     [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TObj c_QString
