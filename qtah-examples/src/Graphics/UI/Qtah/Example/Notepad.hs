@@ -57,10 +57,10 @@ makeMainWindow = do
   window <- QMainWindow.new
 
   menu <- QMenuBar.new
-  menuFile <- QMenuBar.addNewMenu menu "File"
-  menuFileNew <- QMenu.addNewAction menuFile "New"
-  menuFileOpen <- QMenu.addNewAction menuFile "Open"
-  menuFileSave <- QMenu.addNewAction menuFile "Save"
+  menuFile <- QMenuBar.addNewMenu menu "&File"
+  menuFileNew <- QMenu.addNewAction menuFile "&New"
+  menuFileOpen <- QMenu.addNewAction menuFile "&Open"
+  menuFileSave <- QMenu.addNewAction menuFile "&Save"
   QMainWindow.setMenuBar window menu
 
   contents <- QWidget.new
