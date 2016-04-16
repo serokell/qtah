@@ -22,10 +22,13 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QActionEvent as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard as QClipboard
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent as QCloseEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QColor as QColor
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent as QEnterEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent as QExposeEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent as QHoverEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent as QInputEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent as QKeyEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent as QMouseEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QRegion as QRegion
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent as QWheelEvent
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -36,9 +39,12 @@ modules =
   , QClipboard.aModule
   , QCloseEvent.aModule
   , QColor.aModule
+  , QEnterEvent.aModule
+  , QExposeEvent.aModule
   , QHoverEvent.aModule
   , QInputEvent.aModule
   , QKeyEvent.aModule
   , QMouseEvent.aModule
+  , QRegion.aModule
   , QWheelEvent.aModule
   ]
