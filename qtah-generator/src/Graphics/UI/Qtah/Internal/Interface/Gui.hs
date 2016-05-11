@@ -28,6 +28,8 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent as QHoverEv
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent as QInputEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent as QKeyEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent as QMouseEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon as QPolygon
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF as QPolygonF
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QRegion as QRegion
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent as QWheelEvent
 
@@ -45,6 +47,8 @@ modules =
   , QInputEvent.aModule
   , QKeyEvent.aModule
   , QMouseEvent.aModule
+  , QPolygon.aModule
+  , QPolygonF.aModule
   , QRegion.aModule
   , QWheelEvent.aModule
   ]

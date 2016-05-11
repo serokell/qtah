@@ -123,14 +123,18 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Core.QEvent
     , Graphics.UI.Qtah.Internal.Interface.Core.QList
     , Graphics.UI.Qtah.Internal.Interface.Core.QMargins
+    , Graphics.UI.Qtah.Internal.Interface.Core.QMarginsF
     , Graphics.UI.Qtah.Internal.Interface.Core.QObject
     , Graphics.UI.Qtah.Internal.Interface.Core.QPoint
     , Graphics.UI.Qtah.Internal.Interface.Core.QPointF
     , Graphics.UI.Qtah.Internal.Interface.Core.QRect
+    , Graphics.UI.Qtah.Internal.Interface.Core.QRectF
     , Graphics.UI.Qtah.Internal.Interface.Core.QSize
+    , Graphics.UI.Qtah.Internal.Interface.Core.QSizeF
     , Graphics.UI.Qtah.Internal.Interface.Core.QString
     , Graphics.UI.Qtah.Internal.Interface.Core.QStringList
     , Graphics.UI.Qtah.Internal.Interface.Core.QTimerEvent
+    , Graphics.UI.Qtah.Internal.Interface.Core.QVector
     , Graphics.UI.Qtah.Internal.Interface.Core.Types
     , Graphics.UI.Qtah.Internal.Interface.EventListener
     , Graphics.UI.Qtah.Internal.Interface.Gui
@@ -144,6 +148,8 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF
     , Graphics.UI.Qtah.Internal.Interface.Gui.QRegion
     , Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent
     , Graphics.UI.Qtah.Internal.Interface.Imports

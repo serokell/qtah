@@ -98,7 +98,6 @@ instantiate' :: String -> Type -> Reqs -> Options -> Contents
 instantiate' listName t tReqs opts =
   let reqs = mconcat [ tReqs
                      , reqInclude $ includeStd "QList"
-                     , reqInclude $ includeLocal "wrap_qlist.hpp"
                      ]
       features = Assignable : Copyable : optListClassFeatures opts
       hasReserve = qtVersion >= [4, 7]
@@ -117,6 +116,7 @@ instantiate' listName t tReqs opts =
         , test (qtVersion >= [4, 5]) $ mkMethod' "append" "appendList" [TObj list] TVoid
         , just $ mkMethod' OpArray "at" [TInt] $ TRef t
         , just $ mkConstMethod' "at" "atConst" [TInt] $ TRef $ TConst t
+          -- OMIT back
           -- OMIT begin
         , just $ mkMethod "clear" [] TVoid
         , just $ mkConstMethod "contains" [t] TBool
@@ -140,8 +140,6 @@ instantiate' listName t tReqs opts =
         , just $ mkConstMethod' "mid" "midLength" [TInt, TInt] $ TToGc $ TObj list
         , just $ mkMethod "move" [TInt, TInt] TVoid
         , just $ mkMethod "prepend" [t] TVoid
-        , just $ makeFnMethod (ident2 "qtah" "qlist" "put") "put" MNormal Nonpure
-          [TRef $ TObj list, TInt, t] TVoid
         , just $ mkMethod "removeAll" [t] TInt
         , just $ mkMethod "removeAt" [TInt] TVoid
         , just $ mkMethod "removeFirst" [] TVoid

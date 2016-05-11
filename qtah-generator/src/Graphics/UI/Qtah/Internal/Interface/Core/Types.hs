@@ -27,6 +27,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_Corner,
   e_CursorMoveStyle,
   e_EventPriority,
+  e_FillRule,
   e_GlobalColor,
   e_KeyboardModifier,
   bs_KeyboardModifiers,
@@ -81,6 +82,7 @@ exports =
   , just $ ExportEnum e_Corner
   , just $ ExportEnum e_CursorMoveStyle
   , just $ ExportEnum e_EventPriority
+  , just $ ExportEnum e_FillRule
   , just $ ExportEnum e_GlobalColor
   , just $ ExportEnum e_KeyboardModifier
   , just $ ExportBitspace bs_KeyboardModifiers
@@ -166,6 +168,12 @@ e_EventPriority =
   [ (1, ["high", "event", "priority"])
   , (0, ["normal", "event", "priority"])
   , (-1, ["low", "event", "priority"])
+  ]
+
+e_FillRule =
+  makeQtEnum (ident1 "Qt" "FillRule") qtInclude
+  [ (0, ["odd", "even", "fill"])
+  , (1, ["winding", "fill"])
   ]
 
 e_GlobalColor =

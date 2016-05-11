@@ -31,14 +31,18 @@ library
     , Graphics.UI.Qtah.Core.QList.QString
     , Graphics.UI.Qtah.Core.QList.QWidget
     , Graphics.UI.Qtah.Core.QMargins
+    , Graphics.UI.Qtah.Core.QMarginsF
     , Graphics.UI.Qtah.Core.QObject
     , Graphics.UI.Qtah.Core.QPoint
     , Graphics.UI.Qtah.Core.QPointF
     , Graphics.UI.Qtah.Core.QRect
+    , Graphics.UI.Qtah.Core.QRectF
     , Graphics.UI.Qtah.Core.QSize
+    , Graphics.UI.Qtah.Core.QSizeF
     , Graphics.UI.Qtah.Core.QString
     , Graphics.UI.Qtah.Core.QStringList
     , Graphics.UI.Qtah.Core.QTimerEvent
+    , Graphics.UI.Qtah.Core.QVector.QPoint
     , Graphics.UI.Qtah.Core.Types
     , Graphics.UI.Qtah.Event
     -- TODO This should not be exposed directly, but there is no nice interface
@@ -55,6 +59,8 @@ library
     , Graphics.UI.Qtah.Gui.QInputEvent
     , Graphics.UI.Qtah.Gui.QKeyEvent
     , Graphics.UI.Qtah.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Gui.QPolygon
+    , Graphics.UI.Qtah.Gui.QPolygonF
     , Graphics.UI.Qtah.Gui.QRegion
     , Graphics.UI.Qtah.Gui.QWheelEvent
     , Graphics.UI.Qtah.Signal
@@ -111,14 +117,19 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QString
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
     , Graphics.UI.Qtah.Generated.Core.QMargins
+    , Graphics.UI.Qtah.Generated.Core.QMarginsF
     , Graphics.UI.Qtah.Generated.Core.QObject
     , Graphics.UI.Qtah.Generated.Core.QPoint
     , Graphics.UI.Qtah.Generated.Core.QPointF
     , Graphics.UI.Qtah.Generated.Core.QRect
+    , Graphics.UI.Qtah.Generated.Core.QRectF
     , Graphics.UI.Qtah.Generated.Core.QSize
+    , Graphics.UI.Qtah.Generated.Core.QSizeF
     , Graphics.UI.Qtah.Generated.Core.QString
     , Graphics.UI.Qtah.Generated.Core.QStringList
     , Graphics.UI.Qtah.Generated.Core.QTimerEvent
+    , Graphics.UI.Qtah.Generated.Core.QVector.QPoint
+    , Graphics.UI.Qtah.Generated.Core.QVector.QPointF
     , Graphics.UI.Qtah.Generated.Core.Types
     , Graphics.UI.Qtah.Generated.Gui.QActionEvent
     , Graphics.UI.Qtah.Generated.Gui.QClipboard
@@ -130,6 +141,8 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QInputEvent
     , Graphics.UI.Qtah.Generated.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generated.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generated.Gui.QPolygon
+    , Graphics.UI.Qtah.Generated.Gui.QPolygonF
     , Graphics.UI.Qtah.Generated.Gui.QRegion
     , Graphics.UI.Qtah.Generated.Gui.QWheelEvent
     , Graphics.UI.Qtah.Generated.Internal.EventListener
