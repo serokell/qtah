@@ -31,18 +31,17 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   Type (TBool, TInt, TObj, TRef),
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
   ident,
@@ -81,26 +80,24 @@ aModule =
 
 c_QPoint =
   addReqIncludes [includeStd "QPoint"] $
-  classModifyConversion
-  (\c -> c { classHaskellConversion =
-             Just ClassHaskellConversion
-             { classHaskellConversionType = do
-               addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
-               return $ HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
-             , classHaskellConversionToCppFn = do
-               addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
-                                     hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"]
-               sayLn "qPoint_new <$> HPoint.x <*> HPoint.y"
-             , classHaskellConversionFromCppFn = do
-               addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint",
-                                     importForPrelude]
-               sayLn "\\q -> do"
-               indent $ do
-                 sayLn "y <- qPoint_x q"
-                 sayLn "x <- qPoint_y q"
-                 sayLn "QtahP.return (HPoint.HPoint x y)"
-             }
-           }) $
+  classSetHaskellConversion
+    ClassHaskellConversion
+    { classHaskellConversionType = do
+      addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"
+      return $ HsTyCon $ UnQual $ HsIdent "HPoint.HPoint"
+    , classHaskellConversionToCppFn = do
+      addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                            hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint"]
+      sayLn "qPoint_new <$> HPoint.x <*> HPoint.y"
+    , classHaskellConversionFromCppFn = do
+      addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HPoint" "HPoint",
+                            importForPrelude]
+      sayLn "\\q -> do"
+      indent $ do
+        sayLn "y <- qPoint_x q"
+        sayLn "x <- qPoint_y q"
+        sayLn "QtahP.return (HPoint.HPoint x y)"
+    } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QPoint") Nothing []
   [ mkCtor "newNull" []

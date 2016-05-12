@@ -105,7 +105,7 @@ instantiate' listName t tReqs opts =
       list =
         addReqs reqs $
         addAddendumHaskell addendum $
-        classModifyConversion addConversion $
+        classSetHaskellConversion conversion $
         classAddFeatures features $
         classSetMonomorphicSuperclass $
         makeClass (identT "QList" [t]) (Just $ toExtName listName) []
@@ -209,20 +209,18 @@ instantiate' listName t tReqs opts =
 
       -- A QList of some type converts into a Haskell list of the corresponding
       -- type using HasContents/FromContents.
-      addConversion c =
-        c { classHaskellConversion =
-            Just ClassHaskellConversion
-            { classHaskellConversionType = do
-              hsType <- cppTypeToHsTypeAndUse HsHsSide t
-              return $ HsTyApp (HsTyCon $ Special $ HsListCon) hsType
-            , classHaskellConversionToCppFn = do
-              addImports importForRuntime
-              sayLn "QtahFHR.fromContents"
-            , classHaskellConversionFromCppFn = do
-              addImports importForRuntime
-              sayLn "QtahFHR.toContents"
-            }
-          }
+      conversion =
+        ClassHaskellConversion
+        { classHaskellConversionType = do
+          hsType <- cppTypeToHsTypeAndUse HsHsSide t
+          return $ HsTyApp (HsTyCon $ Special $ HsListCon) hsType
+        , classHaskellConversionToCppFn = do
+          addImports importForRuntime
+          sayLn "QtahFHR.fromContents"
+        , classHaskellConversionFromCppFn = do
+          addImports importForRuntime
+          sayLn "QtahFHR.toContents"
+        }
 
   in Contents
      { c_QList = list

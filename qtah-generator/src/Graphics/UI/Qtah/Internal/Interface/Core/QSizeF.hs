@@ -23,8 +23,9 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QSizeF (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
-  Type (TBool, TEnum, TObj, TRef, TToGc, TVoid),
+  Type (TBool, TEnum, TObj, TRef, TVoid),
   addReqIncludes,
+  classSetConversionToGc,
   ident,
   includeStd,
   makeClass,
@@ -54,25 +55,26 @@ aModule =
 c_QSizeF =
   addReqIncludes [includeStd "QSizeF"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetConversionToGc $
   makeClass (ident "QSizeF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal]
   , mkCtor "newWithSize" [TObj c_QSize]
   ] $
   collect
-  [ just $ mkConstMethod "boundedTo" [TObj c_QSizeF] $ TToGc $ TObj c_QSizeF
-  , just $ mkConstMethod "expandedTo" [TObj c_QSizeF] $ TToGc $ TObj c_QSizeF
+  [ just $ mkConstMethod "boundedTo" [TObj c_QSizeF] $ TObj c_QSizeF
+  , just $ mkConstMethod "expandedTo" [TObj c_QSizeF] $ TObj c_QSizeF
   , just $ mkConstMethod "isEmpty" [] TBool
   , just $ mkConstMethod "isNull" [] TBool
   , just $ mkConstMethod "isValid" [] TBool
   , just $ mkMethod "scale" [TObj c_QSizeF, TEnum e_AspectRatioMode] TVoid
   , test (qtVersion >= [5, 0]) $
-    mkConstMethod "scaled" [TObj c_QSizeF, TEnum e_AspectRatioMode] $ TToGc $ TObj c_QSizeF
+    mkConstMethod "scaled" [TObj c_QSizeF, TEnum e_AspectRatioMode] $ TObj c_QSizeF
   , just $ mkConstMethod "toSize" [] $ TObj c_QSize
   , just $ mkMethod "transpose" [] TVoid
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "transposed" [] $ TToGc $ TObj c_QSizeF
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "transposed" [] $ TObj c_QSizeF
   , just $ mkMethod OpAddAssign [TObj c_QSizeF] $ TRef $ TObj c_QSizeF
-  , just $ mkMethod OpSubtractAssign [TObj c_QSizeF] $ TToGc $ TObj c_QSizeF
+  , just $ mkMethod OpSubtractAssign [TObj c_QSizeF] $ TObj c_QSizeF
   , just $ mkMethod OpMultiplyAssign [qreal] $ TRef $ TObj c_QSizeF
   , just $ mkMethod OpDivideAssign [qreal] $ TRef $ TObj c_QSizeF
   ] ++

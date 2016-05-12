@@ -36,19 +36,18 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   toHsMethodName',
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Constness (Const, Nonconst),
   Export (ExportClass),
   Type (TBool, TEnum, TInt, TObj, TVoid),
   addAddendumHaskell,
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   hsImport1,
   ident,
   includeStd,
@@ -86,22 +85,20 @@ aModule =
 
 c_QStringList =
   addReqIncludes [includeStd "QStringList"] $
-  classModifyConversion
-  (\c -> c { classHaskellConversion =
-             Just ClassHaskellConversion
-             { classHaskellConversionType = do
-               addImports importForPrelude
-               return $
-                 HsTyApp (HsTyCon $ Special $ HsListCon) $
-                 HsTyCon $ UnQual $ HsIdent "QtahP.String"
-             , classHaskellConversionToCppFn = do
-               addImports importForRuntime
-               sayLn "QtahFHR.fromContents"
-             , classHaskellConversionFromCppFn = do
-               addImports importForRuntime
-               sayLn "QtahFHR.toContents"
-             }
-           }) $
+  classSetHaskellConversion
+    ClassHaskellConversion
+    { classHaskellConversionType = do
+      addImports importForPrelude
+      return $
+        HsTyApp (HsTyCon $ Special $ HsListCon) $
+        HsTyCon $ UnQual $ HsIdent "QtahP.String"
+    , classHaskellConversionToCppFn = do
+      addImports importForRuntime
+      sayLn "QtahFHR.fromContents"
+    , classHaskellConversionFromCppFn = do
+      addImports importForRuntime
+      sayLn "QtahFHR.toContents"
+    } $
   addAddendumHaskell addendum $
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QStringList") Nothing [c_QListQString]

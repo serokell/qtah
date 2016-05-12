@@ -30,12 +30,11 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Export (ExportClass),
   MethodApplicability (MNormal),
@@ -43,7 +42,7 @@ import Foreign.Hoppy.Generator.Spec (
   Purity (Nonpure),
   Type (TChar, TConst, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   ident,
   ident2,
   includeLocal,
@@ -80,18 +79,16 @@ c_QString =
   addReqIncludes [includeStd "QString",
                   includeLocal "wrap_qstring.hpp"] $
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
-  classModifyConversion
-  (\c -> c { classHaskellConversion =
-             Just ClassHaskellConversion
-             { classHaskellConversionType = do
-               addImports importForPrelude
-               return $ HsTyCon $ UnQual $ HsIdent "QtahP.String"
-             , classHaskellConversionToCppFn = do
-               addImports $ mconcat [importForForeignC, importForPrelude]
-               sayLn "QtahP.flip QtahFC.withCString qString_newFromCString"
-             , classHaskellConversionFromCppFn = sayLn "qString_toStdString"
-             }
-           }) $
+  classSetHaskellConversion
+    ClassHaskellConversion
+    { classHaskellConversionType = do
+      addImports importForPrelude
+      return $ HsTyCon $ UnQual $ HsIdent "QtahP.String"
+    , classHaskellConversionToCppFn = do
+      addImports $ mconcat [importForForeignC, importForPrelude]
+      sayLn "QtahP.flip QtahFC.withCString qString_newFromCString"
+    , classHaskellConversionFromCppFn = sayLn "qString_toStdString"
+    } $
   makeClass (ident "QString") Nothing []
   [ mkCtor "newFromCString" [TPtr $ TConst TChar]
   ]

@@ -33,17 +33,16 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   saysLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Export (ExportEnum, ExportClass),
   Type (TBool, TEnum, TInt, TObj, TVoid),
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
   ident,
@@ -90,7 +89,7 @@ aModule =
 -- TODO Everything using QRgb.
 c_QColor =
   addReqIncludes [includeStd "QColor"] $
-  classModifyConversion addConversion $
+  classSetHaskellConversion conversion $
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QColor") Nothing []
   [ mkCtor "new" []
@@ -180,46 +179,43 @@ c_QColor =
 
     hColorImport = hsQualifiedImport "Graphics.UI.Qtah.Gui.HColor" "HColor"
 
-    addConversion cls =
-      cls
-      { classHaskellConversion =
-        Just ClassHaskellConversion
-        { classHaskellConversionType = do
-          addImports hColorImport
-          return $ HsTyCon $ UnQual $ HsIdent "HColor.HColor"
+    conversion =
+      ClassHaskellConversion
+      { classHaskellConversionType = do
+        addImports hColorImport
+        return $ HsTyCon $ UnQual $ HsIdent "HColor.HColor"
 
-        , classHaskellConversionToCppFn = do
-          addImports $ mconcat [importForPrelude,
-                                importForRuntime,
-                                hColorImport]
-          sayLn "\\color' -> do"
+      , classHaskellConversionToCppFn = do
+        addImports $ mconcat [importForPrelude,
+                              importForRuntime,
+                              hColorImport]
+        sayLn "\\color' -> do"
+        indent $ do
+          sayLn "this' <- qColor_new"
+          sayLn "case color' of"
+          indent $ forM_ components $ \(spec, letters, _) ->
+            saysLn $ concat
+            [ ["HColor.", spec]
+            , map (\var -> [' ', var, '\'']) letters
+            , if null letters
+              then [" -> QtahP.return ()"]
+              else [" -> qColor_set", spec, "a this'"]
+            , concatMap (\var -> [" (QtahFHR.coerceIntegral ", [var], "')"]) letters
+            ]
+          sayLn "QtahP.return this'"
+
+      , classHaskellConversionFromCppFn = do
+        addImports $ mconcat [hsImports "Prelude" ["($)", "(>>=)"],
+                              importForPrelude,
+                              importForRuntime,
+                              hColorImport]
+        sayLn "\\this' -> qColor_spec this' >>= \\spec' -> case spec' of"
+        indent $ forM_ components $ \(spec, letters, getters) -> do
+          saysLn ["QColorSpec_", spec, " -> do"]
           indent $ do
-            sayLn "this' <- qColor_new"
-            sayLn "case color' of"
-            indent $ forM_ components $ \(spec, letters, _) ->
-              saysLn $ concat
-              [ ["HColor.", spec]
-              , map (\var -> [' ', var, '\'']) letters
-              , if null letters
-                then [" -> QtahP.return ()"]
-                else [" -> qColor_set", spec, "a this'"]
-              , concatMap (\var -> [" (QtahFHR.coerceIntegral ", [var], "')"]) letters
-              ]
-            sayLn "QtahP.return this'"
-
-        , classHaskellConversionFromCppFn = do
-          addImports $ mconcat [hsImports "Prelude" ["($)", "(>>=)"],
-                                importForPrelude,
-                                importForRuntime,
-                                hColorImport]
-          sayLn "\\this' -> qColor_spec this' >>= \\spec' -> case spec' of"
-          indent $ forM_ components $ \(spec, letters, getters) -> do
-            saysLn ["QColorSpec_", spec, " -> do"]
-            indent $ do
-              forM_ (zip letters getters) $ \(var, get) ->
-                saysLn [[var], "' <- QtahP.fmap QtahFHR.coerceIntegral $ qColor_", get, " this'"]
-              saysLn $ ["QtahP.return $ HColor.", spec] ++ map (\var -> [' ', var, '\'']) letters
-        }
+            forM_ (zip letters getters) $ \(var, get) ->
+              saysLn [[var], "' <- QtahP.fmap QtahFHR.coerceIntegral $ qColor_", get, " this'"]
+            saysLn $ ["QtahP.return $ HColor.", spec] ++ map (\var -> [' ', var, '\'']) letters
       }
 
 -- Introduced in Qt 5.2.

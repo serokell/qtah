@@ -31,17 +31,16 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Export (ExportClass),
   Type (TBool, TInt, TObj, TVoid),
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
   ident,
@@ -80,28 +79,26 @@ aModule =
 
 c_QRect =
   addReqIncludes [includeStd "QRect"] $
-  classModifyConversion
-  (\c -> c { classHaskellConversion =
-             Just ClassHaskellConversion
-             { classHaskellConversionType = do
-               addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
-               return $ HsTyCon $ UnQual $ HsIdent "HRect.HRect"
-             , classHaskellConversionToCppFn = do
-               addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
-                                     hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
-               sayLn "qRect_newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
-             , classHaskellConversionFromCppFn = do
-               addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect",
-                                     importForPrelude]
-               sayLn "\\q -> do"
-               indent $ do
-                 sayLn "x <- qRect_x q"
-                 sayLn "y <- qRect_y q"
-                 sayLn "w <- qRect_width q"
-                 sayLn "h <- qRect_height q"
-                 sayLn "QtahP.return (HRect.HRect x y w h)"
-             }
-           }) $
+  classSetHaskellConversion
+    ClassHaskellConversion
+    { classHaskellConversionType = do
+      addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
+      return $ HsTyCon $ UnQual $ HsIdent "HRect.HRect"
+    , classHaskellConversionToCppFn = do
+      addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                            hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
+      sayLn "qRect_newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
+    , classHaskellConversionFromCppFn = do
+      addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect",
+                            importForPrelude]
+      sayLn "\\q -> do"
+      indent $ do
+        sayLn "x <- qRect_x q"
+        sayLn "y <- qRect_y q"
+        sayLn "w <- qRect_width q"
+        sayLn "h <- qRect_height q"
+        sayLn "QtahP.return (HRect.HRect x y w h)"
+    } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QRect") Nothing []
   [ mkCtor "newNull" []

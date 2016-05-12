@@ -41,6 +41,7 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
   cppTypeToHsTypeAndUse,
   execGenerator,
+  getClassHaskellConversion,
   importHsModuleForExtName,
   indent,
   inFunction,
@@ -76,10 +77,8 @@ import Foreign.Hoppy.Generator.Spec (
   bitspaceExtName,
   bitspaceValueNames,
   callbackParams,
-  classConversion,
   classCtors,
   classExtName,
-  classHaskellConversion,
   classMethods,
   ctorExtName,
   ctorParams,
@@ -196,7 +195,7 @@ getFnImportName = toHsFnName . fnExtName
 
 sayClassEncodingFnReexports :: Class -> Generator ()
 sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
-  when (isJust $ classHaskellConversion $ classConversion cls) $ do
+  when (classIsConvertible cls) $ do
     -- Generated encode and decode functions require some things from Hoppy
     -- support and the Prelude.
     addImports $ mconcat [importForPrelude, importForRuntime]
@@ -292,9 +291,9 @@ sayExportClass cls = do
     classUpCastReexportName :
     classDownCastConstReexportName :
     classDownCastReexportName :
-    concat [ case classHaskellConversion $ classConversion cls of
-               Nothing -> []
-               Just _ -> [classEncodeReexportName, classDecodeReexportName]
+    concat [ if classIsConvertible cls
+             then [classEncodeReexportName, classDecodeReexportName]
+             else []
            , sort $ map (getCtorReexportName cls) $ classCtors cls
            , sort $ map (getMethodReexportName cls) $ classMethods cls
            ]
@@ -374,3 +373,8 @@ toSignalConnectName signal paramTypes =
   "(" :
   intersperse "," (map (execChunkWriter . sayType Nothing) paramTypes) ++
   [")"]
+
+-- | Returns true iff a given class is convertible to/from a Haskell
+-- type with @encode@ and @decode@.
+classIsConvertible :: Class -> Bool
+classIsConvertible = isJust . getClassHaskellConversion

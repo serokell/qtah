@@ -30,17 +30,16 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Export (ExportClass, ExportEnum),
   Type (TBool, TChar, TInt, TEnum, TObj, TRef, TUChar, TUShort),
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   hsImport1,
   ident,
   ident1,
@@ -88,22 +87,19 @@ aModule =
 c_QChar =
   addReqIncludes [includeStd "QChar"] $
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
-  classModifyConversion
-  (\c ->
-    c { classHaskellConversion =
-        Just ClassHaskellConversion
-        { classHaskellConversionType = do
-          addImports importForPrelude
-          return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
-        , classHaskellConversionToCppFn = do
-          addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForRuntime]
-          sayLn "qChar_newFromInt . QtahFHR.coerceIntegral . QtahDC.ord"
-        , classHaskellConversionFromCppFn = do
-          addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
-                                importForRuntime]
-          sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . qChar_unicode"
-        }
-      }) $
+  classSetHaskellConversion
+    ClassHaskellConversion
+    { classHaskellConversionType = do
+      addImports importForPrelude
+      return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
+    , classHaskellConversionToCppFn = do
+      addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForRuntime]
+      sayLn "qChar_newFromInt . QtahFHR.coerceIntegral . QtahDC.ord"
+    , classHaskellConversionFromCppFn = do
+      addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
+                            importForRuntime]
+      sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . qChar_unicode"
+    } $
   makeClass (ident "QChar") Nothing []
   [ mkCtor "new" []
   , mkCtor "newFromCellRow" [TUChar, TUChar]

@@ -21,8 +21,9 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TRef, TToGc, TVoid),
+  Type (TBool, TEnum, TInt, TObj, TRef, TVoid),
   addReqIncludes,
+  classSetConversionToGc,
   ident,
   includeStd,
   makeClass,
@@ -55,6 +56,7 @@ aModule =
 c_QPolygonF =
   addReqIncludes [includeStd "QPolygonF"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetConversionToGc $
   makeClass (ident "QPolygonF") Nothing [c_QVectorQPointF]
   [ mkCtor "new" []
   , mkCtor "newWithSize" [TInt]
@@ -63,21 +65,20 @@ c_QPolygonF =
   , mkCtor "newWithRectangle" [TObj c_QRectF]
   ] $
   collect
-  [ just $ mkConstMethod "boundingRect" [] $ TToGc $ TObj c_QRectF
+  [ just $ mkConstMethod "boundingRect" [] $ TObj c_QRectF
   , test (qtVersion >= [4, 3]) $ mkConstMethod "containsPoint"
     [TObj c_QPointF, TEnum e_FillRule] TBool
-  , test (qtVersion >= [4, 3]) $ mkConstMethod "intersected"
-    [TObj c_QPolygonF] $ TToGc $ TObj c_QPolygonF
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "intersected" [TObj c_QPolygonF] $ TObj c_QPolygonF
   , just $ mkConstMethod "isClosed" [] TBool
-  , test (qtVersion >= [4, 3]) $ mkConstMethod "subtracted" [TObj c_QPolygonF] $ TToGc $ TObj c_QPolygonF
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "subtracted" [TObj c_QPolygonF] $ TObj c_QPolygonF
   , test (qtVersion >= [4, 8]) $ mkMethod "swap" [TRef $ TObj c_QPolygonF] TVoid
-  , just $ mkConstMethod "toPolygon" [] $ TToGc $ TObj c_QPolygon
+  , just $ mkConstMethod "toPolygon" [] $ TObj c_QPolygon
   , just $ mkMethod' "translate" "translateByRaw" [TInt, TInt] TVoid
   , just $ mkMethod' "translate" "translateByPoint" [TObj c_QPointF] TVoid
   , test (qtVersion >= [4, 6]) $ mkConstMethod' "translated" "translatedByRaw"
-    [TInt, TInt] $ TToGc $ TObj c_QPolygonF
+    [TInt, TInt] $ TObj c_QPolygonF
   , test (qtVersion >= [4, 6]) $ mkConstMethod' "translated" "translatedByPoint"
-    [TObj c_QPointF] $ TToGc $ TObj c_QPolygonF
+    [TObj c_QPointF] $ TObj c_QPolygonF
   , test (qtVersion >= [4, 3]) $ mkConstMethod "united"
-    [TObj c_QPolygonF] $ TToGc $ TObj c_QPolygonF
+    [TObj c_QPolygonF] $ TObj c_QPolygonF
   ]

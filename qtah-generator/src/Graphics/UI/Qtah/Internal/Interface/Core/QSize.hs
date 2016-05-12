@@ -31,18 +31,17 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
-  ClassConversion (classHaskellConversion),
   ClassHaskellConversion (
-      ClassHaskellConversion,
-      classHaskellConversionFromCppFn,
-      classHaskellConversionToCppFn,
-      classHaskellConversionType
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
   ),
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   Type (TBool, TEnum, TInt, TObj, TRef, TVoid),
   addReqIncludes,
-  classModifyConversion,
+  classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
   ident,
@@ -78,26 +77,24 @@ aModule =
 
 c_QSize =
   addReqIncludes [includeStd "QSize"] $
-  classModifyConversion
-  (\c -> c { classHaskellConversion =
-             Just ClassHaskellConversion
-             { classHaskellConversionType = do
-               addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
-               return $ HsTyCon $ UnQual $ HsIdent "HSize.HSize"
-             , classHaskellConversionToCppFn = do
-               addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
-                                     hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
-               sayLn "qSize_new <$> HSize.width <*> HSize.height"
-             , classHaskellConversionFromCppFn = do
-               addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize",
-                                     importForPrelude]
-               sayLn "\\q -> do"
-               indent $ do
-                 sayLn "w <- qSize_width q"
-                 sayLn "h <- qSize_height q"
-                 sayLn "QtahP.return (HSize.HSize w h)"
-             }
-           }) $
+  classSetHaskellConversion
+    ClassHaskellConversion
+    { classHaskellConversionType = do
+      addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
+      return $ HsTyCon $ UnQual $ HsIdent "HSize.HSize"
+    , classHaskellConversionToCppFn = do
+      addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                            hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
+      sayLn "qSize_new <$> HSize.width <*> HSize.height"
+    , classHaskellConversionFromCppFn = do
+      addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize",
+                            importForPrelude]
+      sayLn "\\q -> do"
+      indent $ do
+        sayLn "w <- qSize_width q"
+        sayLn "h <- qSize_height q"
+        sayLn "QtahP.return (HSize.HSize w h)"
+    } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QSize") Nothing []
   [ mkCtor "newNull" []
