@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Internal.Generator.Types (
   aModuleHoppy,
   QtModule,
   makeQtModule,
+  makeQtModuleWithMinVersion,
   qtModulePath,
   qtModuleQtExports,
   qtModuleHoppy,
@@ -57,6 +58,7 @@ import Foreign.Hoppy.Generator.Spec (
   moduleModify',
   toExtName,
   )
+import Graphics.UI.Qtah.Internal.Flags (Version, qtVersion)
 
 moduleNameAppend :: String -> String -> String
 moduleNameAppend "" y = y
@@ -99,6 +101,15 @@ makeQtModule modulePath@(_:moduleNameParts) qtExports =
          moduleAddHaskellName modulePath
          moduleAddExports $ mapMaybe qtExportToExport qtExports
      }
+
+-- | Creates a 'QtModule' (a la 'makeQtModule') that has a minimum version
+-- applied to all of its contents.  If Qtah is being built against a version of
+-- Qt below this minimum version, then the module will still be generated, but
+-- it will be empty; the exports list will be replaced with an empty list.
+makeQtModuleWithMinVersion :: [String] -> Version -> [QtExport] -> QtModule
+makeQtModuleWithMinVersion modulePath minVersion qtExports =
+  makeQtModule modulePath $
+  if qtVersion >= minVersion then qtExports else []
 
 qtExportToExport :: QtExport -> Maybe Export
 qtExportToExport qtExport = case qtExport of

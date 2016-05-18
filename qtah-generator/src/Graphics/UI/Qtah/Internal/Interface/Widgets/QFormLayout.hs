@@ -17,7 +17,6 @@
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout (
   aModule,
-  minVersion,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -50,12 +49,11 @@ import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-minVersion :: [Int]
 minVersion = [4, 4]
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QFormLayout"] $
+  makeQtModuleWithMinVersion ["Widgets", "QFormLayout"] minVersion
   [ QtExport $ ExportClass c_QFormLayout
   , QtExport $ ExportEnum e_FieldGrowthPolicy
   , QtExport $ ExportEnum e_ItemRole

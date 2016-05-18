@@ -27,6 +27,7 @@
 -- Using @qglobal.h@ and @#define Q@ provides additional defintions,
 -- e.g. version and windowing system information.
 module Graphics.UI.Qtah.Internal.Flags (
+  Version,
   qtVersion,
   keypadNavigation,
   qdoc,
@@ -34,9 +35,15 @@ module Graphics.UI.Qtah.Internal.Flags (
   wsWince,
   ) where
 
+-- | A type synonym for Qt version specifications.  These are just lists of
+-- integers, of length two.  Examples are @[4, 8]@ and @[5, 0]@ to denote
+-- versions 4.8 and 5.0 respectively.  A third component may be used in the
+-- future, if necessary.
+type Version = [Int]
+
 -- | The version of Qt that Qtah is being built against.  This controls which
 -- functions and types are made available in the API.
-qtVersion :: [Int]
+qtVersion :: Version
 qtVersion = [QT_MAJOR, QT_MINOR]
 
 keypadNavigation :: Bool

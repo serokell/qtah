@@ -17,8 +17,6 @@
 
 module Graphics.UI.Qtah.Internal.Interface.Widgets (modules) where
 
-import Foreign.Hoppy.Generator.Version (collect, just, test)
-import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
@@ -65,45 +63,44 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget as QWidget
 
 modules :: [AModule]
 modules =
-  collect
-  [ just QAbstractButton.aModule
-  , just QAbstractScrollArea.aModule
-  , just QAbstractSlider.aModule
-  , just QApplication.aModule
-  , just QAction.aModule
-  , just QActionGroup.aModule
-  , just QBoxLayout.aModule
-  , just QButtonGroup.aModule
-  , just QCheckBox.aModule
-  , just QDial.aModule
-  , just QDialog.aModule
-  , just QFileDialog.aModule
-  , test (qtVersion >= QFormLayout.minVersion) QFormLayout.aModule
-  , just QFrame.aModule
-  , just QGridLayout.aModule
-  , just QGroupBox.aModule
-  , just QHBoxLayout.aModule
-  , just QLabel.aModule
-  , just QLayout.aModule
-  , just QLayoutItem.aModule
-  , just QLineEdit.aModule
-  , just QMainWindow.aModule
-  , just QMenu.aModule
-  , just QMenuBar.aModule
-  , just QMessageBox.aModule
-  , just QProgressBar.aModule
-  , just QPushButton.aModule
-  , just QRadioButton.aModule
-  , just QRubberBand.aModule
-  , just QScrollArea.aModule
-  , just QScrollBar.aModule
-  , just QSlider.aModule
-  , just QSplitter.aModule
-  , just QStackedLayout.aModule
-  , just QStackedWidget.aModule
-  , just QStatusBar.aModule
-  , just QTabWidget.aModule
-  , just QTextEdit.aModule
-  , just QVBoxLayout.aModule
-  , just QWidget.aModule
+  [ QAbstractButton.aModule
+  , QAbstractScrollArea.aModule
+  , QAbstractSlider.aModule
+  , QApplication.aModule
+  , QAction.aModule
+  , QActionGroup.aModule
+  , QBoxLayout.aModule
+  , QButtonGroup.aModule
+  , QCheckBox.aModule
+  , QDial.aModule
+  , QDialog.aModule
+  , QFileDialog.aModule
+  , QFormLayout.aModule
+  , QFrame.aModule
+  , QGridLayout.aModule
+  , QGroupBox.aModule
+  , QHBoxLayout.aModule
+  , QLabel.aModule
+  , QLayout.aModule
+  , QLayoutItem.aModule
+  , QLineEdit.aModule
+  , QMainWindow.aModule
+  , QMenu.aModule
+  , QMenuBar.aModule
+  , QMessageBox.aModule
+  , QProgressBar.aModule
+  , QPushButton.aModule
+  , QRadioButton.aModule
+  , QRubberBand.aModule
+  , QScrollArea.aModule
+  , QScrollBar.aModule
+  , QSlider.aModule
+  , QSplitter.aModule
+  , QStackedLayout.aModule
+  , QStackedWidget.aModule
+  , QStatusBar.aModule
+  , QTabWidget.aModule
+  , QTextEdit.aModule
+  , QVBoxLayout.aModule
+  , QWidget.aModule
   ]
