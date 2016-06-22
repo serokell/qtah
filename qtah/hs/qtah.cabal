@@ -214,3 +214,4 @@ test-suite test-qtah
   hs-source-dirs: tests
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
+  extra-libraries: qtah

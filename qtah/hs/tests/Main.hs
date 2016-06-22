@@ -20,8 +20,8 @@ module Main (main) where
 import Control.Monad (when)
 import Foreign.Hoppy.Runtime (withScopedPtr)
 import qualified Graphics.UI.Qtah.EventTest
-import Graphics.UI.Qtah.Widgets.QApplication (QApplication)
-import qualified Graphics.UI.Qtah.Widgets.QApplication as QApplication
+import qualified Graphics.UI.Qtah.Core.QCoreApplication as QCoreApplication
+import Graphics.UI.Qtah.Core.QCoreApplication (QCoreApplication)
 import System.Exit (exitFailure)
 import Test.HUnit (
   Test (TestList),
@@ -32,11 +32,11 @@ import Test.HUnit (
   )
 
 main :: IO ()
-main = withScopedPtr (QApplication.new ([] :: [String])) $ \app -> do
+main = withScopedPtr (QCoreApplication.new ([] :: [String])) $ \app -> do
   counts <- runTestTT $ tests app
   when (errors counts /= 0 || failures counts /= 0) exitFailure
 
-tests :: QApplication -> Test
+tests :: QCoreApplication -> Test
 tests app =
   TestList
   [ "Graphics.UI.Qtah.Event" ~: Graphics.UI.Qtah.EventTest.tests app

@@ -27,10 +27,10 @@ import qualified Graphics.UI.Qtah.Core.QCoreApplication as QCoreApplication
 import qualified Graphics.UI.Qtah.Core.QEvent as QEvent
 import qualified Graphics.UI.Qtah.Core.QObject as QObject
 import Graphics.UI.Qtah.Event
-import Graphics.UI.Qtah.Widgets.QApplication (QApplication)
+import Graphics.UI.Qtah.Core.QCoreApplication (QCoreApplication)
 import Test.HUnit (Test (TestList), (~:), (@?=), assertFailure)
 
-tests :: QApplication -> Test
+tests :: QCoreApplication -> Test
 tests app =
   TestList
   [ "listener gets deleted when receiver is deleted" ~: alloca $ \deletedPtr -> do

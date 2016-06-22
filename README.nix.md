@@ -4,16 +4,21 @@ the following overrides, after updating `qtahDir` as appropriate for your
 environment.  Hoppy must already be at `haskellPackages.hoppy`; if it's not,
 follow the similar setup instructions for Hoppy.
 
-    packageOverrides = let qtahDir = /my/projects/qtah.git; in pkgs: rec {
-      qtah-cpp = pkgs.callPackage (qtahDir + /qtah/cpp) {
-        inherit (haskellPackages) qtah-generator;
-      };
+    packageOverrides = pkgs:
+      let qtahDir = /my/projects/qtah.git;
+          qt = pkgs.qt5;
+      in rec {
+        qtah-cpp = pkgs.callPackage (qtahDir + /qtah/cpp) {
+          inherit (haskellPackages) qtah-generator;
+          inherit qt;
+        };
 
-      haskellPackages = pkgs.haskellPackages.override {
-        overrides = self: super: {
-          qtah-generator = self.callPackage (qtahDir + /qtah-generator) {};
-          qtah = self.callPackage (qtahDir + /qtah/hs) {};
-          qtah-examples = self.callPackage (qtahDir + /qtah-examples) {};
+        haskellPackages = pkgs.haskellPackages.override {
+          overrides = self: super: {
+            qtah-generator = self.callPackage (qtahDir + /qtah-generator) { inherit qt };
+            qtah = self.callPackage (qtahDir + /qtah/hs) {};
+            qtah-examples = self.callPackage (qtahDir + /qtah-examples) {};
+          };
         };
       };
 

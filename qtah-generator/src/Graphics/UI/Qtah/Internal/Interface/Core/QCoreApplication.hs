@@ -22,10 +22,15 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QCoreApplication (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
+  MethodApplicability (MStatic),
+  Purity (Nonpure),
   Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
+  ident2,
+  includeLocal,
   includeStd,
+  makeFnMethod,
   makeClass,
   mkMethod,
   mkMethod',
@@ -46,11 +51,15 @@ aModule =
   [ QtExport $ ExportClass c_QCoreApplication ]
 
 c_QCoreApplication =
-  addReqIncludes [includeStd "QCoreApplication"] $
+  addReqIncludes [ includeStd "QCoreApplication"
+                 , includeLocal "wrap_qcoreapplication.hpp"
+                 ] $
   makeClass (ident "QCoreApplication") Nothing [c_QObject]
   [] $
   collect
-  [ test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ TObj c_QStringList
+  [ just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
+    [TObj c_QStringList] $ TPtr $ TObj c_QCoreApplication
+  , test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ TObj c_QStringList
   , test (qtVersion >= [4, 3]) $ mkMethod' "postEvent" "postEvent"
     [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TVoid
   , test (qtVersion >= [4, 3]) $ mkMethod' "postEvent" "postEventWithPriority"

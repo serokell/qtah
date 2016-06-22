@@ -15,11 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{ stdenv, qt4, qtah-generator }:
-stdenv.mkDerivation {
+{ stdenv, qt, qtah-generator, lib }:
+let
+  qtVersionComponents = lib.strings.splitString "." qt.version;
+  qtMajor = builtins.elemAt qtVersionComponents 0;
+in stdenv.mkDerivation {
   name = "qtah-cpp-0.1.0";
   src = ./.;
-  buildInputs = [ qt4 qtah-generator ];
+  buildInputs = [ qt qtah-generator ];
   enableParallelBuilding = true;
 
   prePatch = ''

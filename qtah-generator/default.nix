@@ -16,21 +16,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 { mkDerivation, base, containers, directory, filepath, haskell-src
-, hoppy, mtl, stdenv, lib
+, hoppy-generator, hoppy-std, mtl, stdenv, lib
+, qt
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
-
-let listenerGen = ../tools/listener-gen.sh; in
-
-mkDerivation ({
+let
+  listenerGen = ../tools/listener-gen.sh;
+  qtVersionComponents = lib.strings.splitString "." qt.version;
+  qtMajor = builtins.elemAt qtVersionComponents 0;
+  qtMinor = builtins.elemAt qtVersionComponents 1;
+in mkDerivation ({
   pname = "qtah-generator";
   version = "0.1.0";
   src = ./.;
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base containers directory filepath haskell-src hoppy mtl
+    base containers directory filepath haskell-src hoppy-generator
+    hoppy-std mtl
   ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Generator for Qtah Qt bindings";
@@ -40,10 +44,13 @@ mkDerivation ({
     ${listenerGen} --gen-hs-dir .
   '';
 
-  preConfigure =
-    if forceParallelBuilding
-    then "configureFlags+=\" --ghc-option=-j$NIX_BUILD_CORES\""
-    else null;
+  preConfigure = ''
+    configureFlags+="--flags=qt${qtMajor}_${qtMinor}"
+
+    ${if forceParallelBuilding
+     then "configureFlags+=\" --ghc-option=-j$NIX_BUILD_CORES\""
+     else ""}
+  '';
 
   postInstall = ''
     install -T ${listenerGen} $out/bin/qtah-listener-gen

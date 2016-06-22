@@ -15,9 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{ mkDerivation, base, binary, bytestring, hoppy, stdenv, lib
-, qtah-generator
-, qtah-cpp
+{ mkDerivation, base, binary, bytestring, hoppy-runtime, HUnit
+, qtah-cpp, qtah-generator, stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
@@ -25,8 +24,10 @@ mkDerivation ({
   pname = "qtah";
   version = "0.1.0";
   src = ./.;
-  libraryHaskellDepends = [ base binary bytestring hoppy ];
+  libraryHaskellDepends = [ base binary bytestring hoppy-runtime ];
   librarySystemDepends = [ qtah-cpp ];
+  testHaskellDepends = [ base hoppy-runtime HUnit ];
+  testSystemDepends = [ qtah-cpp ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Qt bindings for Haskell";
   license = stdenv.lib.licenses.lgpl3Plus;
