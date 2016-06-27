@@ -30,6 +30,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup as QBu
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog as QDialog
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialogButtonBox as QDialogButtonBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDoubleSpinBox as QDoubleSpinBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout as QFormLayout
@@ -78,6 +79,7 @@ modules =
   , QCheckBox.aModule
   , QDial.aModule
   , QDialog.aModule
+  , QDialogButtonBox.aModule
   , QDoubleSpinBox.aModule
   , QFileDialog.aModule
   , QFormLayout.aModule

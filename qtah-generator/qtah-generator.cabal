@@ -168,6 +168,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QDial
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog
+    , Graphics.UI.Qtah.Internal.Interface.Widgets.QDialogButtonBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog
     , Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout
