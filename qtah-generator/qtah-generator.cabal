@@ -144,6 +144,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QColor
     , Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent

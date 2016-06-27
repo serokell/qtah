@@ -24,6 +24,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent as QCloseEv
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QColor as QColor
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent as QEnterEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent as QExposeEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent as QFocusEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent as QHoverEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent as QInputEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent as QKeyEvent
@@ -42,6 +43,7 @@ modules =
   , QCloseEvent.aModule
   , QColor.aModule
   , QEnterEvent.aModule
+  , QFocusEvent.aModule
   , QExposeEvent.aModule
   , QHoverEvent.aModule
   , QInputEvent.aModule

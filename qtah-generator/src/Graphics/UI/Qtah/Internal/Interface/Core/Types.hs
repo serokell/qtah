@@ -28,6 +28,7 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
   e_CursorMoveStyle,
   e_EventPriority,
   e_FillRule,
+  e_FocusReason,
   e_GlobalColor,
   e_KeyboardModifier,
   bs_KeyboardModifiers,
@@ -83,6 +84,7 @@ exports =
   , just $ ExportEnum e_CursorMoveStyle
   , just $ ExportEnum e_EventPriority
   , just $ ExportEnum e_FillRule
+  , just $ ExportEnum e_FocusReason
   , just $ ExportEnum e_GlobalColor
   , just $ ExportEnum e_KeyboardModifier
   , just $ ExportBitspace bs_KeyboardModifiers
@@ -174,6 +176,18 @@ e_FillRule =
   makeQtEnum (ident1 "Qt" "FillRule") qtInclude
   [ (0, ["odd", "even", "fill"])
   , (1, ["winding", "fill"])
+  ]
+
+e_FocusReason =
+  makeQtEnum (ident1 "Qt" "FocusReason") qtInclude
+  [ (0, ["mouse", "focus", "reason"])
+  , (1, ["tab", "focus", "reason"])
+  , (2, ["backtab", "focus", "reason"])
+  , (3, ["active", "window", "focus", "reason"])
+  , (4, ["popup", "focus", "reason"])
+  , (5, ["shortcut", "focus", "reason"])
+  , (6, ["menu", "bar", "focus", "reason"])
+  , (7, ["other", "focus", "reason"])
   ]
 
 e_GlobalColor =

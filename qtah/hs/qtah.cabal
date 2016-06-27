@@ -55,6 +55,7 @@ library
     , Graphics.UI.Qtah.Gui.QColor
     , Graphics.UI.Qtah.Gui.QEnterEvent
     , Graphics.UI.Qtah.Gui.QExposeEvent
+    , Graphics.UI.Qtah.Gui.QFocusEvent
     , Graphics.UI.Qtah.Gui.QHoverEvent
     , Graphics.UI.Qtah.Gui.QInputEvent
     , Graphics.UI.Qtah.Gui.QKeyEvent
@@ -140,6 +141,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QColor
     , Graphics.UI.Qtah.Generated.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generated.Gui.QExposeEvent
+    , Graphics.UI.Qtah.Generated.Gui.QFocusEvent
     , Graphics.UI.Qtah.Generated.Gui.QHoverEvent
     , Graphics.UI.Qtah.Generated.Gui.QInputEvent
     , Graphics.UI.Qtah.Generated.Gui.QKeyEvent
