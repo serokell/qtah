@@ -70,6 +70,7 @@ forEachListener() {
 
     # Keep the includes in the C++ section up-to-date with the types used here.
     $fn Bool "bool"
+    $fn Double "double"
     $fn Int "int"
     $fn IntBool "int|bool"
     $fn IntInt "int|int"

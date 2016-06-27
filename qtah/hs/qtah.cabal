@@ -67,6 +67,7 @@ library
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Widgets.QAbstractSlider
+    , Graphics.UI.Qtah.Widgets.QAbstractSpinBox
     , Graphics.UI.Qtah.Widgets.QAction
     , Graphics.UI.Qtah.Widgets.QActionGroup
     , Graphics.UI.Qtah.Widgets.QApplication
@@ -75,6 +76,7 @@ library
     , Graphics.UI.Qtah.Widgets.QCheckBox
     , Graphics.UI.Qtah.Widgets.QDial
     , Graphics.UI.Qtah.Widgets.QDialog
+    , Graphics.UI.Qtah.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Widgets.QFileDialog
     , Graphics.UI.Qtah.Widgets.QFormLayout
     , Graphics.UI.Qtah.Widgets.QFrame
@@ -96,6 +98,7 @@ library
     , Graphics.UI.Qtah.Widgets.QScrollArea
     , Graphics.UI.Qtah.Widgets.QScrollBar
     , Graphics.UI.Qtah.Widgets.QSlider
+    , Graphics.UI.Qtah.Widgets.QSpinBox
     , Graphics.UI.Qtah.Widgets.QSplitter
     , Graphics.UI.Qtah.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Widgets.QStackedWidget
@@ -150,6 +153,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractSlider
+    , Graphics.UI.Qtah.Generated.Widgets.QAbstractSpinBox
     , Graphics.UI.Qtah.Generated.Widgets.QAction
     , Graphics.UI.Qtah.Generated.Widgets.QActionGroup
     , Graphics.UI.Qtah.Generated.Widgets.QApplication
@@ -158,6 +162,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QCheckBox
     , Graphics.UI.Qtah.Generated.Widgets.QDial
     , Graphics.UI.Qtah.Generated.Widgets.QDialog
+    , Graphics.UI.Qtah.Generated.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Generated.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generated.Widgets.QFormLayout
     , Graphics.UI.Qtah.Generated.Widgets.QFrame
@@ -179,6 +184,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QScrollBar
     , Graphics.UI.Qtah.Generated.Widgets.QSlider
+    , Graphics.UI.Qtah.Generated.Widgets.QSpinBox
     , Graphics.UI.Qtah.Generated.Widgets.QSplitter
     , Graphics.UI.Qtah.Generated.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generated.Widgets.QStackedWidget

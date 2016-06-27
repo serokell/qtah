@@ -28,7 +28,8 @@ module Graphics.UI.Qtah.Internal.Generator.Types (
   QtExport (..),
   makeQtEnum,
   makeQtEnumBitspace,
-  Signal, makeSignal, signalCName, signalClass, signalListenerClass,
+  Signal, makeSignal, makeSignal',
+  signalCName, signalHaskellName, signalClass, signalListenerClass,
   ) where
 
 import Data.Char (toLower)
@@ -162,6 +163,9 @@ data Signal = Signal
     -- ^ The class to which the signal belongs.
   , signalCName :: String
     -- ^ The C name of the signal, without parameters, e.g. @"clicked"@.
+  , signalHaskellName :: String
+    -- ^ The base name of the Haskell binding for the signal.  Normally the same
+    -- as the C name.
   , signalListenerClass :: Class
     -- ^ An appropriately typed listener class.
   }
@@ -170,4 +174,11 @@ makeSignal :: Class  -- ^ 'signalClass'
            -> String  -- ^ 'signalCName'
            -> Class  -- ^ 'signalListenerClass'
            -> Signal
-makeSignal = Signal
+makeSignal cls cName = Signal cls cName cName
+
+makeSignal' :: Class  -- ^ 'signalClass'
+            -> String  -- ^ 'signalCName'
+            -> String  -- ^ 'signalHaskellName'
+            -> Class  -- ^ 'signalListenerClass'
+            -> Signal
+makeSignal' = Signal

@@ -19,7 +19,7 @@ module Graphics.UI.Qtah.Internal.Interface.Callback where
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportCallback),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
   makeCallback,
   makeModule,
   moduleAddExports,
@@ -49,6 +49,7 @@ aModule =
   moduleModify' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
   moduleAddExports
   [ ExportCallback cb_BoolVoid
+  , ExportCallback cb_DoubleVoid
   , ExportCallback cb_IntVoid
   , ExportCallback cb_IntBoolVoid
   , ExportCallback cb_IntIntVoid
@@ -69,6 +70,10 @@ aModule =
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")
   [TBool] TVoid
+
+cb_DoubleVoid =
+  makeCallback (toExtName "CallbackDoubleVoid")
+  [TDouble] TVoid
 
 cb_IntVoid =
   makeCallback (toExtName "CallbackIntVoid")

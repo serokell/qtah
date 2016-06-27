@@ -21,14 +21,16 @@ import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider as QAbstractSlider
-import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication as QApplication
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSpinBox as QAbstractSpinBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QAction as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup as QActionGroup
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QApplication as QApplication
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout as QBoxLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup as QButtonGroup
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox as QCheckBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog as QDialog
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QDoubleSpinBox as QDoubleSpinBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFormLayout as QFormLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame as QFrame
@@ -50,6 +52,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QRubberBand as QRub
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollArea as QScrollArea
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar as QScrollBar
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider as QSlider
+import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSpinBox as QSpinBox
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter as QSplitter
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout as QStackedLayout
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedWidget as QStackedWidget
@@ -66,14 +69,16 @@ modules =
   [ QAbstractButton.aModule
   , QAbstractScrollArea.aModule
   , QAbstractSlider.aModule
-  , QApplication.aModule
+  , QAbstractSpinBox.aModule
   , QAction.aModule
   , QActionGroup.aModule
+  , QApplication.aModule
   , QBoxLayout.aModule
   , QButtonGroup.aModule
   , QCheckBox.aModule
   , QDial.aModule
   , QDialog.aModule
+  , QDoubleSpinBox.aModule
   , QFileDialog.aModule
   , QFormLayout.aModule
   , QFrame.aModule
@@ -95,6 +100,7 @@ modules =
   , QScrollArea.aModule
   , QScrollBar.aModule
   , QSlider.aModule
+  , QSpinBox.aModule
   , QSplitter.aModule
   , QStackedLayout.aModule
   , QStackedWidget.aModule

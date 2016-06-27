@@ -106,6 +106,7 @@ import Graphics.UI.Qtah.Internal.Generator.Types (
   qtModuleQtExports,
   signalClass,
   signalCName,
+  signalHaskellName,
   signalListenerClass,
   )
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -363,7 +364,7 @@ sayBind :: String -> String -> Generator ()
 sayBind name value = saysLn [name, " = ", value]
 
 toSignalBindingName :: Signal -> String
-toSignalBindingName = (++ "Signal") . signalCName
+toSignalBindingName = (++ "Signal") . signalHaskellName
 
 toSignalConnectName :: Signal -> [Type] -> String
 toSignalConnectName signal paramTypes =
