@@ -26,6 +26,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QDoubleValidator as QDo
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent as QEnterEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent as QExposeEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent as QFocusEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHideEvent as QHideEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent as QHoverEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent as QInputEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QIntValidator as QIntValidator
@@ -34,6 +35,7 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent as QMouseEv
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon as QPolygon
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF as QPolygonF
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QRegion as QRegion
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QShowEvent as QShowEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QValidator as QValidator
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent as QWheelEvent
 
@@ -49,6 +51,7 @@ modules =
   , QEnterEvent.aModule
   , QFocusEvent.aModule
   , QExposeEvent.aModule
+  , QHideEvent.aModule
   , QHoverEvent.aModule
   , QInputEvent.aModule
   , QIntValidator.aModule
@@ -57,6 +60,7 @@ modules =
   , QPolygon.aModule
   , QPolygonF.aModule
   , QRegion.aModule
+  , QShowEvent.aModule
   , QValidator.aModule
   , QWheelEvent.aModule
   ]

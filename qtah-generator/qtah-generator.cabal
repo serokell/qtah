@@ -146,6 +146,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QHideEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QIntValidator
@@ -154,6 +155,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon
     , Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF
     , Graphics.UI.Qtah.Internal.Interface.Gui.QRegion
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QShowEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QValidator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent
     , Graphics.UI.Qtah.Internal.Interface.Imports
