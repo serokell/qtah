@@ -21,7 +21,7 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLineEdit (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
+  Type (TBitspace, TBool, TConst, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -41,6 +41,7 @@ import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_CursorMoveStyle)
+import Graphics.UI.Qtah.Internal.Interface.Gui.QValidator (c_QValidator)
 import Graphics.UI.Qtah.Internal.Interface.Listener (
   c_Listener,
   c_ListenerIntInt,
@@ -111,7 +112,7 @@ c_QLineEdit =
   , mkProp "placeholderText" $ TObj c_QString
   , mkBoolIsProp "readOnly"
   , mkProp "text" $ TObj c_QString
-    -- TODO validator
+  , mkProp "validator" $ TPtr $ TConst $ TObj c_QValidator
   ]
 
 signals =
