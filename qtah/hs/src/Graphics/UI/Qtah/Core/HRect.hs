@@ -21,14 +21,13 @@ module Graphics.UI.Qtah.Core.HRect (
   isNull,
   ) where
 
-import Foreign.C (CInt)
 import Prelude hiding (null)
 
 data HRect = HRect
-  { x :: CInt
-  , y :: CInt
-  , width :: CInt
-  , height :: CInt
+  { x :: Int
+  , y :: Int
+  , width :: Int
+  , height :: Int
   } deriving (Eq, Show)
 
 null :: HRect

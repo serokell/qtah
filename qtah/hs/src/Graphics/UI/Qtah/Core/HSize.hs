@@ -24,12 +24,11 @@ module Graphics.UI.Qtah.Core.HSize (
   transpose,
   ) where
 
-import Foreign.C (CInt)
 import Prelude hiding (null)
 
 data HSize = HSize
-  { width :: CInt
-  , height :: CInt
+  { width :: Int
+  , height :: Int
   } deriving (Eq, Show)
 
 null :: HSize

@@ -21,14 +21,13 @@ module Graphics.UI.Qtah.Core.HMargins (
   isNull,
   ) where
 
-import Foreign.C (CInt)
 import Prelude hiding (null)
 
 data HMargins = HMargins
-  { left :: CInt
-  , top :: CInt
-  , right :: CInt
-  , bottom :: CInt
+  { left :: Int
+  , top :: Int
+  , right :: Int
+  , bottom :: Int
   } deriving (Eq, Show)
 
 null :: HMargins

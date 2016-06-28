@@ -274,10 +274,10 @@ sayQtExport path qtExport = case qtExport of
 
   QtExportSpecials -> do
     -- Generate a type synonym for qreal.
-    addImports importForForeignC
+    addImports importForPrelude
     addExport "QReal"
     ln
-    saysLn ["type QReal = ", if QREAL_FLOAT then "QtahFC.CFloat" else "QtahFC.CDouble"]
+    saysLn ["type QReal = ", if QREAL_FLOAT then "QtahP.Float" else "QtahP.Double"]
 
 sayExportClass :: Class -> Generator ()
 sayExportClass cls = do
