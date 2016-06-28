@@ -209,7 +209,8 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QWidget
     , Graphics.UI.Qtah.Internal.EventListener
   other-extensions:
-      NoMonomorphismRestriction
+      FlexibleContexts
+    , NoMonomorphismRestriction
   build-depends:
       base >=4.7 && <4.9
     , binary >=0.7 && <0.8

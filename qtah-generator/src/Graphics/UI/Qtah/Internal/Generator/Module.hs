@@ -349,6 +349,14 @@ sayExportSignal signal = inFunction "sayExportSignal" $ do
                 HsTyApp (HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahSignal.Signal") $
                          HsTyVar $ HsIdent "object")
                 callbackHsType
+      internalName = concat
+                     [ fromExtName $ classExtName cls
+                     , "::"
+                     , name
+                     , " ("
+                     , fromExtName $ classExtName listenerClass
+                     , ")"
+                     ]
   ln
   saysLn [varName, " :: ", prettyPrint varType]
   saysLn [varName, " = QtahSignal.Signal"]
@@ -358,6 +366,7 @@ sayExportSignal signal = inFunction "sayExportSignal" $ do
       saysLn ["listener' <- ", toHsFnName $ getClassyExtName listenerClass listenerCtor, " fn'"]
       saysLn [toHsFnName $ getClassyExtName listenerClass listenerConnectMethod,
               " listener' object' ", show (toSignalConnectName signal paramTypes)]
+    saysLn [", QtahSignal.internalName = ", show internalName]
     sayLn "}"
 
 sayBind :: String -> String -> Generator ()
