@@ -22,16 +22,19 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QActionEvent as QAction
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard as QClipboard
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent as QCloseEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QColor as QColor
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QDoubleValidator as QDoubleValidator
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent as QEnterEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent as QExposeEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent as QFocusEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent as QHoverEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent as QInputEvent
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QIntValidator as QIntValidator
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent as QKeyEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent as QMouseEvent
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon as QPolygon
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF as QPolygonF
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QRegion as QRegion
+import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QValidator as QValidator
 import qualified Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent as QWheelEvent
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -42,15 +45,18 @@ modules =
   , QClipboard.aModule
   , QCloseEvent.aModule
   , QColor.aModule
+  , QDoubleValidator.aModule
   , QEnterEvent.aModule
   , QFocusEvent.aModule
   , QExposeEvent.aModule
   , QHoverEvent.aModule
   , QInputEvent.aModule
+  , QIntValidator.aModule
   , QKeyEvent.aModule
   , QMouseEvent.aModule
   , QPolygon.aModule
   , QPolygonF.aModule
   , QRegion.aModule
+  , QValidator.aModule
   , QWheelEvent.aModule
   ]

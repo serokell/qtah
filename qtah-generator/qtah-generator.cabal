@@ -142,16 +142,19 @@ executable qtah-generator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard
     , Graphics.UI.Qtah.Internal.Interface.Gui.QCloseEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QColor
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QIntValidator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent
     , Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon
     , Graphics.UI.Qtah.Internal.Interface.Gui.QPolygonF
     , Graphics.UI.Qtah.Internal.Interface.Gui.QRegion
+    , Graphics.UI.Qtah.Internal.Interface.Gui.QValidator
     , Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent
     , Graphics.UI.Qtah.Internal.Interface.Imports
     , Graphics.UI.Qtah.Internal.Interface.Listener
