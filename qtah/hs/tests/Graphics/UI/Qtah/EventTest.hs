@@ -31,7 +31,7 @@ import Graphics.UI.Qtah.Core.QCoreApplication (QCoreApplication)
 import Test.HUnit (Test (TestList), (~:), (@?=), assertFailure)
 
 tests :: QCoreApplication -> Test
-tests app =
+tests _ =
   TestList
   [ "listener gets deleted when receiver is deleted" ~: alloca $ \deletedPtr -> do
     poke deletedPtr 0
@@ -49,10 +49,10 @@ tests app =
       when (receivedType == eventType) $ modifyMVar_ countVar $ return . (+ 1)
       return True
     withScopedPtr (QEvent.new eventType) $ \event -> do
-      _ <- QCoreApplication.sendEvent app receiver event
+      _ <- QCoreApplication.sendEvent receiver event
       readMVar countVar >>= (@?= 1)
       unregister reg
-      _ <- QCoreApplication.sendEvent app receiver event
+      _ <- QCoreApplication.sendEvent receiver event
       readMVar countVar >>= (@?= 1)
 
   , "unregister is idempotent" ~: withScopedPtr QObject.new $ \receiver -> do

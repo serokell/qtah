@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Example.Notepad (run) where
 
 import Control.Monad (unless)
 import Foreign.Hoppy.Runtime (withScopedPtr)
+import qualified Graphics.UI.Qtah.Core.QCoreApplication as QCoreApplication
 import Graphics.UI.Qtah.Event
 import Graphics.UI.Qtah.Gui.QCloseEvent (QCloseEvent)
 import Graphics.UI.Qtah.Signal (connect_)
@@ -47,10 +48,10 @@ data Notepad = Notepad
   }
 
 run :: IO ()
-run = withScopedPtr (getArgs >>= QApplication.new) $ \app -> do
+run = withScopedPtr (getArgs >>= QApplication.new) $ \_ -> do
   mainWindow <- makeMainWindow
   QWidget.show mainWindow
-  QApplication.exec app
+  QCoreApplication.exec
 
 makeMainWindow :: IO QMainWindow
 makeMainWindow = do
