@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QObject (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -53,39 +53,39 @@ c_QObject =
   addReqIncludes [includeStd "QObject"] $
   makeClass (ident "QObject") Nothing []
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QObject]
+  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
   ] $
   collect
-  [ just $ mkMethod "blockSignals" [TBool] TBool
-  , just $ mkMethod "children" [] $ TObj c_QListQObject
+  [ just $ mkMethod "blockSignals" [boolT] boolT
+  , just $ mkMethod "children" [] $ objT c_QListQObject
     -- TODO connect
-  , just $ mkMethod "deleteLater" [] TVoid
+  , just $ mkMethod "deleteLater" [] voidT
     -- TODO disconnect
-  , just $ mkMethod "dumpObjectInfo" [] TVoid
-  , just $ mkMethod "dumpObjectTree" [] TVoid
+  , just $ mkMethod "dumpObjectInfo" [] voidT
+  , just $ mkMethod "dumpObjectTree" [] voidT
     -- TODO dynamicPropertyNames (>=4.2)
-  , just $ mkMethod "event" [TPtr $ TObj c_QEvent] TBool
-  , just $ mkMethod "eventFilter" [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
+  , just $ mkMethod "event" [ptrT $ objT c_QEvent] boolT
+  , just $ mkMethod "eventFilter" [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] boolT
     -- TODO findChild
     -- TODO findChildren
     -- TODO inherits
-  , just $ mkMethod "installEventFilter" [TPtr $ TObj c_QObject] TVoid
-  , just $ mkConstMethod "isWidgetType" [] TBool
+  , just $ mkMethod "installEventFilter" [ptrT $ objT c_QObject] voidT
+  , just $ mkConstMethod "isWidgetType" [] boolT
   , -- This is a guess on the version bound.
-    test (qtVersion >= [5, 0]) $ mkConstMethod "isWindowType" [] TBool
-  , just $ mkMethod "killTimer" [TInt] TVoid
+    test (qtVersion >= [5, 0]) $ mkConstMethod "isWindowType" [] boolT
+  , just $ mkMethod "killTimer" [intT] voidT
     -- TODO metaObject
     -- TODO moveToThread
     -- TODO property
-  , just $ mkMethod "removeEventFilter" [TPtr $ TObj c_QObject] TVoid
+  , just $ mkMethod "removeEventFilter" [ptrT $ objT c_QObject] voidT
     -- TODO setProperty
-  , just $ mkConstMethod "signalsBlocked" [] TBool
-  , just $ mkMethod "startTimer" [TInt] TInt
+  , just $ mkConstMethod "signalsBlocked" [] boolT
+  , just $ mkMethod "startTimer" [intT] intT
     -- TODO thread
   ] ++
   mkProps
-  [ mkProp "objectName" $ TObj c_QString
-  , mkProp "parent" $ TPtr $ TObj c_QObject
+  [ mkProp "objectName" $ objT c_QString
+  , mkProp "parent" $ ptrT $ objT c_QObject
   ]
 
 signals =

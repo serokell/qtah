@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QFocusEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBool, TEnum),
   addReqIncludes,
   ident,
   includeStd,
@@ -29,6 +28,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent, e_Type)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_FocusReason)
@@ -44,9 +44,9 @@ aModule =
 c_QFocusEvent =
   addReqIncludes [includeStd "QFocusEvent"] $
   makeClass (ident "QFocusEvent") Nothing [c_QEvent]
-  [ mkCtor "new" [TEnum e_Type, TEnum e_FocusReason]
+  [ mkCtor "new" [enumT e_Type, enumT e_FocusReason]
   ] $
-  [ mkConstMethod "gotFocus" [] TBool
-  , mkConstMethod "lostFocus" [] TBool
-  , mkConstMethod "reason" [] $ TEnum e_FocusReason
+  [ mkConstMethod "gotFocus" [] boolT
+  , mkConstMethod "lostFocus" [] boolT
+  , mkConstMethod "reason" [] $ enumT e_FocusReason
   ]

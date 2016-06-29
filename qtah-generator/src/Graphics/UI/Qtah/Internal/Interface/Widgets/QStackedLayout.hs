@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedLayout (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
-  Type (TEnum, TInt, TObj, TPtr),
   addReqIncludes,
   ident,
   ident1,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (enumT, intT, objT, ptrT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -58,18 +58,18 @@ c_QStackedLayout =
   addReqIncludes [includeStd "QStackedLayout"] $
   makeClass (ident "QStackedLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithLayout" [TPtr $ TObj c_QLayout]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithLayout" [ptrT $ objT c_QLayout]
   ] $
-  [ mkMethod "addWidget" [TPtr $ TObj c_QWidget] TInt
-  , mkConstMethod "count" [] TInt
-  , mkMethod "insertWidget" [TInt, TPtr $ TObj c_QWidget] TInt
-  , mkConstMethod "widget" [TInt] $ TPtr $ TObj c_QWidget
+  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] intT
+  , mkConstMethod "count" [] intT
+  , mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] intT
+  , mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
   ] ++
   (mkProps . collect)
-  [ just $ mkProp "currentIndex" TInt
-  , just $ mkProp "currentWidget" $ TPtr $ TObj c_QWidget
-  , test (qtVersion >= [4, 4]) $ mkProp "stackingMode" $ TEnum e_StackingMode
+  [ just $ mkProp "currentIndex" intT
+  , just $ mkProp "currentWidget" $ ptrT $ objT c_QWidget
+  , test (qtVersion >= [4, 4]) $ mkProp "stackingMode" $ enumT e_StackingMode
   ]
 
 signals =

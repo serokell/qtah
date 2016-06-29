@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMainWindow (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQSize)
@@ -52,14 +52,14 @@ c_QMainWindow =
   addReqIncludes [includeStd "QMainWindow"] $
   makeClass (ident "QMainWindow") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
   ] $
   [ -- TODO addDockWidget
     -- TODO addToolBar
     -- TODO addToolBarBreak
     -- TODO corner
-    mkMethod "createPopupMenu" [] $ TPtr $ TObj c_QMenu
+    mkMethod "createPopupMenu" [] $ ptrT $ objT c_QMenu
     -- TODO dockWidgetArea
     -- TODO insertToolBar
     -- TODO insertToolBarBreak
@@ -79,17 +79,17 @@ c_QMainWindow =
   ] ++
   mkProps
   [ mkBoolIsProp "animated"
-  , mkProp "centralWidget" $ TPtr $ TObj c_QWidget
+  , mkProp "centralWidget" $ ptrT $ objT c_QWidget
   , mkBoolIsProp "dockNestingEnabled"
     -- TODO dockOptions
-  , mkProp "documentMode" TBool
-  , mkProp "iconSize" $ TObj c_QSize
-  , mkProp "menuBar" $ TPtr $ TObj c_QMenuBar
-  , mkProp "menuWidget" $ TPtr $ TObj c_QWidget
-  , mkProp "statusBar" $ TPtr $ TObj c_QStatusBar
+  , mkProp "documentMode" boolT
+  , mkProp "iconSize" $ objT c_QSize
+  , mkProp "menuBar" $ ptrT $ objT c_QMenuBar
+  , mkProp "menuWidget" $ ptrT $ objT c_QWidget
+  , mkProp "statusBar" $ ptrT $ objT c_QStatusBar
     -- TODO tabShape
     -- TODO toolButtonStyle
-  , mkProp "unifiedTitleAndToolBarOnMac" TBool
+  , mkProp "unifiedTitleAndToolBarOnMac" boolT
   ]
 
 signals =

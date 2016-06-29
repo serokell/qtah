@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum),
-  Type (TBool, TEnum, TInt, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -37,6 +36,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProps,
   mkStaticMethod',
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -53,17 +53,17 @@ aModule =
 c_QEvent =
   addReqIncludes [includeStd "QEvent"] $
   makeClass (ident "QEvent") Nothing []
-  [ mkCtor "new" [TEnum e_Type]
+  [ mkCtor "new" [enumT e_Type]
   ] $
   collect
-  [ just $ mkMethod "accept" [] TVoid
-  , just $ mkMethod "ignore" [] TVoid
+  [ just $ mkMethod "accept" [] voidT
+  , just $ mkMethod "ignore" [] voidT
   , test (qtVersion >= [4, 4]) $
-    mkStaticMethod' "registerEventType" "registerEventType" [] TInt
+    mkStaticMethod' "registerEventType" "registerEventType" [] intT
   , test (qtVersion >= [4, 4]) $
-    mkStaticMethod' "registerEventType" "registerEventTypeWithHint" [TInt] TInt
-  , just $ mkConstMethod "spontaneous" [] TBool
-  , just $ mkConstMethod' "type" "eventType" [] $ TEnum e_Type  -- 'type' is a Haskell keyword.
+    mkStaticMethod' "registerEventType" "registerEventTypeWithHint" [intT] intT
+  , just $ mkConstMethod "spontaneous" [] boolT
+  , just $ mkConstMethod' "type" "eventType" [] $ enumT e_Type  -- 'type' is a Haskell keyword.
   ] ++
   mkProps
   [ mkBoolIsProp "accepted"

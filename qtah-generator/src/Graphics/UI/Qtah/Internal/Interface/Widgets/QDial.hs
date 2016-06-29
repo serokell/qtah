@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QDial (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TInt, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
@@ -31,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider (c_QAbstractSlider)
@@ -47,12 +47,12 @@ c_QDial =
   addReqIncludes [includeStd "QDial"] $
   makeClass (ident "QDial") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkConstMethod "notchSize" [] TInt
+  [ mkConstMethod "notchSize" [] intT
   ] ++
   mkProps
   [ mkProp "notchTarget" qreal
-  , mkProp "notchesVisible" TBool
-  , mkProp "wrapping" TBool
+  , mkProp "notchesVisible" boolT
+  , mkProp "wrapping" boolT
   ]

@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -36,6 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -61,36 +61,36 @@ c_QLayout =
   makeClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
   [] $  -- Abstract.
   collect
-  [ just $ mkMethod "activate" [] TBool
-  , just $ mkMethod "addItem" [TPtr $ TObj c_QLayoutItem] TVoid
-  , just $ mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  [ just $ mkMethod "activate" [] boolT
+  , just $ mkMethod "addItem" [ptrT $ objT c_QLayoutItem] voidT
+  , just $ mkMethod "addWidget" [ptrT $ objT c_QWidget] voidT
   , just $ mkStaticMethod "closestAcceptableSize"
-    [TPtr $ TObj c_QWidget, TObj c_QSize] $ TObj c_QSize
-  , test (qtVersion >= [4, 6]) $ mkConstMethod "contentsMargins" [] $ TObj c_QMargins
-  , test (qtVersion >= [4, 3]) $ mkConstMethod "contentsRect" [] $ TObj c_QRect
-  , just $ mkConstMethod "count" [] TInt
-  , just $ mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , just $ mkConstMethod "itemAt" [TInt] $ TPtr $ TObj c_QLayoutItem
-  , just $ mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
-  , just $ mkMethod "removeItem" [TPtr $ TObj c_QLayoutItem] TVoid
-  , just $ mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
-  , just $ mkMethod' "setAlignment" "setAlignment" [TBitspace bs_Alignment] TVoid
+    [ptrT $ objT c_QWidget, objT c_QSize] $ objT c_QSize
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "contentsMargins" [] $ objT c_QMargins
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "contentsRect" [] $ objT c_QRect
+  , just $ mkConstMethod "count" [] intT
+  , just $ mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
+  , just $ mkConstMethod "itemAt" [intT] $ ptrT $ objT c_QLayoutItem
+  , just $ mkConstMethod "parentWidget" [] $ ptrT $ objT c_QWidget
+  , just $ mkMethod "removeItem" [ptrT $ objT c_QLayoutItem] voidT
+  , just $ mkMethod "removeWidget" [ptrT $ objT c_QWidget] voidT
+  , just $ mkMethod' "setAlignment" "setAlignment" [bitspaceT bs_Alignment] voidT
   , just $ mkMethod' "setAlignment" "setLayoutAlignment"
-    [TPtr $ TObj c_QLayout, TBitspace bs_Alignment] TBool
+    [ptrT $ objT c_QLayout, bitspaceT bs_Alignment] boolT
   , just $ mkMethod' "setAlignment" "setWidgetAlignment"
-    [TPtr $ TObj c_QWidget, TBitspace bs_Alignment] TBool
+    [ptrT $ objT c_QWidget, bitspaceT bs_Alignment] boolT
   , test (qtVersion >= [4, 6]) $ mkMethod' "setContentsMargins" "setContentsMargins"
-    [TObj c_QMargins] TVoid
+    [objT c_QMargins] voidT
   , test (qtVersion >= [4, 3]) $ mkMethod' "setContentsMargins" "setContentsMarginsRaw"
-    [TInt, TInt, TInt, TInt] TVoid
-  , just $ mkMethod "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
-  , just $ mkMethod "update" [] TVoid
+    [intT, intT, intT, intT] voidT
+  , just $ mkMethod "takeAt" [intT] $ ptrT $ objT c_QLayoutItem
+  , just $ mkMethod "update" [] voidT
   ] ++
   mkProps
   [ mkBoolIsProp "enabled"
-  , mkProp "menuBar" $ TPtr $ TObj c_QWidget
-  , mkProp "sizeConstraint" $ TEnum e_SizeConstraint
-  , mkProp "spacing" TInt
+  , mkProp "menuBar" $ ptrT $ objT c_QWidget
+  , mkProp "sizeConstraint" $ enumT e_SizeConstraint
+  , mkProp "spacing" intT
   ]
 
 e_SizeConstraint =

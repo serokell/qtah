@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QValidator (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TEnum, TInt, TObj, TRef, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -31,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkConstMethod,
   )
+import Foreign.Hoppy.Generator.Types (enumT, intT, objT, refT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
@@ -48,10 +48,10 @@ aModule =
 c_QValidator =
   addReqIncludes [includeStd "QValidator"] $
   makeClass (ident "QValidator") Nothing [c_QObject] [] $
-  [ mkConstMethod "fixup" [TRef $ TObj c_QString] TVoid
+  [ mkConstMethod "fixup" [refT $ objT c_QString] voidT
     -- TODO locale
     -- TODO setLocale
-  , mkConstMethod "validate" [TRef $ TObj c_QString, TRef TInt] $ TEnum e_State
+  , mkConstMethod "validate" [refT $ objT c_QString, refT intT] $ enumT e_State
   ]
 
 signals =

@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QWheelEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBitspace, TEnum, TInt, TObj),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, intT, objT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -54,31 +54,31 @@ c_QWheelEvent =
   makeClass (ident "QWheelEvent") Nothing [c_QInputEvent]
   (collect
    [ test (qtVersion < [5, 0]) $ mkCtor "new"
-     [TObj c_QPoint, TInt, TBitspace bs_MouseButtons, TBitspace bs_KeyboardModifiers,
-      TEnum e_Orientation]
+     [objT c_QPoint, intT, bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers,
+      enumT e_Orientation]
    , test (qtVersion < [5, 0]) $ mkCtor "newWithGlobalPosition"
-     [TObj c_QPoint, TObj c_QPoint, TInt, TBitspace bs_MouseButtons, TBitspace bs_KeyboardModifiers,
-      TEnum e_Orientation]
+     [objT c_QPoint, objT c_QPoint, intT, bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers,
+      enumT e_Orientation]
 
    , test (qtVersion >= [5, 0]) $ mkCtor "new"
-     [TObj c_QPointF, TObj c_QPointF, TObj c_QPoint, TObj c_QPoint, TInt, TEnum e_Orientation,
-      TBitspace bs_MouseButtons, TBitspace bs_KeyboardModifiers]
+     [objT c_QPointF, objT c_QPointF, objT c_QPoint, objT c_QPoint, intT, enumT e_Orientation,
+      bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers]
    , test (qtVersion >= [5, 2]) $ mkCtor "newWithPhase"
-     [TObj c_QPointF, TObj c_QPointF, TObj c_QPoint, TObj c_QPoint, TInt, TEnum e_Orientation,
-      TBitspace bs_MouseButtons, TBitspace bs_KeyboardModifiers, TEnum e_ScrollPhase]
+     [objT c_QPointF, objT c_QPointF, objT c_QPoint, objT c_QPoint, intT, enumT e_Orientation,
+      bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers, enumT e_ScrollPhase]
    ]) $
   collect
-  [ test (qtVersion >= [5, 0]) $ mkConstMethod "angleDelta" [] $ TObj c_QPoint
-  , just $ mkConstMethod "buttons" [] $ TBitspace bs_MouseButtons
-  , test (qtVersion < [5, 0]) $ mkConstMethod "delta" [] TInt
-  , just $ mkConstMethod "globalPos" [] $ TObj c_QPoint
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "globalPosF" [] $ TObj c_QPointF
-  , just $ mkConstMethod "globalX" [] TInt
-  , just $ mkConstMethod "globalY" [] TInt
-  , test (qtVersion >= [5, 2]) $ mkConstMethod "phase" [] $ TEnum e_ScrollPhase
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "pixelDelta" [] $ TObj c_QPoint
-  , just $ mkConstMethod "pos" [] $ TObj c_QPoint
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "posF" [] $ TObj c_QPointF
-  , just $ mkConstMethod "x" [] TInt
-  , just $ mkConstMethod "y" [] TInt
+  [ test (qtVersion >= [5, 0]) $ mkConstMethod "angleDelta" [] $ objT c_QPoint
+  , just $ mkConstMethod "buttons" [] $ bitspaceT bs_MouseButtons
+  , test (qtVersion < [5, 0]) $ mkConstMethod "delta" [] intT
+  , just $ mkConstMethod "globalPos" [] $ objT c_QPoint
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "globalPosF" [] $ objT c_QPointF
+  , just $ mkConstMethod "globalX" [] intT
+  , just $ mkConstMethod "globalY" [] intT
+  , test (qtVersion >= [5, 2]) $ mkConstMethod "phase" [] $ enumT e_ScrollPhase
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "pixelDelta" [] $ objT c_QPoint
+  , just $ mkConstMethod "pos" [] $ objT c_QPoint
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "posF" [] $ objT c_QPointF
+  , just $ mkConstMethod "x" [] intT
+  , just $ mkConstMethod "y" [] intT
   ]

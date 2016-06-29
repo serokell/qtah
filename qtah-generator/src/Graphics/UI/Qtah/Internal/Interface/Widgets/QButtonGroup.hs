@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QButtonGroup (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -58,21 +58,21 @@ c_QButtonGroup =
   addReqIncludes [includeStd "QButtonGroup"] $
   makeClass (ident "QButtonGroup") Nothing [c_QObject]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QObject]
+  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
   ] $
   collect
-  [ just $ mkMethod' "addButton" "addButton" [TPtr $ TObj c_QAbstractButton] TVoid
-  , just $ mkMethod' "addButton" "addButtonWithId" [TPtr $ TObj c_QAbstractButton, TInt] TVoid
-  , test (qtVersion >= [4, 1]) $ mkConstMethod "button" [TInt] $ TPtr $ TObj c_QAbstractButton
-  , just $ mkConstMethod "buttons" [] $ TObj c_QListQAbstractButton
-  , just $ mkConstMethod "checkedButton" [] $ TPtr $ TObj c_QAbstractButton
-  , test (qtVersion >= [4, 1]) $ mkConstMethod "checkedId" [] TInt
-  , test (qtVersion >= [4, 1]) $ mkConstMethod "id" [TPtr $ TObj c_QAbstractButton] TInt
-  , just $ mkMethod "removeButton" [TPtr $ TObj c_QAbstractButton] TVoid
-  , test (qtVersion >= [4, 1]) $ mkMethod "setId" [TPtr $ TObj c_QAbstractButton, TInt] TVoid
+  [ just $ mkMethod' "addButton" "addButton" [ptrT $ objT c_QAbstractButton] voidT
+  , just $ mkMethod' "addButton" "addButtonWithId" [ptrT $ objT c_QAbstractButton, intT] voidT
+  , test (qtVersion >= [4, 1]) $ mkConstMethod "button" [intT] $ ptrT $ objT c_QAbstractButton
+  , just $ mkConstMethod "buttons" [] $ objT c_QListQAbstractButton
+  , just $ mkConstMethod "checkedButton" [] $ ptrT $ objT c_QAbstractButton
+  , test (qtVersion >= [4, 1]) $ mkConstMethod "checkedId" [] intT
+  , test (qtVersion >= [4, 1]) $ mkConstMethod "id" [ptrT $ objT c_QAbstractButton] intT
+  , just $ mkMethod "removeButton" [ptrT $ objT c_QAbstractButton] voidT
+  , test (qtVersion >= [4, 1]) $ mkMethod "setId" [ptrT $ objT c_QAbstractButton, intT] voidT
   ] ++
   mkProps
-  [ mkProp "exclusive" TBool
+  [ mkProp "exclusive" boolT
   ]
 
 signals =

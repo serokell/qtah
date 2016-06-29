@@ -44,7 +44,6 @@ import Foreign.Hoppy.Generator.Spec (
   ),
   Constness (Const, Nonconst),
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TVoid),
   addAddendumHaskell,
   addReqIncludes,
   classSetHaskellConversion,
@@ -61,6 +60,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -106,16 +106,16 @@ c_QStringList =
   ] $
   collect
   [ -- TODO Regexp methods.
-    just $ mkConstMethod' "contains" "containsCase" [TObj c_QString, TEnum e_CaseSensitivity] TBool
-  , just $ mkConstMethod' "filter" "filter" [TObj c_QString] $ TObj c_QStringList
-  , just $ mkConstMethod' "filter" "filterCase" [TObj c_QString, TEnum e_CaseSensitivity] $
-    TObj c_QStringList
-  , just $ mkConstMethod' "join" "joinString" [TObj c_QString] $ TObj c_QString
-  , test (qtVersion >= [5, 0]) $ mkConstMethod' "join" "joinChar" [TObj c_QChar] $ TObj c_QString
-  , test (qtVersion >= [4, 5]) $ mkMethod "removeDuplicates" [] TInt
+    just $ mkConstMethod' "contains" "containsCase" [objT c_QString, enumT e_CaseSensitivity] boolT
+  , just $ mkConstMethod' "filter" "filter" [objT c_QString] $ objT c_QStringList
+  , just $ mkConstMethod' "filter" "filterCase" [objT c_QString, enumT e_CaseSensitivity] $
+    objT c_QStringList
+  , just $ mkConstMethod' "join" "joinString" [objT c_QString] $ objT c_QString
+  , test (qtVersion >= [5, 0]) $ mkConstMethod' "join" "joinChar" [objT c_QChar] $ objT c_QString
+  , test (qtVersion >= [4, 5]) $ mkMethod "removeDuplicates" [] intT
     -- TODO replaceInStrings.  Ownership?
-  , just $ mkMethod' "sort" "sort" [] TVoid
-  , test (qtVersion >= [5, 0]) $ mkMethod' "sort" "sortCase" [TEnum e_CaseSensitivity] TVoid
+  , just $ mkMethod' "sort" "sort" [] voidT
+  , test (qtVersion >= [5, 0]) $ mkMethod' "sort" "sortCase" [enumT e_CaseSensitivity] voidT
   ]
 
   where addendum = do

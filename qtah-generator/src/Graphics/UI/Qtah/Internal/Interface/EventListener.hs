@@ -21,13 +21,13 @@ module Graphics.UI.Qtah.Internal.Interface.EventListener (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TCallback, TInt, TPtr),
   addReqIncludes,
   ident2,
   includeLocal,
   makeClass,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (callbackT, intT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Callback (cb_PtrQObjectPtrQEventBool)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
@@ -42,6 +42,6 @@ aModule =
 c_EventListener =
   addReqIncludes [includeLocal "event.hpp"] $
   makeClass (ident2 "qtah" "event" "EventListener") Nothing [c_QObject]
-  [ mkCtor "new" [TCallback cb_PtrQObjectPtrQEventBool, TPtr TInt]
+  [ mkCtor "new" [callbackT cb_PtrQObjectPtrQEventBool, ptrT intT]
   ]
   []

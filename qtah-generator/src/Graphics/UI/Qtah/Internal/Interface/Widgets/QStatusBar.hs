@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QStatusBar (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerQString)
@@ -51,23 +51,23 @@ c_QStatusBar =
   addReqIncludes [includeStd "QStatusBar"] $
   makeClass (ident "QStatusBar") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod' "addPermanentWidget" "addPermanentWidget" [TPtr $ TObj c_QWidget] TVoid
+  [ mkMethod' "addPermanentWidget" "addPermanentWidget" [ptrT $ objT c_QWidget] voidT
   , mkMethod' "addPermanentWidget" "addPermanentWidgetWithStretch"
-    [TPtr $ TObj c_QWidget, TInt] TVoid
-  , mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
-  , mkMethod "clearMessage" [] TVoid
-  , mkConstMethod "currentMessage" [] $ TObj c_QString
-  , mkMethod' "insertPermanentWidget" "insertPermanentWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
+    [ptrT $ objT c_QWidget, intT] voidT
+  , mkMethod' "addWidget" "addWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addWidget" "addWidgetWithStretch" [ptrT $ objT c_QWidget, intT] voidT
+  , mkMethod "clearMessage" [] voidT
+  , mkConstMethod "currentMessage" [] $ objT c_QString
+  , mkMethod' "insertPermanentWidget" "insertPermanentWidget" [intT, ptrT $ objT c_QWidget] voidT
   , mkMethod' "insertPermanentWidget" "insertPermanentWidgetWithStretch"
-    [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
-  , mkMethod' "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
-  , mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "showMessage" "showMessage" [TObj c_QString] TVoid
-  , mkMethod' "showMessage" "showMessageWithTimeout" [TObj c_QString, TInt] TVoid
+    [intT, ptrT $ objT c_QWidget, intT] voidT
+  , mkMethod' "insertWidget" "insertWidget" [intT, ptrT $ objT c_QWidget] voidT
+  , mkMethod' "insertWidget" "insertWidgetWithStretch" [intT, ptrT $ objT c_QWidget, intT] voidT
+  , mkMethod "removeWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod' "showMessage" "showMessage" [objT c_QString] voidT
+  , mkMethod' "showMessage" "showMessageWithTimeout" [objT c_QString, intT] voidT
   ] ++
   mkProps
   [ mkBoolIsProp "sizeGripEnabled"

@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QRubberBand (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -31,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   )
+import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
@@ -49,13 +49,13 @@ aModule =
 c_QRubberBand =
   addReqIncludes [includeStd "QRubberBand"] $
   makeClass (ident "QRubberBand") Nothing [c_QWidget]
-  [ mkCtor "new" [TEnum e_Shape]
-  , mkCtor "newWithParent" [TEnum e_Shape, TPtr $ TObj c_QWidget]
+  [ mkCtor "new" [enumT e_Shape]
+  , mkCtor "newWithParent" [enumT e_Shape, ptrT $ objT c_QWidget]
   ]
-  [ mkMethod "move" [TObj c_QPoint] TVoid
-  , mkMethod "resize" [TObj c_QSize] TVoid
-  , mkMethod "setGeometry" [TObj c_QRect] TVoid
-  , mkConstMethod "shape" [] $ TEnum e_Shape
+  [ mkMethod "move" [objT c_QPoint] voidT
+  , mkMethod "resize" [objT c_QSize] voidT
+  , mkMethod "setGeometry" [objT c_QRect] voidT
+  , mkConstMethod "shape" [] $ enumT e_Shape
   ]
 
 e_Shape =

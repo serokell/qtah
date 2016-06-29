@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QBoxLayout (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QLayout (c_QLayout)
@@ -51,36 +51,36 @@ aModule =
 c_QBoxLayout =
   addReqIncludes [includeStd "QBoxLayout"] $
   makeClass (ident "QBoxLayout") Nothing [c_QLayout]
-  [ mkCtor "new" [TEnum e_Direction]
-  , mkCtor "newWithParent" [TEnum e_Direction, TPtr $ TObj c_QWidget]
+  [ mkCtor "new" [enumT e_Direction]
+  , mkCtor "newWithParent" [enumT e_Direction, ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod' "addLayout" "addLayout" [TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' "addLayout" "addLayoutWithStretch" [TPtr $ TObj c_QLayout, TInt] TVoid
-  , mkMethod "addSpacing" [TInt] TVoid
-  , mkMethod' "addStretch" "addStretch" [] TVoid
-  , mkMethod' "addStretch" "addStretchOf" [TInt] TVoid
-  , mkMethod "addStrut" [TInt] TVoid
-  , mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "addWidget" "addWidgetWithStretch" [TPtr $ TObj c_QWidget, TInt] TVoid
+  [ mkMethod' "addLayout" "addLayout" [ptrT $ objT c_QLayout] voidT
+  , mkMethod' "addLayout" "addLayoutWithStretch" [ptrT $ objT c_QLayout, intT] voidT
+  , mkMethod "addSpacing" [intT] voidT
+  , mkMethod' "addStretch" "addStretch" [] voidT
+  , mkMethod' "addStretch" "addStretchOf" [intT] voidT
+  , mkMethod "addStrut" [intT] voidT
+  , mkMethod' "addWidget" "addWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addWidget" "addWidgetWithStretch" [ptrT $ objT c_QWidget, intT] voidT
   , mkMethod' "addWidget" "addWidgetWithStretchAndAlignment"
-    [TPtr $ TObj c_QWidget, TInt, TBitspace bs_Alignment] TVoid
-  , mkMethod' "insertLayout" "insertLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' "insertLayout" "insertLayoutWithStretch" [TInt, TPtr $ TObj c_QLayout, TInt] TVoid
+    [ptrT $ objT c_QWidget, intT, bitspaceT bs_Alignment] voidT
+  , mkMethod' "insertLayout" "insertLayout" [intT, ptrT $ objT c_QLayout] voidT
+  , mkMethod' "insertLayout" "insertLayoutWithStretch" [intT, ptrT $ objT c_QLayout, intT] voidT
     -- TODO insertSpacerItem
-  , mkMethod "insertSpacing" [TInt, TInt] TVoid
-  , mkMethod' "insertStretch" "insertStretch" [TInt] TVoid
-  , mkMethod' "insertStretch" "insertStretchOf" [TInt, TInt] TVoid
-  , mkMethod' "insertWidget" "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "insertWidget" "insertWidgetWithStretch" [TInt, TPtr $ TObj c_QWidget, TInt] TVoid
+  , mkMethod "insertSpacing" [intT, intT] voidT
+  , mkMethod' "insertStretch" "insertStretch" [intT] voidT
+  , mkMethod' "insertStretch" "insertStretchOf" [intT, intT] voidT
+  , mkMethod' "insertWidget" "insertWidget" [intT, ptrT $ objT c_QWidget] voidT
+  , mkMethod' "insertWidget" "insertWidgetWithStretch" [intT, ptrT $ objT c_QWidget, intT] voidT
   , mkMethod' "insertWidget" "insertWidgetWithStretchAndAlignment"
-    [TInt, TPtr $ TObj c_QWidget, TInt, TBitspace bs_Alignment] TVoid
-  , mkMethod "setStretch" [TInt, TInt] TVoid
-  , mkMethod' "setStretchFactor" "setWidgetStretchFactor" [TPtr $ TObj c_QWidget, TInt] TBool
-  , mkMethod' "setStretchFactor" "setLayoutStretchFactor" [TPtr $ TObj c_QLayout, TInt] TBool
+    [intT, ptrT $ objT c_QWidget, intT, bitspaceT bs_Alignment] voidT
+  , mkMethod "setStretch" [intT, intT] voidT
+  , mkMethod' "setStretchFactor" "setWidgetStretchFactor" [ptrT $ objT c_QWidget, intT] boolT
+  , mkMethod' "setStretchFactor" "setLayoutStretchFactor" [ptrT $ objT c_QLayout, intT] boolT
   ] ++
   mkProps
-  [ mkProp "direction" $ TEnum e_Direction
-  , mkProp "spacing" TInt
+  [ mkProp "direction" $ enumT e_Direction
+  , mkProp "spacing" intT
   ]
 
 e_Direction =

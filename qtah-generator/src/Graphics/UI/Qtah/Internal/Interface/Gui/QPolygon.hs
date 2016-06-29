@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QPolygon (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TRef, TVoid),
   addReqIncludes,
   classSetConversionToGc,
   ident,
@@ -38,6 +37,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -59,26 +59,26 @@ c_QPolygon =
   classSetConversionToGc $
   makeClass (ident "QPolygon") Nothing [c_QVectorQPoint]
   [ mkCtor "new" []
-  , mkCtor "newWithSize" [TInt]
-  , mkCtor "newWithPoints" [TObj c_QVectorQPoint]
-  , mkCtor "newWithRectangle" [TObj c_QRect, TBool]
+  , mkCtor "newWithSize" [intT]
+  , mkCtor "newWithPoints" [objT c_QVectorQPoint]
+  , mkCtor "newWithRectangle" [objT c_QRect, boolT]
   ] $
   collect
-  [ just $ mkConstMethod "boundingRect" [] $ TObj c_QRect
+  [ just $ mkConstMethod "boundingRect" [] $ objT c_QRect
   , test (qtVersion >= [4, 3]) $ mkConstMethod "containsPoint"
-    [TObj c_QPoint, TEnum e_FillRule] TBool
-  , test (qtVersion >= [4, 3]) $ mkConstMethod "intersected" [TObj c_QPolygon] $ TObj c_QPolygon
-  , just $ mkConstMethod "point" [TInt] $ TObj c_QPoint
-  , just $ mkMethod "putPoints" [TInt, TInt, TObj c_QPolygon, TInt] TVoid
-  , just $ mkMethod "setPoint" [TInt, TObj c_QPoint] TVoid
+    [objT c_QPoint, enumT e_FillRule] boolT
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "intersected" [objT c_QPolygon] $ objT c_QPolygon
+  , just $ mkConstMethod "point" [intT] $ objT c_QPoint
+  , just $ mkMethod "putPoints" [intT, intT, objT c_QPolygon, intT] voidT
+  , just $ mkMethod "setPoint" [intT, objT c_QPoint] voidT
     -- OMIT setPoints
-  , test (qtVersion >= [4, 3]) $ mkConstMethod "subtracted" [TObj c_QPolygon] $ TObj c_QPolygon
-  , test (qtVersion >= [4, 8]) $ mkMethod "swap" [TRef $ TObj c_QPolygon] TVoid
-  , just $ mkMethod' "translate" "translateByRaw" [TInt, TInt] TVoid
-  , just $ mkMethod' "translate" "translateByPoint" [TObj c_QPoint] TVoid
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "subtracted" [objT c_QPolygon] $ objT c_QPolygon
+  , test (qtVersion >= [4, 8]) $ mkMethod "swap" [refT $ objT c_QPolygon] voidT
+  , just $ mkMethod' "translate" "translateByRaw" [intT, intT] voidT
+  , just $ mkMethod' "translate" "translateByPoint" [objT c_QPoint] voidT
   , test (qtVersion >= [4, 6]) $ mkConstMethod' "translated" "translatedByRaw"
-    [TInt, TInt] $ TObj c_QPolygon
+    [intT, intT] $ objT c_QPolygon
   , test (qtVersion >= [4, 6]) $ mkConstMethod' "translated" "translatedByPoint"
-    [TObj c_QPoint] $ TObj c_QPolygon
-  , test (qtVersion >= [4, 3]) $ mkConstMethod "united" [TObj c_QPolygon] $ TObj c_QPolygon
+    [objT c_QPoint] $ objT c_QPolygon
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "united" [objT c_QPolygon] $ objT c_QPolygon
   ]

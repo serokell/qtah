@@ -39,7 +39,6 @@ import Foreign.Hoppy.Generator.Spec (
   ),
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
-  Type (TBool, TObj, TRef),
   addReqIncludes,
   classSetHaskellConversion,
   hsImports,
@@ -58,6 +57,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, refT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -101,17 +101,17 @@ c_QPointF =
   makeClass (ident "QPointF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal]
-  , mkCtor "newFromPoint" [TObj c_QPoint]
+  , mkCtor "newFromPoint" [objT c_QPoint]
   ] $
   collect
-  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [TObj c_QPointF, TObj c_QPointF] qreal
-  , just $ mkConstMethod "isNull" [] TBool
+  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [objT c_QPointF, objT c_QPointF] qreal
+  , just $ mkConstMethod "isNull" [] boolT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "manhattanLength" [] qreal
-  , just $ mkConstMethod "toPoint" [] $ TObj c_QPoint
-  , just $ mkMethod OpAddAssign [TObj c_QPointF] $ TRef $ TObj c_QPointF
-  , just $ mkMethod OpSubtractAssign [TObj c_QPointF] $ TRef $ TObj c_QPointF
-  , just $ mkMethod OpMultiplyAssign [qreal] $ TRef $ TObj c_QPointF
-  , just $ mkMethod OpDivideAssign [qreal] $ TRef $ TObj c_QPointF
+  , just $ mkConstMethod "toPoint" [] $ objT c_QPoint
+  , just $ mkMethod OpAddAssign [objT c_QPointF] $ refT $ objT c_QPointF
+  , just $ mkMethod OpSubtractAssign [objT c_QPointF] $ refT $ objT c_QPointF
+  , just $ mkMethod OpMultiplyAssign [qreal] $ refT $ objT c_QPointF
+  , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QPointF
   ] ++
   mkProps
   [ mkProp "x" qreal

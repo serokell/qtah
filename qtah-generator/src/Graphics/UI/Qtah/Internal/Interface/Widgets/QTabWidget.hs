@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QTabWidget (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -58,44 +58,44 @@ c_QTabWidget =
   addReqIncludes [includeStd "QTabWidget"] $
   makeClass (ident "QTabWidget") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
   collect
-  [ just $ mkMethod "addTab" [TPtr $ TObj c_QWidget, TObj c_QString] TInt
+  [ just $ mkMethod "addTab" [ptrT $ objT c_QWidget, objT c_QString] intT
     -- TODO addTabWithIcon
-  , just $ mkMethod "clear" [] TVoid
-  , just $ mkConstMethod "cornerWidget" [TEnum e_Corner] $ TPtr $ TObj c_QWidget
-  , just $ mkConstMethod "count" [] TInt
-  , just $ mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , just $ mkMethod "insertTab" [TInt, TPtr $ TObj c_QWidget, TObj c_QString] TInt
+  , just $ mkMethod "clear" [] voidT
+  , just $ mkConstMethod "cornerWidget" [enumT e_Corner] $ ptrT $ objT c_QWidget
+  , just $ mkConstMethod "count" [] intT
+  , just $ mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
+  , just $ mkMethod "insertTab" [intT, ptrT $ objT c_QWidget, objT c_QString] intT
     -- TODO insertTabWithIcon
-  , just $ mkConstMethod "isTabEnabled" [TInt] TBool
-  , just $ mkMethod "removeTab" [TInt] TVoid
-  , just $ mkMethod "setCornerWidget" [TPtr $ TObj c_QWidget, TEnum e_Corner] TVoid
-  , just $ mkMethod "setTabEnabled" [TInt, TBool] TVoid
+  , just $ mkConstMethod "isTabEnabled" [intT] boolT
+  , just $ mkMethod "removeTab" [intT] voidT
+  , just $ mkMethod "setCornerWidget" [ptrT $ objT c_QWidget, enumT e_Corner] voidT
+  , just $ mkMethod "setTabEnabled" [intT, boolT] voidT
     -- TODO setTabIcon
-  , just $ mkMethod "setTabText" [TInt, TObj c_QString] TVoid
-  , just $ mkMethod "setTabToolTip" [TInt, TObj c_QString] TVoid
-  , test (qtVersion >= [4, 1]) $ mkMethod "setTabWhatsThis" [TInt, TObj c_QString] TVoid
+  , just $ mkMethod "setTabText" [intT, objT c_QString] voidT
+  , just $ mkMethod "setTabToolTip" [intT, objT c_QString] voidT
+  , test (qtVersion >= [4, 1]) $ mkMethod "setTabWhatsThis" [intT, objT c_QString] voidT
     -- TODO tabBar
     -- TODO tabIcon
-  , just $ mkConstMethod "tabText" [TInt] $ TObj c_QString
-  , just $ mkConstMethod "tabToolTip" [TInt] $ TObj c_QString
-  , just $ mkConstMethod "tabWhatsThis" [TInt] $ TObj c_QString
-  , just $ mkConstMethod "widget" [TInt] $ TPtr $ TObj c_QWidget
+  , just $ mkConstMethod "tabText" [intT] $ objT c_QString
+  , just $ mkConstMethod "tabToolTip" [intT] $ objT c_QString
+  , just $ mkConstMethod "tabWhatsThis" [intT] $ objT c_QString
+  , just $ mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
   ] ++
   (mkProps . collect)
-  [ just $ mkProp "currentIndex" TInt
-  , just $ mkProp "currentWidget" $ TPtr $ TObj c_QWidget
-  , test (qtVersion >= [4, 5]) $ mkProp "documentMode" TBool
-  , test (qtVersion >= [4, 2]) $ mkProp "elideMode" $ TEnum e_TextElideMode
-  , test (qtVersion >= [4, 2]) $ mkProp "iconSize" $ TObj c_QSize
+  [ just $ mkProp "currentIndex" intT
+  , just $ mkProp "currentWidget" $ ptrT $ objT c_QWidget
+  , test (qtVersion >= [4, 5]) $ mkProp "documentMode" boolT
+  , test (qtVersion >= [4, 2]) $ mkProp "elideMode" $ enumT e_TextElideMode
+  , test (qtVersion >= [4, 2]) $ mkProp "iconSize" $ objT c_QSize
   , test (qtVersion >= [4, 5]) $ mkBoolIsProp "movable"
-  , test (qtVersion >= [5, 4]) $ mkProp "tabBarAutoHide" TBool
-  , just $ mkProp "tabPosition" $ TEnum e_TabPosition
-  , just $ mkProp "tabShape" $ TEnum e_TabShape
-  , test (qtVersion >= [4, 5]) $ mkProp "tabsClosable" TBool
-  , test (qtVersion >= [4, 2]) $ mkProp "usesScrollButtons" TBool
+  , test (qtVersion >= [5, 4]) $ mkProp "tabBarAutoHide" boolT
+  , just $ mkProp "tabPosition" $ enumT e_TabPosition
+  , just $ mkProp "tabShape" $ enumT e_TabShape
+  , test (qtVersion >= [4, 5]) $ mkProp "tabsClosable" boolT
+  , test (qtVersion >= [4, 2]) $ mkProp "usesScrollButtons" boolT
   ]
 
 e_TabPosition =

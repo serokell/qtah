@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QDoubleSpinBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TDouble, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (doubleT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Listener (
@@ -54,21 +54,21 @@ c_QDoubleSpinBox =
   addReqIncludes [includeStd "QDoubleSpinBox"] $
   makeClass (ident "QDoubleSpinBox") Nothing [c_QAbstractSpinBox]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkConstMethod "cleanText" [] $ TObj c_QString
-  , mkMethod "setRange" [TDouble, TDouble] TVoid
-  , mkConstMethod "textFromValue" [TDouble] $ TObj c_QString
-  , mkConstMethod "valueFromText" [TObj c_QString] TDouble
+  [ mkConstMethod "cleanText" [] $ objT c_QString
+  , mkMethod "setRange" [doubleT, doubleT] voidT
+  , mkConstMethod "textFromValue" [doubleT] $ objT c_QString
+  , mkConstMethod "valueFromText" [objT c_QString] doubleT
   ] ++
   mkProps
-  [ mkProp "decimals" TInt
-  , mkProp "maximum" TDouble
-  , mkProp "minimum" TDouble
-  , mkProp "prefix" $ TObj c_QString
-  , mkProp "singleStep" TDouble
-  , mkProp "suffix" $ TObj c_QString
-  , mkProp "value" TDouble
+  [ mkProp "decimals" intT
+  , mkProp "maximum" doubleT
+  , mkProp "minimum" doubleT
+  , mkProp "prefix" $ objT c_QString
+  , mkProp "singleStep" doubleT
+  , mkProp "suffix" $ objT c_QString
+  , mkProp "value" doubleT
   ]
 
 signals =

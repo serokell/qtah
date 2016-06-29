@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QClipboard (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TObj, TRef, TVoid),
   addReqIncludes,
   classSetDtorPrivate,
   ident,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod',
   mkMethod',
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -58,26 +58,26 @@ c_QClipboard =
   classSetDtorPrivate $
   makeClass (ident "QClipboard") Nothing [c_QObject] [] $
   collect
-  [ just $ mkMethod' "clear" "clear" [] TVoid
-  , just $ mkMethod' "clear" "clearWithMode" [TEnum e_Mode] TVoid
+  [ just $ mkMethod' "clear" "clear" [] voidT
+  , just $ mkMethod' "clear" "clearWithMode" [enumT e_Mode] voidT
     -- TODO image
     -- TODO mimeData
-  , just $ mkConstMethod "ownsClipboard" [] TBool
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "ownsFindBuffer" [] TBool
-  , just $ mkConstMethod "ownsSelection" [] TBool
+  , just $ mkConstMethod "ownsClipboard" [] boolT
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "ownsFindBuffer" [] boolT
+  , just $ mkConstMethod "ownsSelection" [] boolT
     -- TODO pixmap
     -- TODO setImage
     -- TODO setMimeData
     -- TODO setPixmap
-  , just $ mkMethod' "setText" "setText" [TObj c_QString] TVoid
-  , just $ mkMethod' "setText" "setTextWithMode" [TObj c_QString, TEnum e_Mode] TVoid
-  , just $ mkConstMethod "supportsFindBuffer" [] TBool
-  , just $ mkConstMethod "supportsSelection" [] TBool
-  , just $ mkConstMethod' "text" "text" [] $ TObj c_QString
-  , just $ mkConstMethod' "text" "textWithMode" [TEnum e_Mode] $ TObj c_QString
-  , just $ mkConstMethod' "text" "textSubtype" [TRef $ TObj c_QString] $ TObj c_QString
-  , just $ mkConstMethod' "text" "textSubtypeWithMode" [TRef $ TObj c_QString, TEnum e_Mode] $
-    TObj c_QString
+  , just $ mkMethod' "setText" "setText" [objT c_QString] voidT
+  , just $ mkMethod' "setText" "setTextWithMode" [objT c_QString, enumT e_Mode] voidT
+  , just $ mkConstMethod "supportsFindBuffer" [] boolT
+  , just $ mkConstMethod "supportsSelection" [] boolT
+  , just $ mkConstMethod' "text" "text" [] $ objT c_QString
+  , just $ mkConstMethod' "text" "textWithMode" [enumT e_Mode] $ objT c_QString
+  , just $ mkConstMethod' "text" "textSubtype" [refT $ objT c_QString] $ objT c_QString
+  , just $ mkConstMethod' "text" "textSubtypeWithMode" [refT $ objT c_QString, enumT e_Mode] $
+    objT c_QString
   ]
 
 signals =

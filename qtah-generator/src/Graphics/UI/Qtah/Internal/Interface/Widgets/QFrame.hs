@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TEnum, TInt, TObj, TPtr),
   addReqIncludes,
   ident,
   ident1,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (enumT, intT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QWidget (c_QWidget)
@@ -52,18 +52,18 @@ c_QFrame =
   addReqIncludes [includeStd "QFrame"] $
   makeClass (ident "QFrame") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO QFrame(QWidget*, Qt::WindowFlags)
   ] $
-  [ mkConstMethod "frameWidth" [] TInt
+  [ mkConstMethod "frameWidth" [] intT
   ] ++
   mkProps
-  [ mkProp "frameRect" $ TObj c_QRect
-  , mkProp "frameShadow" $ TEnum e_Shadow
-  , mkProp "frameShape" $ TEnum e_Shape
-  , mkProp "frameStyle" TInt
-  , mkProp "lineWidth" TInt
-  , mkProp "midLineWidth" TInt
+  [ mkProp "frameRect" $ objT c_QRect
+  , mkProp "frameShadow" $ enumT e_Shadow
+  , mkProp "frameShape" $ enumT e_Shape
+  , mkProp "frameStyle" intT
+  , mkProp "lineWidth" intT
+  , mkProp "midLineWidth" intT
   ]
 
 e_Shadow =

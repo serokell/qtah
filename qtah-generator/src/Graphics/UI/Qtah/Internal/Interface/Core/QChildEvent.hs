@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QChildEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBool, TEnum, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent, e_Type)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
@@ -43,10 +43,10 @@ aModule =
 c_QChildEvent =
   addReqIncludes [includeStd "QChildEvent"] $
   makeClass (ident "QChildEvent") Nothing [c_QEvent]
-  [ mkCtor "new" [TEnum e_Type, TPtr $ TObj c_QObject]
+  [ mkCtor "new" [enumT e_Type, ptrT $ objT c_QObject]
   ]
-  [ mkConstMethod "added" [] TBool
-  , mkConstMethod "child" [] $ TPtr $ TObj c_QObject
-  , mkConstMethod "polished" [] TBool
-  , mkConstMethod "removed" [] TBool
+  [ mkConstMethod "added" [] boolT
+  , mkConstMethod "child" [] $ ptrT $ objT c_QObject
+  , mkConstMethod "polished" [] boolT
+  , mkConstMethod "removed" [] boolT
   ]

@@ -28,7 +28,6 @@ import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportClass),
   Operator (OpArray),
-  Type (TBitspace, TBool, TInt, TObj, TRef, TVoid),
   addReqIncludes,
   classSetConversionToGc,
   ident,
@@ -47,6 +46,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, intT, objT, refT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -70,66 +70,66 @@ c_QDir =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
   makeClass (ident "QDir") Nothing []
-  [ mkCtor "new" [TObj c_QString]
+  [ mkCtor "new" [objT c_QString]
   ] $
   collect
-  [ just $ mkConstMethod "absoluteFilePath" [TObj c_QString] $ TObj c_QString
-  , just $ mkConstMethod "absolutePath" [] $ TObj c_QString
+  [ just $ mkConstMethod "absoluteFilePath" [objT c_QString] $ objT c_QString
+  , just $ mkConstMethod "absolutePath" [] $ objT c_QString
   , test (qtVersion >= [4, 3]) $
-    mkStaticMethod "addSearchPath" [TObj c_QString, TObj c_QString] TVoid
-  , just $ mkConstMethod "canonicalPath" [] $ TObj c_QString
-  , just $ mkMethod "cd" [TObj c_QString] TBool
-  , just $ mkMethod "cdUp" [] TBool
-  , just $ mkStaticMethod "cleanPath" [TObj c_QString] $ TObj c_QString
-  , just $ mkConstMethod "count" [] TInt
-  , just $ mkStaticMethod "current" [] $ TObj c_QDir
-  , just $ mkStaticMethod "currentPath" [] $ TObj c_QString
-  , just $ mkConstMethod "dirName" [] $ TObj c_QString
+    mkStaticMethod "addSearchPath" [objT c_QString, objT c_QString] voidT
+  , just $ mkConstMethod "canonicalPath" [] $ objT c_QString
+  , just $ mkMethod "cd" [objT c_QString] boolT
+  , just $ mkMethod "cdUp" [] boolT
+  , just $ mkStaticMethod "cleanPath" [objT c_QString] $ objT c_QString
+  , just $ mkConstMethod "count" [] intT
+  , just $ mkStaticMethod "current" [] $ objT c_QDir
+  , just $ mkStaticMethod "currentPath" [] $ objT c_QString
+  , just $ mkConstMethod "dirName" [] $ objT c_QString
     -- TODO drives
     -- TODO entryInfoList
     -- TODO entryList
-  , just $ mkConstMethod' "exists" "exists" [] TBool
-  , just $ mkConstMethod' "exists" "entryExists" [TObj c_QString] TBool
-  , just $ mkConstMethod "filePath" [TObj c_QString] $ TObj c_QString
+  , just $ mkConstMethod' "exists" "exists" [] boolT
+  , just $ mkConstMethod' "exists" "entryExists" [objT c_QString] boolT
+  , just $ mkConstMethod "filePath" [objT c_QString] $ objT c_QString
   , test (qtVersion >= [4, 2]) $
-    mkStaticMethod "fromNativeSeparators" [TObj c_QString] $ TObj c_QString
-  , just $ mkStaticMethod "home" [] $ TObj c_QDir
-  , just $ mkStaticMethod "homePath" [] $ TObj c_QString
-  , just $ mkConstMethod "isAbsolute" [] TBool
-  , just $ mkStaticMethod "isAbsolutePath" [TObj c_QString] TBool
-  , just $ mkConstMethod "isReadable" [] TBool
-  , just $ mkConstMethod "isRelative" [] TBool
-  , just $ mkStaticMethod "isRelativePath" [TObj c_QString] TBool
-  , just $ mkConstMethod "isRoot" [] TBool
-  , just $ mkMethod "makeAbsolute" [] TBool
-  , just $ mkStaticMethod "match" [TObj c_QString, TObj c_QString] TBool
+    mkStaticMethod "fromNativeSeparators" [objT c_QString] $ objT c_QString
+  , just $ mkStaticMethod "home" [] $ objT c_QDir
+  , just $ mkStaticMethod "homePath" [] $ objT c_QString
+  , just $ mkConstMethod "isAbsolute" [] boolT
+  , just $ mkStaticMethod "isAbsolutePath" [objT c_QString] boolT
+  , just $ mkConstMethod "isReadable" [] boolT
+  , just $ mkConstMethod "isRelative" [] boolT
+  , just $ mkStaticMethod "isRelativePath" [objT c_QString] boolT
+  , just $ mkConstMethod "isRoot" [] boolT
+  , just $ mkMethod "makeAbsolute" [] boolT
+  , just $ mkStaticMethod "match" [objT c_QString, objT c_QString] boolT
     -- TODO match(QStringList, QString)
-  , just $ mkConstMethod "mkdir" [TObj c_QString] TBool
-  , just $ mkConstMethod "mkpath" [TObj c_QString] TBool
-  , just $ mkMethod "refresh" [] TVoid
-  , just $ mkConstMethod "relativeFilePath" [TObj c_QString] $ TObj c_QString
-  , just $ mkMethod "remove" [TObj c_QString] TBool
-  , test (qtVersion >= [5, 0]) $ mkMethod "removeRecursively" [] TBool
-  , just $ mkMethod "rename" [TObj c_QString, TObj c_QString] TBool
-  , just $ mkConstMethod "rmdir" [TObj c_QString] TBool
-  , just $ mkConstMethod "rmpath" [TObj c_QString] TBool
-  , just $ mkStaticMethod "root" [] $ TObj c_QDir
-  , just $ mkStaticMethod "rootPath" [] $ TObj c_QString
-  , just $ mkStaticMethod "separator" [] $ TObj c_QChar
-  , just $ mkStaticMethod "setCurrent" [TObj c_QString] TBool
-  , test (qtVersion >= [5, 0]) $ mkMethod "swap" [TRef $ TObj c_QDir] TVoid
-  , just $ mkStaticMethod "temp" [] $ TObj c_QDir
-  , just $ mkStaticMethod "tempPath" [] $ TObj c_QString
+  , just $ mkConstMethod "mkdir" [objT c_QString] boolT
+  , just $ mkConstMethod "mkpath" [objT c_QString] boolT
+  , just $ mkMethod "refresh" [] voidT
+  , just $ mkConstMethod "relativeFilePath" [objT c_QString] $ objT c_QString
+  , just $ mkMethod "remove" [objT c_QString] boolT
+  , test (qtVersion >= [5, 0]) $ mkMethod "removeRecursively" [] boolT
+  , just $ mkMethod "rename" [objT c_QString, objT c_QString] boolT
+  , just $ mkConstMethod "rmdir" [objT c_QString] boolT
+  , just $ mkConstMethod "rmpath" [objT c_QString] boolT
+  , just $ mkStaticMethod "root" [] $ objT c_QDir
+  , just $ mkStaticMethod "rootPath" [] $ objT c_QString
+  , just $ mkStaticMethod "separator" [] $ objT c_QChar
+  , just $ mkStaticMethod "setCurrent" [objT c_QString] boolT
+  , test (qtVersion >= [5, 0]) $ mkMethod "swap" [refT $ objT c_QDir] voidT
+  , just $ mkStaticMethod "temp" [] $ objT c_QDir
+  , just $ mkStaticMethod "tempPath" [] $ objT c_QString
   , test (qtVersion >= [4, 2]) $
-    mkStaticMethod "toNativeSeparators" [TObj c_QString] $ TObj c_QString
-  , just $ mkConstMethod OpArray [TInt] $ TObj c_QString
+    mkStaticMethod "toNativeSeparators" [objT c_QString] $ objT c_QString
+  , just $ mkConstMethod OpArray [intT] $ objT c_QString
   ] ++
   mkProps
-  [ mkProp "filter" $ TBitspace bs_Filters
+  [ mkProp "filter" $ bitspaceT bs_Filters
     -- TODO nameFilters
-  , mkProp "path" $ TObj c_QString
+  , mkProp "path" $ objT c_QString
     -- TODO searchPaths (>=4.3)
-  , mkProp "sorting" $ TBitspace bs_SortFlags
+  , mkProp "sorting" $ bitspaceT bs_SortFlags
   ]
 
 (e_Filter, bs_Filters) =

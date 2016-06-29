@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QActionEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TEnum, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent, e_Type)
@@ -43,9 +43,9 @@ aModule =
 c_QActionEvent =
   addReqIncludes [includeStd "QActionEvent"] $
   makeClass (ident "QActionEvent") Nothing [c_QEvent]
-  [ mkCtor "new" [TEnum e_Type, TPtr $ TObj c_QAction]
-  , mkCtor "newBefore" [TEnum e_Type, TPtr $ TObj c_QAction]
+  [ mkCtor "new" [enumT e_Type, ptrT $ objT c_QAction]
+  , mkCtor "newBefore" [enumT e_Type, ptrT $ objT c_QAction]
   ]
-  [ mkConstMethod "action" [] $ TPtr $ TObj c_QAction
-  , mkConstMethod "before" [] $ TPtr $ TObj c_QAction
+  [ mkConstMethod "action" [] $ ptrT $ objT c_QAction
+  , mkConstMethod "before" [] $ ptrT $ objT c_QAction
   ]

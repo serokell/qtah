@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollArea (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBitspace, TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -50,19 +50,19 @@ c_QScrollArea =
   addReqIncludes [includeStd "QScrollArea"] $
   makeClass (ident "QScrollArea") Nothing [c_QAbstractScrollArea]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
   collect
-  [ just $ mkMethod' "ensureVisible" "ensureVisible" [TInt, TInt] TVoid
-  , just $ mkMethod' "ensureVisible" "ensureVisibleWithMargins" [TInt, TInt, TInt, TInt] TVoid
+  [ just $ mkMethod' "ensureVisible" "ensureVisible" [intT, intT] voidT
+  , just $ mkMethod' "ensureVisible" "ensureVisibleWithMargins" [intT, intT, intT, intT] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "ensureWidgetVisible" "ensureWidgetVisible"
-    [TPtr $ TObj c_QWidget] TVoid
+    [ptrT $ objT c_QWidget] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "ensureWidgetVisible" "ensureWidgetVisibleWithMargins"
-    [TPtr $ TObj c_QWidget, TInt, TInt] TVoid
-  , just $ mkMethod "takeWidget" [] $ TPtr $ TObj c_QWidget
+    [ptrT $ objT c_QWidget, intT, intT] voidT
+  , just $ mkMethod "takeWidget" [] $ ptrT $ objT c_QWidget
   ] ++
   (mkProps . collect)
-  [ test (qtVersion >= [4, 2]) $ mkProp "alignment" $ TBitspace bs_Alignment
-  , just $ mkProp "widget" $ TPtr $ TObj c_QWidget
-  , just $ mkProp "widgetResizable" TBool
+  [ test (qtVersion >= [4, 2]) $ mkProp "alignment" $ bitspaceT bs_Alignment
+  , just $ mkProp "widget" $ ptrT $ objT c_QWidget
+  , just $ mkProp "widgetResizable" boolT
   ]

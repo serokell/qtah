@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QKeyEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBitspace, TBool, TEnum, TInt, TObj, TUShort, TWord32),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ushortT, word32T)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -48,23 +48,23 @@ c_QKeyEvent =
   addReqIncludes [includeStd "QKeyEvent"] $
   makeClass (ident "QKeyEvent") Nothing [c_QInputEvent]
   (collect
-   [ just $ mkCtor "new" [TEnum e_Type, TInt, TBitspace bs_KeyboardModifiers]
+   [ just $ mkCtor "new" [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers]
    , just $ mkCtor "newWithText"
-     [TEnum e_Type, TInt, TBitspace bs_KeyboardModifiers, TObj c_QString, TBool, TUShort]
+     [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, objT c_QString, boolT, ushortT]
    , test (qtVersion >= [5, 0]) $ mkCtor "newNative"
-     [TEnum e_Type, TInt, TBitspace bs_KeyboardModifiers, TWord32, TWord32, TWord32]
+     [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, word32T, word32T, word32T]
    , test (qtVersion >= [5, 0]) $ mkCtor "newNativeWithText"
-     [TEnum e_Type, TInt, TBitspace bs_KeyboardModifiers, TWord32, TWord32, TWord32,
-      TObj c_QString, TBool, TUShort]
+     [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, word32T, word32T, word32T,
+      objT c_QString, boolT, ushortT]
    ]) $
   collect
-  [ just $ mkConstMethod "count" [] TInt
-  , just $ mkConstMethod "isAutoRepeat" [] TBool
-  , just $ mkConstMethod "key" [] TInt
+  [ just $ mkConstMethod "count" [] intT
+  , just $ mkConstMethod "isAutoRepeat" [] boolT
+  , just $ mkConstMethod "key" [] intT
     -- TODO matches (>=4.2)
-  , just $ mkConstMethod "modifiers" [] $ TBitspace bs_KeyboardModifiers
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "nativeModifiers" [] TWord32
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "nativeScanCode" [] TWord32
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "nativeVirtualKey" [] TWord32
-  , just $ mkConstMethod "text" [] $ TObj c_QString
+  , just $ mkConstMethod "modifiers" [] $ bitspaceT bs_KeyboardModifiers
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "nativeModifiers" [] word32T
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "nativeScanCode" [] word32T
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "nativeVirtualKey" [] word32T
+  , just $ mkConstMethod "text" [] $ objT c_QString
   ]

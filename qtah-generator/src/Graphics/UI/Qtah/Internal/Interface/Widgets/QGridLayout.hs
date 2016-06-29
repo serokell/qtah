@@ -23,7 +23,6 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   MethodApplicability (MConst, MNormal),
   Purity (Nonpure),
-  Type (TBitspace, TConst, TEnum, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
   ident,
   ident2,
@@ -38,6 +37,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, constT, enumT, intT, objT, ptrT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -59,54 +59,54 @@ c_QGridLayout =
                   includeLocal "wrap_qgridlayout.hpp"] $
   makeClass (ident "QGridLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
   collect
-  [ just $ mkMethod' "addItem" "addItem" [TPtr $ TObj c_QLayoutItem, TInt, TInt] TVoid
+  [ just $ mkMethod' "addItem" "addItem" [ptrT $ objT c_QLayoutItem, intT, intT] voidT
   , just $ mkMethod' "addItem" "addItemWithSpan"
-    [TPtr $ TObj c_QLayoutItem, TInt, TInt, TInt, TInt] TVoid
+    [ptrT $ objT c_QLayoutItem, intT, intT, intT, intT] voidT
   , just $ mkMethod' "addItem" "addItemWithSpanAndAlignment"
-    [TPtr $ TObj c_QLayoutItem, TInt, TInt, TInt, TInt, TBitspace bs_Alignment] TVoid
-  , just $ mkMethod' "addLayout" "addLayout" [TPtr $ TObj c_QLayout, TInt, TInt] TVoid
+    [ptrT $ objT c_QLayoutItem, intT, intT, intT, intT, bitspaceT bs_Alignment] voidT
+  , just $ mkMethod' "addLayout" "addLayout" [ptrT $ objT c_QLayout, intT, intT] voidT
   , just $ mkMethod' "addLayout" "addLayoutWithSpan"
-    [TPtr $ TObj c_QLayout, TInt, TInt, TInt, TInt] TVoid
+    [ptrT $ objT c_QLayout, intT, intT, intT, intT] voidT
   , just $ mkMethod' "addLayout" "addLayoutWithSpanAndAlignment"
-    [TPtr $ TObj c_QLayout, TInt, TInt, TInt, TInt, TBitspace bs_Alignment] TVoid
-  , just $ mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget, TInt, TInt] TVoid
+    [ptrT $ objT c_QLayout, intT, intT, intT, intT, bitspaceT bs_Alignment] voidT
+  , just $ mkMethod' "addWidget" "addWidget" [ptrT $ objT c_QWidget, intT, intT] voidT
   , just $ mkMethod' "addWidget" "addWidgetWithSpan"
-    [TPtr $ TObj c_QWidget, TInt, TInt, TInt, TInt] TVoid
+    [ptrT $ objT c_QWidget, intT, intT, intT, intT] voidT
   , just $ mkMethod' "addWidget" "addWidgetWithSpanAndAlignment"
-    [TPtr $ TObj c_QWidget, TInt, TInt, TInt, TInt, TBitspace bs_Alignment] TVoid
-  , just $ mkConstMethod "cellRect" [TInt, TInt] $ TObj c_QRect
-  , just $ mkConstMethod "columnCount" [] TInt
-  , just $ mkConstMethod "columnMinimumWidth" [TInt] TInt
-  , just $ mkConstMethod "columnStretch" [TInt] TInt
+    [ptrT $ objT c_QWidget, intT, intT, intT, intT, bitspaceT bs_Alignment] voidT
+  , just $ mkConstMethod "cellRect" [intT, intT] $ objT c_QRect
+  , just $ mkConstMethod "columnCount" [] intT
+  , just $ mkConstMethod "columnMinimumWidth" [intT] intT
+  , just $ mkConstMethod "columnStretch" [intT] intT
   , just $ makeFnMethod (ident2 "qtah" "qgridlayout" "getItemRow") "getItemRow"
-    getItemPositionAppl Nonpure [getItemPositionThis, TInt] TInt
+    getItemPositionAppl Nonpure [getItemPositionThis, intT] intT
   , just $ makeFnMethod (ident2 "qtah" "qgridlayout" "getItemColumn") "getItemColumn"
-    getItemPositionAppl Nonpure [getItemPositionThis, TInt] TInt
+    getItemPositionAppl Nonpure [getItemPositionThis, intT] intT
   , just $ makeFnMethod (ident2 "qtah" "qgridlayout" "getItemRowSpan") "getItemRowSpan"
-    getItemPositionAppl Nonpure [getItemPositionThis, TInt] TInt
+    getItemPositionAppl Nonpure [getItemPositionThis, intT] intT
   , just $ makeFnMethod (ident2 "qtah" "qgridlayout" "getItemColumnSpan") "getItemColumnSpan"
-    getItemPositionAppl Nonpure [getItemPositionThis, TInt] TInt
+    getItemPositionAppl Nonpure [getItemPositionThis, intT] intT
   , test (qtVersion >= [4, 4]) $
-    mkConstMethod "itemAtPosition" [TInt, TInt] $ TPtr $ TObj c_QLayoutItem
-  , just $ mkConstMethod "rowCount" [] TInt
-  , just $ mkConstMethod "rowMinimumHeight" [TInt] TInt
-  , just $ mkConstMethod "rowStretch" [TInt] TInt
-  , just $ mkMethod "setColumnMinimumWidth" [TInt, TInt] TVoid
-  , just $ mkMethod "setColumnStretch" [TInt, TInt] TVoid
-  , just $ mkMethod "setRowMinimumHeight" [TInt, TInt] TVoid
-  , just $ mkMethod "setRowStretch" [TInt, TInt] TVoid
-  , just $ mkConstMethod "spacing" [] TInt
+    mkConstMethod "itemAtPosition" [intT, intT] $ ptrT $ objT c_QLayoutItem
+  , just $ mkConstMethod "rowCount" [] intT
+  , just $ mkConstMethod "rowMinimumHeight" [intT] intT
+  , just $ mkConstMethod "rowStretch" [intT] intT
+  , just $ mkMethod "setColumnMinimumWidth" [intT, intT] voidT
+  , just $ mkMethod "setColumnStretch" [intT, intT] voidT
+  , just $ mkMethod "setRowMinimumHeight" [intT, intT] voidT
+  , just $ mkMethod "setRowStretch" [intT, intT] voidT
+  , just $ mkConstMethod "spacing" [] intT
   ] ++
   (mkProps . collect)
-  [ test (qtVersion >= [4, 3]) $ mkProp "horizontalSpacing" TInt
-  , test (qtVersion >= [4, 3]) $ mkProp "verticalSpacing" TInt
-  , just $ mkProp "originCorner" $ TEnum e_Corner
+  [ test (qtVersion >= [4, 3]) $ mkProp "horizontalSpacing" intT
+  , test (qtVersion >= [4, 3]) $ mkProp "verticalSpacing" intT
+  , just $ mkProp "originCorner" $ enumT e_Corner
   ]
 
   where (getItemPositionAppl, getItemPositionThis) =
           if qtVersion >= [5, 0]
-          then (MConst, TRef $ TConst $ TObj c_QGridLayout)
-          else (MNormal, TRef $ TObj c_QGridLayout)
+          then (MConst, refT $ constT $ objT c_QGridLayout)
+          else (MNormal, refT $ objT c_QGridLayout)

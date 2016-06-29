@@ -37,7 +37,6 @@ import Foreign.Hoppy.Generator.Spec (
     classHaskellConversionType
   ),
   Export (ExportClass, ExportEnum),
-  Type (TBool, TChar, TInt, TEnum, TObj, TRef, TUChar, TUShort),
   addReqIncludes,
   classSetHaskellConversion,
   hsImport1,
@@ -56,6 +55,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Comparable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, charT, intT, enumT, objT, refT, ucharT, ushortT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -102,51 +102,51 @@ c_QChar =
     } $
   makeClass (ident "QChar") Nothing []
   [ mkCtor "new" []
-  , mkCtor "newFromCellRow" [TUChar, TUChar]
-  , mkCtor "newFromInt" [TInt]
-  , mkCtor "newFromSpecialCharacter" [TEnum e_SpecialCharacter]
+  , mkCtor "newFromCellRow" [ucharT, ucharT]
+  , mkCtor "newFromInt" [intT]
+  , mkCtor "newFromSpecialCharacter" [enumT e_SpecialCharacter]
   ] $
   collect
-  [ test (qtVersion < [5]) $ mkStaticMethod' "fromAscii" "newFromAscii" [TChar] $ TObj c_QChar
-  , just $ mkStaticMethod' "fromLatin1" "newFromLatin1" [TChar] $ TObj c_QChar
-  , just $ mkConstMethod "category" [] $ TEnum e_Category
-  , just $ mkConstMethod "cell" [] TUChar
-  , just $ mkConstMethod "combiningClass" [] TUChar
-  , just $ mkStaticMethod "currentUnicodeVersion" [] $ TEnum e_UnicodeVersion
-  , just $ mkConstMethod "decomposition" [] $ TObj c_QString
-  , just $ mkConstMethod "decompositionTag" [] $ TEnum e_Decomposition
-  , just $ mkConstMethod "digitValue" [] TInt
-  , just $ mkConstMethod "direction" [] $ TEnum e_Direction
-  , just $ mkConstMethod "hasMirrored" [] TBool
-  , just $ mkConstMethod "isDigit" [] TBool
-  , just $ mkConstMethod "isHighSurrogate" [] TBool
-  , just $ mkConstMethod "isLetter" [] TBool
-  , just $ mkConstMethod "isLetterOrNumber" [] TBool
-  , just $ mkConstMethod "isLowSurrogate" [] TBool
-  , just $ mkConstMethod "isLower" [] TBool
-  , just $ mkConstMethod "isMark" [] TBool
-  , just $ mkConstMethod "isNull" [] TBool
-  , just $ mkConstMethod "isNumber" [] TBool
-  , just $ mkConstMethod "isPrint" [] TBool
-  , just $ mkConstMethod "isPunct" [] TBool
-  , just $ mkConstMethod "isSpace" [] TBool
-  , just $ mkConstMethod "isSymbol" [] TBool
-  , just $ mkConstMethod "isTitleCase" [] TBool
-  , just $ mkConstMethod "isUpper" [] TBool
-  , test (qtVersion < [5, 3]) $ mkConstMethod "joining" [] $ TEnum e_Joining
-  , test (qtVersion >= [5, 3]) $ mkConstMethod "joiningType" [] $ TEnum e_JoiningType
-  , just $ mkConstMethod "mirroredChar" [] $ TObj c_QChar
-  , just $ mkConstMethod "row" [] TUChar
+  [ test (qtVersion < [5]) $ mkStaticMethod' "fromAscii" "newFromAscii" [charT] $ objT c_QChar
+  , just $ mkStaticMethod' "fromLatin1" "newFromLatin1" [charT] $ objT c_QChar
+  , just $ mkConstMethod "category" [] $ enumT e_Category
+  , just $ mkConstMethod "cell" [] ucharT
+  , just $ mkConstMethod "combiningClass" [] ucharT
+  , just $ mkStaticMethod "currentUnicodeVersion" [] $ enumT e_UnicodeVersion
+  , just $ mkConstMethod "decomposition" [] $ objT c_QString
+  , just $ mkConstMethod "decompositionTag" [] $ enumT e_Decomposition
+  , just $ mkConstMethod "digitValue" [] intT
+  , just $ mkConstMethod "direction" [] $ enumT e_Direction
+  , just $ mkConstMethod "hasMirrored" [] boolT
+  , just $ mkConstMethod "isDigit" [] boolT
+  , just $ mkConstMethod "isHighSurrogate" [] boolT
+  , just $ mkConstMethod "isLetter" [] boolT
+  , just $ mkConstMethod "isLetterOrNumber" [] boolT
+  , just $ mkConstMethod "isLowSurrogate" [] boolT
+  , just $ mkConstMethod "isLower" [] boolT
+  , just $ mkConstMethod "isMark" [] boolT
+  , just $ mkConstMethod "isNull" [] boolT
+  , just $ mkConstMethod "isNumber" [] boolT
+  , just $ mkConstMethod "isPrint" [] boolT
+  , just $ mkConstMethod "isPunct" [] boolT
+  , just $ mkConstMethod "isSpace" [] boolT
+  , just $ mkConstMethod "isSymbol" [] boolT
+  , just $ mkConstMethod "isTitleCase" [] boolT
+  , just $ mkConstMethod "isUpper" [] boolT
+  , test (qtVersion < [5, 3]) $ mkConstMethod "joining" [] $ enumT e_Joining
+  , test (qtVersion >= [5, 3]) $ mkConstMethod "joiningType" [] $ enumT e_JoiningType
+  , just $ mkConstMethod "mirroredChar" [] $ objT c_QChar
+  , just $ mkConstMethod "row" [] ucharT
     -- TODO script (>=5.1)
-  , test (qtVersion < [5]) $ mkConstMethod "toAscii" [] TChar
-  , just $ mkConstMethod "toCaseFolded" [] $ TObj c_QChar
-  , just $ mkConstMethod "toLatin1" [] TChar
-  , just $ mkConstMethod "toLower" [] $ TObj c_QChar
-  , just $ mkConstMethod "toTitleCase" [] $ TObj c_QChar
-  , just $ mkConstMethod "toUpper" [] $ TObj c_QChar
-  , just $ mkConstMethod' "unicode" "unicode" [] TUShort
-  , just $ mkMethod' "unicode" "unicodeRef" [] $ TRef TUShort
-  , just $ mkConstMethod "unicodeVersion" [] $ TEnum e_UnicodeVersion
+  , test (qtVersion < [5]) $ mkConstMethod "toAscii" [] charT
+  , just $ mkConstMethod "toCaseFolded" [] $ objT c_QChar
+  , just $ mkConstMethod "toLatin1" [] charT
+  , just $ mkConstMethod "toLower" [] $ objT c_QChar
+  , just $ mkConstMethod "toTitleCase" [] $ objT c_QChar
+  , just $ mkConstMethod "toUpper" [] $ objT c_QChar
+  , just $ mkConstMethod' "unicode" "unicode" [] ushortT
+  , just $ mkMethod' "unicode" "unicodeRef" [] $ refT ushortT
+  , just $ mkConstMethod "unicodeVersion" [] $ enumT e_UnicodeVersion
   ]
 
 e_Category =

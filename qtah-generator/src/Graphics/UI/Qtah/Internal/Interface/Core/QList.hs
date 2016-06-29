@@ -51,11 +51,40 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   toHsDataTypeName,
   toHsMethodName',
   )
-import Foreign.Hoppy.Generator.Spec
+import Foreign.Hoppy.Generator.Spec (
+  Class,
+  ClassHaskellConversion (
+    ClassHaskellConversion,
+    classHaskellConversionFromCppFn,
+    classHaskellConversionToCppFn,
+    classHaskellConversionType
+    ),
+  Constness (Const, Nonconst),
+  Export (ExportClass),
+  Operator (OpAdd, OpArray),
+  Reqs,
+  Type,
+  addReqs,
+  addAddendumHaskell,
+  classSetHaskellConversion,
+  classSetMonomorphicSuperclass,
+  hsImport1,
+  identT,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  mkMethod,
+  mkMethod',
+  reqInclude,
+  toExtName,
+  )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, constT, intT, objT, ptrT, refT, toGcT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -112,54 +141,54 @@ instantiate' listName t tReqs opts =
         [ mkCtor "new" []
         ] $
         collect
-        [ just $ mkMethod' "append" "append" [t] TVoid
-        , test (qtVersion >= [4, 5]) $ mkMethod' "append" "appendList" [TObj list] TVoid
-        , just $ mkMethod' OpArray "at" [TInt] $ TRef t
-        , just $ mkConstMethod' "at" "atConst" [TInt] $ TRef $ TConst t
+        [ just $ mkMethod' "append" "append" [t] voidT
+        , test (qtVersion >= [4, 5]) $ mkMethod' "append" "appendList" [objT list] voidT
+        , just $ mkMethod' OpArray "at" [intT] $ refT t
+        , just $ mkConstMethod' "at" "atConst" [intT] $ refT $ constT t
           -- OMIT back
           -- OMIT begin
-        , just $ mkMethod "clear" [] TVoid
-        , just $ mkConstMethod "contains" [t] TBool
+        , just $ mkMethod "clear" [] voidT
+        , just $ mkConstMethod "contains" [t] boolT
           -- OMIT count()
-        , just $ mkConstMethod "count" [t] TInt
-        , test (qtVersion >= [4, 5]) $ mkConstMethod "endsWith" [t] TBool
+        , just $ mkConstMethod "count" [t] intT
+        , test (qtVersion >= [4, 5]) $ mkConstMethod "endsWith" [t] boolT
           -- OMIT erase
-        , just $ mkMethod' "first" "first" [] $ TRef t
-        , just $ mkConstMethod' "first" "firstConst" [] $ TRef $ TConst t
-        , just $ mkConstMethod' OpArray "get" [TInt] t
-        , just $ mkConstMethod' "indexOf" "indexOf" [t] TInt
-        , just $ mkConstMethod' "indexOf" "indexOfFrom" [t, TInt] TInt
-        , just $ mkMethod "insert" [TInt, t] TVoid
-        , just $ mkConstMethod "isEmpty" [] TBool
-        , just $ mkMethod' "last" "last" [] $ TRef t
-        , just $ mkConstMethod' "last" "lastConst" [] $ TRef $ TConst t
-        , just $ mkConstMethod' "lastIndexOf" "lastIndexOf" [t] TInt
-        , just $ mkConstMethod' "lastIndexOf" "lastIndexOfFrom" [t, TInt] TInt
+        , just $ mkMethod' "first" "first" [] $ refT t
+        , just $ mkConstMethod' "first" "firstConst" [] $ refT $ constT t
+        , just $ mkConstMethod' OpArray "get" [intT] t
+        , just $ mkConstMethod' "indexOf" "indexOf" [t] intT
+        , just $ mkConstMethod' "indexOf" "indexOfFrom" [t, intT] intT
+        , just $ mkMethod "insert" [intT, t] voidT
+        , just $ mkConstMethod "isEmpty" [] boolT
+        , just $ mkMethod' "last" "last" [] $ refT t
+        , just $ mkConstMethod' "last" "lastConst" [] $ refT $ constT t
+        , just $ mkConstMethod' "lastIndexOf" "lastIndexOf" [t] intT
+        , just $ mkConstMethod' "lastIndexOf" "lastIndexOfFrom" [t, intT] intT
           -- OMIT length
-        , just $ mkConstMethod' "mid" "mid" [TInt] $ TToGc $ TObj list
-        , just $ mkConstMethod' "mid" "midLength" [TInt, TInt] $ TToGc $ TObj list
-        , just $ mkMethod "move" [TInt, TInt] TVoid
-        , just $ mkMethod "prepend" [t] TVoid
-        , just $ mkMethod "removeAll" [t] TInt
-        , just $ mkMethod "removeAt" [TInt] TVoid
-        , just $ mkMethod "removeFirst" [] TVoid
-        , just $ mkMethod "removeLast" [] TVoid
-        , test (qtVersion >= [4, 4]) $ mkMethod "removeOne" [t] TBool
-        , just $ mkMethod "replace" [TInt, t] TVoid
-        , test hasReserve $ mkMethod "reserve" [TInt] TVoid
-        , just $ mkConstMethod "size" [] TInt
-        , test (qtVersion >= [4, 5]) $ mkConstMethod "startsWith" [t] TBool
-        , just $ mkMethod "swap" [TInt, TInt] TVoid
+        , just $ mkConstMethod' "mid" "mid" [intT] $ toGcT $ objT list
+        , just $ mkConstMethod' "mid" "midLength" [intT, intT] $ toGcT $ objT list
+        , just $ mkMethod "move" [intT, intT] voidT
+        , just $ mkMethod "prepend" [t] voidT
+        , just $ mkMethod "removeAll" [t] intT
+        , just $ mkMethod "removeAt" [intT] voidT
+        , just $ mkMethod "removeFirst" [] voidT
+        , just $ mkMethod "removeLast" [] voidT
+        , test (qtVersion >= [4, 4]) $ mkMethod "removeOne" [t] boolT
+        , just $ mkMethod "replace" [intT, t] voidT
+        , test hasReserve $ mkMethod "reserve" [intT] voidT
+        , just $ mkConstMethod "size" [] intT
+        , test (qtVersion >= [4, 5]) $ mkConstMethod "startsWith" [t] boolT
+        , just $ mkMethod "swap" [intT, intT] voidT
           -- OMIT swap(QList<T>&)
-        , just $ mkMethod "takeAt" [TInt] t
+        , just $ mkMethod "takeAt" [intT] t
         , just $ mkMethod "takeFirst" [] t
         , just $ mkMethod "takeLast" [] t
           -- TODO toSet
           -- TODO toStdList
           -- TODO toVector
-        , just $ mkConstMethod' "value" "value" [TInt] t
-        , just $ mkConstMethod' "value" "valueOr" [TInt, t] t
-        , just $ mkConstMethod OpAdd [TObj list] $ TToGc $ TObj list
+        , just $ mkConstMethod' "value" "value" [intT] t
+        , just $ mkConstMethod' "value" "valueOr" [intT, t] t
+        , just $ mkConstMethod OpAdd [objT list] $ toGcT $ objT list
         ]
 
       -- The addendum for the list class contains HasContents and FromContents
@@ -175,7 +204,7 @@ instantiate' listName t tReqs opts =
         forM_ [Const, Nonconst] $ \cst -> do
           let hsDataTypeName = toHsDataTypeName cst list
           hsValueType <- cppTypeToHsTypeAndUse HsHsSide $ case cst of
-            Const -> TConst t
+            Const -> constT t
             Nonconst -> t
 
           -- Generate const and nonconst HasContents instances.
@@ -249,7 +278,7 @@ qmod_Int = createModule "Int" contents_Int
 
 contents_Int :: Contents
 contents_Int =
-  instantiate "QListInt" TInt mempty
+  instantiate "QListInt" intT mempty
 
 c_QListInt :: Class
 c_QListInt = c_QList contents_Int
@@ -258,7 +287,7 @@ qmod_QAbstractButton :: QtModule
 qmod_QAbstractButton = createModule "QAbstractButton" contents_QAbstractButton
 
 contents_QAbstractButton :: Contents
-contents_QAbstractButton = instantiate "QListQAbstractButton" (TPtr $ TObj c_QAbstractButton) mempty
+contents_QAbstractButton = instantiate "QListQAbstractButton" (ptrT $ objT c_QAbstractButton) mempty
 
 c_QListQAbstractButton :: Class
 c_QListQAbstractButton = c_QList contents_QAbstractButton
@@ -267,7 +296,7 @@ qmod_QObject :: QtModule
 qmod_QObject = createModule "QObject" contents_QObject
 
 contents_QObject :: Contents
-contents_QObject = instantiate "QListQObject" (TPtr $ TObj c_QObject) mempty
+contents_QObject = instantiate "QListQObject" (ptrT $ objT c_QObject) mempty
 
 c_QListQObject :: Class
 c_QListQObject = c_QList contents_QObject
@@ -276,7 +305,7 @@ qmod_QString :: QtModule
 qmod_QString = createModule "QString" contents_QString
 
 contents_QString :: Contents
-contents_QString = instantiate "QListQString" (TObj c_QString) mempty
+contents_QString = instantiate "QListQString" (objT c_QString) mempty
 
 c_QListQString :: Class
 c_QListQString = c_QList contents_QString
@@ -285,7 +314,7 @@ qmod_QWidget :: QtModule
 qmod_QWidget = createModule "QWidget" contents_QWidget
 
 contents_QWidget :: Contents
-contents_QWidget = instantiate "QListQWidget" (TPtr $ TObj c_QWidget) mempty
+contents_QWidget = instantiate "QListQWidget" (ptrT $ objT c_QWidget) mempty
 
 c_QListQWidget :: Class
 c_QListQWidget = c_QList contents_QWidget

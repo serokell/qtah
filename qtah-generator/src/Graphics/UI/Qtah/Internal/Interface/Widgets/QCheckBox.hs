@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QCheckBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TEnum, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_CheckState)
@@ -49,11 +49,11 @@ c_QCheckBox =
   addReqIncludes [includeStd "QCheckBox"] $
   makeClass (ident "QCheckBox") Nothing [ c_QAbstractButton ]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithText" [TObj c_QString]
-  , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithText" [objT c_QString]
+  , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   ] $
   mkProps
-  [ mkProp "checkState" $ TEnum e_CheckState
+  [ mkProp "checkState" $ enumT e_CheckState
   , mkBoolIsProp "tristate"
   ]

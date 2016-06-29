@@ -21,13 +21,13 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QRadioButton (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)
@@ -44,8 +44,8 @@ c_QRadioButton =
   addReqIncludes [includeStd "QRadioButton"] $
   makeClass (ident "QRadioButton") Nothing [c_QAbstractButton]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithText" [TObj c_QString]
-  , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithText" [objT c_QString]
+  , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   ]
   []

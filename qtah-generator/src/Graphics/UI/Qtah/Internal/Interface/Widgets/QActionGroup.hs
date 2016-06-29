@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QActionGroup (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
@@ -52,15 +52,15 @@ c_QActionGroup =
   addReqIncludes [includeStd "QActionGroup"] $
   makeClass (ident "QActionGroup") Nothing
   [ c_QObject ]
-  [ mkCtor "new" [TPtr $ TObj c_QObject]
+  [ mkCtor "new" [ptrT $ objT c_QObject]
   ] $
   [ -- TODO actions
-    mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
-  , mkMethod' "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
+    mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
+  , mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
     -- TODO addNewActionWithIcon
-  , mkConstMethod "checkedAction" [] $ TPtr $ TObj c_QAction
-  , mkMethod "removeAction" [TPtr $ TObj c_QAction] TVoid
-  , mkMethod "setDisabled" [TBool] TVoid
+  , mkConstMethod "checkedAction" [] $ ptrT $ objT c_QAction
+  , mkMethod "removeAction" [ptrT $ objT c_QAction] voidT
+  , mkMethod "setDisabled" [boolT] voidT
   ] ++
   mkProps
   [ mkBoolIsProp "enabled"

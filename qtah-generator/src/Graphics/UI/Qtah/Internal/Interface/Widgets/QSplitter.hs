@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QSplitter (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QList (c_QListInt)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Orientation)
@@ -51,31 +51,31 @@ c_QSplitter =
   addReqIncludes [includeStd "QSplitter"] $
   makeClass (ident "QSplitter") Nothing [c_QFrame]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithOrientation" [TEnum e_Orientation]
-  , mkCtor "newWithOrientationAndParent" [TEnum e_Orientation, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithOrientation" [enumT e_Orientation]
+  , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkConstMethod "count" [] TInt
+  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] voidT
+  , mkConstMethod "count" [] intT
     -- TODO getRange
     -- TODO handle
-  , mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , mkMethod "insertWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , mkConstMethod "isCollapsible" [TInt] TBool
-  , mkMethod "refresh" [] TVoid
+  , mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
+  , mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] voidT
+  , mkConstMethod "isCollapsible" [intT] boolT
+  , mkMethod "refresh" [] voidT
     -- TODO restoreState
     -- TODO saveState
-  , mkMethod "setCollapsible" [TInt, TBool] TVoid
-  , mkMethod "setSizes" [TObj c_QListInt] TVoid
-  , mkMethod "setStretchFactor" [TInt, TInt] TVoid
-  , mkMethod "sizes" [] $ TObj c_QListInt
-  , mkConstMethod "widget" [TInt] $ TPtr $ TObj c_QWidget
+  , mkMethod "setCollapsible" [intT, boolT] voidT
+  , mkMethod "setSizes" [objT c_QListInt] voidT
+  , mkMethod "setStretchFactor" [intT, intT] voidT
+  , mkMethod "sizes" [] $ objT c_QListInt
+  , mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
   ] ++
   mkProps
-  [ mkProp "childrenCollapsible" TBool
-  , mkProp "handleWidth" TInt
-  , mkProp "opaqueResize" TBool
-  , mkProp "orientation" $ TEnum e_Orientation
+  [ mkProp "childrenCollapsible" boolT
+  , mkProp "handleWidth" intT
+  , mkProp "opaqueResize" boolT
+  , mkProp "orientation" $ enumT e_Orientation
   ]
 
 signals =

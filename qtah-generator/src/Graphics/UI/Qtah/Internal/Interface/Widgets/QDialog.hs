@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QDialog (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBitspace, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -35,6 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProps,
 
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_WindowFlags)
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_Listener, c_ListenerInt)
@@ -53,18 +53,18 @@ c_QDialog =
   addReqIncludes [includeStd "QDialog"] $
   makeClass (ident "QDialog") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithParentAndFlags" [TPtr $ TObj c_QWidget, TBitspace bs_WindowFlags]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithParentAndFlags" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags]
   ] $
-  [ mkMethod "accept" [] TVoid
-  , mkMethod "done" [TInt] TVoid
-  , mkMethod "exec" [] TInt
-  , mkMethod "open" [] TVoid
-  , mkMethod "reject" [] TVoid
+  [ mkMethod "accept" [] voidT
+  , mkMethod "done" [intT] voidT
+  , mkMethod "exec" [] intT
+  , mkMethod "open" [] voidT
+  , mkMethod "reject" [] voidT
   ] ++
   mkProps
   [ mkBoolIsProp "modal"
-  , mkProp "result" TInt
+  , mkProp "result" intT
   , mkBoolIsProp "sizeGripEnabled"
   ]
 

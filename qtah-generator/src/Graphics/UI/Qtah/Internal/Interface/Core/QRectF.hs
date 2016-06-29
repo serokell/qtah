@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QRectF (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TObj, TVoid),
   addReqIncludes,
   classSetConversionToGc,
   ident,
@@ -39,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -62,53 +62,53 @@ c_QRectF =
   makeClass (ident "QRectF") Nothing []
   (collect
    [ just $ mkCtor "newNull" []
-   , test (qtVersion >= [4, 3]) $ mkCtor "newFromPoints" [TObj c_QPointF, TObj c_QPointF]
-   , just $ mkCtor "newWithPointAndSize" [TObj c_QPointF, TObj c_QSizeF]
-   , just $ mkCtor "newWithRect" [TObj c_QRect]
+   , test (qtVersion >= [4, 3]) $ mkCtor "newFromPoints" [objT c_QPointF, objT c_QPointF]
+   , just $ mkCtor "newWithPointAndSize" [objT c_QPointF, objT c_QSizeF]
+   , just $ mkCtor "newWithRect" [objT c_QRect]
    , just $ mkCtor "newWithRaw" [qreal, qreal, qreal, qreal]
    ]) $
   collect
-  [ just $ mkMethod "adjust" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkConstMethod "adjusted" [qreal, qreal, qreal, qreal] $ TObj c_QRectF
-  , just $ mkConstMethod "center" [] $ TObj c_QPointF
-  , just $ mkConstMethod' "contains" "containsPoint" [TObj c_QPointF] TBool
-  , just $ mkConstMethod' "contains" "containsRect" [TObj c_QRectF] TBool
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "intersected" [TObj c_QRectF] $ TObj c_QRectF
-  , just $ mkConstMethod "intersects" [TObj c_QRectF] TBool
-  , just $ mkConstMethod "isEmpty" [] TBool
-  , just $ mkConstMethod "isNull" [] TBool
-  , just $ mkConstMethod "isValid" [] TBool
-  , test (qtVersion >= [5, 3]) $ mkConstMethod "marginsAdded" [TObj c_QMarginsF] $ TObj c_QRectF
-  , test (qtVersion >= [5, 3]) $ mkConstMethod "marginsRemoved" [TObj c_QMarginsF] $ TObj c_QRectF
-  , just $ mkMethod "moveBottom" [qreal] TVoid
-  , just $ mkMethod "moveBottomLeft" [TObj c_QPointF] TVoid
-  , just $ mkMethod "moveBottomRight" [TObj c_QPointF] TVoid
-  , just $ mkMethod "moveCenter" [TObj c_QPointF] TVoid
-  , just $ mkMethod "moveLeft" [qreal] TVoid
-  , just $ mkMethod "moveRight" [qreal] TVoid
-  , just $ mkMethod "moveTo" [TObj c_QPointF] TVoid
-  , just $ mkMethod "moveTop" [qreal] TVoid
-  , just $ mkMethod "moveTopLeft" [TObj c_QPointF] TVoid
-  , just $ mkMethod "moveTopRight" [TObj c_QPointF] TVoid
-  , just $ mkConstMethod "normalized" [] $ TObj c_QRectF
-  , just $ mkMethod "setCoords" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkMethod "setRect" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkConstMethod "toAlignedRect" [] $ TObj c_QRect
-  , just $ mkMethod "translate" [TObj c_QPointF] TVoid
-  , just $ mkConstMethod "translated" [TObj c_QPointF] $ TObj c_QRectF
-  , test (qtVersion >= [4, 2]) $ mkMethod "united" [TObj c_QRectF] $ TObj c_QRectF
+  [ just $ mkMethod "adjust" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkConstMethod "adjusted" [qreal, qreal, qreal, qreal] $ objT c_QRectF
+  , just $ mkConstMethod "center" [] $ objT c_QPointF
+  , just $ mkConstMethod' "contains" "containsPoint" [objT c_QPointF] boolT
+  , just $ mkConstMethod' "contains" "containsRect" [objT c_QRectF] boolT
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "intersected" [objT c_QRectF] $ objT c_QRectF
+  , just $ mkConstMethod "intersects" [objT c_QRectF] boolT
+  , just $ mkConstMethod "isEmpty" [] boolT
+  , just $ mkConstMethod "isNull" [] boolT
+  , just $ mkConstMethod "isValid" [] boolT
+  , test (qtVersion >= [5, 3]) $ mkConstMethod "marginsAdded" [objT c_QMarginsF] $ objT c_QRectF
+  , test (qtVersion >= [5, 3]) $ mkConstMethod "marginsRemoved" [objT c_QMarginsF] $ objT c_QRectF
+  , just $ mkMethod "moveBottom" [qreal] voidT
+  , just $ mkMethod "moveBottomLeft" [objT c_QPointF] voidT
+  , just $ mkMethod "moveBottomRight" [objT c_QPointF] voidT
+  , just $ mkMethod "moveCenter" [objT c_QPointF] voidT
+  , just $ mkMethod "moveLeft" [qreal] voidT
+  , just $ mkMethod "moveRight" [qreal] voidT
+  , just $ mkMethod "moveTo" [objT c_QPointF] voidT
+  , just $ mkMethod "moveTop" [qreal] voidT
+  , just $ mkMethod "moveTopLeft" [objT c_QPointF] voidT
+  , just $ mkMethod "moveTopRight" [objT c_QPointF] voidT
+  , just $ mkConstMethod "normalized" [] $ objT c_QRectF
+  , just $ mkMethod "setCoords" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkMethod "setRect" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkConstMethod "toAlignedRect" [] $ objT c_QRect
+  , just $ mkMethod "translate" [objT c_QPointF] voidT
+  , just $ mkConstMethod "translated" [objT c_QPointF] $ objT c_QRectF
+  , test (qtVersion >= [4, 2]) $ mkMethod "united" [objT c_QRectF] $ objT c_QRectF
   ] ++
   mkProps
   [ mkProp "bottom" qreal
-  , mkProp "bottomLeft" $ TObj c_QPointF
-  , mkProp "bottomRight" $ TObj c_QPointF
+  , mkProp "bottomLeft" $ objT c_QPointF
+  , mkProp "bottomRight" $ objT c_QPointF
   , mkProp "height" qreal
   , mkProp "left" qreal
   , mkProp "right" qreal
-  , mkProp "size" $ TObj c_QSizeF
+  , mkProp "size" $ objT c_QSizeF
   , mkProp "top" qreal
-  , mkProp "topLeft" $ TObj c_QPointF
-  , mkProp "topRight" $ TObj c_QPointF
+  , mkProp "topLeft" $ objT c_QPointF
+  , mkProp "topRight" $ objT c_QPointF
   , mkProp "width" qreal
   , mkProp "x" qreal
   , mkProp "y" qreal

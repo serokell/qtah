@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QDialogButtonBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportClass, ExportEnum),
-  Type (TBitspace, TBool, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QList (c_QListQAbstractButton)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
@@ -66,30 +66,30 @@ c_QDialogButtonBox =
   addReqIncludes [includeStd "QDialogButtonBox"] $
   makeClass (ident "QDialogButtonBox") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Other ctors? v v
-  --, mkCtor "newWithOrientation" [TEnum e_Orientation]
-  --, mkCtor "newWithOrientationAndParent" [TEnum e_Orientation, TPtr $ TObj c_QWidget]
+  --, mkCtor "newWithOrientation" [enumT e_Orientation]
+  --, mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
   --, mkCtor "newWithButtons" []
-  --, mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  --, mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   --, mkCtor "new" []
-  --, mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  --, mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod' "addButton" "addButton" [TPtr $ TObj c_QAbstractButton, TEnum e_ButtonRole] TVoid
+  [ mkMethod' "addButton" "addButton" [ptrT $ objT c_QAbstractButton, enumT e_ButtonRole] voidT
   , mkMethod' "addButton" "addButtonWithText"
-    [TObj c_QString, TEnum e_ButtonRole] $ TPtr $ TObj c_QPushButton
-  , mkMethod' "addButton" "addStandardButton" [TEnum e_StandardButton] $ TPtr $ TObj c_QPushButton
-  , mkConstMethod "button" [TEnum e_StandardButton] $ TPtr $ TObj c_QPushButton
-  , mkConstMethod "buttonRole" [TPtr $ TObj c_QAbstractButton] $ TEnum e_ButtonRole
-  , mkConstMethod "buttons" [] $ TObj c_QListQAbstractButton
-  , mkMethod "clear" [] TVoid
-  , mkMethod "removeButton" [TPtr $ TObj c_QAbstractButton] TVoid
-  , mkConstMethod "standardButton" [TPtr $ TObj c_QAbstractButton] $ TEnum e_StandardButton
+    [objT c_QString, enumT e_ButtonRole] $ ptrT $ objT c_QPushButton
+  , mkMethod' "addButton" "addStandardButton" [enumT e_StandardButton] $ ptrT $ objT c_QPushButton
+  , mkConstMethod "button" [enumT e_StandardButton] $ ptrT $ objT c_QPushButton
+  , mkConstMethod "buttonRole" [ptrT $ objT c_QAbstractButton] $ enumT e_ButtonRole
+  , mkConstMethod "buttons" [] $ objT c_QListQAbstractButton
+  , mkMethod "clear" [] voidT
+  , mkMethod "removeButton" [ptrT $ objT c_QAbstractButton] voidT
+  , mkConstMethod "standardButton" [ptrT $ objT c_QAbstractButton] $ enumT e_StandardButton
   ] ++
   mkProps
-  [ mkProp "centerButtons" TBool
-  , mkProp "orientation" $ TEnum e_Orientation
-  , mkProp "standardButtons" $ TBitspace bs_StandardButtons
+  [ mkProp "centerButtons" boolT
+  , mkProp "orientation" $ enumT e_Orientation
+  , mkProp "standardButtons" $ bitspaceT bs_StandardButtons
   ]
 
 signals =

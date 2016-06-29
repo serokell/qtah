@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLayoutItem (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBitspace, TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
@@ -51,20 +51,20 @@ c_QLayoutItem =
   makeClass (ident "QLayoutItem") Nothing []
   [] $  -- Abstract.
   [ -- TODO controlTypes
-    mkConstMethod "expandingDirections" [] $ TBitspace bs_Orientations
-  , mkConstMethod "hasHeightForWidth" [] TBool
-  , mkConstMethod "heightForWidth" [TInt] TInt
-  , mkMethod "invalidate" [] TVoid
-  , mkConstMethod "isEmpty" [] TBool
-  , mkMethod "layout" [] $ TPtr $ TObj c_QLayout
-  , mkConstMethod "maximumSize" [] $ TObj c_QSize
-  , mkConstMethod "minimumHeightForWidth" [TInt] TInt
-  , mkConstMethod "minimumSize" [] $ TObj c_QSize
-  , mkConstMethod "sizeHint" [] $ TObj c_QSize
+    mkConstMethod "expandingDirections" [] $ bitspaceT bs_Orientations
+  , mkConstMethod "hasHeightForWidth" [] boolT
+  , mkConstMethod "heightForWidth" [intT] intT
+  , mkMethod "invalidate" [] voidT
+  , mkConstMethod "isEmpty" [] boolT
+  , mkMethod "layout" [] $ ptrT $ objT c_QLayout
+  , mkConstMethod "maximumSize" [] $ objT c_QSize
+  , mkConstMethod "minimumHeightForWidth" [intT] intT
+  , mkConstMethod "minimumSize" [] $ objT c_QSize
+  , mkConstMethod "sizeHint" [] $ objT c_QSize
     -- TODO spacerItem
-  , mkConstMethod "widget" [] $ TPtr $ TObj c_QWidget
+  , mkConstMethod "widget" [] $ ptrT $ objT c_QWidget
   ] ++
   mkProps
-  [ mkProp "alignment" $ TBitspace bs_Alignment
-  , mkProp "geometry" $ TObj c_QRect
+  [ mkProp "alignment" $ bitspaceT bs_Alignment
+  , mkProp "geometry" $ objT c_QRect
   ]

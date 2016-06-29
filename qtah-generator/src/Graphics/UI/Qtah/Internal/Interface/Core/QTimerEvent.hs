@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QTimerEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TInt),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (intT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 
@@ -42,7 +42,7 @@ aModule =
 c_QTimerEvent =
   addReqIncludes [includeStd "QTimerEvent"] $
   makeClass (ident "QTimerEvent") Nothing [c_QEvent]
-  [ mkCtor "new" [TInt]
+  [ mkCtor "new" [intT]
   ]
-  [ mkConstMethod "timerId" [] TInt
+  [ mkConstMethod "timerId" [] intT
   ]

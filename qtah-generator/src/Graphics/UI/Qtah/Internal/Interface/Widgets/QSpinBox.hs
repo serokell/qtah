@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QSpinBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -56,19 +56,19 @@ c_QSpinBox =
   addReqIncludes [includeStd "QSpinBox"] $
   makeClass (ident "QSpinBox") Nothing [c_QAbstractSpinBox]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkConstMethod "cleanText" [] $ TObj c_QString
-  , mkMethod "setRange" [TInt, TInt] TVoid
+  [ mkConstMethod "cleanText" [] $ objT c_QString
+  , mkMethod "setRange" [intT, intT] voidT
   ] ++
   (mkProps . collect)
-  [ test (qtVersion >= [5, 2]) $ mkProp "displayIntegerBase" TInt
-  , just $ mkProp "maximum" TInt
-  , just $ mkProp "minimum" TInt
-  , just $ mkProp "prefix" $ TObj c_QString
-  , just $ mkProp "singleStep" TInt
-  , just $ mkProp "suffix" $ TObj c_QString
-  , just $ mkProp "value" TInt
+  [ test (qtVersion >= [5, 2]) $ mkProp "displayIntegerBase" intT
+  , just $ mkProp "maximum" intT
+  , just $ mkProp "minimum" intT
+  , just $ mkProp "prefix" $ objT c_QString
+  , just $ mkProp "singleStep" intT
+  , just $ mkProp "suffix" $ objT c_QString
+  , just $ mkProp "value" intT
   ]
 
 signals =

@@ -26,7 +26,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSpinBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportClass, ExportEnum),
-  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -40,6 +39,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, refT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -66,31 +66,31 @@ c_QAbstractSpinBox =
   addReqIncludes [includeStd "QAbstractSpinBox"] $
   makeClass (ident "QAbstractSpinBox") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
   collect
-  [ just $ mkMethod "clear" [] TVoid
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "hasAcceptableInput" [] TBool
-  , just $ mkConstMethod "fixup" [TRef $ TObj c_QString] TVoid
-  , just $ mkMethod "interpretText" [] TVoid
-  , just $ mkMethod "selectAll" [] TVoid
-  , just $ mkMethod "stepBy" [TInt] TVoid
-  , just $ mkMethod "stepDown" [] TVoid
-  , just $ mkMethod "stepUp" [] TVoid
-  , just $ mkConstMethod "text" [] $ TObj c_QString
+  [ just $ mkMethod "clear" [] voidT
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "hasAcceptableInput" [] boolT
+  , just $ mkConstMethod "fixup" [refT $ objT c_QString] voidT
+  , just $ mkMethod "interpretText" [] voidT
+  , just $ mkMethod "selectAll" [] voidT
+  , just $ mkMethod "stepBy" [intT] voidT
+  , just $ mkMethod "stepDown" [] voidT
+  , just $ mkMethod "stepUp" [] voidT
+  , just $ mkConstMethod "text" [] $ objT c_QString
     -- TODO validate
   ] ++
   (mkProps . collect)
   [ test (qtVersion >= [4, 2]) $ mkBoolIsProp "accelerated"
-  , just $ mkProp "alignment" $ TBitspace bs_Alignment
-  , test (qtVersion >= [4, 2]) $ mkProp "buttonSymbols" $ TEnum e_ButtonSymbols
-  , just $ mkProp "correctionMode" $ TEnum e_CorrectionMode
+  , just $ mkProp "alignment" $ bitspaceT bs_Alignment
+  , test (qtVersion >= [4, 2]) $ mkProp "buttonSymbols" $ enumT e_ButtonSymbols
+  , just $ mkProp "correctionMode" $ enumT e_CorrectionMode
   , test (qtVersion >= [4, 3]) $ mkBoolHasProp "frame"
-  , just $ mkProp "keyboardTracking" TBool
+  , just $ mkProp "keyboardTracking" boolT
   , just $ mkBoolIsProp "readOnly"
   , test (qtVersion >= [5, 3]) $ mkBoolIsProp "groupSeparatorShown"
-  , just $ mkProp "specialValueText" $ TObj c_QString
-  , just $ mkProp "wrapping" TBool
+  , just $ mkProp "specialValueText" $ objT c_QString
+  , just $ mkProp "wrapping" boolT
   ]
 
 signals =

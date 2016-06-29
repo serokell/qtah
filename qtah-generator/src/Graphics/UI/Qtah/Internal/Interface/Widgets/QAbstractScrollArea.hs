@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractScrollArea (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBitspace, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_ScrollBarPolicy)
@@ -49,17 +49,17 @@ c_QAbstractScrollArea =
   addReqIncludes [includeStd "QAbstractScrollArea"] $
   makeClass (ident "QAbstractScrollArea") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod "addScrollBarWidget" [TPtr $ TObj c_QWidget, TBitspace bs_Alignment] TVoid
-  , mkConstMethod "maximumViewportSize" [] $ TObj c_QSize
+  [ mkMethod "addScrollBarWidget" [ptrT $ objT c_QWidget, bitspaceT bs_Alignment] voidT
+  , mkConstMethod "maximumViewportSize" [] $ objT c_QSize
     -- TODO scrollBarWidgets
   ] ++
   mkProps
-  [ mkProp "cornerWidget" $ TPtr $ TObj c_QWidget
+  [ mkProp "cornerWidget" $ ptrT $ objT c_QWidget
     -- TODO horizontalScrollBar
-  , mkProp "horizontalScrollBarPolicy" $ TEnum e_ScrollBarPolicy
+  , mkProp "horizontalScrollBarPolicy" $ enumT e_ScrollBarPolicy
     -- TODO verticalScrollBar
-  , mkProp "verticalScrollBarPolicy" $ TEnum e_ScrollBarPolicy
-  , mkProp "viewport" $ TPtr $ TObj c_QWidget
+  , mkProp "verticalScrollBarPolicy" $ enumT e_ScrollBarPolicy
+  , mkProp "viewport" $ ptrT $ objT c_QWidget
   ]

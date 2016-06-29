@@ -19,13 +19,13 @@ module Graphics.UI.Qtah.Internal.Interface.Callback where
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportCallback),
-  Type (TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
   makeCallback,
   makeModule,
   moduleAddExports,
   moduleModify',
   toExtName,
   )
+import Foreign.Hoppy.Generator.Types (boolT, doubleT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
@@ -69,68 +69,68 @@ aModule =
 
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")
-  [TBool] TVoid
+  [boolT] voidT
 
 cb_DoubleVoid =
   makeCallback (toExtName "CallbackDoubleVoid")
-  [TDouble] TVoid
+  [doubleT] voidT
 
 cb_IntVoid =
   makeCallback (toExtName "CallbackIntVoid")
-  [TInt] TVoid
+  [intT] voidT
 
 cb_IntBoolVoid =
   makeCallback (toExtName "CallbackIntBoolVoid")
-  [TInt, TBool] TVoid
+  [intT, boolT] voidT
 
 cb_IntIntVoid =
   makeCallback (toExtName "CallbackIntIntVoid")
-  [TInt, TInt] TVoid
+  [intT, intT] voidT
 
 cb_PtrQAbstractButtonVoid =
   makeCallback (toExtName "CallbackPtrQAbstractButtonVoid")
-  [TPtr $ TObj c_QAbstractButton] TVoid
+  [ptrT $ objT c_QAbstractButton] voidT
 
 cb_PtrQAbstractButtonBoolVoid =
   makeCallback (toExtName "CallbackPtrQAbstractButtonBoolVoid")
-  [TPtr $ TObj c_QAbstractButton, TBool] TVoid
+  [ptrT $ objT c_QAbstractButton, boolT] voidT
 
 cb_PtrQActionVoid =
   makeCallback (toExtName "CallbackPtrQActionVoid")
-  [TPtr $ TObj c_QAction] TVoid
+  [ptrT $ objT c_QAction] voidT
 
 cb_PtrQObjectPtrQEventBool =
   makeCallback (toExtName "CallbackPtrQObjectPtrQEventBool")
-  [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
+  [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] boolT
 
 cb_PtrQObjectVoid =
   makeCallback (toExtName "CallbackPtrQObjectVoid")
-  [TPtr $ TObj c_QObject] TVoid
+  [ptrT $ objT c_QObject] voidT
 
 cb_PtrQWidgetPtrQWidgetVoid =
   makeCallback (toExtName "CallbackPtrQWidgetPtrQWidgetVoid")
-  [TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
+  [ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
 
 cb_QAbstractSliderActionVoid =
   makeCallback (toExtName "CallbackQAbstractSliderActionVoid")
-  [TEnum e_SliderAction] TVoid
+  [enumT e_SliderAction] voidT
 
 cb_QClipboardModeVoid =
   makeCallback (toExtName "CallbackQClipboardModeVoid")
-  [TEnum QClipboard.e_Mode] TVoid
+  [enumT QClipboard.e_Mode] voidT
 
 cb_QPointVoid =
   makeCallback (toExtName "CallbackQPointVoid")
-  [TObj c_QPoint] TVoid
+  [objT c_QPoint] voidT
 
 cb_QSizeVoid =
   makeCallback (toExtName "CallbackQSizeVoid")
-  [TObj c_QSize] TVoid
+  [objT c_QSize] voidT
 
 cb_QStringVoid =
   makeCallback (toExtName "CallbackQStringVoid")
-  [TObj c_QString] TVoid
+  [objT c_QString] voidT
 
 cb_Void =
   makeCallback (toExtName "CallbackVoid")
-  [] TVoid
+  [] voidT

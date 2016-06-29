@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QMouseEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBitspace, TEnum, TInt, TObj),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, intT, objT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -56,35 +56,35 @@ c_QMouseEvent =
   makeClass (ident "QMouseEvent") Nothing [c_QInputEvent]
   (collect
    [ test (qtVersion < [5, 0]) $ mkCtor "new"
-     [TEnum e_Type, TObj c_QPoint, TEnum e_MouseButton, TBitspace bs_MouseButtons,
-      TBitspace bs_KeyboardModifiers]
+     [enumT e_Type, objT c_QPoint, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+      bitspaceT bs_KeyboardModifiers]
    , test (qtVersion < [5, 0]) $ mkCtor "newWithGlobalPosition"
-     [TEnum e_Type, TObj c_QPoint, TObj c_QPoint, TEnum e_MouseButton, TBitspace bs_MouseButtons,
-      TBitspace bs_KeyboardModifiers]
+     [enumT e_Type, objT c_QPoint, objT c_QPoint, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+      bitspaceT bs_KeyboardModifiers]
 
    , test (qtVersion >= [5, 0]) $ mkCtor "new"
-     [TEnum e_Type, TObj c_QPointF, TEnum e_MouseButton, TBitspace bs_MouseButtons,
-      TBitspace bs_KeyboardModifiers]
+     [enumT e_Type, objT c_QPointF, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+      bitspaceT bs_KeyboardModifiers]
    , test (qtVersion >= [5, 0]) $ mkCtor "newWithScreenPosition"
-     [TEnum e_Type, TObj c_QPointF, TObj c_QPointF, TEnum e_MouseButton, TBitspace bs_MouseButtons,
-      TBitspace bs_KeyboardModifiers]
+     [enumT e_Type, objT c_QPointF, objT c_QPointF, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+      bitspaceT bs_KeyboardModifiers]
    , test (qtVersion >= [5, 0]) $ mkCtor "newWithWindowAndScreenPosition"
-     [TEnum e_Type, TObj c_QPointF, TObj c_QPointF, TObj c_QPointF, TEnum e_MouseButton,
-      TBitspace bs_MouseButtons, TBitspace bs_KeyboardModifiers]
+     [enumT e_Type, objT c_QPointF, objT c_QPointF, objT c_QPointF, enumT e_MouseButton,
+      bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers]
    ]) $
   collect
-  [ just $ mkConstMethod "button" [] $ TEnum e_MouseButton
-  , just $ mkConstMethod "buttons" [] $ TBitspace bs_MouseButtons
-  , test (qtVersion >= [5, 3]) $ mkConstMethod "flags" [] $ TBitspace bs_MouseEventFlags
-  , just $ mkConstMethod "globalPos" [] $ TObj c_QPoint
-  , just $ mkConstMethod "globalX" [] TInt
-  , just $ mkConstMethod "globalY" [] TInt
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "localPos" [] $ TObj c_QPointF
-  , just $ mkConstMethod "pos" [] $ TObj c_QPoint
-  , test (qtVersion < [5, 0]) $ mkConstMethod "posF" [] $ TObj c_QPointF
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "screenPos" [] $ TObj c_QPointF
-  , test (qtVersion >= [5, 3]) $ mkConstMethod "source" [] $ TEnum e_MouseEventSource
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "windowPos" [] $ TObj c_QPointF
-  , just $ mkConstMethod "x" [] TInt
-  , just $ mkConstMethod "y" [] TInt
+  [ just $ mkConstMethod "button" [] $ enumT e_MouseButton
+  , just $ mkConstMethod "buttons" [] $ bitspaceT bs_MouseButtons
+  , test (qtVersion >= [5, 3]) $ mkConstMethod "flags" [] $ bitspaceT bs_MouseEventFlags
+  , just $ mkConstMethod "globalPos" [] $ objT c_QPoint
+  , just $ mkConstMethod "globalX" [] intT
+  , just $ mkConstMethod "globalY" [] intT
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "localPos" [] $ objT c_QPointF
+  , just $ mkConstMethod "pos" [] $ objT c_QPoint
+  , test (qtVersion < [5, 0]) $ mkConstMethod "posF" [] $ objT c_QPointF
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "screenPos" [] $ objT c_QPointF
+  , test (qtVersion >= [5, 3]) $ mkConstMethod "source" [] $ enumT e_MouseEventSource
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "windowPos" [] $ objT c_QPointF
+  , just $ mkConstMethod "x" [] intT
+  , just $ mkConstMethod "y" [] intT
   ]

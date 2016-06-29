@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QEnterEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TInt, TObj),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (intT, objT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
@@ -45,15 +45,15 @@ aModule =
 c_QEnterEvent =
   addReqIncludes [includeStd "QEnterEvent"] $
   makeClass (ident "QEnterEvent") Nothing [c_QEvent]
-  [ mkCtor "new" [TObj c_QPointF, TObj c_QPointF, TObj c_QPointF]
+  [ mkCtor "new" [objT c_QPointF, objT c_QPointF, objT c_QPointF]
   ]
-  [ mkConstMethod "globalPos" [] $ TObj c_QPoint
-  , mkConstMethod "globalX" [] TInt
-  , mkConstMethod "globalY" [] TInt
-  , mkConstMethod "localPos" [] $ TObj c_QPointF
-  , mkConstMethod "pos" [] $ TObj c_QPoint
-  , mkConstMethod "screenPos" [] $ TObj c_QPointF
-  , mkConstMethod "windowPos" [] $ TObj c_QPointF
-  , mkConstMethod "x" [] TInt
-  , mkConstMethod "y" [] TInt
+  [ mkConstMethod "globalPos" [] $ objT c_QPoint
+  , mkConstMethod "globalX" [] intT
+  , mkConstMethod "globalY" [] intT
+  , mkConstMethod "localPos" [] $ objT c_QPointF
+  , mkConstMethod "pos" [] $ objT c_QPoint
+  , mkConstMethod "screenPos" [] $ objT c_QPointF
+  , mkConstMethod "windowPos" [] $ objT c_QPointF
+  , mkConstMethod "x" [] intT
+  , mkConstMethod "y" [] intT
   ]

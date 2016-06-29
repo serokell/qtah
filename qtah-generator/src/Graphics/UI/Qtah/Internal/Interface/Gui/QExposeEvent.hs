@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QExposeEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TObj),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (objT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Internal.Interface.Gui.QRegion (c_QRegion)
@@ -44,7 +44,7 @@ aModule =
 c_QExposeEvent =
   addReqIncludes [includeStd "QExposeEvent"] $
   makeClass (ident "QExposeEvent") Nothing [c_QEvent]
-  [ mkCtor "new" [TObj c_QRegion]
+  [ mkCtor "new" [objT c_QRegion]
   ]
-  [ mkConstMethod "region" [] $ TObj c_QRegion
+  [ mkConstMethod "region" [] $ objT c_QRegion
   ]

@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
-  Type (TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -38,6 +37,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProps,
   toExtName,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Orientation)
 import Graphics.UI.Qtah.Internal.Interface.Listener (
@@ -61,22 +61,22 @@ c_QAbstractSlider =
   addReqIncludes [includeStd "QAbstractSlider"] $
   makeClass (ident "QAbstractSlider") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod "triggerAction" [TEnum e_SliderAction] TVoid
+  [ mkMethod "triggerAction" [enumT e_SliderAction] voidT
   ] ++
   mkProps
-  [ mkProp "invertedAppearance" TBool
-  , mkProp "invertedControls" TBool
-  , mkProp "maximum" TInt
-  , mkProp "minimum" TInt
-  , mkProp "orientation" $ TEnum e_Orientation
-  , mkProp "pageStep" TInt
-  , mkProp "singleStep" TInt
+  [ mkProp "invertedAppearance" boolT
+  , mkProp "invertedControls" boolT
+  , mkProp "maximum" intT
+  , mkProp "minimum" intT
+  , mkProp "orientation" $ enumT e_Orientation
+  , mkProp "pageStep" intT
+  , mkProp "singleStep" intT
   , mkBoolIsProp "sliderDown"
-  , mkProp "sliderPosition" TInt
+  , mkProp "sliderPosition" intT
   , mkBoolHasProp "tracking"
-  , mkProp "value" TInt
+  , mkProp "value" intT
   ]
 
 signals =

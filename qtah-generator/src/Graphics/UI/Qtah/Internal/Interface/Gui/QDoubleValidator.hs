@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QDoubleValidator (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TDouble, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (doubleT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -54,18 +54,18 @@ c_QDoubleValidator =
   addReqIncludes [includeStd "QDoubleValidator"] $
   makeClass (ident "QDoubleValidator") Nothing [c_QValidator]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QObject]
-  , mkCtor "newWithOptions" [TDouble, TDouble, TInt]
-  , mkCtor "newWithOptionsAndParent" [TDouble, TDouble, TInt, TPtr $ TObj c_QObject]
+  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  , mkCtor "newWithOptions" [doubleT, doubleT, intT]
+  , mkCtor "newWithOptionsAndParent" [doubleT, doubleT, intT, ptrT $ objT c_QObject]
   ] $
-  [ mkMethod' "setRange" "setRange" [TDouble, TDouble] TVoid
-  , mkMethod' "setRange" "setRangeAndDecimals" [TDouble, TDouble, TInt] TVoid
+  [ mkMethod' "setRange" "setRange" [doubleT, doubleT] voidT
+  , mkMethod' "setRange" "setRangeAndDecimals" [doubleT, doubleT, intT] voidT
   ] ++
   (mkProps . collect)
-  [ just $ mkProp "bottom" TDouble
-  , just $ mkProp "decimals" TInt
-  , test (qtVersion >= [4, 3]) $ mkProp "notation" $ TEnum e_Notation
-  , just $ mkProp "top" TDouble
+  [ just $ mkProp "bottom" doubleT
+  , just $ mkProp "decimals" intT
+  , test (qtVersion >= [4, 3]) $ mkProp "notation" $ enumT e_Notation
+  , just $ mkProp "top" doubleT
   ]
 
 e_Notation =

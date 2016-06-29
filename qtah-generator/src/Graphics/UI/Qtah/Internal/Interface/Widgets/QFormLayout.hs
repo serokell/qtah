@@ -23,7 +23,6 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   MethodApplicability (MConst),
   Purity (Nonpure),
-  Type (TBitspace, TConst, TEnum, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -40,6 +39,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, constT, enumT, intT, objT, ptrT, refT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment)
@@ -65,54 +65,54 @@ c_QFormLayout =
                   includeLocal "wrap_qformlayout.hpp"] $
   makeClass (ident "QFormLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod' "addRow" "addRowWidgetWidget" [TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "addRow" "addRowWidgetLayout" [TPtr $ TObj c_QWidget, TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' "addRow" "addRowStringWidget" [TObj c_QString, TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "addRow" "addRowStringLayout" [TObj c_QString, TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' "addRow" "addRowWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "addRow" "addRowLayout" [TPtr $ TObj c_QLayout] TVoid
+  [ mkMethod' "addRow" "addRowWidgetWidget" [ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addRow" "addRowWidgetLayout" [ptrT $ objT c_QWidget, ptrT $ objT c_QLayout] voidT
+  , mkMethod' "addRow" "addRowStringWidget" [objT c_QString, ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addRow" "addRowStringLayout" [objT c_QString, ptrT $ objT c_QLayout] voidT
+  , mkMethod' "addRow" "addRowWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addRow" "addRowLayout" [ptrT $ objT c_QLayout] voidT
   , makeFnMethod (ident2 "qtah" "qformlayout" "getItemRow") "getItemRow" MConst Nonpure
-    [TRef $ TConst $ TObj c_QFormLayout, TInt] TInt
+    [refT $ constT $ objT c_QFormLayout, intT] intT
   , makeFnMethod (ident2 "qtah" "qformlayout" "getItemRole") "getItemRole" MConst Nonpure
-    [TRef $ TConst $ TObj c_QFormLayout, TInt] $ TEnum e_ItemRole
+    [refT $ constT $ objT c_QFormLayout, intT] $ enumT e_ItemRole
   , makeFnMethod (ident2 "qtah" "qformlayout" "getLayoutRow") "getLayoutRow" MConst Nonpure
-    [TRef $ TConst $ TObj c_QFormLayout, TPtr $ TObj c_QLayout] TInt
+    [refT $ constT $ objT c_QFormLayout, ptrT $ objT c_QLayout] intT
   , makeFnMethod (ident2 "qtah" "qformlayout" "getLayoutRole") "getLayoutRole" MConst Nonpure
-    [TRef $ TConst $ TObj c_QFormLayout, TPtr $ TObj c_QLayout] $ TEnum e_ItemRole
+    [refT $ constT $ objT c_QFormLayout, ptrT $ objT c_QLayout] $ enumT e_ItemRole
   , makeFnMethod (ident2 "qtah" "qformlayout" "getWidgetRow") "getWidgetRow" MConst Nonpure
-    [TRef $ TConst $ TObj c_QFormLayout, TPtr $ TObj c_QWidget] TInt
+    [refT $ constT $ objT c_QFormLayout, ptrT $ objT c_QWidget] intT
   , makeFnMethod (ident2 "qtah" "qformlayout" "getWidgetRole") "getWidgetRole" MConst Nonpure
-    [TRef $ TConst $ TObj c_QFormLayout, TPtr $ TObj c_QWidget] $ TEnum e_ItemRole
+    [refT $ constT $ objT c_QFormLayout, ptrT $ objT c_QWidget] $ enumT e_ItemRole
   , mkMethod' "insertRow" "insertRowWidgetWidget"
-    [TInt, TPtr $ TObj c_QWidget, TPtr $ TObj c_QWidget] TVoid
+    [intT, ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
   , mkMethod' "insertRow" "insertRowWidgetLayout"
-    [TInt, TPtr $ TObj c_QWidget, TPtr $ TObj c_QLayout] TVoid
+    [intT, ptrT $ objT c_QWidget, ptrT $ objT c_QLayout] voidT
   , mkMethod' "insertRow" "insertRowStringWidget"
-    [TInt, TObj c_QString, TPtr $ TObj c_QWidget] TVoid
+    [intT, objT c_QString, ptrT $ objT c_QWidget] voidT
   , mkMethod' "insertRow" "insertRowStringLayout"
-    [TInt, TObj c_QString, TPtr $ TObj c_QLayout] TVoid
-  , mkMethod' "insertRow" "insertRowWidget" [TInt, TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "insertRow" "insertRowLayout" [TInt, TPtr $ TObj c_QLayout] TVoid
-  , mkConstMethod "itemAt" [TInt, TEnum e_ItemRole] $ TPtr $ TObj c_QLayoutItem
+    [intT, objT c_QString, ptrT $ objT c_QLayout] voidT
+  , mkMethod' "insertRow" "insertRowWidget" [intT, ptrT $ objT c_QWidget] voidT
+  , mkMethod' "insertRow" "insertRowLayout" [intT, ptrT $ objT c_QLayout] voidT
+  , mkConstMethod "itemAt" [intT, enumT e_ItemRole] $ ptrT $ objT c_QLayoutItem
   , mkConstMethod' "labelForField" "labelForFieldWidget"
-    [TPtr $ TObj c_QWidget] $ TPtr $ TObj c_QWidget
+    [ptrT $ objT c_QWidget] $ ptrT $ objT c_QWidget
   , mkConstMethod' "labelForField" "labelForFieldLayout"
-    [TPtr $ TObj c_QLayout] $ TPtr $ TObj c_QWidget
-  , mkConstMethod "rowCount" [] TInt
-  , mkMethod "setItem" [TInt, TEnum e_ItemRole, TPtr $ TObj c_QLayoutItem] TVoid
-  , mkMethod "setLayout" [TInt, TEnum e_ItemRole, TPtr $ TObj c_QLayout] TVoid
-  , mkMethod "setWidget" [TInt, TEnum e_ItemRole, TPtr $ TObj c_QWidget] TVoid
+    [ptrT $ objT c_QLayout] $ ptrT $ objT c_QWidget
+  , mkConstMethod "rowCount" [] intT
+  , mkMethod "setItem" [intT, enumT e_ItemRole, ptrT $ objT c_QLayoutItem] voidT
+  , mkMethod "setLayout" [intT, enumT e_ItemRole, ptrT $ objT c_QLayout] voidT
+  , mkMethod "setWidget" [intT, enumT e_ItemRole, ptrT $ objT c_QWidget] voidT
   ] ++
   mkProps
-  [ mkProp "fieldGrowthPolicy" $ TEnum e_FieldGrowthPolicy
-  , mkProp "formAlignment" $ TBitspace bs_Alignment
-  , mkProp "horizontalSpacing" TInt
-  , mkProp "labelAlignment" $ TBitspace bs_Alignment
-  , mkProp "rowWrapPolicy" $ TEnum e_RowWrapPolicy
-  , mkProp "spacing" TInt
-  , mkProp "verticalSpacing" TInt
+  [ mkProp "fieldGrowthPolicy" $ enumT e_FieldGrowthPolicy
+  , mkProp "formAlignment" $ bitspaceT bs_Alignment
+  , mkProp "horizontalSpacing" intT
+  , mkProp "labelAlignment" $ bitspaceT bs_Alignment
+  , mkProp "rowWrapPolicy" $ enumT e_RowWrapPolicy
+  , mkProp "spacing" intT
+  , mkProp "verticalSpacing" intT
   ]
 
 e_FieldGrowthPolicy =

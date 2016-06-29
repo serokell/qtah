@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QStackedWidget (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Listener (c_ListenerInt)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QFrame (c_QFrame)
@@ -49,18 +49,18 @@ c_QStackedWidget =
   addReqIncludes [includeStd "QStackedWidget"] $
   makeClass (ident "QStackedWidget") Nothing [c_QFrame]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
-  [ mkMethod "addWidget" [TPtr $ TObj c_QWidget] TInt
-  , mkConstMethod "count" [] TInt
-  , mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , mkMethod "insertWidget" [TInt, TPtr $ TObj c_QWidget] TInt
-  , mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkConstMethod "widget" [TInt] $ TPtr $ TObj c_QWidget
+  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] intT
+  , mkConstMethod "count" [] intT
+  , mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
+  , mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] intT
+  , mkMethod "removeWidget" [ptrT $ objT c_QWidget] voidT
+  , mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
   ] ++
   mkProps
-  [ mkProp "currentIndex" TInt
-  , mkProp "currentWidget" $ TPtr $ TObj c_QWidget
+  [ mkProp "currentIndex" intT
+  , mkProp "currentWidget" $ ptrT $ objT c_QWidget
   ]
 
 signals =

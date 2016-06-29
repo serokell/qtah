@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QSlider (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
-  Type (TEnum, TInt, TObj, TPtr),
   addReqIncludes,
   ident,
   ident1,
@@ -31,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (enumT, intT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Orientation)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider (c_QAbstractSlider)
@@ -49,13 +49,13 @@ c_QSlider =
   addReqIncludes [includeStd "QSlider"] $
   makeClass (ident "QSlider") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithOrientation" [TEnum e_Orientation]
-  , mkCtor "newWithOrientationAndParent" [TEnum e_Orientation, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithOrientation" [enumT e_Orientation]
+  , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
   ] $
   mkProps
-  [ mkProp "tickInterval" TInt
-  , mkProp "tickPosition" $ TEnum e_TickPosition
+  [ mkProp "tickInterval" intT
+  , mkProp "tickPosition" $ enumT e_TickPosition
   ]
 
 e_TickPosition =

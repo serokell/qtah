@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QSizeF (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
-  Type (TBool, TEnum, TObj, TRef, TVoid),
   addReqIncludes,
   classSetConversionToGc,
   ident,
@@ -39,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -59,24 +59,24 @@ c_QSizeF =
   makeClass (ident "QSizeF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal]
-  , mkCtor "newWithSize" [TObj c_QSize]
+  , mkCtor "newWithSize" [objT c_QSize]
   ] $
   collect
-  [ just $ mkConstMethod "boundedTo" [TObj c_QSizeF] $ TObj c_QSizeF
-  , just $ mkConstMethod "expandedTo" [TObj c_QSizeF] $ TObj c_QSizeF
-  , just $ mkConstMethod "isEmpty" [] TBool
-  , just $ mkConstMethod "isNull" [] TBool
-  , just $ mkConstMethod "isValid" [] TBool
-  , just $ mkMethod "scale" [TObj c_QSizeF, TEnum e_AspectRatioMode] TVoid
+  [ just $ mkConstMethod "boundedTo" [objT c_QSizeF] $ objT c_QSizeF
+  , just $ mkConstMethod "expandedTo" [objT c_QSizeF] $ objT c_QSizeF
+  , just $ mkConstMethod "isEmpty" [] boolT
+  , just $ mkConstMethod "isNull" [] boolT
+  , just $ mkConstMethod "isValid" [] boolT
+  , just $ mkMethod "scale" [objT c_QSizeF, enumT e_AspectRatioMode] voidT
   , test (qtVersion >= [5, 0]) $
-    mkConstMethod "scaled" [TObj c_QSizeF, TEnum e_AspectRatioMode] $ TObj c_QSizeF
-  , just $ mkConstMethod "toSize" [] $ TObj c_QSize
-  , just $ mkMethod "transpose" [] TVoid
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "transposed" [] $ TObj c_QSizeF
-  , just $ mkMethod OpAddAssign [TObj c_QSizeF] $ TRef $ TObj c_QSizeF
-  , just $ mkMethod OpSubtractAssign [TObj c_QSizeF] $ TObj c_QSizeF
-  , just $ mkMethod OpMultiplyAssign [qreal] $ TRef $ TObj c_QSizeF
-  , just $ mkMethod OpDivideAssign [qreal] $ TRef $ TObj c_QSizeF
+    mkConstMethod "scaled" [objT c_QSizeF, enumT e_AspectRatioMode] $ objT c_QSizeF
+  , just $ mkConstMethod "toSize" [] $ objT c_QSize
+  , just $ mkMethod "transpose" [] voidT
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "transposed" [] $ objT c_QSizeF
+  , just $ mkMethod OpAddAssign [objT c_QSizeF] $ refT $ objT c_QSizeF
+  , just $ mkMethod OpSubtractAssign [objT c_QSizeF] $ objT c_QSizeF
+  , just $ mkMethod OpMultiplyAssign [qreal] $ refT $ objT c_QSizeF
+  , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QSizeF
   ] ++
   mkProps
   [ mkProp "height" qreal

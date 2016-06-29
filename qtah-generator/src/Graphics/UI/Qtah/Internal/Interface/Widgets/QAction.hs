@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAction (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -35,6 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
@@ -63,46 +63,46 @@ c_QAction =
   addReqIncludes [includeStd "QAction"] $
   makeClass (ident "QAction") Nothing
   [ c_QObject ]
-  [ mkCtor "new" [TPtr $ TObj c_QObject]
-  , mkCtor "newWithText" [TObj c_QString, TPtr $ TObj c_QObject]
+  [ mkCtor "new" [ptrT $ objT c_QObject]
+  , mkCtor "newWithText" [objT c_QString, ptrT $ objT c_QObject]
     -- TODO newWithIconAndText
   ] $
-  [ mkMethod "activate" [TEnum e_ActionEvent] TVoid
+  [ mkMethod "activate" [enumT e_ActionEvent] voidT
     -- TODO associatedGraphicsWidgets
     -- TODO associatedWidgets
-  , mkMethod "hover" [] TVoid
-  , mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
-  , mkConstMethod "priority" [] $ TEnum e_Priority
-  , mkMethod "setDisabled" [TBool] TVoid
-  , mkMethod "setPriority" [TEnum e_Priority] TVoid
+  , mkMethod "hover" [] voidT
+  , mkConstMethod "parentWidget" [] $ ptrT $ objT c_QWidget
+  , mkConstMethod "priority" [] $ enumT e_Priority
+  , mkMethod "setDisabled" [boolT] voidT
+  , mkMethod "setPriority" [enumT e_Priority] voidT
     -- TODO setShortcuts
     -- TODO shortcuts
-  , mkMethod "showStatusText" [TPtr $ TObj c_QWidget] TBool
-  , mkMethod "toggle" [] TVoid
-  , mkMethod "trigger" [] TVoid
+  , mkMethod "showStatusText" [ptrT $ objT c_QWidget] boolT
+  , mkMethod "toggle" [] voidT
+  , mkMethod "trigger" [] voidT
   ] ++
   (mkProps . collect)
-  [ just $ mkProp "actionGroup" $ TPtr $ TObj c_QActionGroup
-  , just $ mkProp "autoRepeat" TBool
+  [ just $ mkProp "actionGroup" $ ptrT $ objT c_QActionGroup
+  , just $ mkProp "autoRepeat" boolT
   , just $ mkBoolIsProp "checkable"
   , just $ mkBoolIsProp "checked"
     -- TODO data
   , just $ mkBoolIsProp "enabled"
     -- TODO font
     -- TODO icon
-  , just $ mkProp "iconText" $ TObj c_QString
+  , just $ mkProp "iconText" $ objT c_QString
   , just $ mkBoolIsProp "iconVisibleInMenu"
-  , just $ mkProp "menu" $ TPtr $ TObj c_QMenu
-  , just $ mkProp "menuRole" $ TEnum e_MenuRole
+  , just $ mkProp "menu" $ ptrT $ objT c_QMenu
+  , just $ mkProp "menuRole" $ enumT e_MenuRole
   , just $ mkBoolIsProp "separator"
     -- TODO shortcut
     -- TODO shortcutContext
-  , test (qtVersion < [5]) $ mkProp "softKeyRole" $ TEnum e_SoftKeyRole
-  , just $ mkProp "statusTip" $ TObj c_QString
-  , just $ mkProp "text" $ TObj c_QString
-  , just $ mkProp "toolTip" $ TObj c_QString
+  , test (qtVersion < [5]) $ mkProp "softKeyRole" $ enumT e_SoftKeyRole
+  , just $ mkProp "statusTip" $ objT c_QString
+  , just $ mkProp "text" $ objT c_QString
+  , just $ mkProp "toolTip" $ objT c_QString
   , just $ mkBoolIsProp "visible"
-  , just $ mkProp "whatsThis" $ TObj c_QString
+  , just $ mkProp "whatsThis" $ objT c_QString
   ]
 
 signals =

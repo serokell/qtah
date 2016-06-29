@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QGroupBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBitspace, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
@@ -31,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, objT, ptrT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -53,16 +53,16 @@ c_QGroupBox =
   addReqIncludes [includeStd "QGroupBox"] $
   makeClass (ident "QGroupBox") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithTitle" [TObj c_QString]
-  , mkCtor "newWithTitleAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithTitle" [objT c_QString]
+  , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   ] $
   mkProps
-  [ mkProp "alignment" $ TBitspace bs_Alignment
+  [ mkProp "alignment" $ bitspaceT bs_Alignment
   , mkBoolIsProp "checkable"
   , mkBoolIsProp "checked"
   , mkBoolIsProp "flat"
-  , mkProp "title" $ TObj c_QString
+  , mkProp "title" $ objT c_QString
   ]
 
 signals =

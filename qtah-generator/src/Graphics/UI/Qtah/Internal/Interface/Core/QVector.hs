@@ -48,11 +48,34 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   toHsDataTypeName,
   toHsMethodName',
   )
-import Foreign.Hoppy.Generator.Spec
+import Foreign.Hoppy.Generator.Spec (
+  Class,
+  Constness (Const, Nonconst),
+  Export (ExportClass),
+  Operator (OpAdd, OpArray),
+  Reqs,
+  Type,
+  addReqs,
+  addAddendumHaskell,
+  classSetMonomorphicSuperclass,
+  hsImport1,
+  hsImports,
+  identT,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  mkMethod,
+  mkMethod',
+  reqInclude,
+  toExtName,
+  )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, constT, intT, objT, ptrT, refT, toGcT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -98,78 +121,78 @@ instantiate' vectorName t tReqs opts =
         classSetMonomorphicSuperclass $
         makeClass (identT "QVector" [t]) (Just $ toExtName vectorName) []
         [ mkCtor "new" []
-        , mkCtor "newWithSize" [TInt]
-        , mkCtor "newWithSizeAndValue" [TInt, t]
+        , mkCtor "newWithSize" [intT]
+        , mkCtor "newWithSizeAndValue" [intT, t]
         ] $
         collect
-        [ just $ mkMethod' "append" "append" [t] TVoid
-        , test (qtVersion >= [5, 5]) $ mkMethod' "append" "appendVector" [TObj vector] TVoid
-        , just $ mkMethod' OpArray "at" [TInt] $ TRef t
-        , just $ mkConstMethod' "at" "atConst" [TInt] $ TRef $ TConst t
-        , just $ mkConstMethod "capacity" [] TInt
+        [ just $ mkMethod' "append" "append" [t] voidT
+        , test (qtVersion >= [5, 5]) $ mkMethod' "append" "appendVector" [objT vector] voidT
+        , just $ mkMethod' OpArray "at" [intT] $ refT t
+        , just $ mkConstMethod' "at" "atConst" [intT] $ refT $ constT t
+        , just $ mkConstMethod "capacity" [] intT
           -- OMIT back
           -- OMIT begin
           -- OMIT cbegin
           -- OMIT cend
-        , just $ mkMethod "clear" [] TVoid
+        , just $ mkMethod "clear" [] voidT
           -- OMIT constBegin
           -- OMIT constData
           -- OMIT constEnd
-        , just $ mkConstMethod "contains" [t] TBool
+        , just $ mkConstMethod "contains" [t] boolT
           -- OMIT count()
-        , just $ mkConstMethod "count" [t] TInt
-        , just $ mkMethod' "data" "array" [] $ TPtr t
-        , just $ mkConstMethod' "data" "arrayConst" [] $ TPtr $ TConst t
+        , just $ mkConstMethod "count" [t] intT
+        , just $ mkMethod' "data" "array" [] $ ptrT t
+        , just $ mkConstMethod' "data" "arrayConst" [] $ ptrT $ constT t
           -- OMIT empty
-        , test (qtVersion >= [4, 5]) $ mkConstMethod "endsWith" [t] TBool
+        , test (qtVersion >= [4, 5]) $ mkConstMethod "endsWith" [t] boolT
           -- OMIT erase
-        , just $ mkMethod' "fill" "fill" [t] TVoid
-        , just $ mkMethod' "fill" "fillResize" [t, TInt] TVoid
-        , just $ mkMethod' "first" "first" [] $ TRef t
-        , just $ mkConstMethod' "first" "firstConst" [] $ TRef $ TConst t
+        , just $ mkMethod' "fill" "fill" [t] voidT
+        , just $ mkMethod' "fill" "fillResize" [t, intT] voidT
+        , just $ mkMethod' "first" "first" [] $ refT t
+        , just $ mkConstMethod' "first" "firstConst" [] $ refT $ constT t
           -- TODO fromList
           -- TODO fromStdVector
           -- OMIT front
-        , just $ mkConstMethod' OpArray "get" [TInt] t
-        , just $ mkConstMethod' "indexOf" "indexOf" [t] TInt
-        , just $ mkConstMethod' "indexOf" "indexOfFrom" [t, TInt] TInt
-        , just $ mkMethod' "insert" "insert" [TInt, t] TVoid
-        , just $ mkMethod' "insert" "insertMany" [TInt, TInt, t] TVoid
-        , just $ mkConstMethod "isEmpty" [] TBool
-        , just $ mkMethod' "last" "last" [] $ TRef t
-        , just $ mkConstMethod' "last" "lastConst" [] $ TRef $ TConst t
-        , just $ mkConstMethod' "lastIndexOf" "lastIndexOf" [t] TInt
-        , just $ mkConstMethod' "lastIndexOf" "lastIndexOfFrom" [t, TInt] TInt
+        , just $ mkConstMethod' OpArray "get" [intT] t
+        , just $ mkConstMethod' "indexOf" "indexOf" [t] intT
+        , just $ mkConstMethod' "indexOf" "indexOfFrom" [t, intT] intT
+        , just $ mkMethod' "insert" "insert" [intT, t] voidT
+        , just $ mkMethod' "insert" "insertMany" [intT, intT, t] voidT
+        , just $ mkConstMethod "isEmpty" [] boolT
+        , just $ mkMethod' "last" "last" [] $ refT t
+        , just $ mkConstMethod' "last" "lastConst" [] $ refT $ constT t
+        , just $ mkConstMethod' "lastIndexOf" "lastIndexOf" [t] intT
+        , just $ mkConstMethod' "lastIndexOf" "lastIndexOfFrom" [t, intT] intT
           -- OMIT length
-        , just $ mkConstMethod' "mid" "mid" [TInt] $ TToGc $ TObj vector
-        , just $ mkConstMethod' "mid" "midLength" [TInt, TInt] $ TToGc $ TObj vector
+        , just $ mkConstMethod' "mid" "mid" [intT] $ toGcT $ objT vector
+        , just $ mkConstMethod' "mid" "midLength" [intT, intT] $ toGcT $ objT vector
           -- OMIT pop_back
           -- OMIT pop_front
-        , just $ mkMethod "prepend" [t] TVoid
+        , just $ mkMethod "prepend" [t] voidT
           -- OMIT push_back
           -- OMIT push_front
-        , just $ mkMethod' "remove" "remove" [TInt] TVoid
-        , just $ mkMethod' "remove" "removeMany" [TInt, TInt] TVoid
-        , test (qtVersion >= [5, 4]) $ mkMethod "removeAll" [t] TInt
+        , just $ mkMethod' "remove" "remove" [intT] voidT
+        , just $ mkMethod' "remove" "removeMany" [intT, intT] voidT
+        , test (qtVersion >= [5, 4]) $ mkMethod "removeAll" [t] intT
           -- OMIT removeAt
-        , test (qtVersion >= [5, 1]) $ mkMethod "removeFirst" [] TVoid
-        , test (qtVersion >= [5, 1]) $ mkMethod "removeLast" [] TVoid
-        , test (qtVersion >= [5, 4]) $ mkMethod "removeOne" [t] TBool
-        , just $ mkMethod "replace" [TInt, t] TVoid
-        , just $ mkMethod "reserve" [TInt] TVoid
-        , just $ mkMethod "resize" [TInt] TVoid
-        , just $ mkConstMethod "size" [] TInt
-        , just $ mkMethod "squeeze" [] TVoid
-        , test (qtVersion >= [4, 5]) $ mkConstMethod "startsWith" [t] TBool
-        , test (qtVersion >= [4, 8]) $ mkMethod "swap" [TRef $ TObj vector] TVoid
-        , test (qtVersion >= [5, 2]) $ mkMethod "takeAt" [TInt] t
+        , test (qtVersion >= [5, 1]) $ mkMethod "removeFirst" [] voidT
+        , test (qtVersion >= [5, 1]) $ mkMethod "removeLast" [] voidT
+        , test (qtVersion >= [5, 4]) $ mkMethod "removeOne" [t] boolT
+        , just $ mkMethod "replace" [intT, t] voidT
+        , just $ mkMethod "reserve" [intT] voidT
+        , just $ mkMethod "resize" [intT] voidT
+        , just $ mkConstMethod "size" [] intT
+        , just $ mkMethod "squeeze" [] voidT
+        , test (qtVersion >= [4, 5]) $ mkConstMethod "startsWith" [t] boolT
+        , test (qtVersion >= [4, 8]) $ mkMethod "swap" [refT $ objT vector] voidT
+        , test (qtVersion >= [5, 2]) $ mkMethod "takeAt" [intT] t
         , test (qtVersion >= [5, 1]) $ mkMethod "takeFirst" [] t
         , test (qtVersion >= [5, 1]) $ mkMethod "takeLast" [] t
           -- TODO toList
           -- TODO toStdVector
-        , just $ mkConstMethod' "value" "value" [TInt] t
-        , just $ mkConstMethod' "value" "valueOr" [TInt, t] t
-        , just $ mkConstMethod OpAdd [TObj vector] $ TToGc $ TObj vector
+        , just $ mkConstMethod' "value" "value" [intT] t
+        , just $ mkConstMethod' "value" "valueOr" [intT, t] t
+        , just $ mkConstMethod OpAdd [objT vector] $ toGcT $ objT vector
         ]
 
       -- The addendum for the vector class contains HasContents and FromContents
@@ -183,7 +206,7 @@ instantiate' vectorName t tReqs opts =
         forM_ [Const, Nonconst] $ \cst -> do
           let hsDataTypeName = toHsDataTypeName cst vector
           hsValueType <- cppTypeToHsTypeAndUse HsHsSide $ case cst of
-            Const -> TConst t
+            Const -> constT t
             Nonconst -> t
 
           -- Generate const and nonconst HasContents instances.
@@ -237,7 +260,7 @@ qmod_QPoint :: QtModule
 qmod_QPoint = createModule "QPoint" contents_QPoint
 
 contents_QPoint :: Contents
-contents_QPoint = instantiate "QVectorQPoint" (TObj c_QPoint) mempty
+contents_QPoint = instantiate "QVectorQPoint" (objT c_QPoint) mempty
 
 c_QVectorQPoint :: Class
 c_QVectorQPoint = c_QVector contents_QPoint
@@ -246,7 +269,7 @@ qmod_QPointF :: QtModule
 qmod_QPointF = createModule "QPointF" contents_QPointF
 
 contents_QPointF :: Contents
-contents_QPointF = instantiate "QVectorQPointF" (TObj c_QPointF) mempty
+contents_QPointF = instantiate "QVectorQPointF" (objT c_QPointF) mempty
 
 c_QVectorQPointF :: Class
 c_QVectorQPointF = c_QVector contents_QPointF

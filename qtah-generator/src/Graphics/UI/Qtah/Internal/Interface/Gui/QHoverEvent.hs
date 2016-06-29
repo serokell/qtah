@@ -20,7 +20,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QHoverEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBitspace, TEnum, TObj),
   addReqIncludes,
   ident,
   includeStd,
@@ -28,6 +27,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, objT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -50,14 +50,14 @@ c_QHoverEvent =
   makeClass (ident "QHoverEvent") Nothing
   [if qtVersion >= [5, 0] then c_QInputEvent else c_QEvent]
   (collect
-   [ test (qtVersion < [5, 0]) $ mkCtor "new" [TEnum e_Type, TObj c_QPoint, TObj c_QPoint]
-   , test (qtVersion >= [5, 0]) $ mkCtor "new" [TEnum e_Type, TObj c_QPointF, TObj c_QPointF]
+   [ test (qtVersion < [5, 0]) $ mkCtor "new" [enumT e_Type, objT c_QPoint, objT c_QPoint]
+   , test (qtVersion >= [5, 0]) $ mkCtor "new" [enumT e_Type, objT c_QPointF, objT c_QPointF]
    , test (qtVersion >= [5, 0]) $ mkCtor "newWithModifiers"
-     [TEnum e_Type, TObj c_QPointF, TObj c_QPointF, TBitspace bs_KeyboardModifiers]
+     [enumT e_Type, objT c_QPointF, objT c_QPointF, bitspaceT bs_KeyboardModifiers]
    ]) $
   collect
-  [ just $ mkConstMethod "oldPos" [] $ TObj c_QPoint
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "oldPosF" [] $ TObj c_QPointF
-  , just $ mkConstMethod "pos" [] $ TObj c_QPoint
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "posF" [] $ TObj c_QPointF
+  [ just $ mkConstMethod "oldPos" [] $ objT c_QPoint
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "oldPosF" [] $ objT c_QPointF
+  , just $ mkConstMethod "pos" [] $ objT c_QPoint
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "posF" [] $ objT c_QPointF
   ]

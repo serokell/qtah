@@ -43,7 +43,6 @@ import Foreign.Hoppy.Generator.Spec (
   Identifier,
   Include,
   Module,
-  Type (TEnum, TInt),
   addReqIncludes,
   bitspaceAddCppType,
   bitspaceAddEnum,
@@ -59,6 +58,7 @@ import Foreign.Hoppy.Generator.Spec (
   moduleModify',
   toExtName,
   )
+import Foreign.Hoppy.Generator.Types (enumT, intT)
 import Graphics.UI.Qtah.Internal.Flags (Version, qtVersion)
 
 moduleNameAppend :: String -> String -> String
@@ -148,11 +148,11 @@ makeQtEnumBitspace identifier bitspaceName includes valueNames =
                         map idPartBase (identifierParts identifier)
   in (enum,
       addReqIncludes (includeStd "QFlag" : includeStd "QFlags" : includes) $
-      bitspaceAddCppType (identT "QFlags" [TEnum enum])
+      bitspaceAddCppType (identT "QFlags" [enumT enum])
                          (Just "QFlag")
                          (Just "int") $
       bitspaceAddEnum enum $
-      makeBitspace bitspaceExtName TInt valueNames)
+      makeBitspace bitspaceExtName intT valueNames)
   where replaceLast _ [] = []
         replaceLast y [_] = [y]
         replaceLast y (x:xs) = x:replaceLast y xs

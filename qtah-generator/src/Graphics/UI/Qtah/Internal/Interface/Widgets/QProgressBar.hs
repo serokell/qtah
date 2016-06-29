@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QProgressBar (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
-  Type (TBitspace, TBool, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -57,24 +57,24 @@ c_QProgressBar =
   addReqIncludes [includeStd "QProgressBar"] $
   makeClass (ident "QProgressBar") Nothing [c_QWidget]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
   collect
-  [ just $ mkMethod "reset" [] TVoid
-  , test (qtVersion >= [5, 0]) $ mkMethod "resetFormat" [] TVoid  -- ADDED-BETWEEN 4.8 5.4
-  , just $ mkMethod "setRange" [TInt, TInt] TVoid
-  , just $ mkConstMethod "text" [] $ TObj c_QString
+  [ just $ mkMethod "reset" [] voidT
+  , test (qtVersion >= [5, 0]) $ mkMethod "resetFormat" [] voidT  -- ADDED-BETWEEN 4.8 5.4
+  , just $ mkMethod "setRange" [intT, intT] voidT
+  , just $ mkConstMethod "text" [] $ objT c_QString
   ] ++
   (mkProps . collect)
-  [ just $ mkProp "alignment" $ TBitspace bs_Alignment
-  , test (qtVersion >= [4, 2]) $ mkProp "format" $ TObj c_QString
-  , test (qtVersion >= [4, 1]) $ mkProp "invertedAppearance" TBool
-  , just $ mkProp "maximum" TInt
-  , just $ mkProp "minimum" TInt
-  , test (qtVersion >= [4, 1]) $ mkProp "orientation" $ TEnum e_Orientation
-  , test (qtVersion >= [4, 1]) $ mkProp "textDirection" $ TEnum e_Direction
+  [ just $ mkProp "alignment" $ bitspaceT bs_Alignment
+  , test (qtVersion >= [4, 2]) $ mkProp "format" $ objT c_QString
+  , test (qtVersion >= [4, 1]) $ mkProp "invertedAppearance" boolT
+  , just $ mkProp "maximum" intT
+  , just $ mkProp "minimum" intT
+  , test (qtVersion >= [4, 1]) $ mkProp "orientation" $ enumT e_Orientation
+  , test (qtVersion >= [4, 1]) $ mkProp "textDirection" $ enumT e_Direction
   , just $ mkBoolIsProp "textVisible"
-  , just $ mkProp "value" TInt
+  , just $ mkProp "value" intT
   ]
 
 signals =

@@ -59,12 +59,13 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportFn),
   Include,
   Purity (Nonpure),
-  Type (TDouble, TFloat, TObj),
+  Type,
   addReqIncludes,
   ident1,
   includeStd,
   makeFn,
   )
+import Foreign.Hoppy.Generator.Types (doubleT, floatT, objT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qrealFloat, qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -119,7 +120,7 @@ qtInclude :: [Include]
 qtInclude = [includeStd "Qt"]
 
 qreal :: Type
-qreal = if qrealFloat then TFloat else TDouble
+qreal = if qrealFloat then floatT else doubleT
 
 (e_AlignmentFlag, bs_Alignment) =
   makeQtEnumBitspace (ident1 "Qt" "AlignmentFlag") "Alignment" qtInclude
@@ -379,4 +380,4 @@ e_WindowModality =
 
 f_escape =
   addReqIncludes [includeStd "QTextDocument"] $
-  makeFn (ident1 "Qt" "escape") Nothing Nonpure [TObj c_QString] $ TObj c_QString
+  makeFn (ident1 "Qt" "escape") Nothing Nonpure [objT c_QString] $ objT c_QString

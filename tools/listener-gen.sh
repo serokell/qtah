@@ -198,6 +198,7 @@ if [[ -n $hsDir ]]; then
     say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
     say
     say 'import qualified Foreign.Hoppy.Generator.Spec as S'
+    say 'import qualified Foreign.Hoppy.Generator.Types as S'
     say 'import qualified Foreign.Hoppy.Generator.Std.String as String'
     say 'import qualified Graphics.UI.Qtah.Internal.Generator.Types as T'
     say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
@@ -214,12 +215,12 @@ if [[ -n $hsDir ]]; then
         say
         say "${classVar} ="
         say "  S.makeClass (S.ident \"${className}\") Nothing [QObject.c_QObject]"
-        say "  [ S.mkCtor \"new\" [S.TCallback C.${callbackVar}]"
+        say "  [ S.mkCtor \"new\" [S.callbackT C.${callbackVar}]"
         say "  , S.mkCtor \"newWithParent\""
-        say "    [S.TCallback C.${callbackVar}, S.TPtr \$ S.TObj QObject.c_QObject]"
+        say "    [S.callbackT C.${callbackVar}, S.ptrT \$ S.objT QObject.c_QObject]"
         say "  ]"
         say "  [ S.mkMethod \"connectListener\""
-        say "    [S.TPtr \$ S.TObj QObject.c_QObject, S.TObj String.c_string] S.TBool"
+        say "    [S.ptrT \$ S.objT QObject.c_QObject, S.objT String.c_string] S.boolT"
         say "  ]"
     }
     forEachListener writeHs

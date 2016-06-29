@@ -39,7 +39,6 @@ import Foreign.Hoppy.Generator.Spec (
   ),
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
-  Type (TBool, TInt, TObj, TRef),
   addReqIncludes,
   classSetHaskellConversion,
   hsImports,
@@ -60,6 +59,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, refT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -101,21 +101,21 @@ c_QPoint =
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QPoint") Nothing []
   [ mkCtor "newNull" []
-  , mkCtor "new" [TInt, TInt]
+  , mkCtor "new" [intT, intT]
   ] $
   collect
-  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [TObj c_QPoint, TObj c_QPoint] TInt
-  , just $ mkConstMethod "isNull" [] TBool
-  , just $ mkConstMethod "manhattanLength" [] TInt
-  , just $ mkMethod OpAddAssign [TObj c_QPoint] $ TRef $ TObj c_QPoint
-  , just $ mkMethod OpSubtractAssign [TObj c_QPoint] $ TRef $ TObj c_QPoint
+  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [objT c_QPoint, objT c_QPoint] intT
+  , just $ mkConstMethod "isNull" [] boolT
+  , just $ mkConstMethod "manhattanLength" [] intT
+  , just $ mkMethod OpAddAssign [objT c_QPoint] $ refT $ objT c_QPoint
+  , just $ mkMethod OpSubtractAssign [objT c_QPoint] $ refT $ objT c_QPoint
   , just $ mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign)
-    [TInt] $ TRef $ TObj c_QPoint
+    [intT] $ refT $ objT c_QPoint
   , just $ mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign ++ "Real")
-    [qreal] $ TRef $ TObj c_QPoint
-  , just $ mkMethod OpDivideAssign [qreal] $ TRef $ TObj c_QPoint
+    [qreal] $ refT $ objT c_QPoint
+  , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QPoint
   ] ++
   mkProps
-  [ mkProp "x" TInt
-  , mkProp "y" TInt
+  [ mkProp "x" intT
+  , mkProp "y" intT
   ]

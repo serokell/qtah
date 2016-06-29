@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QPushButton (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -33,6 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (c_QAbstractButton)
@@ -51,16 +51,16 @@ c_QPushButton =
   makeClass (ident "QPushButton") Nothing
   [ c_QAbstractButton ]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithText" [TObj c_QString]
-  , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithText" [objT c_QString]
+  , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
     -- TODO Ctors with QIcon.
   ] $
-  [ mkMethod "showMenu" [] TVoid
+  [ mkMethod "showMenu" [] voidT
   ] ++
   mkProps
-  [ mkProp "autoDefault" TBool
+  [ mkProp "autoDefault" boolT
   , mkBoolIsProp "default"
   , mkBoolIsProp "flat"
-  , mkProp "menu" $ TPtr $ TObj c_QMenu
+  , mkProp "menu" $ ptrT $ objT c_QMenu
   ]

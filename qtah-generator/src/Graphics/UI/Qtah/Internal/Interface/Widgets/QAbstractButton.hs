@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractButton (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TInt, TObj, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -32,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
@@ -51,23 +51,23 @@ c_QAbstractButton =
   makeClass (ident "QAbstractButton") Nothing
   [ c_QWidget ]
   [] $  -- Abstact.
-  [ mkMethod "animateClick" [TInt] TVoid
-  , mkMethod "click" [] TVoid
+  [ mkMethod "animateClick" [intT] voidT
+  , mkMethod "click" [] voidT
     -- TODO group
-  , mkMethod "toggle" [] TVoid
+  , mkMethod "toggle" [] voidT
   ] ++
   mkProps
-  [ mkProp "autoExclusive" TBool
-  , mkProp "autoRepeat" TBool
-  , mkProp "autoRepeatDelay" TInt
-  , mkProp "autoRepeatInterval" TInt
+  [ mkProp "autoExclusive" boolT
+  , mkProp "autoRepeat" boolT
+  , mkProp "autoRepeatDelay" intT
+  , mkProp "autoRepeatInterval" intT
   , mkBoolIsProp "checkable"
   , mkBoolIsProp "checked"
   , mkBoolIsProp "down"
     -- TODO icon
-  , mkProp "iconSize" $ TObj c_QSize
+  , mkProp "iconSize" $ objT c_QSize
     -- TODO shortcut
-  , mkProp "text" $ TObj c_QString
+  , mkProp "text" $ objT c_QString
   ]
 
 signals =

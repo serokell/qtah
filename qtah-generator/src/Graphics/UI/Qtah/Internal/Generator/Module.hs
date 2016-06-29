@@ -73,7 +73,7 @@ import Foreign.Hoppy.Generator.Spec (
   Interface,
   Method,
   MethodImpl (RealMethod),
-  Type (TCallback, TObj),
+  Type (Internal_TCallback),
   bitspaceExtName,
   bitspaceValueNames,
   callbackParams,
@@ -96,6 +96,7 @@ import Foreign.Hoppy.Generator.Spec (
   varIsConst,
   varSetterExtName,
   )
+import Foreign.Hoppy.Generator.Types (objT)
 import Graphics.UI.Qtah.Internal.Generator.Common (fromMaybeM, writeFileIfDifferent)
 import Graphics.UI.Qtah.Internal.Generator.Types (
   QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal, QtExportSpecials),
@@ -201,7 +202,7 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
     -- support and the Prelude.
     addImports $ mconcat [importForPrelude, importForRuntime]
 
-    hsHsType <- cppTypeToHsTypeAndUse HsHsSide (TObj cls)
+    hsHsType <- cppTypeToHsTypeAndUse HsHsSide (objT cls)
     let constPtrClassName = toHsPtrClassName Const cls
         dataTypeName = toHsDataTypeName Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
@@ -331,9 +332,9 @@ sayExportSignal signal = inFunction "sayExportSignal" $ do
                 show (fromExtName $ classExtName listenerClass),
                 " constructor for signal ", show name]) $
     flip find (classCtors listenerClass) $ \ctor -> case ctorParams ctor of
-      [TCallback {}] -> True
+      [Internal_TCallback {}] -> True
       _ -> False
-  let [callbackType@(TCallback callback)] = ctorParams listenerCtor
+  let [callbackType@(Internal_TCallback callback)] = ctorParams listenerCtor
       paramTypes = callbackParams callback
 
   -- Also find the 'connectListener' method.

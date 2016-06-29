@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QLabel (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBitspace, TBool, TDouble, TEnum, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -34,6 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, doubleT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (bs_Alignment, e_TextFormat)
@@ -53,33 +53,33 @@ c_QLabel =
   addReqIncludes [includeStd "QLabel"] $
   makeClass (ident "QLabel") Nothing [c_QFrame]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithText" [TObj c_QString]
-  , mkCtor "newWithTextAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithText" [objT c_QString]
+  , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
     -- TODO Ctors taking Qt::WindowFlags.
   ] $
-  [ mkMethod "clear" [] TVoid
-  , mkConstMethod "hasSelectedText" [] TBool
-  , mkConstMethod "selectedText" [] $ TObj c_QString
-  , mkConstMethod "selectionStart" [] TInt
-  , mkMethod' "setNum" "setInt" [TInt] TVoid
-  , mkMethod' "setNum" "setDouble" [TDouble] TVoid
-  , mkMethod "setSelection" [TInt, TInt] TVoid
+  [ mkMethod "clear" [] voidT
+  , mkConstMethod "hasSelectedText" [] boolT
+  , mkConstMethod "selectedText" [] $ objT c_QString
+  , mkConstMethod "selectionStart" [] intT
+  , mkMethod' "setNum" "setInt" [intT] voidT
+  , mkMethod' "setNum" "setDouble" [doubleT] voidT
+  , mkMethod "setSelection" [intT, intT] voidT
   ] ++
   mkProps
-  [ mkProp "alignment" $ TBitspace bs_Alignment
-  , mkProp "buddy" $ TPtr $ TObj c_QWidget
-  , mkProp "indent" TInt
-  , mkProp "margin" TInt
+  [ mkProp "alignment" $ bitspaceT bs_Alignment
+  , mkProp "buddy" $ ptrT $ objT c_QWidget
+  , mkProp "indent" intT
+  , mkProp "margin" intT
     -- TODO movie
-  , mkProp "openExternalLinks" TBool
+  , mkProp "openExternalLinks" boolT
     -- TODO picture
     -- TODO pixmap
   , mkBoolHasProp "scaledContents"
-  , mkProp "text" $ TObj c_QString
-  , mkProp "textFormat" $ TEnum e_TextFormat
+  , mkProp "text" $ objT c_QString
+  , mkProp "textFormat" $ enumT e_TextFormat
     -- TODO textInteractionFlags
-  , mkProp "wordWrap" TBool
+  , mkProp "wordWrap" boolT
   ]
 
 signals =

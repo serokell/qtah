@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QFileDialog (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportClass),
-  Type (TBitspace, TBool, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -35,6 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProps,
   mkStaticMethod',
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -64,81 +64,81 @@ c_QFileDialog =
   addReqIncludes [includeStd "QFileDialog"] $
   makeClass (ident "QFileDialog") Nothing [c_QDialog]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithParentAndFlags" [TPtr $ TObj c_QWidget, TBitspace bs_WindowFlags]
-  , mkCtor "newWithParentAndCaption" [TPtr $ TObj c_QWidget, TObj c_QString]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithParentAndFlags" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags]
+  , mkCtor "newWithParentAndCaption" [ptrT $ objT c_QWidget, objT c_QString]
   , mkCtor "newWithParentAndCaptionAndDirectory"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString]
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString]
   , mkCtor "newWithParentAndCaptionAndDirectoryAndFilter"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TObj c_QString]
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, objT c_QString]
   ] $
   collect
-  [ just $ mkConstMethod "directory" [] $ TObj c_QDir
+  [ just $ mkConstMethod "directory" [] $ objT c_QDir
     -- TODO directoryUrl (>=5.2)
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectory"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TObj c_QString
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ objT c_QString
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectoryWithOptions"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TBitspace bs_Options] $ TObj c_QString
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, bitspaceT bs_Options] $ objT c_QString
     -- TODO getExistingDirectoryUrl (>=5.2)
   , just $ mkStaticMethod' "getOpenFileName" "getOpenFileName"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TObj c_QString] $ TObj c_QString
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, objT c_QString] $ objT c_QString
   , just $ mkStaticMethod' "getOpenFileName" "getOpenFileNameWithOptions"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TObj c_QString, TPtr $ TObj c_QString, TBitspace bs_Options] $
-    TObj c_QString
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     objT c_QString, ptrT $ objT c_QString, bitspaceT bs_Options] $
+    objT c_QString
   , just $ mkStaticMethod' "getOpenFileNames" "getOpenFileNames"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TObj c_QString] $ TObj c_QStringList
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, objT c_QString] $ objT c_QStringList
   , just $ mkStaticMethod' "getOpenFileNames" "getOpenFileNamesWithOptions"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TObj c_QString, TPtr $ TObj c_QString, TBitspace bs_Options] $
-    TObj c_QStringList
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     objT c_QString, ptrT $ objT c_QString, bitspaceT bs_Options] $
+    objT c_QStringList
     -- TODO getOpenFileUrl (>=5.2)
     -- TODO getOpenFileUrls (>=5.2)
   , just $ mkStaticMethod' "getSaveFileName" "getSaveFileName"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString, TObj c_QString] $ TObj c_QString
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, objT c_QString] $ objT c_QString
   , just $ mkStaticMethod' "getSaveFileName" "getSaveFileNameWithOptions"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TObj c_QString, TPtr $ TObj c_QString, TBitspace bs_Options] $
-    TObj c_QString
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     objT c_QString, ptrT $ objT c_QString, bitspaceT bs_Options] $
+    objT c_QString
     -- TODO getSaveFileUrl (>=5.2)
 
     -- TODO iconProvider
     -- TODO itemDelegate
-  , just $ mkConstMethod "labelText" [TEnum e_DialogLabel] $ TObj c_QString
+  , just $ mkConstMethod "labelText" [enumT e_DialogLabel] $ objT c_QString
     -- TODO open (>=4.5)
     -- TODO proxyModel
     -- TODO restoreState (>=4.3)
     -- TODO saveState (>=4.3)
-  , just $ mkMethod "selectFile" [TObj c_QString] TVoid
+  , just $ mkMethod "selectFile" [objT c_QString] voidT
     -- TODO selectMimeTypeFilter (>=5.2)
-  , just $ mkMethod "selectNameFilter" [TObj c_QString] TVoid
+  , just $ mkMethod "selectNameFilter" [objT c_QString] voidT
     -- TODO selectUrl (>=5.2)
-  , just $ mkConstMethod "selectedFiles" [] $ TObj c_QStringList
-  , test (qtVersion >= [4, 4]) $ mkConstMethod "selectedNameFilter" [] $ TObj c_QString
+  , just $ mkConstMethod "selectedFiles" [] $ objT c_QStringList
+  , test (qtVersion >= [4, 4]) $ mkConstMethod "selectedNameFilter" [] $ objT c_QString
     -- TODO selectedUrls (>=5.2)
-  , just $ mkMethod' "setDirectory" "setDirectory" [TObj c_QDir] TVoid
-  , just $ mkMethod' "setDirectory" "setDirectoryPath" [TObj c_QString] TVoid
+  , just $ mkMethod' "setDirectory" "setDirectory" [objT c_QDir] voidT
+  , just $ mkMethod' "setDirectory" "setDirectoryPath" [objT c_QString] voidT
     -- TODO setDirectoryUrl(QUrl) (>=5.2)
     -- TODO setHistory
     -- TODO setIconProvider
     -- TODO setItemDelegate
-  , just $ mkMethod "setLabelText" [TEnum e_DialogLabel, TObj c_QString] TVoid
-  , test (qtVersion >= [4, 4]) $ mkMethod "setNameFilter" [TObj c_QString] TVoid
-  , test (qtVersion >= [4, 5]) $ mkMethod "setOption" [TEnum e_Option, TBool] TVoid
+  , just $ mkMethod "setLabelText" [enumT e_DialogLabel, objT c_QString] voidT
+  , test (qtVersion >= [4, 4]) $ mkMethod "setNameFilter" [objT c_QString] voidT
+  , test (qtVersion >= [4, 5]) $ mkMethod "setOption" [enumT e_Option, boolT] voidT
     -- TODO setProxyModel (>=4.3)
     -- TODO testOption (>=4.5)
   ] ++
   (mkProps . collect)
-  [ just $ mkProp "acceptMode" $ TEnum e_AcceptMode
-  , just $ mkProp "defaultSuffix" $ TObj c_QString
-  , just $ mkProp "fileMode" $ TEnum e_FileMode
-  , test (qtVersion >= [4, 4]) $ mkProp "filter" $ TBitspace bs_Filters
-  , just $ mkProp "history" $ TObj c_QStringList
-  , test (qtVersion >= [5, 2]) $ mkProp "mimeTypeFilters" $ TObj c_QStringList
-  , test (qtVersion >= [4, 4]) $ mkProp "nameFilters" $ TObj c_QStringList
-  , test (qtVersion >= [4, 5]) $ mkProp "options" $ TBitspace bs_Options
+  [ just $ mkProp "acceptMode" $ enumT e_AcceptMode
+  , just $ mkProp "defaultSuffix" $ objT c_QString
+  , just $ mkProp "fileMode" $ enumT e_FileMode
+  , test (qtVersion >= [4, 4]) $ mkProp "filter" $ bitspaceT bs_Filters
+  , just $ mkProp "history" $ objT c_QStringList
+  , test (qtVersion >= [5, 2]) $ mkProp "mimeTypeFilters" $ objT c_QStringList
+  , test (qtVersion >= [4, 4]) $ mkProp "nameFilters" $ objT c_QStringList
+  , test (qtVersion >= [4, 5]) $ mkProp "options" $ bitspaceT bs_Options
     -- TODO sidebarUrls (>=4.3)
-  , just $ mkProp "viewMode" $ TEnum e_ViewMode
+  , just $ mkProp "viewMode" $ enumT e_ViewMode
   ]
 
 signals =

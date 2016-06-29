@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QRegion (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
-  Type (TBool, TEnum, TInt, TObj, TRef, TVoid),
   addReqIncludes,
   classSetConversionToGc,
   ident,
@@ -39,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -60,41 +60,41 @@ c_QRegion =
   classSetConversionToGc $
   makeClass (ident "QRegion") Nothing []
   [ mkCtor "new" []
-  , mkCtor "newFromPoints" [TInt, TInt, TInt, TInt, TEnum e_RegionType]
+  , mkCtor "newFromPoints" [intT, intT, intT, intT, enumT e_RegionType]
     -- TODO newFromPolygon (needs QPolygon)
     -- TODO newFromBitmap (needs QBitmap)
-  , mkCtor "newFromRect" [TObj c_QRect, TEnum e_RegionType]
+  , mkCtor "newFromRect" [objT c_QRect, enumT e_RegionType]
   ] $
   collect
-  [ just $ mkConstMethod "boundingRect" [] $ TObj c_QRect
-  , just $ mkConstMethod' "contains" "containsPoint" [TObj c_QPoint] TBool
-  , just $ mkConstMethod' "contains" "containsRect" [TObj c_QRect] TBool
+  [ just $ mkConstMethod "boundingRect" [] $ objT c_QRect
+  , just $ mkConstMethod' "contains" "containsPoint" [objT c_QPoint] boolT
+  , just $ mkConstMethod' "contains" "containsRect" [objT c_QRect] boolT
   , test (qtVersion >= [4, 2]) $
-    mkConstMethod' "intersected" "intersected" [TObj c_QRegion] $ TObj c_QRegion
+    mkConstMethod' "intersected" "intersected" [objT c_QRegion] $ objT c_QRegion
   , test (qtVersion >= [4, 4]) $
-    mkConstMethod' "intersected" "intersectedWithRect" [TObj c_QRect] $ TObj c_QRegion
-  , test (qtVersion >= [4, 2]) $ mkConstMethod' "intersects" "intersects" [TObj c_QRegion] TBool
-  , test (qtVersion >= [4, 2]) $ mkConstMethod' "intersects" "intersectsRect" [TObj c_QRect] TBool
-  , just $ mkConstMethod "isEmpty" [] TBool
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "isNull" [] TBool
-  , test (qtVersion >= [4, 6]) $ mkConstMethod "rectCount" [] TInt
+    mkConstMethod' "intersected" "intersectedWithRect" [objT c_QRect] $ objT c_QRegion
+  , test (qtVersion >= [4, 2]) $ mkConstMethod' "intersects" "intersects" [objT c_QRegion] boolT
+  , test (qtVersion >= [4, 2]) $ mkConstMethod' "intersects" "intersectsRect" [objT c_QRect] boolT
+  , just $ mkConstMethod "isEmpty" [] boolT
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "isNull" [] boolT
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "rectCount" [] intT
     -- TODO rects
     -- TODO setRects
   , test (qtVersion >= [4, 2]) $
-    mkConstMethod "subtracted" [TObj c_QRegion] $ TObj c_QRegion
-  , test (qtVersion >= [4, 8]) $ mkMethod "swap" [TRef $ TObj c_QRegion] TVoid
-  , just $ mkMethod' "translate" "translateByCoords" [TInt, TInt] TVoid
-  , just $ mkMethod' "translate" "translateByPoint" [TObj c_QPoint] TVoid
+    mkConstMethod "subtracted" [objT c_QRegion] $ objT c_QRegion
+  , test (qtVersion >= [4, 8]) $ mkMethod "swap" [refT $ objT c_QRegion] voidT
+  , just $ mkMethod' "translate" "translateByCoords" [intT, intT] voidT
+  , just $ mkMethod' "translate" "translateByPoint" [objT c_QPoint] voidT
   , test (qtVersion >= [4, 1]) $
-    mkConstMethod' "translated" "translatedByCoords" [TInt, TInt] $ TObj c_QRegion
+    mkConstMethod' "translated" "translatedByCoords" [intT, intT] $ objT c_QRegion
   , test (qtVersion >= [4, 1]) $
-    mkConstMethod' "translated" "translatedByPoint" [TObj c_QPoint] $ TObj c_QRegion
+    mkConstMethod' "translated" "translatedByPoint" [objT c_QPoint] $ objT c_QRegion
   , test (qtVersion >= [4, 2]) $
-    mkConstMethod' "united" "united" [TObj c_QRegion] $ TObj c_QRegion
+    mkConstMethod' "united" "united" [objT c_QRegion] $ objT c_QRegion
   , test (qtVersion >= [4, 4]) $
-    mkConstMethod' "united" "unitedWithRect" [TObj c_QRect] $ TObj c_QRegion
+    mkConstMethod' "united" "unitedWithRect" [objT c_QRect] $ objT c_QRegion
   , test (qtVersion >= [4, 2]) $
-    mkConstMethod' "xored" "xored" [TObj c_QRegion] $ TObj c_QRegion
+    mkConstMethod' "xored" "xored" [objT c_QRegion] $ objT c_QRegion
   ]
 
 e_RegionType =

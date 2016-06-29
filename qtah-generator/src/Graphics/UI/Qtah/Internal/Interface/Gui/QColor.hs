@@ -40,7 +40,6 @@ import Foreign.Hoppy.Generator.Spec (
     classHaskellConversionType
   ),
   Export (ExportEnum, ExportClass),
-  Type (TBool, TEnum, TInt, TObj, TVoid),
   addReqIncludes,
   classSetHaskellConversion,
   hsImports,
@@ -62,6 +61,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -93,78 +93,78 @@ c_QColor =
   classAddFeatures [Assignable, Copyable, Equatable] $
   makeClass (ident "QColor") Nothing []
   [ mkCtor "new" []
-  , mkCtor "newRgb" [TInt, TInt, TInt]
-  , mkCtor "newRgba" [TInt, TInt, TInt, TInt]
-  , mkCtor "newNamedColor" [TObj c_QString]
-  , mkCtor "newGlobalColor" [TEnum e_GlobalColor]
+  , mkCtor "newRgb" [intT, intT, intT]
+  , mkCtor "newRgba" [intT, intT, intT, intT]
+  , mkCtor "newNamedColor" [objT c_QString]
+  , mkCtor "newGlobalColor" [enumT e_GlobalColor]
   ] $
   collect
-  [ just $ mkConstMethod "black" [] TInt
+  [ just $ mkConstMethod "black" [] intT
   , just $ mkConstMethod "blackF" [] qreal
-  , just $ mkStaticMethod "colorNames" [] $ TObj c_QStringList
-  , just $ mkConstMethod "convertTo" [TEnum e_Spec] $ TObj c_QColor
-  , just $ mkConstMethod "cyan" [] TInt
+  , just $ mkStaticMethod "colorNames" [] $ objT c_QStringList
+  , just $ mkConstMethod "convertTo" [enumT e_Spec] $ objT c_QColor
+  , just $ mkConstMethod "cyan" [] intT
   , just $ mkConstMethod "cyanF" [] qreal
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darker" [] $ TObj c_QColor
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darkerBy" [TInt] $ TObj c_QColor
-  , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHue" [] TInt
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darker" [] $ objT c_QColor
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darkerBy" [intT] $ objT c_QColor
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHue" [] intT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHueF" [] qreal
-  , test (qtVersion >= [4, 6]) $ mkConstMethod "hslSaturation" [] TInt
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "hslSaturation" [] intT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslSaturationF" [] qreal
-  , just $ mkConstMethod "hsvHue" [] TInt
+  , just $ mkConstMethod "hsvHue" [] intT
   , just $ mkConstMethod "hsvHueF" [] qreal
-  , just $ mkConstMethod "hsvSaturation" [] TInt
+  , just $ mkConstMethod "hsvSaturation" [] intT
   , just $ mkConstMethod "hsvSaturationF" [] qreal
-  , just $ mkConstMethod "hue" [] TInt
+  , just $ mkConstMethod "hue" [] intT
   , just $ mkConstMethod "hueF" [] qreal
-  , just $ mkConstMethod "isValid" [] TBool
-  , test (qtVersion >= [4, 7]) $ mkStaticMethod "isValidColor" [TObj c_QString] TBool
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighter" [] $ TObj c_QColor
-  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighterBy" [TInt] $ TObj c_QColor
-  , test (qtVersion >= [4, 6]) $ mkConstMethod "lightness" [] TInt
+  , just $ mkConstMethod "isValid" [] boolT
+  , test (qtVersion >= [4, 7]) $ mkStaticMethod "isValidColor" [objT c_QString] boolT
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighter" [] $ objT c_QColor
+  , test (qtVersion >= [4, 3]) $ mkConstMethod' "lighter" "lighterBy" [intT] $ objT c_QColor
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "lightness" [] intT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "lightnessF" [] qreal
-  , just $ mkConstMethod "magenta" [] TInt
+  , just $ mkConstMethod "magenta" [] intT
   , just $ mkConstMethod "magentaF" [] qreal
-  , just $ mkConstMethod' "name" "name" [] $ TObj c_QString
+  , just $ mkConstMethod' "name" "name" [] $ objT c_QString
   , test (qtVersion >= [5, 2]) $
-    mkConstMethod' "name" "nameWithFormat" [TEnum e_NameFormat] $ TObj c_QString
-  , just $ mkConstMethod "saturation" [] TInt
+    mkConstMethod' "name" "nameWithFormat" [enumT e_NameFormat] $ objT c_QString
+  , just $ mkConstMethod "saturation" [] intT
   , just $ mkConstMethod "saturationF" [] qreal
-  , just $ mkMethod' "setCmyk" "setCmyk" [TInt, TInt, TInt, TInt] TVoid
-  , just $ mkMethod' "setCmyk" "setCmyka" [TInt, TInt, TInt, TInt, TInt] TVoid
-  , just $ mkMethod' "setCmykF" "setCmykF" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkMethod' "setCmykF" "setCmykaF" [qreal, qreal, qreal, qreal, qreal] TVoid
-  , test (qtVersion >= [4, 6]) $ mkMethod' "setHsl" "setHsl" [TInt, TInt, TInt] TVoid
-  , test (qtVersion >= [4, 6]) $ mkMethod' "setHsl" "setHsla" [TInt, TInt, TInt, TInt] TVoid
-  , test (qtVersion >= [4, 6]) $ mkMethod' "setHslF" "setHslF" [qreal, qreal, qreal] TVoid
-  , test (qtVersion >= [4, 6]) $ mkMethod' "setHslF" "setHslaF" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkMethod' "setHsv" "setHsv" [TInt, TInt, TInt] TVoid
-  , just $ mkMethod' "setHsv" "setHsva" [TInt, TInt, TInt, TInt] TVoid
-  , just $ mkMethod' "setHsvF" "setHsvF" [qreal, qreal, qreal] TVoid
-  , just $ mkMethod' "setHsvF" "setHsvaF" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkMethod "setNamedColor" [TObj c_QString] TVoid
-  , just $ mkMethod' "setRgb" "setRgb" [TInt, TInt, TInt] TVoid
-  , just $ mkMethod' "setRgb" "setRgba" [TInt, TInt, TInt, TInt] TVoid
-  , just $ mkMethod' "setRgbF" "setRgbF" [qreal, qreal, qreal] TVoid
-  , just $ mkMethod' "setRgbF" "setRgbaF" [qreal, qreal, qreal, qreal] TVoid
-  , just $ mkConstMethod "spec" [] $ TEnum e_Spec
-  , just $ mkConstMethod "toCmyk" [] $ TObj c_QColor
-  , just $ mkConstMethod "toHsl" [] $ TObj c_QColor
-  , just $ mkConstMethod "toHsv" [] $ TObj c_QColor
-  , just $ mkConstMethod "toRgb" [] $ TObj c_QColor
-  , just $ mkConstMethod "value" [] TInt
+  , just $ mkMethod' "setCmyk" "setCmyk" [intT, intT, intT, intT] voidT
+  , just $ mkMethod' "setCmyk" "setCmyka" [intT, intT, intT, intT, intT] voidT
+  , just $ mkMethod' "setCmykF" "setCmykF" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkMethod' "setCmykF" "setCmykaF" [qreal, qreal, qreal, qreal, qreal] voidT
+  , test (qtVersion >= [4, 6]) $ mkMethod' "setHsl" "setHsl" [intT, intT, intT] voidT
+  , test (qtVersion >= [4, 6]) $ mkMethod' "setHsl" "setHsla" [intT, intT, intT, intT] voidT
+  , test (qtVersion >= [4, 6]) $ mkMethod' "setHslF" "setHslF" [qreal, qreal, qreal] voidT
+  , test (qtVersion >= [4, 6]) $ mkMethod' "setHslF" "setHslaF" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkMethod' "setHsv" "setHsv" [intT, intT, intT] voidT
+  , just $ mkMethod' "setHsv" "setHsva" [intT, intT, intT, intT] voidT
+  , just $ mkMethod' "setHsvF" "setHsvF" [qreal, qreal, qreal] voidT
+  , just $ mkMethod' "setHsvF" "setHsvaF" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkMethod "setNamedColor" [objT c_QString] voidT
+  , just $ mkMethod' "setRgb" "setRgb" [intT, intT, intT] voidT
+  , just $ mkMethod' "setRgb" "setRgba" [intT, intT, intT, intT] voidT
+  , just $ mkMethod' "setRgbF" "setRgbF" [qreal, qreal, qreal] voidT
+  , just $ mkMethod' "setRgbF" "setRgbaF" [qreal, qreal, qreal, qreal] voidT
+  , just $ mkConstMethod "spec" [] $ enumT e_Spec
+  , just $ mkConstMethod "toCmyk" [] $ objT c_QColor
+  , just $ mkConstMethod "toHsl" [] $ objT c_QColor
+  , just $ mkConstMethod "toHsv" [] $ objT c_QColor
+  , just $ mkConstMethod "toRgb" [] $ objT c_QColor
+  , just $ mkConstMethod "value" [] intT
   , just $ mkConstMethod "valueF" [] qreal
-  , just $ mkConstMethod "yellow" [] TInt
+  , just $ mkConstMethod "yellow" [] intT
   , just $ mkConstMethod "yellowF" [] qreal
   ] ++
   mkProps
-  [ mkProp "alpha" TInt
+  [ mkProp "alpha" intT
   , mkProp "alphaF" qreal
-  , mkProp "blue" TInt
+  , mkProp "blue" intT
   , mkProp "blueF" qreal
-  , mkProp "green" TInt
+  , mkProp "green" intT
   , mkProp "greenF" qreal
-  , mkProp "red" TInt
+  , mkProp "red" intT
   , mkProp "redF" qreal
   ]
 

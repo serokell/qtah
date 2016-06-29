@@ -24,7 +24,6 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   MethodApplicability (MStatic),
   Purity (Nonpure),
-  Type (TBool, TInt, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident2,
@@ -35,6 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkStaticMethod,
   mkStaticMethod',
   )
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -57,16 +57,16 @@ c_QCoreApplication =
   [] $
   collect
   [ just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
-    [TObj c_QStringList] $ TPtr $ TObj c_QCoreApplication
-  , test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ TObj c_QStringList
-  , just $ mkStaticMethod "exec" [] TVoid
-  , just $ mkStaticMethod "exit" [TInt] TVoid
-  , just $ mkStaticMethod' "instance" "getInstance" [] $ TPtr $ TObj c_QCoreApplication
+    [objT c_QStringList] $ ptrT $ objT c_QCoreApplication
+  , test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ objT c_QStringList
+  , just $ mkStaticMethod "exec" [] voidT
+  , just $ mkStaticMethod "exit" [intT] voidT
+  , just $ mkStaticMethod' "instance" "getInstance" [] $ ptrT $ objT c_QCoreApplication
   , test (qtVersion >= [4, 3]) $ mkStaticMethod' "postEvent" "postEvent"
-    [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TVoid
+    [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] voidT
   , test (qtVersion >= [4, 3]) $ mkStaticMethod' "postEvent" "postEventWithPriority"
-    [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent, TInt] TVoid
-  , just $ mkStaticMethod "quit" [] TVoid
-  , just $ mkStaticMethod "sendEvent" [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
+    [ptrT $ objT c_QObject, ptrT $ objT c_QEvent, intT] voidT
+  , just $ mkStaticMethod "quit" [] voidT
+  , just $ mkStaticMethod "sendEvent" [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] boolT
     -- TODO Other methods.
   ]

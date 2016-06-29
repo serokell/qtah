@@ -21,13 +21,13 @@ module Graphics.UI.Qtah.Internal.Interface.Gui.QInputEvent (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Type (TBitspace, TULong),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
   mkConstMethod,
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, ulongT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -47,6 +47,6 @@ c_QInputEvent =
   makeClass (ident "QInputEvent") Nothing [c_QEvent]
   [] $
   collect
-  [ just $ mkConstMethod "modifiers" [] $ TBitspace bs_KeyboardModifiers
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "timestamp" [] TULong
+  [ just $ mkConstMethod "modifiers" [] $ bitspaceT bs_KeyboardModifiers
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "timestamp" [] ulongT
   ]

@@ -40,7 +40,6 @@ import Foreign.Hoppy.Generator.Spec (
   MethodApplicability (MNormal),
   Operator (OpArray),
   Purity (Nonpure),
-  Type (TChar, TConst, TInt, TObj, TPtr, TRef, TVoid),
   addReqIncludes,
   classSetHaskellConversion,
   ident,
@@ -58,6 +57,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   classAddFeatures,
   )
 import Foreign.Hoppy.Generator.Std.String (c_string)
+import Foreign.Hoppy.Generator.Types (charT, constT, intT, objT, ptrT, refT, voidT)
 import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -92,12 +92,12 @@ c_QString =
     , classHaskellConversionFromCppFn = sayLn "qString_toStdString"
     } $
   makeClass (ident "QString") Nothing []
-  [ mkCtor "newFromCString" [TPtr $ TConst TChar]
+  [ mkCtor "newFromCString" [ptrT $ constT charT]
   ] $
   collect
-  [ just $ mkConstMethod' OpArray "at" [TInt] $ TObj c_QChar
+  [ just $ mkConstMethod' OpArray "at" [intT] $ objT c_QChar
   , just $ makeFnMethod (ident2 "qtah" "qstring" "set") "set" MNormal Nonpure
-    [TRef $ TObj c_QString, TInt, TObj c_QChar] TVoid
-  , test (qtVersion >= [5, 0]) $ mkConstMethod "toHtmlEscaped" [] $ TObj c_QString
-  , just $ mkConstMethod "toStdString" [] $ TObj c_string
+    [refT $ objT c_QString, intT, objT c_QChar] voidT
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "toHtmlEscaped" [] $ objT c_QString
+  , just $ mkConstMethod "toStdString" [] $ objT c_string
   ]

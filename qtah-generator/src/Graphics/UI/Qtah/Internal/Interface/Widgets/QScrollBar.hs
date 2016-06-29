@@ -21,13 +21,13 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QScrollBar (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TEnum, TObj, TPtr),
   addReqIncludes,
   ident,
   includeStd,
   makeClass,
   mkCtor,
   )
+import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (e_Orientation)
 import Graphics.UI.Qtah.Internal.Interface.Widgets.QAbstractSlider (c_QAbstractSlider)
@@ -44,8 +44,8 @@ c_QScrollBar =
   addReqIncludes [includeStd "QScrollBar"] $
   makeClass (ident "QScrollBar") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithOrientation" [TEnum e_Orientation]
-  , mkCtor "newWithOrientationAndParent" [TEnum e_Orientation, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithOrientation" [enumT e_Orientation]
+  , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
   ]
   []

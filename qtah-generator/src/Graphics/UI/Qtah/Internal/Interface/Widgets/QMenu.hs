@@ -22,7 +22,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMenu (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
-  Type (TBool, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   includeStd,
@@ -35,6 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Internal.Interface.Core.QRect (c_QRect)
@@ -56,40 +56,40 @@ c_QMenu =
   makeClass (ident "QMenu") Nothing
   [ c_QWidget ]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
-  , mkCtor "newWithTitle" [TObj c_QString]
-  , mkCtor "newWithTitleAndParent" [TObj c_QString, TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithTitle" [objT c_QString]
+  , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   ] $
-  [ mkConstMethod "actionAt" [TObj c_QPoint] $ TPtr $ TObj c_QAction
-  , mkConstMethod "actionGeometry" [TPtr $ TObj c_QAction] $ TObj c_QRect
-  , mkMethod' "addAction" "addAction" [TPtr $ TObj c_QAction] TVoid
-  , mkMethod' "addAction" "addNewAction" [TObj c_QString] $ TPtr $ TObj c_QAction
+  [ mkConstMethod "actionAt" [objT c_QPoint] $ ptrT $ objT c_QAction
+  , mkConstMethod "actionGeometry" [ptrT $ objT c_QAction] $ objT c_QRect
+  , mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] voidT
+  , mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
     -- TODO addNewActionWithIcon and connecting forms
-  , mkMethod' "addMenu" "addMenu" [TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
-  , mkMethod' "addMenu" "addNewMenu" [TObj c_QString] $ TPtr $ TObj c_QMenu
+  , mkMethod' "addMenu" "addMenu" [ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
+  , mkMethod' "addMenu" "addNewMenu" [objT c_QString] $ ptrT $ objT c_QMenu
     -- TODO addNewMenuWithIcon
-  , mkMethod "addSeparator" [] $ TPtr $ TObj c_QAction
-  , mkMethod "clear" [] TVoid
-  , mkMethod' "exec" "exec" [] $ TPtr $ TObj c_QAction
-  , mkMethod' "exec" "execAt" [TObj c_QPoint, TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
+  , mkMethod "addSeparator" [] $ ptrT $ objT c_QAction
+  , mkMethod "clear" [] voidT
+  , mkMethod' "exec" "exec" [] $ ptrT $ objT c_QAction
+  , mkMethod' "exec" "execAt" [objT c_QPoint, ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
     -- TODO Static exec
-  , mkMethod "hideTearOffMenu" [] TVoid
-  , mkMethod "insertMenu" [TPtr $ TObj c_QAction, TPtr $ TObj c_QMenu] $ TPtr $ TObj c_QAction
-  , mkMethod "insertSeparator" [TPtr $ TObj c_QAction] $ TPtr $ TObj c_QAction
-  , mkConstMethod "isEmpty" [] TBool
-  , mkConstMethod "isTearOffMenuVisible" [] TBool
-  , mkConstMethod "menuAction" [] $ TPtr $ TObj c_QAction
-  , mkMethod' "popup" "popup" [TObj c_QPoint] TVoid
-  , mkMethod' "popup" "popupAction" [TObj c_QPoint, TPtr $ TObj c_QAction] TVoid
+  , mkMethod "hideTearOffMenu" [] voidT
+  , mkMethod "insertMenu" [ptrT $ objT c_QAction, ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
+  , mkMethod "insertSeparator" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
+  , mkConstMethod "isEmpty" [] boolT
+  , mkConstMethod "isTearOffMenuVisible" [] boolT
+  , mkConstMethod "menuAction" [] $ ptrT $ objT c_QAction
+  , mkMethod' "popup" "popup" [objT c_QPoint] voidT
+  , mkMethod' "popup" "popupAction" [objT c_QPoint, ptrT $ objT c_QAction] voidT
     -- TODO setIcon
   ] ++
   mkProps
-  [ mkProp "activeAction" $ TPtr $ TObj c_QAction
-  , mkProp "defaultAction" $ TPtr $ TObj c_QAction
+  [ mkProp "activeAction" $ ptrT $ objT c_QAction
+  , mkProp "defaultAction" $ ptrT $ objT c_QAction
     -- TODO icon
-  , mkProp "separatorsCollapsible" TBool
+  , mkProp "separatorsCollapsible" boolT
   , mkBoolIsProp "tearOffEnabled"
-  , mkProp "title" $ TObj c_QString
+  , mkProp "title" $ objT c_QString
   ]
 
 signals =

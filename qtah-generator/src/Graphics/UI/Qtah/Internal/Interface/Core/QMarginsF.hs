@@ -23,7 +23,6 @@ module Graphics.UI.Qtah.Internal.Interface.Core.QMarginsF (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
-  Type (TBool, TObj, TRef),
   addReqIncludes,
   ident,
   includeStd,
@@ -39,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
+import Foreign.Hoppy.Generator.Types (boolT, objT, refT)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.Types (qreal)
@@ -58,21 +58,21 @@ c_QMarginsF =
   makeClass (ident "QMarginsF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal, qreal, qreal]
-  , mkCtor "newWithMargins" [TObj c_QMargins]
+  , mkCtor "newWithMargins" [objT c_QMargins]
   ] $
-  [ mkConstMethod "isNull" [] TBool
+  [ mkConstMethod "isNull" [] boolT
   , mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign)
-    [TObj c_QMarginsF] $ TRef $ TObj c_QMarginsF
+    [objT c_QMarginsF] $ refT $ objT c_QMarginsF
   , mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign ++ "Real")
-    [qreal] $ TRef $ TObj c_QMarginsF
+    [qreal] $ refT $ objT c_QMarginsF
   , mkMethod' OpSubtractAssign (operatorPreferredExtName' OpSubtractAssign)
-    [TObj c_QMarginsF] $ TRef $ TObj c_QMarginsF
+    [objT c_QMarginsF] $ refT $ objT c_QMarginsF
   , mkMethod' OpSubtractAssign (operatorPreferredExtName' OpSubtractAssign ++ "Real")
-    [qreal] $ TRef $ TObj c_QMarginsF
+    [qreal] $ refT $ objT c_QMarginsF
   , mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign)
-    [qreal] $ TRef $ TObj c_QMarginsF
+    [qreal] $ refT $ objT c_QMarginsF
   , mkMethod' OpDivideAssign (operatorPreferredExtName' OpDivideAssign)
-    [qreal] $ TRef $ TObj c_QMarginsF
+    [qreal] $ refT $ objT c_QMarginsF
   ] ++
   mkProps
   [ mkProp "bottom" qreal

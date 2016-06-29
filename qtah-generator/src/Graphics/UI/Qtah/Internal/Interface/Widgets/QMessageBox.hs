@@ -21,7 +21,6 @@ module Graphics.UI.Qtah.Internal.Interface.Widgets.QMessageBox (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportClass, ExportEnum),
-  Type (TBitspace, TEnum, TObj, TPtr, TVoid),
   addReqIncludes,
   ident,
   ident1,
@@ -36,6 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkStaticMethod,
   mkStaticMethod',
   )
+import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
@@ -70,74 +70,74 @@ c_QMessageBox =
   addReqIncludes [includeStd "QMessageBox"] $
   makeClass (ident "QMessageBox") Nothing [c_QDialog]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [TPtr $ TObj c_QWidget]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ] $
   collect
-  [ just $ mkStaticMethod "about" [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] TVoid
-  , just $ mkStaticMethod "aboutQt" [TPtr $ TObj c_QWidget, TObj c_QString] TVoid
+  [ just $ mkStaticMethod "about" [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] voidT
+  , just $ mkStaticMethod "aboutQt" [ptrT $ objT c_QWidget, objT c_QString] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "addButton" "addButton"
-    [TPtr $ TObj c_QAbstractButton, TEnum e_ButtonRole] TVoid
+    [ptrT $ objT c_QAbstractButton, enumT e_ButtonRole] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "addButton" "addNewButton"
-    [TObj c_QString, TEnum e_ButtonRole] $ TPtr $ TObj c_QPushButton
+    [objT c_QString, enumT e_ButtonRole] $ ptrT $ objT c_QPushButton
   , test (qtVersion >= [4, 2]) $ mkMethod' "addButton" "addStandardButton"
-    [TEnum e_StandardButton] $ TPtr $ TObj c_QPushButton
+    [enumT e_StandardButton] $ ptrT $ objT c_QPushButton
   , test (qtVersion >= [4, 2]) $ mkConstMethod "button"
-    [TEnum e_StandardButton] $ TPtr $ TObj c_QAbstractButton
+    [enumT e_StandardButton] $ ptrT $ objT c_QAbstractButton
   , test (qtVersion >= [4, 5]) $ mkConstMethod "buttonRole"
-    [TPtr $ TObj c_QAbstractButton] $ TEnum e_ButtonRole
-  , test (qtVersion >= [4, 5]) $ mkConstMethod "buttons" [] $ TObj c_QListQAbstractButton
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "clickedButton" [] $ TPtr $ TObj c_QAbstractButton
+    [ptrT $ objT c_QAbstractButton] $ enumT e_ButtonRole
+  , test (qtVersion >= [4, 5]) $ mkConstMethod "buttons" [] $ objT c_QListQAbstractButton
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "clickedButton" [] $ ptrT $ objT c_QAbstractButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "critical" "critical"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TEnum e_StandardButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "critical" "criticalWithButtons"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TBitspace bs_StandardButtons, TEnum e_StandardButton] $
-    TEnum e_StandardButton
-  , just $ mkConstMethod "defaultButton" [] $ TPtr $ TObj c_QPushButton
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "escapeButton" [] $ TPtr $ TObj c_QAbstractButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     bitspaceT bs_StandardButtons, enumT e_StandardButton] $
+    enumT e_StandardButton
+  , just $ mkConstMethod "defaultButton" [] $ ptrT $ objT c_QPushButton
+  , test (qtVersion >= [4, 2]) $ mkConstMethod "escapeButton" [] $ ptrT $ objT c_QAbstractButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "information" "information"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TEnum e_StandardButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "information" "informationWithButtons"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TBitspace bs_StandardButtons, TEnum e_StandardButton] $
-    TEnum e_StandardButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     bitspaceT bs_StandardButtons, enumT e_StandardButton] $
+    enumT e_StandardButton
     -- OMIT open
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "question" "question"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TEnum e_StandardButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "question" "questionWithButtons"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TBitspace bs_StandardButtons, TEnum e_StandardButton] $
-    TEnum e_StandardButton
-  , test (qtVersion >= [4, 2]) $ mkMethod "removeButton" [TPtr $ TObj c_QAbstractButton] TVoid
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     bitspaceT bs_StandardButtons, enumT e_StandardButton] $
+    enumT e_StandardButton
+  , test (qtVersion >= [4, 2]) $ mkMethod "removeButton" [ptrT $ objT c_QAbstractButton] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "setDefaultButton" "setDefaultButton"
-    [TPtr $ TObj c_QPushButton] TVoid
+    [ptrT $ objT c_QPushButton] voidT
   , test (qtVersion >= [4, 3]) $ mkMethod' "setDefaultButton" "setDefaultButtonStandard"
-    [TEnum e_StandardButton] TVoid
+    [enumT e_StandardButton] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "setEscapeButton" "setEscapeButton"
-    [TPtr $ TObj c_QPushButton] TVoid
+    [ptrT $ objT c_QPushButton] voidT
   , test (qtVersion >= [4, 3]) $ mkMethod' "setEscapeButton" "setEscapeButtonStandard"
-    [TEnum e_StandardButton] TVoid
-  , test (qtVersion >= [4, 2]) $ mkMethod "setWindowModality" [TEnum e_WindowModality] TVoid
-  , test (qtVersion >= [4, 2]) $ mkMethod "setWindowTitle" [TObj c_QString] TVoid
+    [enumT e_StandardButton] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod "setWindowModality" [enumT e_WindowModality] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod "setWindowTitle" [objT c_QString] voidT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "standardButton"
-    [TPtr $ TObj c_QAbstractButton] $ TEnum e_StandardButton
+    [ptrT $ objT c_QAbstractButton] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "warning" "warning"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString] $ TEnum e_StandardButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "warning" "warningWithButtons"
-    [TPtr $ TObj c_QWidget, TObj c_QString, TObj c_QString,
-     TBitspace bs_StandardButtons, TEnum e_StandardButton] $
-    TEnum e_StandardButton
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
+     bitspaceT bs_StandardButtons, enumT e_StandardButton] $
+    enumT e_StandardButton
   ] ++
   (mkProps . collect)
-  [ test (qtVersion >= [5, 2]) $ mkProp "checkBox" $ TPtr $ TObj c_QCheckBox
-  , test (qtVersion >= [4, 2]) $ mkProp "detailedText" $ TObj c_QString
-  , just $ mkProp "icon" $ TEnum e_Icon
+  [ test (qtVersion >= [5, 2]) $ mkProp "checkBox" $ ptrT $ objT c_QCheckBox
+  , test (qtVersion >= [4, 2]) $ mkProp "detailedText" $ objT c_QString
+  , just $ mkProp "icon" $ enumT e_Icon
     -- TODO iconPixmap
-  , test (qtVersion >= [4, 2]) $ mkProp "informativeText" $ TObj c_QString
-  , test (qtVersion >= [4, 2]) $ mkProp "standardButtons" $ TBitspace bs_StandardButtons
-  , just $ mkProp "text" $ TObj c_QString
-  , just $ mkProp "textFormat" $ TEnum e_TextFormat
-  , test (qtVersion >= [5, 1]) $ mkProp "textInteractionFlags" $ TBitspace bs_TextInteractionFlags
+  , test (qtVersion >= [4, 2]) $ mkProp "informativeText" $ objT c_QString
+  , test (qtVersion >= [4, 2]) $ mkProp "standardButtons" $ bitspaceT bs_StandardButtons
+  , just $ mkProp "text" $ objT c_QString
+  , just $ mkProp "textFormat" $ enumT e_TextFormat
+  , test (qtVersion >= [5, 1]) $ mkProp "textInteractionFlags" $ bitspaceT bs_TextInteractionFlags
   ]
 
 signals =
