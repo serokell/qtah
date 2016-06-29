@@ -64,12 +64,18 @@ c_QGridLayout =
   collect
   [ just $ mkMethod' "addItem" "addItem" [TPtr $ TObj c_QLayoutItem, TInt, TInt] TVoid
   , just $ mkMethod' "addItem" "addItemWithSpan"
+    [TPtr $ TObj c_QLayoutItem, TInt, TInt, TInt, TInt] TVoid
+  , just $ mkMethod' "addItem" "addItemWithSpanAndAlignment"
     [TPtr $ TObj c_QLayoutItem, TInt, TInt, TInt, TInt, TBitspace bs_Alignment] TVoid
   , just $ mkMethod' "addLayout" "addLayout" [TPtr $ TObj c_QLayout, TInt, TInt] TVoid
   , just $ mkMethod' "addLayout" "addLayoutWithSpan"
+    [TPtr $ TObj c_QLayout, TInt, TInt, TInt, TInt] TVoid
+  , just $ mkMethod' "addLayout" "addLayoutWithSpanAndAlignment"
     [TPtr $ TObj c_QLayout, TInt, TInt, TInt, TInt, TBitspace bs_Alignment] TVoid
   , just $ mkMethod' "addWidget" "addWidget" [TPtr $ TObj c_QWidget, TInt, TInt] TVoid
   , just $ mkMethod' "addWidget" "addWidgetWithSpan"
+    [TPtr $ TObj c_QWidget, TInt, TInt, TInt, TInt] TVoid
+  , just $ mkMethod' "addWidget" "addWidgetWithSpanAndAlignment"
     [TPtr $ TObj c_QWidget, TInt, TInt, TInt, TInt, TBitspace bs_Alignment] TVoid
   , just $ mkConstMethod "cellRect" [TInt, TInt] $ TObj c_QRect
   , just $ mkConstMethod "columnCount" [] TInt

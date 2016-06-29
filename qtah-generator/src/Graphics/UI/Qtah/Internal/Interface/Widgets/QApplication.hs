@@ -33,7 +33,6 @@ import Foreign.Hoppy.Generator.Spec (
   makeFnMethod,
   makeClass,
   mkConstMethod,
-  mkMethod,
   mkProp,
   mkProps,
   mkStaticMethod,
@@ -73,7 +72,7 @@ c_QApplication =
   collect
   [ just $ makeFnMethod (ident2 "qtah" "qapplication" "create") "new" MStatic Nonpure
     [TObj c_QStringList] $ TPtr $ TObj c_QApplication
-  , just $ mkMethod "aboutQt" [] TVoid
+  , just $ mkStaticMethod "aboutQt" [] TVoid
   , just $ mkStaticMethod "activeModalWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "activePopupWidget" [] $ TPtr $ TObj c_QWidget
   , just $ mkStaticMethod "alert" [TPtr $ TObj c_QWidget, TInt] TVoid
@@ -81,10 +80,9 @@ c_QApplication =
   , just $ mkStaticMethod "beep" [] TVoid
     -- TODO changeOverrideCursor
   , just $ mkStaticMethod "clipboard" [] $ TPtr $ TObj c_QClipboard
-  , just $ mkMethod "closeAllWindows" [] TVoid
+  , just $ mkStaticMethod "closeAllWindows" [] TVoid
     -- TODO commitData
     -- TODO desktop
-  , just $ mkMethod "exec" [] TVoid
   , just $ mkStaticMethod "focusWidget" [] $ TPtr $ TObj c_QWidget
     -- TODO font
     -- TODO fontMetrics

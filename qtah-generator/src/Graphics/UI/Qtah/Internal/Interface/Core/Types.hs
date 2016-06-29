@@ -56,15 +56,19 @@ module Graphics.UI.Qtah.Internal.Interface.Core.Types (
 
 import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
-  Export (ExportBitspace, ExportEnum),
+  Export (ExportBitspace, ExportEnum, ExportFn),
   Include,
-  Type (TDouble, TFloat),
+  Purity (Nonpure),
+  Type (TDouble, TFloat, TObj),
+  addReqIncludes,
   ident1,
   includeStd,
+  makeFn,
   )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Internal.Flags (qrealFloat, qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
+import Graphics.UI.Qtah.Internal.Interface.Core.QString (c_QString)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
@@ -108,6 +112,7 @@ exports =
   , just $ ExportBitspace bs_WindowStates
   , just $ ExportEnum e_WindowType
   , just $ ExportBitspace bs_WindowFlags
+  , test (qtVersion < [5, 0]) $ ExportFn f_escape
   ]
 
 qtInclude :: [Include]
@@ -371,3 +376,7 @@ e_WindowModality =
      , (foreignWindow, ["foreign", "window"])
      , (coverWindow, ["cover", "window"])
      ]
+
+f_escape =
+  addReqIncludes [includeStd "QTextDocument"] $
+  makeFn (ident1 "Qt" "escape") Nothing Nonpure [TObj c_QString] $ TObj c_QString

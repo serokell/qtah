@@ -58,6 +58,8 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   classAddFeatures,
   )
 import Foreign.Hoppy.Generator.Std.String (c_string)
+import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QChar (c_QChar)
 import Graphics.UI.Qtah.Internal.Interface.Imports
@@ -91,9 +93,11 @@ c_QString =
     } $
   makeClass (ident "QString") Nothing []
   [ mkCtor "newFromCString" [TPtr $ TConst TChar]
-  ]
-  [ mkConstMethod' OpArray "at" [TInt] $ TObj c_QChar
-  , makeFnMethod (ident2 "qtah" "qstring" "set") "set" MNormal Nonpure
+  ] $
+  collect
+  [ just $ mkConstMethod' OpArray "at" [TInt] $ TObj c_QChar
+  , just $ makeFnMethod (ident2 "qtah" "qstring" "set") "set" MNormal Nonpure
     [TRef $ TObj c_QString, TInt, TObj c_QChar] TVoid
-  , mkConstMethod "toStdString" [] $ TObj c_string
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "toHtmlEscaped" [] $ TObj c_QString
+  , just $ mkConstMethod "toStdString" [] $ TObj c_string
   ]

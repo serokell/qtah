@@ -36,6 +36,8 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   mkProps,
   )
+import Graphics.UI.Qtah.Internal.Flag (collect, just, test)
+import Graphics.UI.Qtah.Internal.Flags (qtVersion)
 import Graphics.UI.Qtah.Internal.Generator.Types
 import Graphics.UI.Qtah.Internal.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Internal.Interface.Core.QObject (c_QObject)
@@ -58,26 +60,31 @@ c_QLayout =
   addReqIncludes [includeStd "QLayout"] $
   makeClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
   [] $  -- Abstract.
-  [ mkMethod "activate" [] TBool
-  , mkMethod "addItem" [TPtr $ TObj c_QLayoutItem] TVoid
-  , mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkStaticMethod "closestAcceptableSize" [TPtr $ TObj c_QWidget, TObj c_QSize] $ TObj c_QSize
-  , mkConstMethod "contentsMargins" [] $ TObj c_QMargins
-  , mkConstMethod "contentsRect" [] $ TObj c_QRect
-  , mkConstMethod "count" [] TInt
-  , mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
-  , mkConstMethod "itemAt" [TInt] $ TPtr $ TObj c_QLayoutItem
-  , mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
-  , mkMethod "removeItem" [TPtr $ TObj c_QLayoutItem] TVoid
-  , mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
-  , mkMethod' "setAlignment" "setAlignment" [TBitspace bs_Alignment] TVoid
-  , mkMethod' "setAlignment" "setLayoutAlignment"
+  collect
+  [ just $ mkMethod "activate" [] TBool
+  , just $ mkMethod "addItem" [TPtr $ TObj c_QLayoutItem] TVoid
+  , just $ mkMethod "addWidget" [TPtr $ TObj c_QWidget] TVoid
+  , just $ mkStaticMethod "closestAcceptableSize"
+    [TPtr $ TObj c_QWidget, TObj c_QSize] $ TObj c_QSize
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "contentsMargins" [] $ TObj c_QMargins
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "contentsRect" [] $ TObj c_QRect
+  , just $ mkConstMethod "count" [] TInt
+  , just $ mkConstMethod "indexOf" [TPtr $ TObj c_QWidget] TInt
+  , just $ mkConstMethod "itemAt" [TInt] $ TPtr $ TObj c_QLayoutItem
+  , just $ mkConstMethod "parentWidget" [] $ TPtr $ TObj c_QWidget
+  , just $ mkMethod "removeItem" [TPtr $ TObj c_QLayoutItem] TVoid
+  , just $ mkMethod "removeWidget" [TPtr $ TObj c_QWidget] TVoid
+  , just $ mkMethod' "setAlignment" "setAlignment" [TBitspace bs_Alignment] TVoid
+  , just $ mkMethod' "setAlignment" "setLayoutAlignment"
     [TPtr $ TObj c_QLayout, TBitspace bs_Alignment] TBool
-  , mkMethod' "setAlignment" "setWidgetAlignment"
+  , just $ mkMethod' "setAlignment" "setWidgetAlignment"
     [TPtr $ TObj c_QWidget, TBitspace bs_Alignment] TBool
-  , mkMethod "setContentsMargins" [TObj c_QMargins] TVoid
-  , mkMethod "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
-  , mkMethod "update" [] TVoid
+  , test (qtVersion >= [4, 6]) $ mkMethod' "setContentsMargins" "setContentsMargins"
+    [TObj c_QMargins] TVoid
+  , test (qtVersion >= [4, 3]) $ mkMethod' "setContentsMargins" "setContentsMarginsRaw"
+    [TInt, TInt, TInt, TInt] TVoid
+  , just $ mkMethod "takeAt" [TInt] $ TPtr $ TObj c_QLayoutItem
+  , just $ mkMethod "update" [] TVoid
   ] ++
   mkProps
   [ mkBoolIsProp "enabled"

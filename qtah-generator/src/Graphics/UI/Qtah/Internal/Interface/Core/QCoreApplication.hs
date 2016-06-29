@@ -32,8 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeFnMethod,
   makeClass,
-  mkMethod,
-  mkMethod',
   mkStaticMethod,
   mkStaticMethod',
   )
@@ -61,13 +59,14 @@ c_QCoreApplication =
   [ just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
     [TObj c_QStringList] $ TPtr $ TObj c_QCoreApplication
   , test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ TObj c_QStringList
+  , just $ mkStaticMethod "exec" [] TVoid
   , just $ mkStaticMethod "exit" [TInt] TVoid
   , just $ mkStaticMethod' "instance" "getInstance" [] $ TPtr $ TObj c_QCoreApplication
-  , test (qtVersion >= [4, 3]) $ mkMethod' "postEvent" "postEvent"
+  , test (qtVersion >= [4, 3]) $ mkStaticMethod' "postEvent" "postEvent"
     [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TVoid
-  , test (qtVersion >= [4, 3]) $ mkMethod' "postEvent" "postEventWithPriority"
+  , test (qtVersion >= [4, 3]) $ mkStaticMethod' "postEvent" "postEventWithPriority"
     [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent, TInt] TVoid
   , just $ mkStaticMethod "quit" [] TVoid
-  , just $ mkMethod "sendEvent" [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
+  , just $ mkStaticMethod "sendEvent" [TPtr $ TObj c_QObject, TPtr $ TObj c_QEvent] TBool
     -- TODO Other methods.
   ]
