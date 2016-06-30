@@ -27,5 +27,3 @@ run() {
     echo "*** $*"
     "$@"
 }
-
-declare -r cppBuildDir="$(readlink -f "$projectDir/qtah/cpp-build")"

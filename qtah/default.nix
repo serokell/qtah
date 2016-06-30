@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 { mkDerivation, base, binary, bytestring, hoppy-runtime, HUnit
-, qtah-cpp, qtah-generator, stdenv, lib
+, qt, qtah-generator, stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
@@ -25,16 +25,13 @@ mkDerivation ({
   version = "0.1.0";
   src = ./.;
   libraryHaskellDepends = [ base binary bytestring hoppy-runtime ];
-  librarySystemDepends = [ qtah-cpp ];
+  librarySystemDepends = [ qt qtah-generator ];
   testHaskellDepends = [ base hoppy-runtime HUnit ];
-  testSystemDepends = [ qtah-cpp ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Qt bindings for Haskell";
   license = stdenv.lib.licenses.lgpl3Plus;
 
-  prePatch = ''
-    ${qtah-generator}/bin/qtah-generator --gen-hs src
-  '';
+  doCheck = false;  # TODO Broken with custom Setup.hs currently, test can't find libqtah.so.0.
 
   preConfigure =
     if forceParallelBuilding

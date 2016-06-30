@@ -20,12 +20,12 @@
 set -euo pipefail
 
 msg() {
-    echo "listener-gen.sh: $*"
+    echo "qtah-listener-gen: $*"
 }
 
 help() {
     cat <<EOF
-listener-gen.sh: Generates listener classes for wrapping Qt signals.
+qtah-listener-gen: Generates listener classes for wrapping Qt signals.
 
 Options:
   --help              : Display this menu.

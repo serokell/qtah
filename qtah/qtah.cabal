@@ -9,7 +9,7 @@ author: Bryan Gardiner <bog@khumba.net>
 maintainer: Bryan Gardiner <bog@khumba.net>
 copyright: Copyright 2015-2016 Bryan Gardiner
 category: Graphics
-build-type: Simple
+build-type: Custom
 -- extra-source-files:
 cabal-version: >=1.10
 

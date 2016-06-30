@@ -22,7 +22,6 @@
 , forceParallelBuilding ? false
 }:
 let
-  listenerGen = ../tools/listener-gen.sh;
   qtVersionComponents = lib.strings.splitString "." qt.version;
   qtMajor = builtins.elemAt qtVersionComponents 0;
   qtMinor = builtins.elemAt qtVersionComponents 1;
@@ -40,19 +39,11 @@ in mkDerivation ({
   description = "Generator for Qtah Qt bindings";
   license = stdenv.lib.licenses.lgpl3Plus;
 
-  prePatch = ''
-    ${listenerGen} --gen-hs-dir .
-  '';
-
   preConfigure = ''
     configureFlags+="--flags=qt${qtMajor}_${qtMinor}"
 
     ${if forceParallelBuilding
      then "configureFlags+=\" --ghc-option=-j$NIX_BUILD_CORES\""
      else ""}
-  '';
-
-  postInstall = ''
-    install -T ${listenerGen} $out/bin/qtah-listener-gen
   '';
 } // lib.filterAttrs (k: v: v != null) { inherit enableSplitObjs; })

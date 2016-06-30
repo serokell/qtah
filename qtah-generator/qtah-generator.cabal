@@ -9,8 +9,11 @@ author: Bryan Gardiner <bog@khumba.net>
 maintainer: Bryan Gardiner <bog@khumba.net>
 copyright: Copyright 2015-2016 Bryan Gardiner
 category: Graphics
-build-type: Simple
+build-type: Custom
 cabal-version: >=1.10
+
+extra-source-files:
+    qtah-listener-gen
 
 flag qt4_0
      description: Compile for Qt 4.0.

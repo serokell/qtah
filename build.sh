@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Builds Qtah.  See --help.
+# Builds and installs Qtah.  See --help.
 
 set -euo pipefail
 projectDir=$(readlink -f "$0")
@@ -29,9 +29,9 @@ usage() {
     cat <<EOF
 build.sh - Qtah build script
 
-Builds Qtah for a specific version of Qt's API.  Performs an incremental build,
-unless clean.sh is run first.  Some environment variables control this script's
-operation:
+Builds and installs Qtah for a specific version of Qt's API.  Performs an
+incremental build, unless clean.sh is run first.  Some environment variables
+control this script's operation:
 
   QTAH_QT_FLAG (required):
 
@@ -63,31 +63,16 @@ if ! [[ ${QTAH_QT_FLAG:-} = qt*_* ]]; then
     exit 1
 fi
 
-run "$projectDir/tools/listener-gen.sh" \
-    --gen-cpp-dir "$projectDir/qtah/cpp" \
-    --gen-hs-dir "$projectDir/qtah-generator"
-
 echo
 msg "Generating bindings."
-run mkdir -p "$projectDir/qtah/hs/src/Foreign/Hoppy/Generated"
 run cd "$projectDir/qtah-generator"
 run cabal configure --flags="${QTAH_QT_FLAG}"
 run cabal build
-run dist/build/qtah-generator/qtah-generator \
-    --gen-cpp "$projectDir/qtah/cpp" \
-    --gen-hs "$projectDir/qtah/hs/src"
-
-echo
-msg "Building the C++ library."
-if ! [[ -d $cppBuildDir ]]; then
-    run mkdir "$cppBuildDir"
-fi
-run cd "$cppBuildDir"
-run qmake "$projectDir/qtah/cpp/qtah.pro"
-run make ${MAKEOPTS:-}
+run cabal install --flags="${QTAH_QT_FLAG}"
 
 echo
 msg "Building the Haskell bindings."
-run cd "$projectDir/qtah/hs"
-run cabal configure --extra-lib-dirs="$projectDir/qtah/cpp-build"
+run cd "$projectDir/qtah"
+run cabal configure
 run cabal build
+run cabal install
