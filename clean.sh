@@ -41,6 +41,9 @@ fi
 run cd "$projectDir/qtah"
 run cabal clean
 
+run cd "$projectDir/qtah-cpp"
+run cabal clean
+
 run cd "$projectDir/qtah-generator"
 run cabal clean
 

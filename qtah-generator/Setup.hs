@@ -15,70 +15,50 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+{-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
 {-# LANGUAGE CPP #-}
 
-import Control.Arrow (first)
 import Control.Monad (when)
-import Distribution.PackageDescription (HookedBuildInfo, PackageDescription, extraLibDirs)
+import Distribution.PackageDescription (PackageDescription)
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
 import Distribution.Simple.LocalBuildInfo (
   LocalBuildInfo,
   absoluteInstallDirs,
   bindir,
-  buildDir,
   withPrograms,
   )
 import Distribution.Simple.Program (
   Program,
   ProgramSearchPathEntry (ProgramSearchPathDir),
-  getDbProgramOutput,
-  knownPrograms,
-  lookupProgram,
   programFindLocation,
-  programName,
   runDbProgram,
   simpleProgram,
   )
 import Distribution.Simple.Program.Find (findProgramOnSearchPath)
 import Distribution.Simple.Setup (
-  BuildFlags,
   CleanFlags,
-  ConfigFlags,
   CopyDest (NoCopyDest),
-  CopyFlags,
   cleanVerbosity,
-  configPrograms,
-  flagToMaybe,
   fromFlagOrDefault,
   )
 import Distribution.Simple.UserHooks (
-  Args,
   UserHooks (
-    buildHook,
     hookedPrograms,
     cleanHook,
     copyHook,
     instHook,
-    postConf,
-    preBuild,
-    preConf,
-    preTest
+    postConf
     ),
   )
-import Distribution.Simple.Utils (copyFiles, info, installExecutableFile)
+import Distribution.Simple.Utils (info, installExecutableFile)
 import Distribution.Verbosity (normal, verbose)
 import System.Directory (
   createDirectoryIfMissing,
-  doesDirectoryExist,
   doesFileExist,
   getCurrentDirectory,
-  getDirectoryContents,
-  setCurrentDirectory,
-  removeDirectoryRecursive,
   removeFile,
   )
-import System.FilePath ((</>), joinPath, takeDirectory)
-import System.Posix.Files (createSymbolicLink)
+import System.FilePath ((</>), joinPath)
 
 main :: IO ()
 main = defaultMainWithHooks qtahHooks

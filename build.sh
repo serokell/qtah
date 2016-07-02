@@ -64,15 +64,23 @@ if ! [[ ${QTAH_QT_FLAG:-} = qt*_* ]]; then
 fi
 
 echo
-msg "Generating bindings."
+msg "Building and installing qtah-generator."
 run cd "$projectDir/qtah-generator"
 run cabal configure --flags="${QTAH_QT_FLAG}"
 run cabal build
-run cabal install --flags="${QTAH_QT_FLAG}"
+run cabal install --flags="${QTAH_QT_FLAG}" --force-reinstalls
 
 echo
-msg "Building the Haskell bindings."
+msg "Building and installing qtah-cpp."
+run cd "$projectDir/qtah-cpp"
+run cabal configure  # Uses QT_SELECT.
+run cabal build
+run cabal install --force-reinstalls
+
+echo
+msg "Building and installing qtah."
 run cd "$projectDir/qtah"
 run cabal configure
 run cabal build
-run cabal install
+# TODO Run the tests.
+run cabal install --force-reinstalls
