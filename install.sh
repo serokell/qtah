@@ -2,7 +2,7 @@
 
 # This file is part of Qtah.
 #
-# Copyright 2016 Bryan Gardiner <bog@khumba.net>
+# Copyright 2015-2016 Bryan Gardiner <bog@khumba.net>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Installs an already compiled Qtah.  See --help.
+# Builds and installs Qtah.  See --help.
 
 set -euo pipefail
 projectDir=$(readlink -f "$0")
@@ -27,11 +27,29 @@ declare -r projectDir
 
 usage() {
     cat <<EOF
-install.sh - Qtah install script
+install.sh - Qtah build script
 
-Installs Qtah after it has been compiled with build.sh.  This runs
-"cabal install" on the Haskell package, but doesn't install the C++
-shared library anywhere.
+Builds and installs Qtah for a specific version of Qt's API.  Performs an
+incremental build, unless clean.sh is run first.  Some environment variables
+control this script's operation:
+
+  QTAH_QT_FLAG (required):
+
+    Specifies a version of the Qt API to generate bindings for.  This should be
+    a string of the form "qtX_Y" for Qt version X.Y.  Currently all 4.x and 5.x
+    versions are recognized by this script.
+
+  QT_SELECT:
+
+    For systems with qtchooser(1), this can be used to select which version of
+    the Qt headers and libraries to build against.  If omitted, then your
+    system's default Qt version will be used, and you should set a compatible
+    QTAH_QT_FLAG.
+
+  MAKEOPTS:
+
+    Arguments in this string are passed along to 'make' for building the C++
+    side of the bindings.
 EOF
 }
 
@@ -40,5 +58,29 @@ if [[ ${1:-} = --help ]]; then
     exit 0
 fi
 
-cd "$projectDir/qtah/hs"
-cabal install --extra-lib-dirs="$projectDir/qtah/cpp-build"
+if ! [[ ${QTAH_QT_FLAG:-} = qt*_* ]]; then
+    echo "install.sh: Please set QTAH_QT_FLAG.  See --help."
+    exit 1
+fi
+
+echo
+msg "Building and installing qtah-generator."
+run cd "$projectDir/qtah-generator"
+run cabal configure --flags="${QTAH_QT_FLAG}"
+run cabal build
+run cabal install --flags="${QTAH_QT_FLAG}" --force-reinstalls
+
+echo
+msg "Building and installing qtah-cpp."
+run cd "$projectDir/qtah-cpp"
+run cabal configure  # Uses QT_SELECT.
+run cabal build
+run cabal install --force-reinstalls
+
+echo
+msg "Building and installing qtah."
+run cd "$projectDir/qtah"
+run cabal configure
+run cabal build
+# TODO Run the tests.
+run cabal install --force-reinstalls
