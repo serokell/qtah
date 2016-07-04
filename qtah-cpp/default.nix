@@ -1,6 +1,6 @@
 # This file is part of Qtah.
 #
-# Copyright 2015-2016 Bryan Gardiner <bog@khumba.net>
+# Copyright 2016 Bryan Gardiner <bog@khumba.net>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -15,22 +15,19 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{ mkDerivation, base, binary, bytestring, hoppy-runtime, HUnit
-, qtah-cpp, qtah-generator, stdenv, lib
+{ mkDerivation, base, Cabal, qt, qtah-generator, stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
 mkDerivation ({
-  pname = "qtah";
+  pname = "qtah-cpp";
   version = "0.1.0";
   src = ./.;
-  libraryHaskellDepends = [
-    base binary bytestring hoppy-runtime qtah-cpp
-  ];
+  libraryHaskellDepends = [ base Cabal ];
+  librarySystemDepends = [ qt ];
   libraryToolDepends = [ qtah-generator ];
-  testHaskellDepends = [ base hoppy-runtime HUnit ];
   homepage = "http://khumba.net/projects/qtah";
-  description = "Qt bindings for Haskell";
+  description = "Qt bindings for Haskell - C++ library";
   license = stdenv.lib.licenses.lgpl3Plus;
 
   preConfigure =

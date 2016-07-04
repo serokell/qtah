@@ -1,22 +1,17 @@
 Nix expressions are provided to ease building Qtah within
 [Nixpkgs](https://nixos.org/nixpkgs).  Qtah can be inserted into Nixpkgs with
 the following overrides, after updating `qtahDir` as appropriate for your
-environment.  Hoppy must already be at `haskellPackages.hoppy`; if it's not,
-follow the similar setup instructions for Hoppy.
+environment.
 
     packageOverrides = pkgs:
       let qtahDir = /my/projects/qtah.git;
           qt = pkgs.qt5;
       in rec {
-        qtah-cpp = pkgs.callPackage (qtahDir + /qtah/cpp) {
-          inherit (haskellPackages) qtah-generator;
-          inherit qt;
-        };
-
         haskellPackages = pkgs.haskellPackages.override {
           overrides = self: super: {
-            qtah-generator = self.callPackage (qtahDir + /qtah-generator) { inherit qt };
-            qtah = self.callPackage (qtahDir + /qtah/hs) {};
+            qtah-generator = self.callPackage (qtahDir + /qtah-generator) { inherit qt; };
+            qtah-cpp = self.callPackage (qtahDir + /qtah-cpp) { inherit qt; };
+            qtah = self.callPackage (qtahDir + /qtah) {};
             qtah-examples = self.callPackage (qtahDir + /qtah-examples) {};
           };
         };

@@ -19,7 +19,7 @@
 {-# LANGUAGE CPP #-}
 
 import Control.Monad (when)
-import Data.List (isPrefixOf)
+import Data.List (isInfixOf, isPrefixOf)
 import Distribution.InstalledPackageInfo (libraryDirs)
 import Distribution.Package (PackageName (PackageName))
 import Distribution.PackageDescription (
@@ -87,10 +87,11 @@ qtahCppLibDirFile = "dist/build/qtah-cpp-libdir"
 
 storeQtahCppLibDir :: LocalBuildInfo -> IO ()
 storeQtahCppLibDir localBuildInfo = do
-  -- TODO Find qtah-cpp's installed libdir and write it to a file...
   let pkgs = installedPkgs localBuildInfo
       [(_, [qtahCppPkg])] = lookupPackageName pkgs $ PackageName "qtah-cpp"
-  case libraryDirs qtahCppPkg of
+  -- The filter here is for NixOS, where libraryDirs includes the library
+  -- directories of dependencies as well.
+  case filter (\x -> "qtah-cpp" `isInfixOf` x) $ libraryDirs qtahCppPkg of
     [libDir] -> do createDirectoryIfMissing True $ takeDirectory qtahCppLibDirFile
                    writeFile qtahCppLibDirFile libDir
     libDirs -> fail $ concat ["Expected a single library directory for qtah-cpp, got ",
