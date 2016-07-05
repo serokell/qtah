@@ -99,6 +99,16 @@ flag qrealFloat
      description: Whether Qt was configured with qreal=float instead of double.
      default: False
 
+-- This library is necessary so that qtah-cpp and qtah can build-depends on
+-- qtah-generator.  build-depends requires a library in the target package.
+-- build-tools can't be used because these don't get installed automatically[1]
+-- and Cabal also complained about not being able to find the versions of the
+-- qtah-generator binary, when I tried to specify version dependencies.
+--
+-- [1] https://github.com/haskell/cabal/issues/220
+library
+  default-language: Haskell2010
+
 executable qtah-generator
   build-depends:
       base >=4.7 && <4.9
