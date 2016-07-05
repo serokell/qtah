@@ -46,10 +46,10 @@ control this script's operation:
     system's default Qt version will be used, and you should set a compatible
     QTAH_QT_FLAG.
 
-  MAKEOPTS:
+  QTAH_BUILD_JOBS:
 
-    Arguments in this string are passed along to 'make' for building the C++
-    side of the bindings.
+    This may be a positive integer, to control how many build jobs are run in
+    parallel.
 EOF
 }
 
@@ -67,20 +67,20 @@ echo
 msg "Building and installing qtah-generator."
 run cd "$projectDir/qtah-generator"
 run cabal configure --flags="${QTAH_QT_FLAG}"
-run cabal build
+run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal install --flags="${QTAH_QT_FLAG}" --force-reinstalls
 
 echo
 msg "Building and installing qtah-cpp."
 run cd "$projectDir/qtah-cpp"
 run cabal configure  # Uses QT_SELECT.
-run cabal build
+run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal install --force-reinstalls
 
 echo
 msg "Building and installing qtah."
 run cd "$projectDir/qtah"
 run cabal configure
-run cabal build
+run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 # TODO Run the tests.
 run cabal install --force-reinstalls

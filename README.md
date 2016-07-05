@@ -29,8 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 To build and install locally, run `install.sh`, selecting the version of Qt you
 want to build against in the environment:
 
-    Build and install for Qt 5.4 with four threads:
-    $ QT_SELECT=5 QTAH_QT_FLAG=qt5_4 MAKEOPTS=-j4 ./install.sh
+    Build and install for Qt 5.4 with four parallel jobs:
+    $ QT_SELECT=5 QTAH_QT_FLAG=qt5_4 QTAH_BUILD_JOBS=4 ./install.sh
 
 `QTAH_QT_FLAG` instructs the generator to create bindings for a specific Qt
 version.  `QT_SELECT` is a `qtchooser` variable that selects the version of

@@ -18,7 +18,7 @@
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
 {-# LANGUAGE CPP #-}
 
-import Control.Monad (forM_, when)
+import Control.Monad (forM_, join, when)
 import Data.List (isPrefixOf, isSuffixOf)
 import Distribution.PackageDescription (PackageDescription)
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
@@ -34,10 +34,13 @@ import Distribution.Simple.Program (
   simpleProgram,
   )
 import Distribution.Simple.Setup (
+  BuildFlags,
   CleanFlags,
   CopyDest (NoCopyDest),
+  buildNumJobs,
   cleanVerbosity,
   copyVerbosity,
+  flagToMaybe,
   fromFlagOrDefault,
   installVerbosity,
   )
@@ -73,7 +76,7 @@ qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [generatorProgram, listenerGenProgram, makeProgram, qmakeProgram]
   , postConf = \_ _ _ lbi -> generateSources lbi
-  , buildHook = \pd lbi uh bf -> do doBuild lbi
+  , buildHook = \pd lbi uh bf -> do doBuild lbi bf
                                     buildHook simpleUserHooks pd lbi uh bf
   , copyHook = \pd lbi uh cf -> do let verbosity = fromFlagOrDefault normal $ copyVerbosity cf
                                    installLib verbosity pd lbi
@@ -114,18 +117,19 @@ generateSources localBuildInfo = do
 
   setCurrentDirectory startDir
 
-doBuild :: LocalBuildInfo -> IO ()
-doBuild localBuildInfo = do
-  putStrLn "Building the Qtah C++ library..."
+doBuild :: LocalBuildInfo -> BuildFlags -> IO ()
+doBuild localBuildInfo buildFlags = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       programDb = withPrograms localBuildInfo
 
   setCurrentDirectory cppSourceDir
-  runDbProgram normal makeProgram programDb ["-j4"]
-  -- TODO Pull -j from the environment, this isn't working.
-  -- Also, buildNumJobs isn't present with GHC 7.8.4.
-  -- maybe [] (\j -> ['-':'j':show j]) $ flagToMaybe $ buildNumJobs buildFlags
+  let (makeArgs, jobMsg) = case join $ flagToMaybe $ buildNumJobs buildFlags of
+        Just n -> (["-j" ++ show n],
+                   concat [" with ", show n, if n == 1 then " job" else " jobs"])
+        Nothing -> ([], "")
+  putStrLn $ concat ["Building the Qtah C++ library", jobMsg, "..."]
+  runDbProgram normal makeProgram programDb makeArgs
 
   setCurrentDirectory startDir
 
