@@ -30,7 +30,10 @@ import Distribution.Simple.LocalBuildInfo (
 import Distribution.Simple.Program (
   Program,
   ProgramSearchPathEntry (ProgramSearchPathDir),
+  locationPath,
+  lookupProgram,
   programFindLocation,
+  programLocation,
   runDbProgram,
   simpleProgram,
   )
@@ -50,7 +53,7 @@ import Distribution.Simple.UserHooks (
     postConf
     ),
   )
-import Distribution.Simple.Utils (info, installExecutableFile)
+import Distribution.Simple.Utils (die, info, installExecutableFile)
 import Distribution.Verbosity (normal, verbose)
 import System.Directory (
   createDirectoryIfMissing,
@@ -58,14 +61,14 @@ import System.Directory (
   getCurrentDirectory,
   removeFile,
   )
-import System.FilePath ((</>), joinPath)
+import System.FilePath ((</>), joinPath, takeDirectory)
 
 main :: IO ()
 main = defaultMainWithHooks qtahHooks
 
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
-  { hookedPrograms = [listenerGenProgram]
+  { hookedPrograms = [listenerGenProgram, qmakeProgram]
   , postConf = \_ _ _ lbi -> generateSources lbi
   , copyHook = \pd lbi uh cf -> do doInstall pd lbi
                                    copyHook simpleUserHooks pd lbi uh cf
@@ -82,10 +85,32 @@ listenerGenProgram =
     findProgramOnSearchPath verbosity [ProgramSearchPathDir "."] "qtah-listener-gen"
   }
 
+qmakeProgram :: Program
+qmakeProgram = simpleProgram "qmake"
+
 generateSources :: LocalBuildInfo -> IO ()
 generateSources localBuildInfo = do
   let programDb = withPrograms localBuildInfo
+
+  -- Generate binding sources for the generated C++ listener classes.
   runDbProgram normal listenerGenProgram programDb ["--gen-hs-dir", "."]
+
+  -- Generate a Haskell module that provides location of qmake we found.
+  qmakeConfiguredProgram <-
+    maybe (die "Couldn't find qmake.  Is Qt installed and on the path?") return $
+    lookupProgram qmakeProgram programDb
+  let qmakeLocation = locationPath $ programLocation qmakeConfiguredProgram
+      moduleFile = joinPath ["dist", "build", "autogen", "Graphics", "UI",
+                             "Qtah", "Internal", "Generator", "Configure.hs"]
+  createDirectoryIfMissing True $ takeDirectory moduleFile
+  writeFile moduleFile $ unlines
+    [ "---------- GENERATED FILE, EDITS WILL BE LOST ----------"
+    , ""
+    , "module Graphics.UI.Qtah.Internal.Generator.Configure where"
+    , ""
+    , "qmakePath :: FilePath"
+    , "qmakePath = " ++ show qmakeLocation
+    ]
 
 doInstall :: PackageDescription -> LocalBuildInfo -> IO ()
 doInstall packageDesc localBuildInfo = do

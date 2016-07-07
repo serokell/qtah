@@ -16,29 +16,38 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
-{-# LANGUAGE CPP #-}
 
-import Control.Monad (forM_, join, when)
+import Control.Applicative ((<|>))
+import Control.Monad (forM_, join, unless, when)
+import Data.Char (isDigit)
 import Data.List (isPrefixOf, isSuffixOf)
-import Distribution.PackageDescription (PackageDescription)
+import Data.Maybe (catMaybes, fromMaybe)
+import Distribution.PackageDescription (FlagName (FlagName), PackageDescription)
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
 import Distribution.Simple.LocalBuildInfo (
   LocalBuildInfo,
   absoluteInstallDirs,
+  buildDir,
   libdir,
   withPrograms,
   )
 import Distribution.Simple.Program (
   Program,
+  getProgramOutput,
+  lookupProgram,
   runDbProgram,
   simpleProgram,
   )
 import Distribution.Simple.Setup (
   BuildFlags,
   CleanFlags,
+  ConfigFlags,
   CopyDest (NoCopyDest),
   buildNumJobs,
+  buildVerbosity,
   cleanVerbosity,
+  configConfigurationsFlags,
+  configVerbosity,
   copyVerbosity,
   flagToMaybe,
   fromFlagOrDefault,
@@ -54,8 +63,13 @@ import Distribution.Simple.UserHooks (
     postConf
     ),
   )
-import Distribution.Simple.Utils (info)
-import Distribution.Simple.Utils (installExecutableFile)
+import Distribution.Simple.Utils (
+  die,
+  info,
+  installExecutableFile,
+  installOrdinaryFile,
+  notice,
+  )
 import Distribution.Verbosity (Verbosity, normal)
 import System.Directory (
   createDirectoryIfMissing,
@@ -66,8 +80,12 @@ import System.Directory (
   removeFile,
   )
 import System.IO.Error (catchIOError, isDoesNotExistError)
-import System.FilePath ((</>))
+import System.Environment (lookupEnv, setEnv)
+import System.FilePath ((</>), takeDirectory)
 import System.Posix (createSymbolicLink, getSymbolicLinkStatus)
+
+packageName :: String
+packageName = "qtah-cpp"
 
 main :: IO ()
 main = defaultMainWithHooks qtahHooks
@@ -75,14 +93,14 @@ main = defaultMainWithHooks qtahHooks
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [generatorProgram, listenerGenProgram, makeProgram, qmakeProgram]
-  , postConf = \_ _ _ lbi -> generateSources lbi
+  , postConf = \_ cf _ lbi -> do generateSources cf lbi
   , buildHook = \pd lbi uh bf -> do doBuild lbi bf
                                     buildHook simpleUserHooks pd lbi uh bf
   , copyHook = \pd lbi uh cf -> do let verbosity = fromFlagOrDefault normal $ copyVerbosity cf
-                                   installLib verbosity pd lbi
+                                   doInstall verbosity pd lbi
                                    copyHook simpleUserHooks pd lbi uh cf
   , instHook = \pd lbi uh if' -> do let verbosity = fromFlagOrDefault normal $ installVerbosity if'
-                                    installLib verbosity pd lbi
+                                    doInstall verbosity pd lbi
                                     instHook simpleUserHooks pd lbi uh if'
   , cleanHook = \pd z uh cf -> do doClean cf
                                   cleanHook simpleUserHooks pd z uh cf
@@ -100,20 +118,26 @@ makeProgram = simpleProgram "make"
 qmakeProgram :: Program
 qmakeProgram = simpleProgram "qmake"
 
-generateSources :: LocalBuildInfo -> IO ()
-generateSources localBuildInfo = do
+generateSources :: ConfigFlags -> LocalBuildInfo -> IO ()
+generateSources configFlags localBuildInfo = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       programDb = withPrograms localBuildInfo
 
-  -- TODO Make qtah-generator take the Qt version at runtime, and check here
-  -- that the Qt version matches.
+  -- Parse the Qt version to use from flags and the environment, and export it
+  -- to the generator.
+  (qtMajor, _) <- exportQtVersion configFlags localBuildInfo
 
+  -- Generate binding source code.
   runDbProgram normal generatorProgram programDb ["--gen-cpp", "cpp"]
   runDbProgram normal listenerGenProgram programDb ["--gen-cpp-dir", "cpp"]
 
+  -- Run qmake to generate the makefile.
   setCurrentDirectory cppSourceDir
-  runDbProgram normal qmakeProgram programDb ["qtah.pro"]
+  runDbProgram normal qmakeProgram programDb $
+    catMaybes [ fmap (\n -> "-qt=" ++ show n) qtMajor
+              , Just "qtah.pro"
+              ]
 
   setCurrentDirectory startDir
 
@@ -122,22 +146,25 @@ doBuild localBuildInfo buildFlags = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       programDb = withPrograms localBuildInfo
+      verbosity = fromFlagOrDefault normal $ buildVerbosity buildFlags
 
   setCurrentDirectory cppSourceDir
   let (makeArgs, jobMsg) = case join $ flagToMaybe $ buildNumJobs buildFlags of
         Just n -> (["-j" ++ show n],
                    concat [" with ", show n, if n == 1 then " job" else " jobs"])
         Nothing -> ([], "")
-  putStrLn $ concat ["Building the Qtah C++ library", jobMsg, "..."]
+  notice verbosity $ concat ["Building the Qtah C++ library", jobMsg, "..."]
   runDbProgram normal makeProgram programDb makeArgs
 
   setCurrentDirectory startDir
 
-installLib :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
-installLib verbosity packageDesc localBuildInfo = do
+doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
+doInstall verbosity packageDesc localBuildInfo = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo NoCopyDest
+
+  -- Install the built library into the package's libdir.
   createDirectoryIfMissing True libDir
   forM_ ["libqtah.so", "libqtah.so.0", "libqtah.so.0.1", "libqtah.so.0.1.0"] $ \p -> do
     let path = libDir </> p
@@ -152,6 +179,12 @@ installLib verbosity packageDesc localBuildInfo = do
   createSymbolicLink "libqtah.so.0.1.0" (libDir </> "libqtah.so.0.1")
   createSymbolicLink "libqtah.so.0.1" (libDir </> "libqtah.so.0")
   createSymbolicLink "libqtah.so.0" (libDir </> "libqtah.so")
+
+  -- Also record what version of Qt we are using, so that qtah can check that
+  -- it's using the same version.
+  installOrdinaryFile verbosity
+                      (buildDir localBuildInfo </> "qtah-qt-version")
+                      (libDir </> "qtah-qt-version")
 
 doClean :: CleanFlags -> IO ()
 doClean cleanFlags = do
@@ -178,3 +211,89 @@ doClean cleanFlags = do
           let path = dir </> file
           info verbosity $ concat ["Removing file ", path, "."]
           removeFile path
+
+-- | This function should be called in a 'postConf' hook.  It determines the
+-- requested Qt version based on package flags and the program environment.  The
+-- mutually exclusive package flags @qt4@ and @qt5@ specify a preference on a
+-- major version of Qt.  Additionally, the environment variable @QTAH_QT@ can
+-- either be @x@ or @x.y@ to specify a major or minor version of Qt,
+-- respectively.  If both QTAH_QT and a flag is specified, they must agree on
+-- the major version of Qt.  If using QTAH_QT, it only needs to be set for the
+-- configure phase.  If neither flags nor QTAH_QT are set, then the system
+-- default Qt version (as determined by @qmake@) will be used.  This may be
+-- influenced by @qtchooser@.
+--
+-- This returns the preferred major version of Qt, if there is a preference
+-- (@Maybe Int@), along with the Qt version string returned from qtah-generator
+-- (@String@).
+--
+-- !!! KEEP THIS FUNCTION IN SYNC WITH qtah-cpp/Setup.hs !!!
+exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO (Maybe Int, String)
+exportQtVersion configFlags localBuildInfo = do
+  let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
+      programDb = withPrograms localBuildInfo
+
+  -- Inspect the 'qt4' and 'qt5' package flags.
+  let flags = configConfigurationsFlags configFlags
+      qt4Flag = fromMaybe False $ lookup (FlagName "qt4") flags
+      qt5Flag = fromMaybe False $ lookup (FlagName "qt5") flags
+      qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
+  when (qt4Flag && qt5Flag) $
+    die $ concat
+    [packageName, ": The qt4 and qt5 flags are mutually exclusive.  Please select at most one."]
+
+  -- Inspect the QTAH_QT environment variable.
+  qtahQtStr <- lookupEnv "QTAH_QT"
+  qtahQtMajor <- case qtahQtStr of
+    Just s | not $ null s -> do
+      let majorStr = takeWhile (/= '.') s
+      unless (all isDigit majorStr) $
+        die $ concat [packageName, ": Invalid QTAH_QT value ", show s,
+                      ".  Expected a numeric version string."]
+      return $ Just (read majorStr :: Int)
+    _ -> return Nothing
+
+  -- Determine which version of Qt to use, and put it in QTAH_QT for the
+  -- generator to pick up.
+  case (qtahQtMajor, qtFlag) of
+    -- If both QTAH_QT and one of the qtX flags above is set, then they must agree.
+    (Just m, Just n) -> do
+      when (m /= n) $
+        die $ concat
+        [packageName, ": QTAH_QT=", show $ fromMaybe "" qtahQtStr, " and the qt",
+         show n, " flag conflict."]
+    -- Otherwise, if QTAH_QT is not already set but we have a flag preference,
+    -- then use QTAH_QT to tell qtah-generator about the flag.
+    (Nothing, Just n) -> setEnv "QTAH_QT" $ show n
+    _ -> return ()
+
+  -- Log a message showing which Qt we're requesting.
+  case (qtahQtMajor, qtFlag) of
+    (Just m, _) ->
+      notice verbosity $
+      concat [packageName, ": Requesting Qt ", show m, " because of QTAH_QT=",
+              show $ fromMaybe "" qtahQtStr, "."]
+    (_, Just n) ->
+      notice verbosity $
+      concat [packageName, ": Requesting Qt ", show n, " because of the qt", show n, " flag."]
+    _ -> notice verbosity $ concat [packageName, ": Requesting system default Qt."]
+
+  -- Log a message showing which Qt qtah-generator is actually using.
+  generatorConfiguredProgram <-
+    maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
+    lookupProgram generatorProgram programDb
+  qtVersionOutput <- getProgramOutput verbosity generatorConfiguredProgram ["--qt-version"]
+  qtVersion <- case lines qtVersionOutput of
+    [line] -> return line
+    _ -> die $ concat
+         [packageName, ": Couldn't understand qtah-generator --qt-version output: ",
+          show qtVersionOutput]
+  notice verbosity $
+    concat [packageName, ": Using Qt ", qtVersion, "."]
+
+  -- Record the selected Qt version in a file for later installation.
+  let qtVersionFile = buildDir localBuildInfo </> "qtah-qt-version"
+  createDirectoryIfMissing True $ takeDirectory qtVersionFile
+  writeFile qtVersionFile $ unlines [qtVersion]
+
+  return (qtahQtMajor <|> qtFlag, qtVersion)

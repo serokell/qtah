@@ -97,6 +97,7 @@ import Foreign.Hoppy.Generator.Spec (
   varSetterExtName,
   )
 import Foreign.Hoppy.Generator.Types (objT)
+import Graphics.UI.Qtah.Internal.Flags (qrealFloat)
 import Graphics.UI.Qtah.Internal.Generator.Common (fromMaybeM, writeFileIfDifferent)
 import Graphics.UI.Qtah.Internal.Generator.Types (
   QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal, QtExportSpecials),
@@ -278,7 +279,7 @@ sayQtExport path qtExport = case qtExport of
     addImports importForPrelude
     addExport "QReal"
     ln
-    saysLn ["type QReal = ", if QREAL_FLOAT then "QtahP.Float" else "QtahP.Double"]
+    saysLn ["type QReal = ", if qrealFloat then "QtahP.Float" else "QtahP.Double"]
 
 sayExportClass :: Class -> Generator ()
 sayExportClass cls = do

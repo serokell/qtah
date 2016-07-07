@@ -24,25 +24,35 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+## Table of Contents
+
+- Building
+  - Dependencies
+  - Qt version selection
+- Using
+  - Object lifetimes
+- Code layout
+- Developing
+
 ## Building
-
-To build and install locally, run `install.sh`, selecting the version of Qt you
-want to build against in the environment:
-
-    Build and install for Qt 5.4 with four parallel jobs:
-    $ QT_SELECT=5 QTAH_QT_FLAG=qt5_4 QTAH_BUILD_JOBS=4 ./install.sh
-
-`QTAH_QT_FLAG` instructs the generator to create bindings for a specific Qt
-version.  `QT_SELECT` is a `qtchooser` variable that selects the version of
-`qmake` (see `man qtchooser`).
-
-If you want to change the version of Qt that Qtah is built against, you must
-first clean the existing build outputs (`clean.sh`) before running the build
-script again.
 
 Qtah is split into three separate Cabal packages, `qtah-generator`, `qtah-cpp`,
 and `qtah`, that are built in order.  The first contains a Hoppy generator; the
 second builds generated C++ code; and the third builds generated Haskell code.
+
+To build and install locally, run `install.sh`, optionally specifying the
+version of Qt you want to build against.  There are a few ways to specify this;
+here is one way:
+
+    Build and install for Qt 5 with four parallel jobs:
+    $ QTAH_QT_FLAGS=qt5 QTAH_BUILD_JOBS=4 ./install.sh
+
+The `install.sh` script is just a thin wrapper around running `cabal configure`,
+`build`, `install` on each of the packages in turn.  See the subsection on Qt
+version selection for more information about controlling the version of Qt used.
+If you want to change the version of Qt that Qtah is built against, you must
+first clean the existing build outputs (`clean.sh`) before running the build
+script again.
 
 Packages that use Qtah should only depend on the `qtah` package.  Executables
 that use Qtah should be linked dynamically, by passing the
@@ -64,6 +74,39 @@ installing Qtah:
 - hoppy-runtime
 - hoppy-std
 - mtl
+
+### Qt version selection
+
+Qtah uses custom Cabal build scripts to tie it's pieces together and to Qt.
+There are a few different ways to control the Qt version; we'll describe them
+from the lowest-level one up.
+
+The `qtah-generator` package takes the Qt version to use at runtime.  By
+default, it uses whatever version of Qt is provided by `qmake` (via `qmake
+-version`).  If `qtchooser` is installed on your system, then you can select
+from multiple versions of Qt with e.g. `qmake -qt=5` or `QT_SELECT=5 qmake`
+(valid values here are shown by running `qtchooser -list-versions`).  So putting
+`QT_SELECT` in the environment when building is one way to select the version of
+Qt that Qtah will use.
+
+`qtah-generator` also supports a `QTAH_QT` environment variable.  This takes
+precedence over `QT_SELECT`, and can take version numbers of the form `x.y` or
+`x` (for example `5.4` or `5`).  If given `x.y`, then Qt _x.y_ will be used, no
+questions asked.  If given `x`, then `qmake -qt=x -version` will be queried for
+the version of Qt to use.  So putting `QTAH_QT` in the environment when building
+is another way to select the version of Qt to use, and unlike `QT_SELECT`, you
+can force a specific minor version.
+
+Finally, rather than environment variables, the preferred way of specifying a
+version is to set the `qt4` or `qt5` package flags on `qtah-cpp` and `qtah`.
+This is equivalent to setting `QTAH_QT` but is tracked by Cabal.  At most one of
+these flags may be set, and if `QTAH_QT` is set as well, then they must agree.
+
+Whether using an environment variable or a flag to specify a Qt version, it
+needs to be specified for both `cabal configure` and `cabal install`.
+
+Finally, as a means for setting the `qt4` and `qt5` flags within `install.sh`,
+the environment variable `QTAH_QT_FLAGS` will be passed via `--flags`.
 
 ## Using
 

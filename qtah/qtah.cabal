@@ -13,6 +13,14 @@ build-type: Custom
 -- extra-source-files:
 cabal-version: >=1.10
 
+flag qt4
+  description: Build against Qt 4.
+  default: False
+
+flag qt5
+  description: Build against Qt 5.
+  default: False
+
 library
   exposed-modules:
       Graphics.UI.Qtah.Core.HMargins

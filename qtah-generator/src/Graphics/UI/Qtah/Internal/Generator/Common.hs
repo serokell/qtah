@@ -19,6 +19,7 @@
 
 -- | General routines.
 module Graphics.UI.Qtah.Internal.Generator.Common (
+  splitOn,
   fromMaybeM,
   maybeFail,
   writeFileIfDifferent,
@@ -29,8 +30,22 @@ import Control.Applicative ((<$>))
 #endif
 import Control.Exception (evaluate)
 import Control.Monad (when)
+import Data.List (findIndex)
 import System.Directory (doesFileExist)
 import System.IO (IOMode (ReadMode), hGetContents, withFile)
+
+-- | Splits a list at elements for which a predicate returns true.  The matching
+-- elements themselves are dropped.
+splitWhen :: (a -> Bool) -> [a] -> [[a]]
+splitWhen _ [] = []
+splitWhen f xs = case findIndex f xs of
+  Just index -> let (term, _:rest) = splitAt index xs
+                in term : splitWhen f rest
+  Nothing -> [xs]
+
+-- | Splits a list on a specified element.
+splitOn :: Eq a => a -> [a] -> [[a]]
+splitOn x = splitWhen (== x)
 
 -- | @fromMaybeM m x = maybe m return x@
 fromMaybeM :: Monad m => m a -> Maybe a -> m a

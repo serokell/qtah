@@ -33,23 +33,16 @@ Builds and installs Qtah for a specific version of Qt's API.  Performs an
 incremental build, unless clean.sh is run first.  Some environment variables
 control this script's operation:
 
-  QTAH_QT_FLAG (required):
-
-    Specifies a version of the Qt API to generate bindings for.  This should be
-    a string of the form "qtX_Y" for Qt version X.Y.  Currently all 4.x and 5.x
-    versions are recognized by this script.
-
-  QT_SELECT:
-
-    For systems with qtchooser(1), this can be used to select which version of
-    the Qt headers and libraries to build against.  If omitted, then your
-    system's default Qt version will be used, and you should set a compatible
-    QTAH_QT_FLAG.
-
   QTAH_BUILD_JOBS:
-
     This may be a positive integer, to control how many build jobs are run in
-    parallel.
+    parallel.  Passed as --jobs to cabal build.
+
+  QTAH_QT_FLAGS:
+    This value is passed as --flags to the qtah-cpp and qtah packages, and can
+    be used to set the qtX flags (e.g. qt4, qt5).
+
+  QTAH_QT and QT_SELECT and be used to select Qt versions.  See README.md for
+  more information.
 EOF
 }
 
@@ -58,29 +51,27 @@ if [[ ${1:-} = --help ]]; then
     exit 0
 fi
 
-if ! [[ ${QTAH_QT_FLAG:-} = qt*_* ]]; then
-    echo "install.sh: Please set QTAH_QT_FLAG.  See --help."
-    exit 1
-fi
-
 echo
 msg "Building and installing qtah-generator."
 run cd "$projectDir/qtah-generator"
-run cabal configure --flags="${QTAH_QT_FLAG}"
+run cabal configure
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
-run cabal install --flags="${QTAH_QT_FLAG}" --force-reinstalls
+run cabal install --force-reinstalls
 
 echo
 msg "Building and installing qtah-cpp."
 run cd "$projectDir/qtah-cpp"
-run cabal configure  # Uses QT_SELECT.
+run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"}
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
-run cabal install --force-reinstalls
+run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls
 
 echo
 msg "Building and installing qtah."
 run cd "$projectDir/qtah"
-run cabal configure
+run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"}
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
+# Haddock spews out many thousands of lines about undocumented items, so we
+# silence them.
+run cabal haddock --haddock-options=--no-print-missing-docs
 # TODO Run the tests.
-run cabal install --force-reinstalls
+run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls

@@ -15,8 +15,6 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{-# LANGUAGE CPP #-}
-
 -- | Haskell definitions for preprocessor flags that Qt uses for conditional
 -- compilation.
 --
@@ -35,16 +33,40 @@ module Graphics.UI.Qtah.Internal.Flags (
   wsWince,
   ) where
 
+import Control.Monad (unless)
+import Data.Char (isDigit, isSpace)
+import Data.List (isPrefixOf)
+import Graphics.UI.Qtah.Internal.Generator.Common (splitOn)
+import Graphics.UI.Qtah.Internal.Generator.Configure (qmakePath)
+import System.Environment (lookupEnv)
+import System.Exit (ExitCode (ExitSuccess))
+import System.IO.Unsafe (unsafePerformIO)
+import System.Process (readProcessWithExitCode)
+
 -- | A type synonym for Qt version specifications.  These are just lists of
 -- integers, of length two.  Examples are @[4, 8]@ and @[5, 0]@ to denote
 -- versions 4.8 and 5.0 respectively.  A third component may be used in the
 -- future, if necessary.
 type Version = [Int]
 
--- | The version of Qt that Qtah is being built against.  This controls which
--- functions and types are made available in the API.
+-- | This is initialized at program startup with the version of Qt that the
+-- generator will work with.  This controls which functions and types are made
+-- available in the API.
+--
+-- This is determined the following method:
+--
+-- * If @QTAH_QT=x.y@ is in the environment, then this value will be used.
+--
+-- * Otherwise, if @QTAH_QT=x@ is in the environment, then we query @qmake
+-- -qt=$QTAH_QT -version@ for the version of Qt to use.
+--
+-- * Otherwise, we query @qmake -version@ for the version of Qt to use.  Setting
+-- @QT_SELECT@ in the environment can select a major version of Qt to use.
+--
+-- For more information on @qmake -qt@ and @QT_SELECT@, see @man qtchooser@.
 qtVersion :: Version
-qtVersion = [QT_MAJOR, QT_MINOR]
+qtVersion = unsafePerformIO readQtVersion
+{-# NOINLINE qtVersion #-}
 
 keypadNavigation :: Bool
 keypadNavigation = False
@@ -52,8 +74,79 @@ keypadNavigation = False
 qdoc :: Bool
 qdoc = False
 
+-- | Whether Qt was configured with qreal=float instead of double.
 qrealFloat :: Bool
-qrealFloat = QREAL_FLOAT
+qrealFloat = unsafePerformIO $ readBool "QTAH_QREAL_FLOAT" False
+{-# NOINLINE qrealFloat #-}
 
 wsWince :: Bool
 wsWince = False
+
+-- | Reads a Qt version from the environment variable @QTAH_QT@.  See
+-- 'qtVersion'.
+readQtVersion :: IO Version
+readQtVersion = do
+  maybeStr <- fmap (\x -> case x of
+                      Just "" -> Nothing
+                      _ -> x) $
+              lookupEnv "QTAH_QT"
+  case maybeStr of
+    Just str -> do
+      let strs = splitOn '.' str
+      unless (length strs `elem` [1, 2] && all (\n -> not (null n) && all isDigit n) strs) $
+        fail $ concat
+        ["qtah-generator requires QTAH_QT=x or QTAH_QT=x.y, can't parse value ", show str, "."]
+      let version = map (read :: String -> Int) strs
+      case version of
+        [_, _] -> return version
+        [x] -> queryQmakeQtVersion ["-qt=" ++ show x]
+        _ -> fail $ concat
+             ["qtah-generator: Internal error, incorrect parsing of QTAH_QT value ", show str, "."]
+    Nothing -> queryQmakeQtVersion []
+
+  where queryQmakeQtVersion :: [String] -> IO Version
+        queryQmakeQtVersion extraArgs = do
+          let args = extraArgs ++ ["-version"]
+          (exitCode, out, err) <- readProcessWithExitCode qmakePath args ""
+          let qmakeDebugWords =
+                ["  Ran ", show (qmakePath : args), ".\nStdout:\n", out, "\nStderr:\n", err]
+          unless (exitCode == ExitSuccess) $
+            fail $ concat $ "qtah-generator: qmake returned non-zero exit code." : qmakeDebugWords
+
+          let versionLinePrefix = "Using Qt version "
+
+              maybeVersionStrs = do
+                versionLine <- expectSingle $
+                               filter (versionLinePrefix `isPrefixOf`) $
+                               lines out
+                let str = takeWhile (not . isSpace) $ drop (length versionLinePrefix) versionLine
+                    strs = take 2 $ splitOn '.' str
+                if length strs == 2 && all (\n -> not (null n) && all isDigit n) strs
+                  then Just strs
+                  else Nothing
+
+          case maybeVersionStrs of
+            Just strs -> return $ map (read :: String -> Int) strs
+            Nothing ->
+              fail $ concat $
+              "qtah-generator: Can't parse Qt version from qmake output." : qmakeDebugWords
+
+        expectSingle :: [a] -> Maybe a
+        expectSingle [x] = Just x
+        expectSingle _ = Nothing
+
+-- | Reads a boolean value from the program's environment.  If the variable is
+-- set and non-empty, then if must be one of the strings @true@ or @false@.  An
+-- empty or unset value is treated as the provided default value.
+readBool :: String -> Bool -> IO Bool
+readBool name defaultValue = do
+  maybeStr <- lookupEnv name
+  case maybeStr of
+    Nothing -> return defaultValue
+    Just str -> case str of
+      "" -> return defaultValue
+      "true" -> return True
+      "false" -> return False
+      s -> fail $ concat
+           ["qtah-generator: Expected a boolean value for ", name,
+            " (true/false).  Got ", show s, "."]
