@@ -55,6 +55,7 @@ import Distribution.Simple.Setup (
   cleanVerbosity,
   configConfigurationsFlags,
   configVerbosity,
+  copyVerbosity,
   fromFlagOrDefault,
   installVerbosity,
   )
@@ -62,9 +63,13 @@ import Distribution.Simple.UserHooks (
   UserHooks (
     hookedPrograms,
     cleanHook,
+    copyHook,
     instHook,
     postConf,
     preBuild,
+    preCopy,
+    preInst,
+    preReg,
     preTest
     ),
   )
@@ -96,9 +101,15 @@ qtahHooks = simpleUserHooks
                                  generateSources cf lbi libDir
   , preBuild = \_ _ -> addLibDir
   , preTest = \_ _ -> addLibDir
+  , preCopy = \_ _ -> addLibDir  -- Not sure if necessary, but doesn't hurt.
+  , copyHook = \pd lbi uh cf -> do let verbosity = fromFlagOrDefault normal $ copyVerbosity cf
+                                   doInstall verbosity pd lbi
+                                   copyHook simpleUserHooks pd lbi uh cf
+  , preInst = \_ _ -> addLibDir  -- Not sure if necessary, but doesn't hurt.
   , instHook = \pd lbi uh if' -> do let verbosity = fromFlagOrDefault normal $ installVerbosity if'
                                     doInstall verbosity pd lbi
                                     instHook simpleUserHooks pd lbi uh if'
+  , preReg = \_ _ -> addLibDir  -- Necessary.
   , cleanHook = \pd z uh cf -> do doClean cf
                                   cleanHook simpleUserHooks pd z uh cf
   }
@@ -131,7 +142,7 @@ storeQtahCppLibDir libDir = do
 
 addLibDir :: IO HookedBuildInfo
 addLibDir = do
-  qtahCppLibDir <- readFile "dist/build/qtah-cpp-libdir"
+  qtahCppLibDir <- readFile qtahCppLibDirFile
   return (Just emptyBuildInfo {extraLibDirs = [qtahCppLibDir]}, [])
 
 generatorProgram :: Program
