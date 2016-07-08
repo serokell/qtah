@@ -35,7 +35,7 @@ control this script's operation:
 
   QTAH_BUILD_JOBS:
     This may be a positive integer, to control how many build jobs are run in
-    parallel.  Passed as --jobs to cabal build.
+    parallel.  Passed as --jobs to cabal build and used directly by qtah-cpp.
 
   QTAH_QT_FLAGS:
     This value is passed as --flags to the qtah-cpp and qtah packages, and can

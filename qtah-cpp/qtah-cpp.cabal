@@ -10,8 +10,7 @@ maintainer: Bryan Gardiner <bog@khumba.net>
 copyright: Copyright 2015-2016 Bryan Gardiner
 category: Graphics
 build-type: Custom
--- We use BuildFlags.buildNumJobs, which was introduced in Cabal 1.20.
-cabal-version: >=1.20
+cabal-version: >=1.10
 
 flag qt4
   description: Build against Qt 4.
