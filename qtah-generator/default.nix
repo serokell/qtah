@@ -17,19 +17,14 @@
 
 { mkDerivation, base, containers, directory, filepath, haskell-src
 , hoppy-generator, hoppy-std, mtl, stdenv, lib
-, qt
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
-let
-  qtVersionComponents = lib.strings.splitString "." qt.version;
-  qtMajor = builtins.elemAt qtVersionComponents 0;
-  qtMinor = builtins.elemAt qtVersionComponents 1;
-in mkDerivation ({
+mkDerivation ({
   pname = "qtah-generator";
   version = "0.1.0";
   src = ./.;
-  isLibrary = false;
+  isLibrary = true;
   isExecutable = true;
   executableHaskellDepends = [
     base containers directory filepath haskell-src hoppy-generator
@@ -40,8 +35,6 @@ in mkDerivation ({
   license = stdenv.lib.licenses.lgpl3Plus;
 
   preConfigure = ''
-    configureFlags+="--flags=qt${qtMajor}_${qtMinor}"
-
     ${if forceParallelBuilding
      then "configureFlags+=\" --ghc-option=-j$NIX_BUILD_CORES\""
      else ""}

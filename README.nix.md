@@ -9,9 +9,9 @@ environment.
       in rec {
         haskellPackages = pkgs.haskellPackages.override {
           overrides = self: super: {
-            qtah-generator = self.callPackage (qtahDir + /qtah-generator) { inherit qt; };
+            qtah-generator = self.callPackage (qtahDir + /qtah-generator) {};
             qtah-cpp = self.callPackage (qtahDir + /qtah-cpp) { inherit qt; };
-            qtah = self.callPackage (qtahDir + /qtah) {};
+            qtah = self.callPackage (qtahDir + /qtah) { inherit qt; };
             qtah-examples = self.callPackage (qtahDir + /qtah-examples) {};
           };
         };

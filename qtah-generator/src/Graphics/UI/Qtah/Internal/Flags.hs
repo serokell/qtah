@@ -36,8 +36,8 @@ module Graphics.UI.Qtah.Internal.Flags (
 import Control.Monad (unless)
 import Data.Char (isDigit, isSpace)
 import Data.List (isPrefixOf)
-import Graphics.UI.Qtah.Internal.Generator.Common (splitOn)
-import Graphics.UI.Qtah.Internal.Generator.Configure (qmakePath)
+import Graphics.UI.Qtah.Internal.Generator.Common (fromMaybeM, splitOn)
+import System.Directory (findExecutable)
 import System.Environment (lookupEnv)
 import System.Exit (ExitCode (ExitSuccess))
 import System.IO.Unsafe (unsafePerformIO)
@@ -65,8 +65,8 @@ type Version = [Int]
 --
 -- For more information on @qmake -qt@ and @QT_SELECT@, see @man qtchooser@.
 qtVersion :: Version
-qtVersion = unsafePerformIO readQtVersion
 {-# NOINLINE qtVersion #-}
+qtVersion = unsafePerformIO readQtVersion
 
 keypadNavigation :: Bool
 keypadNavigation = False
@@ -76,8 +76,8 @@ qdoc = False
 
 -- | Whether Qt was configured with qreal=float instead of double.
 qrealFloat :: Bool
-qrealFloat = unsafePerformIO $ readBool "QTAH_QREAL_FLOAT" False
 {-# NOINLINE qrealFloat #-}
+qrealFloat = unsafePerformIO $ readBool "QTAH_QREAL_FLOAT" False
 
 wsWince :: Bool
 wsWince = False
@@ -106,6 +106,7 @@ readQtVersion = do
 
   where queryQmakeQtVersion :: [String] -> IO Version
         queryQmakeQtVersion extraArgs = do
+          qmakePath <- findQMake
           let args = extraArgs ++ ["-version"]
           (exitCode, out, err) <- readProcessWithExitCode qmakePath args ""
           let qmakeDebugWords =
@@ -150,3 +151,11 @@ readBool name defaultValue = do
       s -> fail $ concat
            ["qtah-generator: Expected a boolean value for ", name,
             " (true/false).  Got ", show s, "."]
+
+findQMake :: IO FilePath
+findQMake = lookupEnv "QTAH_QMAKE" >>= fromMaybeM findQmake
+  where findQmake =
+          findExecutable "qmake" >>=
+          fromMaybeM
+          (fail $ "qtah-generator: Can't find qmake.  Please ensure qmake " ++
+           "is installed and set QTAH_QMAKE to qmake's path.")

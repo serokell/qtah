@@ -30,10 +30,7 @@ import Distribution.Simple.LocalBuildInfo (
 import Distribution.Simple.Program (
   Program,
   ProgramSearchPathEntry (ProgramSearchPathDir),
-  locationPath,
-  lookupProgram,
   programFindLocation,
-  programLocation,
   runDbProgram,
   simpleProgram,
   )
@@ -53,7 +50,7 @@ import Distribution.Simple.UserHooks (
     postConf
     ),
   )
-import Distribution.Simple.Utils (die, info, installExecutableFile)
+import Distribution.Simple.Utils (info, installExecutableFile)
 import Distribution.Verbosity (normal, verbose)
 import System.Directory (
   createDirectoryIfMissing,
@@ -61,7 +58,7 @@ import System.Directory (
   getCurrentDirectory,
   removeFile,
   )
-import System.FilePath ((</>), joinPath, takeDirectory)
+import System.FilePath ((</>), joinPath)
 
 main :: IO ()
 main = defaultMainWithHooks qtahHooks
@@ -90,27 +87,9 @@ qmakeProgram = simpleProgram "qmake"
 
 generateSources :: LocalBuildInfo -> IO ()
 generateSources localBuildInfo = do
-  let programDb = withPrograms localBuildInfo
-
   -- Generate binding sources for the generated C++ listener classes.
+  let programDb = withPrograms localBuildInfo
   runDbProgram normal listenerGenProgram programDb ["--gen-hs-dir", "."]
-
-  -- Generate a Haskell module that provides location of qmake we found.
-  qmakeConfiguredProgram <-
-    maybe (die "Couldn't find qmake.  Is Qt installed and on the path?") return $
-    lookupProgram qmakeProgram programDb
-  let qmakeLocation = locationPath $ programLocation qmakeConfiguredProgram
-      moduleFile = joinPath ["dist", "build", "autogen", "Graphics", "UI",
-                             "Qtah", "Internal", "Generator", "Configure.hs"]
-  createDirectoryIfMissing True $ takeDirectory moduleFile
-  writeFile moduleFile $ unlines
-    [ "---------- GENERATED FILE, EDITS WILL BE LOST ----------"
-    , ""
-    , "module Graphics.UI.Qtah.Internal.Generator.Configure where"
-    , ""
-    , "qmakePath :: FilePath"
-    , "qmakePath = " ++ show qmakeLocation
-    ]
 
 doInstall :: PackageDescription -> LocalBuildInfo -> IO ()
 doInstall packageDesc localBuildInfo = do

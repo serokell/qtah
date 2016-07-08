@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 { mkDerivation, base, binary, bytestring, hoppy-runtime, HUnit
-, qtah-cpp, qtah-generator, stdenv, lib
+, qt, qtah-cpp, qtah-generator, stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
 }:
@@ -25,9 +25,9 @@ mkDerivation ({
   version = "0.1.0";
   src = ./.;
   libraryHaskellDepends = [
-    base binary bytestring hoppy-runtime qtah-cpp
+    base binary bytestring hoppy-runtime qtah-cpp qtah-generator
   ];
-  libraryToolDepends = [ qtah-generator ];
+  libraryToolDepends = [ qt ];
   testHaskellDepends = [ base hoppy-runtime HUnit ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Qt bindings for Haskell";

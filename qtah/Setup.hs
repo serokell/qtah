@@ -178,6 +178,7 @@ doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
 doInstall verbosity packageDesc localBuildInfo = do
   -- Record what version of Qt we are using.
   let libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo NoCopyDest
+  createDirectoryIfMissing True libDir
   installOrdinaryFile verbosity
                       (buildDir localBuildInfo </> "qtah-qt-version")
                       (libDir </> "qtah-qt-version")
