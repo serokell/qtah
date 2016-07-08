@@ -23,13 +23,14 @@ import Data.Char (isDigit)
 import Data.List (isInfixOf, isPrefixOf)
 import Data.Maybe (fromMaybe)
 import Distribution.InstalledPackageInfo (libraryDirs)
-import Distribution.Package (PackageName (PackageName))
+import Distribution.Package (PackageName (PackageName), pkgName, unPackageName)
 import Distribution.PackageDescription (
   FlagName (FlagName),
   HookedBuildInfo,
   PackageDescription,
   emptyBuildInfo,
   extraLibDirs,
+  package,
   )
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
 import Distribution.Simple.LocalBuildInfo (
@@ -38,6 +39,7 @@ import Distribution.Simple.LocalBuildInfo (
   buildDir,
   installedPkgs,
   libdir,
+  localPkgDescr,
   withPrograms,
   )
 import Distribution.Simple.PackageIndex (lookupPackageName)
@@ -88,7 +90,12 @@ import System.Environment (lookupEnv, setEnv)
 import System.FilePath ((</>), joinPath, takeDirectory)
 
 packageName :: String
+-- Careful, this line is modified by set-qt-version.sh.
 packageName = "qtah"
+
+cppPackageName :: String
+-- Careful, this line is modified by set-qt-version.sh.
+cppPackageName = "qtah-cpp"
 
 main :: IO ()
 main = defaultMainWithHooks qtahHooks
@@ -120,20 +127,21 @@ qtahCppLibDirFile = "dist/build/qtah-cpp-libdir"
 lookupQtahCppLibDir :: LocalBuildInfo -> IO String
 lookupQtahCppLibDir localBuildInfo = do
   -- Look for an installed qtah-cpp package.
-  qtahCppPkg <- case lookupPackageName (installedPkgs localBuildInfo) $ PackageName "qtah-cpp" of
+  qtahCppPkg <- case lookupPackageName (installedPkgs localBuildInfo) $
+                     PackageName cppPackageName of
     [(_, [qtahCppPkg])] -> return qtahCppPkg
     results ->
       die $ concat
-      [packageName, ": Failed to find a unique qtah-cpp installation.  Found ",
+      [packageName, ": Failed to find a unique ", cppPackageName, " installation.  Found ",
        show results, "."]
 
   -- Look up the libDir of the qtah-cpp we found.  The filter here is for NixOS,
   -- where libraryDirs includes the library directories of dependencies as well.
-  case filter (\x -> "qtah-cpp" `isInfixOf` x) $ libraryDirs qtahCppPkg of
+  case filter (\x -> cppPackageName `isInfixOf` x) $ libraryDirs qtahCppPkg of
     [libDir] -> return libDir
     libDirs -> die $ concat
-               [packageName, ": Expected a single library directory for qtah-cpp, got ",
-                show libDirs, "."]
+               [packageName, ": Expected a single library directory for ",
+                cppPackageName, ", got ", show libDirs, "."]
 
 storeQtahCppLibDir :: FilePath -> IO ()
 storeQtahCppLibDir libDir = do
@@ -168,8 +176,8 @@ generateSources configFlags localBuildInfo qtahCppLibDir = do
     readFile qtahCppQtVersionFile
   when (qtVersion /= qtahCppQtVersion) $
     die $ concat
-    [packageName, ": Qt version mismatch between qtah (", qtVersion, ") and qtah-cpp (",
-     qtahCppQtVersion, ").  Please reconfigure one or the other."]
+    [packageName, ": Qt version mismatch between ", packageName, " (", qtVersion, ") and ",
+     cppPackageName, " (", qtahCppQtVersion, ").  Please reconfigure one or the other."]
 
   -- Generate binding source code.
   runDbProgram verbosity generatorProgram programDb ["--gen-hs", "src"]
@@ -229,15 +237,19 @@ doClean cleanFlags = do
             getDirectoryContents dir
 
 -- | This function should be called in a 'postConf' hook.  It determines the
--- requested Qt version based on package flags and the program environment.  The
--- mutually exclusive package flags @qt4@ and @qt5@ specify a preference on a
--- major version of Qt.  Additionally, the environment variable @QTAH_QT@ can
+-- requested Qt version based on package flags and the program environment.
+--
+-- The mutually exclusive package flags @qt4@ and @qt5@ specify a preference on
+-- a major version of Qt.  Additionally, the environment variable @QTAH_QT@ can
 -- either be @x@ or @x.y@ to specify a major or minor version of Qt,
 -- respectively.  If both QTAH_QT and a flag is specified, they must agree on
 -- the major version of Qt.  If using QTAH_QT, it only needs to be set for the
 -- configure phase.  If neither flags nor QTAH_QT are set, then the system
 -- default Qt version (as determined by @qmake@) will be used.  This may be
 -- influenced by @qtchooser@.
+--
+-- If this package's name ends with @-qtX@, then Qt X (major version only) is
+-- used unconditionally.  This overrides the above methods.
 --
 -- This returns the preferred major version of Qt, if there is a preference
 -- (@Maybe Int@), along with the Qt version string returned from qtah-generator
@@ -249,50 +261,64 @@ exportQtVersion configFlags localBuildInfo = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
 
-  -- Inspect the 'qt4' and 'qt5' package flags.
-  let flags = configConfigurationsFlags configFlags
-      qt4Flag = fromMaybe False $ lookup (FlagName "qt4") flags
-      qt5Flag = fromMaybe False $ lookup (FlagName "qt5") flags
-      qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
-  when (qt4Flag && qt5Flag) $
-    die $ concat
-    [packageName, ": The qt4 and qt5 flags are mutually exclusive.  Please select at most one."]
+  -- Determine what version of Qt to use.
+  let myName = unPackageName $ pkgName $ package $ localPkgDescr localBuildInfo
+  maybeQtMajor <- case reverse myName of
+    -- If the package name ends in "-qtX", then build for Qt X (whatever the
+    -- available minor version is).  Ignore QTAH_QT and package flags.
+    n:'t':'q':'-':_ | isDigit n -> do
+      setEnv "QTAH_QT" [n]
+      notice verbosity $ concat [packageName, ": Requesting Qt ", [n], " because of package name."]
+      return $ Just (read [n] :: Int)
 
-  -- Inspect the QTAH_QT environment variable.
-  qtahQtStr <- lookupEnv "QTAH_QT"
-  qtahQtMajor <- case qtahQtStr of
-    Just s | not $ null s -> do
-      let majorStr = takeWhile (/= '.') s
-      unless (all isDigit majorStr) $
-        die $ concat [packageName, ": Invalid QTAH_QT value ", show s,
-                      ".  Expected a numeric version string."]
-      return $ Just (read majorStr :: Int)
-    _ -> return Nothing
-
-  -- Determine which version of Qt to use, and put it in QTAH_QT for the
-  -- generator to pick up.
-  case (qtahQtMajor, qtFlag) of
-    -- If both QTAH_QT and one of the qtX flags above is set, then they must agree.
-    (Just m, Just n) -> do
-      when (m /= n) $
+    -- Otherwise, we'll inspect the environment and flags.
+    _ -> do
+      -- Inspect the 'qt4' and 'qt5' package flags.
+      let flags = configConfigurationsFlags configFlags
+          qt4Flag = fromMaybe False $ lookup (FlagName "qt4") flags
+          qt5Flag = fromMaybe False $ lookup (FlagName "qt5") flags
+          qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
+      when (qt4Flag && qt5Flag) $
         die $ concat
-        [packageName, ": QTAH_QT=", show $ fromMaybe "" qtahQtStr, " and the qt",
-         show n, " flag conflict."]
-    -- Otherwise, if QTAH_QT is not already set but we have a flag preference,
-    -- then use QTAH_QT to tell qtah-generator about the flag.
-    (Nothing, Just n) -> setEnv "QTAH_QT" $ show n
-    _ -> return ()
+        [packageName, ": The qt4 and qt5 flags are mutually exclusive.  Please select at most one."]
 
-  -- Log a message showing which Qt we're requesting.
-  case (qtahQtMajor, qtFlag) of
-    (Just m, _) ->
-      notice verbosity $
-      concat [packageName, ": Requesting Qt ", show m, " because of QTAH_QT=",
-              show $ fromMaybe "" qtahQtStr, "."]
-    (_, Just n) ->
-      notice verbosity $
-      concat [packageName, ": Requesting Qt ", show n, " because of the qt", show n, " flag."]
-    _ -> notice verbosity $ concat [packageName, ": Requesting system default Qt."]
+      -- Inspect the QTAH_QT environment variable.
+      qtahQtStr <- lookupEnv "QTAH_QT"
+      qtahQtMajor <- case qtahQtStr of
+        Just s | not $ null s -> do
+          let majorStr = takeWhile (/= '.') s
+          unless (all isDigit majorStr) $
+            die $ concat [packageName, ": Invalid QTAH_QT value ", show s,
+                          ".  Expected a numeric version string."]
+          return $ Just (read majorStr :: Int)
+        _ -> return Nothing
+
+      -- Determine which version of Qt to use, and put it in QTAH_QT for the
+      -- generator to pick up.
+      case (qtahQtMajor, qtFlag) of
+        -- If both QTAH_QT and one of the qtX flags above is set, then they must agree.
+        (Just m, Just n) -> do
+          when (m /= n) $
+            die $ concat
+            [packageName, ": QTAH_QT=", show $ fromMaybe "" qtahQtStr, " and the qt",
+             show n, " flag conflict."]
+        -- Otherwise, if QTAH_QT is not already set but we have a flag preference,
+        -- then use QTAH_QT to tell qtah-generator about the flag.
+        (Nothing, Just n) -> setEnv "QTAH_QT" $ show n
+        _ -> return ()
+
+      -- Log a message showing which Qt we're requesting.
+      case (qtahQtMajor, qtFlag) of
+        (Just m, _) ->
+          notice verbosity $
+          concat [packageName, ": Requesting Qt ", show m, " because of QTAH_QT=",
+                  show $ fromMaybe "" qtahQtStr, "."]
+        (_, Just n) ->
+          notice verbosity $
+          concat [packageName, ": Requesting Qt ", show n, " because of the qt", show n, " flag."]
+        _ -> notice verbosity $ concat [packageName, ": Requesting system default Qt."]
+
+      return $ qtahQtMajor <|> qtFlag
 
   -- Log a message showing which Qt qtah-generator is actually using.
   generatorConfiguredProgram <-
@@ -312,4 +338,4 @@ exportQtVersion configFlags localBuildInfo = do
   createDirectoryIfMissing True $ takeDirectory qtVersionFile
   writeFile qtVersionFile $ unlines [qtVersion]
 
-  return (qtahQtMajor <|> qtFlag, qtVersion)
+  return (maybeQtMajor, qtVersion)

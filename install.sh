@@ -51,23 +51,42 @@ if [[ ${1:-} = --help ]]; then
     exit 0
 fi
 
-echo
-msg "Building and installing qtah-generator."
-run cd "$projectDir/qtah-generator"
+commands=" $* "
+
+goToPkg() {
+    pkg=${1:?goToPkg expects a package name.}
+    for suffix in "" -qt4 -qt5; do
+        p=${pkg}${suffix}
+        if [[ -d ${projectDir}/${pkg}${suffix} ]]; then
+            echo
+            msg "Building and installing ${p}."
+            cd "${projectDir}/${p}"
+            return
+        fi
+    done
+    echo "install.sh: Couldn't find package ${pkg}."
+    exit 1
+}
+
+sdist() {
+    if [[ $commands = *\ sdist\ * ]]; then
+        run cabal sdist
+    fi
+}
+
+goToPkg qtah-generator
 run cabal configure
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal install --force-reinstalls
+sdist
 
-echo
-msg "Building and installing qtah-cpp."
-run cd "$projectDir/qtah-cpp"
+goToPkg qtah-cpp
 run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"}
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls
+sdist
 
-echo
-msg "Building and installing qtah."
-run cd "$projectDir/qtah"
+goToPkg qtah
 run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"}
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 # Haddock spews out many thousands of lines about undocumented items, so we
@@ -75,3 +94,11 @@ run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal haddock --haddock-options=--no-print-missing-docs
 # TODO Run the tests.
 run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls
+sdist
+
+if [[ $commands = *\ examples\ * ]] || [[ $commands = *\ sdist\ * ]]; then
+    goToPkg qtah-examples
+    run cabal configure --enable-executable-dynamic
+    run cabal build
+    sdist
+fi

@@ -15,7 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{ mkDerivation, base, binary, bytestring, hoppy-runtime, qtah
+{ mkDerivation, base, binary, bytestring, hoppy-runtime
+# Keep qtah on a line by itself, scripts/set-qt-version looks for it:
+, qtah
 , stdenv, lib
 , enableSplitObjs ? null
 , forceParallelBuilding ? false
@@ -27,7 +29,9 @@ mkDerivation ({
   isLibrary = false;
   isExecutable = true;
   executableHaskellDepends = [
-    base binary bytestring hoppy-runtime qtah
+    base binary bytestring hoppy-runtime
+    # Keep qtah on a line by itself, scripts/set-qt-version looks for it:
+    qtah  # dep
   ];
   homepage = "http://khumba.net/projects/qtah";
   description = "Example programs for Qtah Qt bindings";

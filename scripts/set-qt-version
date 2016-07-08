@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# This file is part of Qtah.
+#
+# Copyright 2016 Bryan Gardiner <bog@khumba.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Modifies the source code for qtah-cpp and qtah so that their Cabal package
+# names are qtah-cpp-qtX and qtah-qtX, for Qt version X.
+
+set -euo pipefail
+qtahDir=$(readlink -f "$0")
+qtahDir=$(dirname "$qtahDir")
+qtahDir=$(dirname "$qtahDir")
+
+qtVersion=${1:?Please pass an integer Qt version.}
+qtX=qt${qtVersion}
+
+cd "${qtahDir}/qtah-cpp"
+
+git mv qtah-cpp.cabal qtah-cpp-${qtX}.cabal
+sed -i "s/^name: qtah-cpp$/name: qtah-cpp-${qtX}/" qtah-cpp-${qtX}.cabal
+sed -i "/^flag /,+3d" qtah-cpp-${qtX}.cabal
+
+sed -i "s/pname = \"qtah-cpp\";/pname = \"qtah-cpp-${qtX}\";/" default.nix
+
+sed -i "s/^packageName = \"qtah-cpp\"\$/packageName = \"qtah-cpp-${qtX}\"/" Setup.hs
+
+cd "${qtahDir}/qtah"
+
+git mv qtah.cabal qtah-${qtX}.cabal
+sed -i "s/^name: qtah$/name: qtah-${qtX}/" qtah-${qtX}.cabal
+sed -i "/^flag /,+3d" qtah-${qtX}.cabal
+sed -i "s/qtah-cpp/qtah-cpp-${qtX}/g" qtah-${qtX}.cabal
+
+sed -i "s/pname = \"qtah\";/pname = \"qtah-${qtX}\";/" default.nix
+sed -i "s/qtah-cpp/qtah-cpp-${qtX}/g" default.nix
+
+sed -i "s/^packageName = \"qtah\"\$/packageName = \"qtah-${qtX}\"/" Setup.hs
+sed -i "s/^cppPackageName = \"qtah-cpp\"\$/cppPackageName = \"qtah-cpp-${qtX}\"/" Setup.hs
+
+cd "${qtahDir}/qtah-examples"
+
+sed -i "s/, qtah\$/, qtah-${qtX}/g" qtah-examples.cabal
+
+sed -i "s/^, qtah\$/, qtah-${qtX}/g" default.nix
+sed -i "s/qtah  # dep/qtah-${qtX}/g" default.nix

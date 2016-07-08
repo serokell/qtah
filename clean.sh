@@ -38,14 +38,12 @@ if [[ ${1:-} = --help ]]; then
     exit 0
 fi
 
-run cd "$projectDir/qtah"
-run cabal clean
-
-run cd "$projectDir/qtah-cpp"
-run cabal clean
-
-run cd "$projectDir/qtah-generator"
-run cabal clean
-
-run cd "$projectDir/qtah-examples"
-run cabal clean
+for pkg in qtah-generator qtah qtah-cpp qtah-examples; do
+    for suffix in "" -qt4 -qt5; do
+        p=${pkg}${suffix}
+        if [[ -d ${projectDir}/${pkg}${suffix} ]]; then
+            run cd "${projectDir}/${pkg}${suffix}"
+            run cabal clean
+        fi
+    done
+done
