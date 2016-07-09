@@ -29,6 +29,7 @@
 /qtah-cpp/cpp/libqtah.so*
 /qtah-cpp/dist
 
+# When using scripts/set-qt-version.
 /qtah-cpp-qt?/cpp/Makefile
 /qtah-cpp-qt?/cpp/b_*
 /qtah-cpp-qt?/cpp/moc_*
@@ -39,17 +40,4 @@
 /qtah-cpp-qt?/dist
 
 /qtah/dist
-/qtah/src/Graphics/UI/Qtah/Core/Q*
-/qtah/src/Graphics/UI/Qtah/Core/Types.hs
-/qtah/src/Graphics/UI/Qtah/Generated
-/qtah/src/Graphics/UI/Qtah/Gui/Q*
-/qtah/src/Graphics/UI/Qtah/Internal/EventListener.hs
-/qtah/src/Graphics/UI/Qtah/Widgets/Q*
-
 /qtah-qt?/dist
-/qtah-qt?/src/Graphics/UI/Qtah/Core/Q*
-/qtah-qt?/src/Graphics/UI/Qtah/Core/Types.hs
-/qtah-qt?/src/Graphics/UI/Qtah/Generated
-/qtah-qt?/src/Graphics/UI/Qtah/Gui/Q*
-/qtah-qt?/src/Graphics/UI/Qtah/Internal/EventListener.hs
-/qtah-qt?/src/Graphics/UI/Qtah/Widgets/Q*

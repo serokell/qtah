@@ -20,7 +20,7 @@
 import Control.Applicative ((<|>))
 import Control.Monad (unless, when)
 import Data.Char (isDigit)
-import Data.List (isInfixOf, isPrefixOf)
+import Data.List (isInfixOf)
 import Data.Maybe (fromMaybe)
 import Distribution.InstalledPackageInfo (libraryDirs)
 import Distribution.Package (PackageName (PackageName), pkgName, unPackageName)
@@ -51,10 +51,8 @@ import Distribution.Simple.Program (
   simpleProgram,
   )
 import Distribution.Simple.Setup (
-  CleanFlags,
   ConfigFlags,
   CopyDest (NoCopyDest),
-  cleanVerbosity,
   configConfigurationsFlags,
   configVerbosity,
   copyVerbosity,
@@ -64,7 +62,6 @@ import Distribution.Simple.Setup (
 import Distribution.Simple.UserHooks (
   UserHooks (
     hookedPrograms,
-    cleanHook,
     copyHook,
     instHook,
     postConf,
@@ -75,19 +72,11 @@ import Distribution.Simple.UserHooks (
     preTest
     ),
   )
-import Distribution.Simple.Utils (die, info, installOrdinaryFile, notice)
+import Distribution.Simple.Utils (die, installOrdinaryFile, notice)
 import Distribution.Verbosity (Verbosity, normal)
-import System.Directory (
-  createDirectoryIfMissing,
-  doesDirectoryExist,
-  doesFileExist,
-  getCurrentDirectory,
-  getDirectoryContents,
-  removeDirectoryRecursive,
-  removeFile,
-  )
+import System.Directory (createDirectoryIfMissing)
 import System.Environment (lookupEnv, setEnv)
-import System.FilePath ((</>), joinPath, takeDirectory)
+import System.FilePath ((</>), takeDirectory)
 
 packageName :: String
 -- Careful, this line is modified by set-qt-version.sh.
@@ -117,8 +106,6 @@ qtahHooks = simpleUserHooks
                                     doInstall verbosity pd lbi
                                     instHook simpleUserHooks pd lbi uh if'
   , preReg = \_ _ -> addLibDir  -- Necessary.
-  , cleanHook = \pd z uh cf -> do doClean cf
-                                  cleanHook simpleUserHooks pd z uh cf
   }
 
 qtahCppLibDirFile :: FilePath
@@ -180,7 +167,9 @@ generateSources configFlags localBuildInfo qtahCppLibDir = do
      cppPackageName, " (", qtahCppQtVersion, ").  Please reconfigure one or the other."]
 
   -- Generate binding source code.
-  runDbProgram verbosity generatorProgram programDb ["--gen-hs", "src"]
+  let srcDir = "dist" </> "build" </> "autogen"
+  createDirectoryIfMissing True srcDir
+  runDbProgram verbosity generatorProgram programDb ["--gen-hs", srcDir]
 
 doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
 doInstall verbosity packageDesc localBuildInfo = do
@@ -190,51 +179,6 @@ doInstall verbosity packageDesc localBuildInfo = do
   installOrdinaryFile verbosity
                       (buildDir localBuildInfo </> "qtah-qt-version")
                       (libDir </> "qtah-qt-version")
-
-doClean :: CleanFlags -> IO ()
-doClean cleanFlags = do
-  startDir <- getCurrentDirectory
-
-  -- Remove generated Haskell sources.
-  delDir $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Generated"]
-  delStartingWithInDir "Q" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Core"]
-  delStartingWithInDir "Q" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Gui"]
-  delStartingWithInDir "Q" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Widgets"]
-  delStartingWithInDir "Types.hs" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Core"]
-  delFile True (startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Internal"])
-    "EventListener.hs"
-
-  where verbosity = fromFlagOrDefault normal $ cleanVerbosity cleanFlags
-
-        delFile checkExists dir file = do
-          let path = dir </> file
-          exists <- if checkExists
-                    then doesFileExist path
-                    else return True
-          when exists $ do
-            info verbosity $ concat ["Removing file ", path, "."]
-            removeFile path
-
-        delDir path = do
-          exists <- doesDirectoryExist path
-          when exists $ do
-            info verbosity $ concat ["Removing directory ", path, "."]
-            removeDirectoryRecursive path
-
-        delIt dir file = do
-          let path = dir </> file
-          fileExists <- doesFileExist path
-          if fileExists
-            then delFile True dir file
-            else do dirExists <- doesDirectoryExist path
-                    when dirExists $ delDir path
-
-        delStartingWithInDir prefix dir = do
-          exists <- doesDirectoryExist dir
-          when exists $
-            mapM_ (delIt dir) .
-            filter (prefix `isPrefixOf`) =<<
-            getDirectoryContents dir
 
 -- | This function should be called in a 'postConf' hook.  It determines the
 -- requested Qt version based on package flags and the program environment.
