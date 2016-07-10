@@ -5,7 +5,7 @@ environment.
 
     packageOverrides = pkgs:
       let qtahDir = /my/projects/qtah.git;
-          qt = pkgs.qt5;
+          qt = pkgs.qt5.qtbase;  # (Or pkgs.qt4.)
       in rec {
         haskellPackages = pkgs.haskellPackages.override {
           overrides = self: super: {
