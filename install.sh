@@ -87,13 +87,15 @@ run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls
 sdist
 
 goToPkg qtah
-run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"}
+run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
+    --enable-tests --enable-executable-dynamic
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
+run cabal test
 # Haddock spews out many thousands of lines about undocumented items, so we
 # silence them.
 run cabal haddock --haddock-options=--no-print-missing-docs
-# TODO Run the tests.
-run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls
+run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
+    --enable-tests --enable-executable-dynamic --force-reinstalls
 sdist
 
 if [[ $commands = *\ examples\ * ]] || [[ $commands = *\ sdist\ * ]]; then
