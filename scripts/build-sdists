@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+# This file is part of Qtah.
+#
+# Copyright 2016 Bryan Gardiner <bog@khumba.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Generates source distribution tarballs (via "cabal sdist") for each of Qtah's
+# packages.  cabal sdist doesn't like exposed-modules and other-modules not
+# existing, so we create some empty files.  They'll be regenerated at configure
+# time.
+
+set -euo pipefail
+projectDir=$(readlink -f "$0")
+projectDir=$(dirname "$projectDir")
+projectDir=$(dirname "$projectDir")
+declare -r projectDir
+. "$projectDir/common.sh"
+
+msg "Cleaning existing build outputs."
+cd "$projectDir"
+./clean.sh
+
+echo
+msg "Building qtah-generator sdist."
+goToPkg qtah-generator
+run touch src/Graphics/UI/Qtah/Internal/Interface/Listener.hs
+run cabal sdist
+
+echo
+msg "Building qtah-cpp sdist."
+goToPkg qtah-cpp
+run cabal sdist
+
+echo
+msg "Building qtah sdist."
+goToPkg qtah
+while read module; do
+    file=src/$(tr . / <<<"$module").hs
+    if ! [[ -e $file ]]; then
+        if ! [[ -d $(dirname "$file") ]]; then
+            run mkdir -p "$(dirname "$file")"
+        fi
+        run touch "$file"
+    fi
+done < <(cat qtah*.cabal | \
+         awk '/^library/ {p=1; next}; /^[a-z]/ {p=0}; p && /Graphics\.UI\.Qtah/' | \
+         tr -d ,)
+run cabal sdist
+
+echo
+msg "Building qtah-examples sdist."
+goToPkg qtah-examples
+run cabal sdist

@@ -53,39 +53,30 @@ fi
 
 commands=" $* "
 
-goToPkg() {
-    pkg=${1:?goToPkg expects a package name.}
-    for variant in "" -qt4 -qt5; do
-        p=${pkg}${variant}
-        if [[ -d ${projectDir}/${pkg}${variant} ]]; then
-            echo
-            msg "Building and installing ${p}."
-            cd "${projectDir}/${p}"
-            return
-        fi
-    done
-    echo "install.sh: Couldn't find package ${pkg}."
-    exit 1
-}
-
 sdist() {
     if [[ $commands = *\ sdist\ * ]]; then
         run cabal sdist
     fi
 }
 
+echo
+msg "Building and installing qtah-generator."
 goToPkg qtah-generator
 run cabal configure
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal install --force-reinstalls
 sdist
 
+echo
+msg "Building and installing qtah-cpp."
 goToPkg qtah-cpp
 run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"}
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --force-reinstalls
 sdist
 
+echo
+msg "Building and installing qtah."
 goToPkg qtah
 run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
     --enable-tests --enable-executable-dynamic
@@ -99,6 +90,8 @@ run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
 sdist
 
 if [[ $commands = *\ examples\ * ]] || [[ $commands = *\ sdist\ * ]]; then
+    echo
+    msg "Building qtah-examples."
     goToPkg qtah-examples
     run cabal configure --enable-executable-dynamic
     run cabal build

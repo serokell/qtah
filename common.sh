@@ -27,3 +27,16 @@ run() {
     echo "*** $*"
     "$@"
 }
+
+goToPkg() {
+    pkg=${1:?goToPkg expects a package name.}
+    for variant in "" -qt4 -qt5; do
+        p=${pkg}${variant}
+        if [[ -d ${projectDir}/${pkg}${variant} ]]; then
+            cd "${projectDir}/${p}"
+            return
+        fi
+    done
+    echo "$0: Couldn't find package ${pkg}."
+    exit 1
+}
