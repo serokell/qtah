@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 - Building
   - Dependencies
   - Qt version selection
+  - Release versions
 - Using
   - Object lifetimes
 - Code layout
@@ -70,13 +71,21 @@ installing Qtah:
 
 ### Dependencies
 
-- Qt 4.x or 5.x
+- Qt 4.x or 5.x with development files
+- make and a C++ compiler
 - GHC 7.8-7.10
 - haskell-src
 - hoppy-generator
 - hoppy-runtime
 - hoppy-std
+- HUnit (for tests)
 - mtl
+
+On Debian and derivatives:
+
+    apt-get install make g++
+    apt-get install qt4-qmake libqt4-dev  # For Qt4.
+    apt-get install qt5-qmake qtbase5-dev  # For Qt5.
 
 ### Qt version selection
 
