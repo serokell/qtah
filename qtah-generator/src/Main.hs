@@ -18,6 +18,7 @@
 module Main where
 
 import Data.Foldable (forM_)
+import Data.List (intercalate)
 import Foreign.Hoppy.Generator.Main (Action (GenHaskell), run)
 import Foreign.Hoppy.Generator.Spec (
   Interface,
@@ -29,15 +30,16 @@ import Foreign.Hoppy.Generator.Spec (
   moduleSetHppPath,
   )
 import qualified Foreign.Hoppy.Generator.Std as Std
-import Graphics.UI.Qtah.Internal.Generator.Common (maybeFail)
-import Graphics.UI.Qtah.Internal.Generator.Module
-import Graphics.UI.Qtah.Internal.Generator.Types
-import qualified Graphics.UI.Qtah.Internal.Interface.Callback as Callback
-import qualified Graphics.UI.Qtah.Internal.Interface.Core as Core
-import qualified Graphics.UI.Qtah.Internal.Interface.EventListener as EventListener
-import qualified Graphics.UI.Qtah.Internal.Interface.Gui as Gui
-import qualified Graphics.UI.Qtah.Internal.Interface.Listener as Listener
-import qualified Graphics.UI.Qtah.Internal.Interface.Widgets as Widgets
+import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Common (maybeFail)
+import Graphics.UI.Qtah.Generator.Module
+import Graphics.UI.Qtah.Generator.Types
+import qualified Graphics.UI.Qtah.Generator.Interface.Callback as Callback
+import qualified Graphics.UI.Qtah.Generator.Interface.Core as Core
+import qualified Graphics.UI.Qtah.Generator.Interface.EventListener as EventListener
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui as Gui
+import qualified Graphics.UI.Qtah.Generator.Interface.Listener as Listener
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets as Widgets
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import System.FilePath (
@@ -77,19 +79,22 @@ main =
       exitFailure
     Right iface -> do
       args <- getArgs
-      actions <- run [iface] args
-      forM_ actions $ \action -> case action of
-        GenHaskell path -> do
-          -- Generate nicely-named Qt modules that will point to the bindings,
-          -- and also contain signal definitions.
-          srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
-                               " to generate Qt modules.") $
-                    findSrcDir path
-          forM_ modules $ \aModule -> case aModule of
-            AHoppyModule _ -> return ()
-            AQtModule qm -> generateModule iface srcDir "Graphics.UI.Qtah" qm
+      case args of
+        ["--qt-version"] -> putStrLn $ intercalate "." $ map show qtVersion
+        _ -> do
+          actions <- run [iface] args
+          forM_ actions $ \action -> case action of
+            GenHaskell path -> do
+              -- Generate nicely-named Qt modules that will point to the bindings,
+              -- and also contain signal definitions.
+              srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
+                                   " to generate Qt modules.") $
+                        findSrcDir path
+              forM_ modules $ \aModule -> case aModule of
+                AHoppyModule _ -> return ()
+                AQtModule qm -> generateModule iface srcDir "Graphics.UI.Qtah" qm
 
-        _ -> return ()
+            _ -> return ()
 
 findSrcDir :: FilePath -> Maybe FilePath
 findSrcDir = go . dropTrailingPathSeparator
