@@ -55,9 +55,9 @@ commands=" $* "
 
 goToPkg() {
     pkg=${1:?goToPkg expects a package name.}
-    for suffix in "" -qt4 -qt5; do
-        p=${pkg}${suffix}
-        if [[ -d ${projectDir}/${pkg}${suffix} ]]; then
+    for variant in "" -qt4 -qt5; do
+        p=${pkg}${variant}
+        if [[ -d ${projectDir}/${pkg}${variant} ]]; then
             echo
             msg "Building and installing ${p}."
             cd "${projectDir}/${p}"

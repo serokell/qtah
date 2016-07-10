@@ -39,10 +39,10 @@ if [[ ${1:-} = --help ]]; then
 fi
 
 for pkg in qtah-generator qtah qtah-cpp qtah-examples; do
-    for suffix in "" -qt4 -qt5; do
-        p=${pkg}${suffix}
-        if [[ -d ${projectDir}/${pkg}${suffix} ]]; then
-            run cd "${projectDir}/${pkg}${suffix}"
+    for variant in "" -qt4 -qt5; do
+        p=${pkg}${variant}
+        if [[ -d ${projectDir}/${pkg}${variant} ]]; then
+            run cd "${projectDir}/${pkg}${variant}"
             run cabal clean
         fi
     done

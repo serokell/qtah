@@ -39,6 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Qtah is split into three separate Cabal packages, `qtah-generator`, `qtah-cpp`,
 and `qtah`, that are built in order.  The first contains a Hoppy generator; the
 second builds generated C++ code; and the third builds generated Haskell code.
+On Hackage, `qtah-cpp` and `qtah` have `-qtX` variants for specific major
+versions of Qt.
 
 To build and install locally, run `install.sh`, optionally specifying the
 version of Qt you want to build against.  There are a few ways to specify this;
@@ -48,15 +50,16 @@ here is one way:
     $ QTAH_QT_FLAGS=qt5 QTAH_BUILD_JOBS=4 ./install.sh
 
 The `install.sh` script is just a thin wrapper around running `cabal configure`,
-`build`, `install` on each of the packages in turn.  See the subsection on Qt
-version selection for more information about controlling the version of Qt used.
-If you want to change the version of Qt that Qtah is built against, you must
-first clean the existing build outputs (`clean.sh`) before running the build
-script again.
+`build`, `install` on each of the packages in turn.  For more information about
+controlling the version of Qt used and the `-qtX` package name variants, see the
+subsections on Qt version selection and release versions.  If you want to change
+the version of Qt that Qtah is built against, you must first clean the existing
+build outputs (`clean.sh`) before running the build script again.
 
-Packages that use Qtah should only depend on the `qtah` package.  Executables
-that use Qtah should be linked dynamically, by passing the
-`--enable-executable-dynamic` flag to `cabal configure` or `cabal install`.
+Packages that use Qtah should only depend on a `qtah-qtX` package (or just
+`qtah` if building locally).  Executables that use Qtah should be linked
+dynamically, by passing the `--enable-executable-dynamic` flag to `cabal
+configure` or `cabal install`.  This includes unit tests.
 
 There is a demo program in `/qtah-examples` that can be built and run after
 installing Qtah:
@@ -97,16 +100,35 @@ the version of Qt to use.  So putting `QTAH_QT` in the environment when building
 is another way to select the version of Qt to use, and unlike `QT_SELECT`, you
 can force a specific minor version.
 
-Finally, rather than environment variables, the preferred way of specifying a
-version is to set the `qt4` or `qt5` package flags on `qtah-cpp` and `qtah`.
-This is equivalent to setting `QTAH_QT` but is tracked by Cabal.  At most one of
-these flags may be set, and if `QTAH_QT` is set as well, then they must agree.
+Rather than environment variables, the preferred way of specifying a version is
+to set the `qt4` or `qt5` package flags on `qtah-cpp` and `qtah`.  This is
+equivalent to setting `QTAH_QT` but is tracked by Cabal.  At most one of these
+flags may be set, and if `QTAH_QT` is set as well, then they must agree.  When
+using `install.sh`, the environment variable `QTAH_QT_FLAGS` will be passed via
+`--flags` to these two packages.
 
 Whether using an environment variable or a flag to specify a Qt version, it
 needs to be specified for both `cabal configure` and `cabal install`.
 
-Finally, as a means for setting the `qt4` and `qt5` flags within `install.sh`,
-the environment variable `QTAH_QT_FLAGS` will be passed via `--flags`.
+### Release versions
+
+Different major versions of Qt can be installed in parallel.  To extend this to
+Haskell, Qtah supports building variant packages for each major Qt version.
+`qtah-cpp` and `qtah` both have `-qtX` variants, e.g. `qtah-cpp-qt5` and
+`qtah-qt5`.  These are what we upload to Hackage.  `qtah-generator` works for
+all Qt versions and doesn't need variants.  We choose separate package names
+because while Cabal supports installing multiple versions of a package at once,
+many other package managers don't.
+
+To create these, run e.g. `scripts/set-qt-version 5` before running
+`install.sh`.  `set-qt-version` renames packages and does source patching as
+necessary for the variant packages to work with each other.  There isn't an undo
+script and `set-qt-version` can't be run multiple times in a row; use Git to
+reset back to HEAD instead.
+
+When `qtah-cpp` and `qtah` have `-qtX` on the end of their package names, they
+always use that major version of Qt, regardless of `QTAH_QT` and `QT_SELECT`.
+The `qtX` package flags are removed by `set-qt-version`.
 
 ## Using
 
