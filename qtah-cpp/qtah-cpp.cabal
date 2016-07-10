@@ -1,7 +1,6 @@
 name: qtah-cpp
 version: 0.1.0
 synopsis: Qt bindings for Haskell - C++ library
--- description:
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
 license-files: LICENSE.GPL, LICENSE.LGPL
@@ -11,6 +10,9 @@ copyright: Copyright 2015-2016 Bryan Gardiner
 category: Graphics
 build-type: Custom
 cabal-version: >=1.10
+description:
+  Qtah is a set of Qt bindings for Haskell.  This package contains the C++ side
+  of the bindings.
 
 extra-source-files:
   cpp/encode.cpp

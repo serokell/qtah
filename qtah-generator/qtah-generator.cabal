@@ -1,7 +1,6 @@
 name: qtah-generator
 version: 0.1.0
 synopsis: Generator for Qtah Qt bindings
--- description:
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
 license-files: LICENSE.GPL, LICENSE.LGPL
@@ -11,6 +10,10 @@ copyright: Copyright 2015-2016 Bryan Gardiner
 category: Graphics
 build-type: Custom
 cabal-version: >=1.10
+description:
+  Qtah is a set of Qt bindings for Haskell.  This package is a Hoppy FFI
+  generator.  You shouldn't need it directly; rather, qtah-cpp and qtah use it
+  as part of their build processes.
 
 extra-source-files:
     qtah-listener-gen

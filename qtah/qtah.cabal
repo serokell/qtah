@@ -1,7 +1,6 @@
 name: qtah
 version: 0.1.0
 synopsis: Qt bindings for Haskell
--- description:
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
 license-files: LICENSE.GPL, LICENSE.LGPL
@@ -10,8 +9,10 @@ maintainer: Bryan Gardiner <bog@khumba.net>
 copyright: Copyright 2015-2016 Bryan Gardiner
 category: Graphics
 build-type: Custom
--- extra-source-files:
 cabal-version: >=1.10
+description:
+  Qtah is a set of Qt bindings for Haskell.  This package contains the Haskell
+  side of the bindings, and is what Qt programs should use directly.
 
 flag qt4
   description: Build against Qt 4.
