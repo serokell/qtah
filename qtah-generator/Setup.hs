@@ -104,7 +104,7 @@ doClean :: CleanFlags -> IO ()
 doClean cleanFlags = do
   startDir <- getCurrentDirectory
   let interfaceDir = startDir </>
-                     joinPath ["src", "Graphics", "UI", "Qtah", "Internal", "Interface"]
+                     joinPath ["src", "Graphics", "UI", "Qtah", "Generator", "Interface"]
   delFile $ interfaceDir </> "Listener.hs"
   delFile $ interfaceDir </> "Listener.hs-boot"
 

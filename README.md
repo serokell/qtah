@@ -214,7 +214,7 @@ have to manage objects you didn't create explicitly with a constructor call.
 ## Code layout
 
 There is a Hoppy generator in `/qtah-generator`.  Within there, all API
-definitions are in `src/Graphics/UI/Qtah/Internal/Interface`.  Generated
+definitions are in `src/Graphics/UI/Qtah/Generator/Interface`.  Generated
 bindings end up in `/qtah-cpp` and `/qtah` for the C++ and Haskell sides,
 respectively.
 

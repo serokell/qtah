@@ -36,7 +36,7 @@ cd "$projectDir"
 echo
 msg "Building qtah-generator sdist."
 goToPkg qtah-generator
-run touch src/Graphics/UI/Qtah/Internal/Interface/Listener.hs
+run touch src/Graphics/UI/Qtah/Generator/Interface/Listener.hs
 run cabal sdist
 
 echo

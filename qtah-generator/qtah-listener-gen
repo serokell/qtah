@@ -190,19 +190,19 @@ fi
 
 if [[ -n $hsDir ]]; then
     msg "Generating Haskell listener binding definitions."
-    exec {fhs}>"$hsDir/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs.new"
+    exec {fhs}>"$hsDir/src/Graphics/UI/Qtah/Generator/Interface/Listener.hs.new"
     say() { echo "$*" >&$fhs; }
 
     say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
     say
-    say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
+    say 'module Graphics.UI.Qtah.Generator.Interface.Listener where'
     say
     say 'import qualified Foreign.Hoppy.Generator.Spec as S'
     say 'import qualified Foreign.Hoppy.Generator.Types as S'
     say 'import qualified Foreign.Hoppy.Generator.Std.String as String'
-    say 'import qualified Graphics.UI.Qtah.Internal.Generator.Types as T'
-    say 'import qualified Graphics.UI.Qtah.Internal.Interface.Callback as C'
-    say 'import qualified Graphics.UI.Qtah.Internal.Interface.Core.QObject as QObject'
+    say 'import qualified Graphics.UI.Qtah.Generator.Types as T'
+    say 'import qualified Graphics.UI.Qtah.Generator.Interface.Callback as C'
+    say 'import qualified Graphics.UI.Qtah.Generator.Interface.Core.QObject as QObject'
     say
     say '{-# ANN module "HLint: ignore Use camelCase" #-}'
 
@@ -246,17 +246,17 @@ if [[ -n $hsDir ]]; then
 
     exec {fhs}>&-
     unset fhs writeHs
-    installGen "$hsDir/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs"{.new,}
+    installGen "$hsDir/src/Graphics/UI/Qtah/Generator/Interface/Listener.hs"{.new,}
 
     # Also generate a GHC .hs-boot file for cycles in the module graph around listeners.
 
     msg "Generating Haskell listener .hs-boot file."
-    exec {fhs}>"$hsDir/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot.new"
+    exec {fhs}>"$hsDir/src/Graphics/UI/Qtah/Generator/Interface/Listener.hs-boot.new"
     say() { echo "$*" >&$fhs; }
 
     say '---------- GENERATED FILE, EDITS WILL BE LOST ----------'
     say
-    say 'module Graphics.UI.Qtah.Internal.Interface.Listener where'
+    say 'module Graphics.UI.Qtah.Generator.Interface.Listener where'
     say
     say 'import Foreign.Hoppy.Generator.Spec (Class)'
     say
@@ -272,5 +272,5 @@ if [[ -n $hsDir ]]; then
 
     exec {fhs}>&-
     unset fhs writeHs
-    installGen "$hsDir/src/Graphics/UI/Qtah/Internal/Interface/Listener.hs-boot"{.new,}
+    installGen "$hsDir/src/Graphics/UI/Qtah/Generator/Interface/Listener.hs-boot"{.new,}
 fi
