@@ -22,7 +22,7 @@ import Control.Monad (forM_, unless, when)
 import Data.Char (isDigit)
 import Data.List (isPrefixOf, isSuffixOf)
 import Data.Maybe (catMaybes, fromMaybe)
-import Distribution.Package (pkgName, unPackageName)
+import Distribution.Package (PackageName (PackageName), pkgName)
 import Distribution.PackageDescription (FlagName (FlagName), PackageDescription, package)
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
 import Distribution.Simple.LocalBuildInfo (
@@ -254,7 +254,7 @@ exportQtVersion configFlags localBuildInfo = do
       programDb = withPrograms localBuildInfo
 
   -- Determine what version of Qt to use.
-  let myName = unPackageName $ pkgName $ package $ localPkgDescr localBuildInfo
+  let PackageName myName = pkgName $ package $ localPkgDescr localBuildInfo
   maybeQtMajor <- case reverse myName of
     -- If the package name ends in "-qtX", then build for Qt X (whatever the
     -- available minor version is).  Ignore QTAH_QT and package flags.
