@@ -24,6 +24,6 @@ executable qtah-examples
     , binary >=0.7 && <0.8
     , bytestring >=0.10 && <0.11
     , hoppy-runtime >=0.2 && <0.3
-    , qtah
+    , qtah >=0.1 && <0.2
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
