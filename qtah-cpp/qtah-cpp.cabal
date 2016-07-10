@@ -12,6 +12,22 @@ category: Graphics
 build-type: Custom
 cabal-version: >=1.10
 
+extra-source-files:
+  cpp/encode.cpp
+  cpp/encode.hpp
+  cpp/event.hpp
+  cpp/qtah.pro
+  cpp/wrap_qapplication.cpp
+  cpp/wrap_qapplication.hpp
+  cpp/wrap_qcoreapplication.cpp
+  cpp/wrap_qcoreapplication.hpp
+  cpp/wrap_qformlayout.cpp
+  cpp/wrap_qformlayout.hpp
+  cpp/wrap_qgridlayout.cpp
+  cpp/wrap_qgridlayout.hpp
+  cpp/wrap_qstring.cpp
+  cpp/wrap_qstring.hpp
+
 flag qt4
   description: Build against Qt 4.
   default: False
