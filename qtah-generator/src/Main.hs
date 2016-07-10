@@ -31,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import qualified Foreign.Hoppy.Generator.Std as Std
 import Graphics.UI.Qtah.Internal.Flags (qtVersion)
+import Graphics.UI.Qtah.Internal.Generator.Common (maybeFail)
 import Graphics.UI.Qtah.Internal.Generator.Module
 import Graphics.UI.Qtah.Internal.Generator.Types
 import qualified Graphics.UI.Qtah.Internal.Interface.Callback as Callback
@@ -41,6 +42,11 @@ import qualified Graphics.UI.Qtah.Internal.Interface.Listener as Listener
 import qualified Graphics.UI.Qtah.Internal.Interface.Widgets as Widgets
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
+import System.FilePath (
+  dropTrailingPathSeparator,
+  takeDirectory,
+  takeFileName,
+  )
 
 mod_std :: Module
 mod_std = moduleModify' Std.mod_std $ do
@@ -78,11 +84,25 @@ main =
         _ -> do
           actions <- run [iface] args
           forM_ actions $ \action -> case action of
-            GenHaskell srcDir -> do
+            GenHaskell path -> do
               -- Generate nicely-named Qt modules that will point to the bindings,
               -- and also contain signal definitions.
+              srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
+                                   " to generate Qt modules.") $
+                        findSrcDir path
               forM_ modules $ \aModule -> case aModule of
                 AHoppyModule _ -> return ()
                 AQtModule qm -> generateModule iface srcDir "Graphics.UI.Qtah" qm
 
             _ -> return ()
+
+findSrcDir :: FilePath -> Maybe FilePath
+findSrcDir = go . dropTrailingPathSeparator
+  where go "" = Nothing
+        go path =
+          let dir = takeDirectory path
+              file = takeFileName path
+          in if file == "src" then Just path
+             else if dir == path
+                  then Nothing  -- Can't go up any more.
+                  else go dir
