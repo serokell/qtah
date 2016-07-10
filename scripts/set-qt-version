@@ -44,6 +44,8 @@ git mv qtah.cabal qtah-${qtX}.cabal
 sed -i "s/^name: qtah$/name: qtah-${qtX}/" qtah-${qtX}.cabal
 sed -i "/^flag qt[0-9]/,+3d" qtah-${qtX}.cabal
 sed -i "s/qtah-cpp/qtah-cpp-${qtX}/g" qtah-${qtX}.cabal
+# Fix the test-suite -> library dep:
+sed -i "s/^    , qtah\$/    , qtah-${qtX}/" qtah-${qtX}.cabal
 
 sed -i "s/pname = \"qtah\";/pname = \"qtah-${qtX}\";/" default.nix
 sed -i "s/qtah-cpp/qtah-cpp-${qtX}/g" default.nix
