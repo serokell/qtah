@@ -32,8 +32,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   - Release versions
 - Using
   - Object lifetimes
-- Code layout
 - Developing
+  - Code layout
+  - Extending the Qt API
 
 ## Building
 
@@ -211,14 +212,31 @@ returned by-value from functions but don't have a native Haskell type.  In these
 cases, they are assigned to the garbage collector so that in general, you do not
 have to manage objects you didn't create explicitly with a constructor call.
 
-## Code layout
+## Developing
+
+Patches welcome!  Please enable the pre-commit hook at `scripts/git-pre-commit`
+which checks lint and copyright/license issues:
+
+    $ ln -s ../../scripts/git-pre-commit .git/hooks/pre-commit
+
+Also please try to fix warnings that your changes introduce, and follow local
+style, or the
+[style guide](https://gitlab.com/khumba/haskell-style/blob/master/haskell-style.md).
+
+### Code layout
 
 There is a Hoppy generator in `/qtah-generator`.  Within there, all API
-definitions are in `src/Graphics/UI/Qtah/Generator/Interface`.  Generated
-bindings end up in `/qtah-cpp` and `/qtah` for the C++ and Haskell sides,
-respectively.
+definitions are in `src/Graphics/UI/Qtah/Generator/Interface`.  Qtah uses the
+following prefixes for naming C++ bindings in the generator:
 
-For each supported Qt class, Hoppy creates the module
+- `c_MyClass` for classes.
+- `e_MyEnum` for enums.
+- `bs_MyBitspace` for bitspaces.
+- `f_MyFunction` for functions.
+- `cb_MyCallback` for callbacks.
+
+Generated bindings end up in `/qtah-cpp` and `/qtah` for the C++ and Haskell
+sides, respectively.  For each supported Qt class, Hoppy creates the module
 `Graphics.UI.Qtah.Generated.<module>.<class>`.  These bindings' names are
 prefixed with their class name, for example
 `Graphics.UI.Qtah.Generated.Core.QPoint.qPoint_setX`.  Rather than expose this
@@ -234,13 +252,72 @@ These wrapper modules are also where Qtah adds support for signals and events,
 using the core support for these in `Graphics.UI.Qtah.Signal` and
 `Graphics.UI.Qtah.Event`.
 
-## Developing
+### Extending the Qt API
 
-Patches welcome!  Please enable the pre-commit hook at `scripts/git-pre-commit`
-which checks lint and copyright/license issues:
+#### To add a method to an existing class
 
-    $ ln -s ../../scripts/git-pre-commit .git/hooks/pre-commit
+Declare the method in the class's interface file in
+`qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/<module>/<class>.hs`.
 
-Also please try to fix warnings that your changes introduce, and follow local
-style, or the
-[style guide](https://gitlab.com/khumba/haskell-style/blob/master/haskell-style.md).
+Check the Qt documentation for mention of when your function was introduced.  If
+you find this out, then add a version check to the method.  See for example
+[QSpinBox](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QSpinBox.hs)
+for how this is done with `test` and `collect`.
+
+#### To add a class
+
+Create a source file in the generator for your class (say `QFoo`):
+
+`qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QFoo.hs`.
+
+Use a similar class as a prototype.  Use `AQtModule` to create declare a module
+for your class (this encompasses both a Haskell module and a Hoppy module).
+List the items that the module will export; this includes your class and may
+include other things such as enums and signals.
+
+You also need to add your new module to the following places:
+
+- `qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets.hs`: This
+  ties your definitions into the generator.
+
+- `qtah-generator/qtah-generator.cabal`: Your definitions need to be part of the
+  generator package.
+
+- `qtah/qtah.cabal` **twice**: These are the API that the generator produces.
+  Add `Graphics.UI.Qtah.Widgets.QFoo` to `exposed-modules` and
+  `Graphics.UI.Qtah.Generated.Widgets.QFoo` to `other-modules`.  (These are
+  actually both generated modules.)
+
+Check the Qt documentation for mention of when your class was introduced.  If
+you find this out, then use `makeQtModuleWithMinVersion` instead of
+`makeQtModule`.  See
+[QFormLayout](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QFormLayout.hs)
+as an example.
+
+**Note:** For classes that moved from QtGui in Qt 4 to QtWidgets in Qt 5, these
+class files always live under `Widgets` in Qtah.
+
+#### To add an enum or bitspace
+
+These are generally associated with a class.  These use `makeQtEnum` or
+`makeQtEnumBitspace` and get included in the associated class's module.  See
+[QMessageBox](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QMessageBox.hs)
+as an example.
+
+#### To add a signal
+
+Declare your signals in a list using `makeSignal` and export them in the
+associated class's module with `QtExportSignal`.  As an example, see
+[QLineEdit](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QLineEdit.hs).
+
+Use `test`/`collect` as necessary for signal with minimum versions different
+from their classes'.
+
+Each type of argument list that a signal can use must have associated listener
+classes and callbacks to provide machinery needed for the signal.  For example,
+the signal `QLineEdit::textChanged(QString)` uses a listener class
+`c_ListenerQString` which uses a callback named `cb_QStringVoid`.  The
+translation from `c_Listener<args>` to `cb_<args>Void` is automatic.  Listeners
+can be added to [qtah-listener-gen](qtah-generator/qtah-listener-gen) and
+callbacks to
+[Callback.hs](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Callback.hs).
