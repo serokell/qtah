@@ -16,7 +16,6 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
-{-# LANGUAGE CPP #-}
 
 import Control.Monad (when)
 import Distribution.PackageDescription (PackageDescription)

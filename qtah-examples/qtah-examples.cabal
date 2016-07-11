@@ -20,7 +20,7 @@ executable qtah-examples
   other-modules:
       Graphics.UI.Qtah.Example.Notepad
   build-depends:
-      base >=4.7 && <4.9
+      base >=4 && <5
     , binary >=0.7 && <0.8
     , bytestring >=0.10 && <0.11
     , hoppy-runtime >=0.2 && <0.3

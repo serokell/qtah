@@ -55,7 +55,7 @@ sed -i "s/^cppPackageName = \"qtah-cpp\"\$/cppPackageName = \"qtah-cpp-${qtX}\"/
 
 cd "${qtahDir}/qtah-examples"
 
-sed -i "s/, qtah\$/, qtah-${qtX}/g" qtah-examples.cabal
+sed -i "s/, qtah /, qtah-${qtX} /g" qtah-examples.cabal
 
 sed -i "s/^, qtah\$/, qtah-${qtX}/g" default.nix
 sed -i "s/qtah  # dep/qtah-${qtX}/g" default.nix
