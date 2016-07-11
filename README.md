@@ -252,11 +252,22 @@ These wrapper modules are also where Qtah adds support for signals and events,
 using the core support for these in `Graphics.UI.Qtah.Signal` and
 `Graphics.UI.Qtah.Event`.
 
+Items in the `Qt::` namespace go into
+[Types.hs](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Core/Types.hs).
+
+There are some circular dependencies among API definition modules, such as
+between `QString` and `QChar`.  In these cases, GHC's circular import support
+makes this easy to solve: pick one of the modules in the cycle, create a
+[.hs-boot](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Core/QString.hs-boot)
+file, and change the
+[dependent module(s)](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Core/QChar.hs)
+to use `import {-# SOURCE #-}`.
+
 ### Extending the Qt API
 
 #### To add a method to an existing class
 
-Declare the method in the class's interface file in
+Declare the method in the class's interface file
 `qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/<module>/<class>.hs`.
 
 Check the Qt documentation for mention of when your function was introduced.  If
@@ -299,8 +310,8 @@ class files always live under `Widgets` in Qtah.
 
 #### To add an enum or bitspace
 
-These are generally associated with a class.  These use `makeQtEnum` or
-`makeQtEnumBitspace` and get included in the associated class's module.  See
+These are generally associated with a class.  Use `makeQtEnum` or
+`makeQtEnumBitspace` and include it in the associated class's module.  See
 [QMessageBox](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QMessageBox.hs)
 as an example.
 
