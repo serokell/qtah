@@ -89,6 +89,9 @@ while read file; do
                 grep -qF 'GNU Lesser General Public License' "$file" && \
                 grep -qF 'either version 3 of the License, or' "$file" && \
                 grep -qF '(at your option) any later version.' "$file";;
+        *CHANGELOG*)
+            # Changelogs don't need copyright/license notices.
+            true;;
         *LICENSE*)
             # License files are assumed to be okay.
             true;;
@@ -143,7 +146,7 @@ while read file; do
         fi
         echo "$file"
     fi
-done < <(git --no-pager diff --name-only --cached . | grep -v LICENSE)
+done < <(git --no-pager diff --name-only --cached . | grep -ve CHANGELOG -e LICENSE)
 
 if [[ $whitespaceResult -ne 0 ]] || \
     [[ $tabsResult -ne 0 ]] || \
