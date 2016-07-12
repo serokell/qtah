@@ -19,8 +19,10 @@
 
 # Generates source distribution tarballs (via "cabal sdist") for each of Qtah's
 # packages.  cabal sdist doesn't like exposed-modules and other-modules not
-# existing, so we create some empty files.  They'll be regenerated at configure
-# time.
+# existing[1], so we create some empty files.  They'll be regenerated at
+# configure time.
+#
+# [1] https://github.com/haskell/cabal/issues/719
 
 set -euo pipefail
 projectDir=$(readlink -f "$0")
