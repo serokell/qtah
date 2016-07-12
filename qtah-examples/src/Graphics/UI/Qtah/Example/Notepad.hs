@@ -17,34 +17,45 @@
 
 {-# LANGUAGE ScopedTypeVariables #-}
 
--- | The Qt notepad example.
+-- | A notepad based on the Qt notepad example.
 module Graphics.UI.Qtah.Example.Notepad (run) where
 
-import Control.Monad (unless)
+import Control.Monad (forM_, unless, when)
+import Data.Bits ((.|.))
+import Data.Functor (void)
+import Data.IORef (IORef, newIORef, readIORef, writeIORef)
 import Foreign.Hoppy.Runtime (withScopedPtr)
 import qualified Graphics.UI.Qtah.Core.QCoreApplication as QCoreApplication
 import Graphics.UI.Qtah.Event
 import Graphics.UI.Qtah.Gui.QCloseEvent (QCloseEvent)
 import Graphics.UI.Qtah.Signal (connect_)
-import Graphics.UI.Qtah.Widgets.QAbstractButton (clickedSignal)
+import qualified Graphics.UI.Qtah.Core.QEvent as QEvent
+import qualified Graphics.UI.Qtah.Widgets.QAction as QAction
 import Graphics.UI.Qtah.Widgets.QAction (triggeredSignal)
 import qualified Graphics.UI.Qtah.Widgets.QApplication as QApplication
 import qualified Graphics.UI.Qtah.Widgets.QFileDialog as QFileDialog
-import qualified Graphics.UI.Qtah.Widgets.QLayout as QLayout
 import qualified Graphics.UI.Qtah.Widgets.QMainWindow as QMainWindow
 import Graphics.UI.Qtah.Widgets.QMainWindow (QMainWindow)
 import qualified Graphics.UI.Qtah.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Widgets.QMenuBar as QMenuBar
-import qualified Graphics.UI.Qtah.Widgets.QPushButton as QPushButton
+import qualified Graphics.UI.Qtah.Widgets.QMessageBox as QMessageBox
 import qualified Graphics.UI.Qtah.Widgets.QTextEdit as QTextEdit
-import Graphics.UI.Qtah.Widgets.QTextEdit (QTextEdit)
-import qualified Graphics.UI.Qtah.Widgets.QVBoxLayout as QVBoxLayout
+import Graphics.UI.Qtah.Widgets.QTextEdit (
+  QTextEdit,
+  copyAvailableSignal,
+  redoAvailableSignal,
+  textChangedSignal,
+  undoAvailableSignal,
+  )
 import qualified Graphics.UI.Qtah.Widgets.QWidget as QWidget
 import System.Environment (getArgs)
+import System.FilePath (takeFileName)
 
 data Notepad = Notepad
   { myWindow :: QMainWindow
   , myText :: QTextEdit
+  , myFilePathRef :: IORef (Maybe FilePath)
+  , myDirtyRef :: IORef Bool
   }
 
 run :: IO ()
@@ -58,64 +69,157 @@ makeMainWindow = do
   window <- QMainWindow.new
 
   menu <- QMenuBar.new
-  menuFile <- QMenuBar.addNewMenu menu "&File"
-  menuFileNew <- QMenu.addNewAction menuFile "&New"
-  menuFileOpen <- QMenu.addNewAction menuFile "&Open"
-  menuFileSave <- QMenu.addNewAction menuFile "&Save"
   QMainWindow.setMenuBar window menu
 
-  contents <- QWidget.new
-  layout <- QVBoxLayout.new
-  QWidget.setLayout contents layout
+  menuFile <- QMenuBar.addNewMenu menu "&File"
+  menuFileNew <- QMenu.addNewAction menuFile "&New"
+  menuFileOpen <- QMenu.addNewAction menuFile "&Open..."
+  menuFileSave <- QMenu.addNewAction menuFile "&Save"
+  menuFileSaveAs <- QMenu.addNewAction menuFile "Sa&ve as..."
+  _ <- QMenu.addSeparator menuFile
+  menuFileQuit <- QMenu.addNewAction menuFile "&Quit"
+
+  menuEdit <- QMenuBar.addNewMenu menu "&Edit"
+  menuEditUndo <- QMenu.addNewAction menuEdit "&Undo"
+  menuEditRedo <- QMenu.addNewAction menuEdit "&Redo"
+  _ <- QMenu.addSeparator menuEdit
+  menuEditCut <- QMenu.addNewAction menuEdit "Cu&t"
+  menuEditCopy <- QMenu.addNewAction menuEdit "&Copy"
+  menuEditPaste <- QMenu.addNewAction menuEdit "&Paste"
+  _ <- QMenu.addSeparator menuEdit
+  menuEditSelectAll <- QMenu.addNewAction menuEdit "Select all"
+  forM_ [menuEditUndo, menuEditRedo, menuEditCut, menuEditCopy] $ \action ->
+    QAction.setEnabled action False
 
   text <- QTextEdit.new
-  quitButton <- QPushButton.newWithText "Quit"
-  QLayout.addWidget layout text
-  QLayout.addWidget layout quitButton
-  QMainWindow.setCentralWidget window contents
+  QMainWindow.setCentralWidget window text
+  QTextEdit.setUndoRedoEnabled text True
+
+  filePathRef <- newIORef Nothing
+  dirtyRef <- newIORef False
 
   let me = Notepad
            { myWindow = window
            , myText = text
+           , myFilePathRef = filePathRef
+           , myDirtyRef = dirtyRef
            }
 
-  _ <- onEvent window $ \(_ :: QCloseEvent) -> do
-    putStrLn "Goodbye!"
-    return False
+  _ <- onEvent window $ \(event :: QCloseEvent) -> do
+    continue <- confirmSaveIfDirty me "Quit"
+    unless continue $ QEvent.ignore event
+    return $ not continue
 
   connect_ menuFileNew triggeredSignal $ \_ -> fileNew me
   connect_ menuFileOpen triggeredSignal $ \_ -> fileOpen me
-  connect_ menuFileSave triggeredSignal $ \_ -> fileSave me
-  connect_ quitButton clickedSignal $ \_ -> QWidget.close window
+  connect_ menuFileSave triggeredSignal $ \_ -> void $ fileSave me
+  connect_ menuFileSaveAs triggeredSignal $ \_ -> void $ fileSaveAs me
+  connect_ menuFileQuit triggeredSignal $ \_ -> QWidget.close window
 
+  connect_ menuEditUndo triggeredSignal $ \_ -> QTextEdit.undo text
+  connect_ menuEditRedo triggeredSignal $ \_ -> QTextEdit.redo text
+  connect_ menuEditCut triggeredSignal $ \_ -> QTextEdit.cut text
+  connect_ menuEditCopy triggeredSignal $ \_ -> QTextEdit.copy text
+  connect_ menuEditPaste triggeredSignal $ \_ -> QTextEdit.paste text
+  connect_ menuEditSelectAll triggeredSignal $ \_ -> QTextEdit.selectAll text
+
+  connect_ text textChangedSignal $ setDirty me True
+  connect_ text undoAvailableSignal $ \b -> QAction.setEnabled menuEditUndo b
+  connect_ text redoAvailableSignal $ \b -> QAction.setEnabled menuEditRedo b
+  connect_ text copyAvailableSignal $ \b -> do
+    QAction.setEnabled menuEditCut b
+    QAction.setEnabled menuEditCopy b
+
+  updateTitle me
   return window
 
 fileNew :: Notepad -> IO ()
-fileNew me = QTextEdit.setText (myText me) ""
+fileNew me = do
+  continue <- confirmSaveIfDirty me "New file"
+  when continue $ do
+    QTextEdit.clear $ myText me
+    setFilePath me Nothing
+    setDirty me False
 
 fileOpen :: Notepad -> IO ()
 fileOpen me = do
-  fileName <- QFileDialog.getOpenFileName
-              (myWindow me)
-              "Open File"
-              ""
-              fileDialogFilter
+  continue <- confirmSaveIfDirty me "Open file"
+  when continue $ do
+    path <- QFileDialog.getOpenFileName (myWindow me) "Open file" "" fileDialogFilter
+    unless (null path) $ do
+      contents <- readFile path
+      QTextEdit.setText (myText me) contents
+      setFilePath me $ Just path
+      setDirty me False
 
-  unless (null fileName) $ do
-    contents <- readFile fileName
-    QTextEdit.setText (myText me) contents
-
-fileSave :: Notepad -> IO ()
+-- | Returns true if the save was performed.
+fileSave :: Notepad -> IO Bool
 fileSave me = do
-  fileName <- QFileDialog.getSaveFileName
-              (myWindow me)
-              "Save File"
-              ""
-              fileDialogFilter
+  pathMaybe <- readIORef $ myFilePathRef me
+  case pathMaybe of
+    Nothing -> fileSaveAs me
+    Just path -> do
+      contents <- QTextEdit.toPlainText $ myText me
+      writeFile path contents
+      setDirty me False
+      return True
 
-  unless (null fileName) $ do
-    contents <- QTextEdit.toPlainText $ myText me
-    writeFile fileName contents
+-- | Returns true if the save was performed.
+fileSaveAs :: Notepad -> IO Bool
+fileSaveAs me = do
+  path <- QFileDialog.getSaveFileName
+          (myWindow me)
+          "Save file"
+          ""
+          fileDialogFilter
+
+  if null path
+    then return False
+    else do setFilePath me $ Just path
+            fileSave me
+
+-- | Returns true if the surrounding action should continue: that is, if the
+-- editor was not dirty, or if the editor was dirty and the save was performed.
+confirmSaveIfDirty :: Notepad -> String -> IO Bool
+confirmSaveIfDirty me title = do
+  let dirtyRef = myDirtyRef me
+  dirty <- readIORef dirtyRef
+  if dirty
+    then do response <- QMessageBox.questionWithButtons
+                        (myWindow me)
+                        title
+                        "There are unsaved changes.  Would you like to save them?"
+                        (QMessageBox.qMessageBoxStandardButtons_Yes .|.
+                         QMessageBox.qMessageBoxStandardButtons_No .|.
+                         QMessageBox.qMessageBoxStandardButtons_Cancel)
+                        QMessageBox.QMessageBoxStandardButton_Cancel
+            case response of
+              QMessageBox.QMessageBoxStandardButton_Yes -> fileSave me
+              QMessageBox.QMessageBoxStandardButton_No -> return True
+              _ -> return False
+    else return True
+
+setDirty :: Notepad -> Bool -> IO ()
+setDirty me dirty = do
+  let ref = myDirtyRef me
+  dirtyOld <- readIORef ref
+  when (dirty /= dirtyOld) $ do
+    writeIORef ref dirty
+    updateTitle me
+
+setFilePath :: Notepad -> Maybe FilePath -> IO ()
+setFilePath me path = do
+  writeIORef (myFilePathRef me) path
+  updateTitle me
+
+updateTitle :: Notepad -> IO ()
+updateTitle me = do
+  dirty <- readIORef $ myDirtyRef me
+  file <- fmap (maybe "(Untitled)" takeFileName) $ readIORef $ myFilePathRef me
+  QWidget.setWindowTitle (myWindow me) $
+    (if dirty then ('*':) else id) $
+    file ++ " - Notepad"
 
 fileDialogFilter :: String
-fileDialogFilter = "Text Files (*.txt);;C++ Files (*.cpp *.h);;All Files (*)"
+fileDialogFilter =
+  "Text Files (*.txt);;Haskell sources (*.hs *.hs-boot *.lhs *.chs);;All Files (*)"

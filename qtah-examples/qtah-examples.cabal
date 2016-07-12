@@ -23,6 +23,7 @@ executable qtah-examples
       base >=4 && <5
     , binary >=0.7 && <0.8
     , bytestring >=0.10 && <0.11
+    , filepath >=1.0 && <1.5
     , hoppy-runtime >=0.2 && <0.3
     , qtah >=0.1 && <0.2
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
