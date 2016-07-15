@@ -95,20 +95,23 @@ There are a few different ways to control the Qt version; we'll describe them
 from the lowest-level one up.
 
 The `qtah-generator` package takes the Qt version to use at runtime.  By
-default, it uses whatever version of Qt is provided by `qmake` (via `qmake
--version`).  If `qtchooser` is installed on your system, then you can select
-from multiple versions of Qt with e.g. `qmake -qt=5` or `QT_SELECT=5 qmake`
-(valid values here are shown by running `qtchooser -list-versions`).  So putting
+default, it uses whatever version of Qt is provided by QMake (via `qmake
+-version`).  If qtchooser is installed on your system, then you can select from
+multiple versions of Qt with e.g. `qmake -qt=5` or `QT_SELECT=5 qmake` (valid
+values here are shown by running `qtchooser -list-versions`).  So putting
 `QT_SELECT` in the environment when building is one way to select the version of
 Qt that Qtah will use.
 
 `qtah-generator` also supports a `QTAH_QT` environment variable.  This takes
 precedence over `QT_SELECT`, and can take version numbers of the form `x.y` or
 `x` (for example `5.4` or `5`).  If given `x.y`, then Qt _x.y_ will be used, no
-questions asked.  If given `x`, then `qmake -qt=x -version` will be queried for
-the version of Qt to use.  So putting `QTAH_QT` in the environment when building
-is another way to select the version of Qt to use, and unlike `QT_SELECT`, you
-can force a specific minor version.
+questions asked.  If given `x`, then QMake will be queried for the version of Qt
+to use.  First `qmake -version` will be queried, and if this turns out to be a
+different major version of Qt, then `qmake -qt=x -version` will be queried (this
+lets `QTAH_QT=x` work on systems such as NixOS that activate a single Qt and
+don't have qtchooser).  So putting `QTAH_QT` in the environment when building is
+another way to select the version of Qt to use, and unlike `QT_SELECT`, you can
+force a specific minor version.
 
 Rather than environment variables, the preferred way of specifying a version is
 to set the `qt4` or `qt5` package flags on `qtah-cpp` and `qtah`.  This is
@@ -321,7 +324,7 @@ Declare your signals in a list using `makeSignal` and export them in the
 associated class's module with `QtExportSignal`.  As an example, see
 [QLineEdit](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Widgets/QLineEdit.hs).
 
-Use `test`/`collect` as necessary for signal with minimum versions different
+Use `test`/`collect` as necessary for signals with minimum versions different
 from their classes'.
 
 Each type of argument list that a signal can use must have associated listener

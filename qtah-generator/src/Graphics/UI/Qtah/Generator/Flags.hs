@@ -99,13 +99,30 @@ readQtVersion = do
       let version = map (read :: String -> Int) strs
       case version of
         [_, _] -> return version
-        [x] -> queryQmakeQtVersion ["-qt=" ++ show x]
+        [x] -> queryQmakeQtVersion $ Just x
         _ -> fail $ concat
              ["qtah-generator: Internal error, incorrect parsing of QTAH_QT value ", show str, "."]
-    Nothing -> queryQmakeQtVersion []
+    Nothing -> queryQmakeQtVersion Nothing
 
-  where queryQmakeQtVersion :: [String] -> IO Version
-        queryQmakeQtVersion extraArgs = do
+  where queryQmakeQtVersion :: Maybe Int -> IO Version
+        queryQmakeQtVersion maybePreferredMajorVersion = do
+          case maybePreferredMajorVersion of
+            Nothing ->
+              -- No major version preference, so take whatever Qt is available.
+              queryQmakeQtVersion' []
+            Just preferredMajorVersion -> do
+              -- Even though we have a preferred major version, we don't want to
+              -- run "qmake -qt=X -version" initially because we might be on a
+              -- system (NixOS) where qtchooser isn't available and the only
+              -- qmake available *is* the desired version.  Only pass "-qt=X" if
+              -- we get the wrong default version.
+              defaultVersion <- queryQmakeQtVersion' []
+              case defaultVersion of
+                (x:_) | x == preferredMajorVersion -> return defaultVersion
+                _ -> queryQmakeQtVersion' ["-qt=" ++ show preferredMajorVersion]
+
+        queryQmakeQtVersion' :: [String] -> IO Version
+        queryQmakeQtVersion' extraArgs = do
           qmakePath <- findQMake
           let args = extraArgs ++ ["-version"]
           (exitCode, out, err) <- readProcessWithExitCode qmakePath args ""
