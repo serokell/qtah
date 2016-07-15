@@ -2,7 +2,7 @@
 
 This roughly follows the structure at: http://keepachangelog.com/
 
-# Unreleased
+## Unreleased
 ### Added
 
 - The notepad example is a much more usable program now.
