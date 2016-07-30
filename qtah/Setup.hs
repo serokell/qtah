@@ -163,7 +163,7 @@ generateSources configFlags localBuildInfo qtahCppLibDir = do
 
   -- Parse the Qt version to use from flags and the environment, and export it
   -- to the generator.
-  (_, qtVersion) <- exportQtVersion configFlags localBuildInfo
+  qtVersion <- exportQtVersion configFlags localBuildInfo
 
   -- Ensure that we're using the same version of Qt that qtah-cpp is.
   let qtahCppQtVersionFile = qtahCppLibDir </> "qtah-qt-version"
@@ -237,7 +237,8 @@ doClean cleanFlags = do
             getDirectoryContents dir
 
 -- | This function should be called in a 'postConf' hook.  It determines the
--- requested Qt version based on package flags and the program environment.
+-- requested Qt version based on package flags and the program environment, and
+-- sets the environment variables @QTAH_QT@ and @QT_SELECT@ appropriately.
 --
 -- The mutually exclusive package flags @qt4@ and @qt5@ specify a preference on
 -- a major version of Qt.  Additionally, the environment variable @QTAH_QT@ can
@@ -256,12 +257,14 @@ doClean cleanFlags = do
 -- (@String@).
 --
 -- !!! KEEP THIS FUNCTION IN SYNC WITH qtah-cpp/Setup.hs !!!
-exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO (Maybe Int, String)
+exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO String
 exportQtVersion configFlags localBuildInfo = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
 
-  -- Determine what version of Qt to use.
+  -- Determine what version of Qt to use.  If we have a Qt version preference
+  -- specified, either through package flags or through QTAH_QT, then
+  -- maybeQtMajor will get that value.
   let PackageName myName = pkgName $ package $ localPkgDescr localBuildInfo
   maybeQtMajor <- case reverse myName of
     -- If the package name ends in "-qtX", then build for Qt X (whatever the
@@ -320,6 +323,13 @@ exportQtVersion configFlags localBuildInfo = do
 
       return $ qtahQtMajor <|> qtFlag
 
+  -- If we have a major version preference, then set QT_SELECT in case we're
+  -- calling QMake.  We use QT_SELECT over "-qt=X" because it doesn't break when
+  -- qtchooser isn't available.
+  case maybeQtMajor of
+    Just qtMajor -> setEnv "QT_SELECT" $ show qtMajor
+    Nothing -> return ()
+
   -- Log a message showing which Qt qtah-generator is actually using.
   generatorConfiguredProgram <-
     maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
@@ -338,4 +348,4 @@ exportQtVersion configFlags localBuildInfo = do
   createDirectoryIfMissing True $ takeDirectory qtVersionFile
   writeFile qtVersionFile $ unlines [qtVersion]
 
-  return (maybeQtMajor, qtVersion)
+  return qtVersion

@@ -21,7 +21,7 @@ import Control.Applicative ((<|>))
 import Control.Monad (forM_, unless, when)
 import Data.Char (isDigit)
 import Data.List (isPrefixOf, isSuffixOf)
-import Data.Maybe (catMaybes, fromMaybe)
+import Data.Maybe (fromMaybe)
 import Distribution.Package (PackageName (PackageName), pkgName)
 import Distribution.PackageDescription (FlagName (FlagName), PackageDescription, package)
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
@@ -128,7 +128,7 @@ generateSources configFlags localBuildInfo = do
 
   -- Parse the Qt version to use from flags and the environment, and export it
   -- to the generator.
-  (qtMajor, _) <- exportQtVersion configFlags localBuildInfo
+  _ <- exportQtVersion configFlags localBuildInfo
 
   -- Generate binding source code.
   runDbProgram normal generatorProgram programDb ["--gen-cpp", "cpp"]
@@ -136,10 +136,7 @@ generateSources configFlags localBuildInfo = do
 
   -- Run qmake to generate the makefile.
   setCurrentDirectory cppSourceDir
-  runDbProgram normal qmakeProgram programDb $
-    catMaybes [ fmap (\n -> "-qt=" ++ show n) qtMajor
-              , Just "qtah.pro"
-              ]
+  runDbProgram normal qmakeProgram programDb ["qtah.pro"]
 
   setCurrentDirectory startDir
 
@@ -229,7 +226,8 @@ doClean cleanFlags = do
           removeFile path
 
 -- | This function should be called in a 'postConf' hook.  It determines the
--- requested Qt version based on package flags and the program environment.
+-- requested Qt version based on package flags and the program environment, and
+-- sets the environment variables @QTAH_QT@ and @QT_SELECT@ appropriately.
 --
 -- The mutually exclusive package flags @qt4@ and @qt5@ specify a preference on
 -- a major version of Qt.  Additionally, the environment variable @QTAH_QT@ can
@@ -247,13 +245,15 @@ doClean cleanFlags = do
 -- (@Maybe Int@), along with the Qt version string returned from qtah-generator
 -- (@String@).
 --
--- !!! KEEP THIS FUNCTION IN SYNC WITH qtah-cpp/Setup.hs !!!
-exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO (Maybe Int, String)
+-- !!! KEEP THIS FUNCTION IN SYNC WITH qtah/Setup.hs !!!
+exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO String
 exportQtVersion configFlags localBuildInfo = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
 
-  -- Determine what version of Qt to use.
+  -- Determine what version of Qt to use.  If we have a Qt version preference
+  -- specified, either through package flags or through QTAH_QT, then
+  -- maybeQtMajor will get that value.
   let PackageName myName = pkgName $ package $ localPkgDescr localBuildInfo
   maybeQtMajor <- case reverse myName of
     -- If the package name ends in "-qtX", then build for Qt X (whatever the
@@ -312,6 +312,13 @@ exportQtVersion configFlags localBuildInfo = do
 
       return $ qtahQtMajor <|> qtFlag
 
+  -- If we have a major version preference, then set QT_SELECT in case we're
+  -- calling QMake.  We use QT_SELECT over "-qt=X" because it doesn't break when
+  -- qtchooser isn't available.
+  case maybeQtMajor of
+    Just qtMajor -> setEnv "QT_SELECT" $ show qtMajor
+    Nothing -> return ()
+
   -- Log a message showing which Qt qtah-generator is actually using.
   generatorConfiguredProgram <-
     maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
@@ -330,4 +337,4 @@ exportQtVersion configFlags localBuildInfo = do
   createDirectoryIfMissing True $ takeDirectory qtVersionFile
   writeFile qtVersionFile $ unlines [qtVersion]
 
-  return (maybeQtMajor, qtVersion)
+  return qtVersion
