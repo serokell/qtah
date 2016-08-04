@@ -53,12 +53,15 @@ import Distribution.Simple.Program (
 import Distribution.Simple.Setup (
   CleanFlags,
   ConfigFlags,
-  CopyDest (NoCopyDest),
+  CopyDest (CopyTo, NoCopyDest),
   cleanVerbosity,
   configConfigurationsFlags,
   configVerbosity,
+  copyDest,
   copyVerbosity,
+  flagToMaybe,
   fromFlagOrDefault,
+  installDistPref,
   installVerbosity,
   )
 import Distribution.Simple.UserHooks (
@@ -110,11 +113,14 @@ qtahHooks = simpleUserHooks
   , preTest = \_ _ -> addLibDir
   , preCopy = \_ _ -> addLibDir  -- Not sure if necessary, but doesn't hurt.
   , copyHook = \pd lbi uh cf -> do let verbosity = fromFlagOrDefault normal $ copyVerbosity cf
-                                   doInstall verbosity pd lbi
+                                       dest = fromFlagOrDefault NoCopyDest $ copyDest cf
+                                   doInstall verbosity pd lbi dest
                                    copyHook simpleUserHooks pd lbi uh cf
   , preInst = \_ _ -> addLibDir  -- Not sure if necessary, but doesn't hurt.
   , instHook = \pd lbi uh if' -> do let verbosity = fromFlagOrDefault normal $ installVerbosity if'
-                                    doInstall verbosity pd lbi
+                                        dest = maybe NoCopyDest CopyTo $
+                                               flagToMaybe $ installDistPref if'
+                                    doInstall verbosity pd lbi dest
                                     instHook simpleUserHooks pd lbi uh if'
   , preReg = \_ _ -> addLibDir  -- Necessary.
   , cleanHook = \pd z uh cf -> do doClean cf
@@ -182,10 +188,10 @@ generateSources configFlags localBuildInfo qtahCppLibDir = do
   -- Generate binding source code.
   runDbProgram verbosity generatorProgram programDb ["--gen-hs", "src"]
 
-doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
-doInstall verbosity packageDesc localBuildInfo = do
+doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
+doInstall verbosity packageDesc localBuildInfo copyDest = do
   -- Record what version of Qt we are using.
-  let libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo NoCopyDest
+  let libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
   createDirectoryIfMissing True libDir
   installOrdinaryFile verbosity
                       (buildDir localBuildInfo </> "qtah-qt-version")

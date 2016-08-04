@@ -36,9 +36,12 @@ import Distribution.Simple.Program (
 import Distribution.Simple.Program.Find (findProgramOnSearchPath)
 import Distribution.Simple.Setup (
   CleanFlags,
-  CopyDest (NoCopyDest),
+  CopyDest (CopyTo, NoCopyDest),
   cleanVerbosity,
+  copyDest,
+  flagToMaybe,
   fromFlagOrDefault,
+  installDistPref,
   )
 import Distribution.Simple.UserHooks (
   UserHooks (
@@ -66,9 +69,12 @@ qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [listenerGenProgram, qmakeProgram]
   , postConf = \_ _ _ lbi -> generateSources lbi
-  , copyHook = \pd lbi uh cf -> do doInstall pd lbi
+  , copyHook = \pd lbi uh cf -> do let dest = fromFlagOrDefault NoCopyDest $ copyDest cf
+                                   doInstall pd lbi dest
                                    copyHook simpleUserHooks pd lbi uh cf
-  , instHook = \pd lbi uh if' -> do doInstall pd lbi
+  , instHook = \pd lbi uh if' -> do let dest = maybe NoCopyDest CopyTo $
+                                               flagToMaybe $ installDistPref if'
+                                    doInstall pd lbi dest
                                     instHook simpleUserHooks pd lbi uh if'
   , cleanHook = \pd z uh cf -> do doClean cf
                                   cleanHook simpleUserHooks pd z uh cf
@@ -90,10 +96,10 @@ generateSources localBuildInfo = do
   let programDb = withPrograms localBuildInfo
   runDbProgram normal listenerGenProgram programDb ["--gen-hs-dir", "."]
 
-doInstall :: PackageDescription -> LocalBuildInfo -> IO ()
-doInstall packageDesc localBuildInfo = do
+doInstall :: PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
+doInstall packageDesc localBuildInfo copyDest = do
   startDir <- getCurrentDirectory
-  let binDir = bindir $ absoluteInstallDirs packageDesc localBuildInfo NoCopyDest
+  let binDir = bindir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
   createDirectoryIfMissing True binDir
   installExecutableFile verbose
                         (startDir </> "qtah-listener-gen")

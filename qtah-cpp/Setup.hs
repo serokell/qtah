@@ -44,13 +44,16 @@ import Distribution.Simple.Setup (
   BuildFlags,
   CleanFlags,
   ConfigFlags,
-  CopyDest (NoCopyDest),
+  CopyDest (CopyTo, NoCopyDest),
   buildVerbosity,
   cleanVerbosity,
   configConfigurationsFlags,
   configVerbosity,
+  copyDest,
   copyVerbosity,
+  flagToMaybe,
   fromFlagOrDefault,
+  installDistPref,
   installVerbosity,
   )
 import Distribution.Simple.UserHooks (
@@ -99,10 +102,13 @@ qtahHooks = simpleUserHooks
   , buildHook = \pd lbi uh bf -> do doBuild lbi bf
                                     buildHook simpleUserHooks pd lbi uh bf
   , copyHook = \pd lbi uh cf -> do let verbosity = fromFlagOrDefault normal $ copyVerbosity cf
-                                   doInstall verbosity pd lbi
+                                       dest = fromFlagOrDefault NoCopyDest $ copyDest cf
+                                   doInstall verbosity pd lbi dest
                                    copyHook simpleUserHooks pd lbi uh cf
   , instHook = \pd lbi uh if' -> do let verbosity = fromFlagOrDefault normal $ installVerbosity if'
-                                    doInstall verbosity pd lbi
+                                        dest = maybe NoCopyDest CopyTo $
+                                               flagToMaybe $ installDistPref if'
+                                    doInstall verbosity pd lbi dest
                                     instHook simpleUserHooks pd lbi uh if'
   , cleanHook = \pd z uh cf -> do doClean cf
                                   cleanHook simpleUserHooks pd z uh cf
@@ -171,11 +177,11 @@ doBuild localBuildInfo buildFlags = do
 
   setCurrentDirectory startDir
 
-doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> IO ()
-doInstall verbosity packageDesc localBuildInfo = do
+doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
+doInstall verbosity packageDesc localBuildInfo copyDest = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
-      libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo NoCopyDest
+      libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
 
   -- Install the built library into the package's libdir.
   createDirectoryIfMissing True libDir
