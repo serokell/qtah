@@ -131,18 +131,19 @@ generateSources configFlags localBuildInfo = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       programDb = withPrograms localBuildInfo
+      verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
 
   -- Parse the Qt version to use from flags and the environment, and export it
   -- to the generator.
   _ <- exportQtVersion configFlags localBuildInfo
 
   -- Generate binding source code.
-  runDbProgram normal generatorProgram programDb ["--gen-cpp", "cpp"]
-  runDbProgram normal listenerGenProgram programDb ["--gen-cpp-dir", "cpp"]
+  runDbProgram verbosity generatorProgram programDb ["--gen-cpp", "cpp"]
+  runDbProgram verbosity listenerGenProgram programDb ["--gen-cpp-dir", "cpp"]
 
   -- Run qmake to generate the makefile.
   setCurrentDirectory cppSourceDir
-  runDbProgram normal qmakeProgram programDb ["qtah.pro"]
+  runDbProgram verbosity qmakeProgram programDb ["qtah.pro"]
 
   setCurrentDirectory startDir
 
@@ -173,7 +174,7 @@ doBuild localBuildInfo buildFlags = do
 
   setCurrentDirectory cppSourceDir
   notice verbosity $ concat ["Building the Qtah C++ library", jobMsg, "..."]
-  runDbProgram normal makeProgram programDb makeArgs
+  runDbProgram verbosity makeProgram programDb makeArgs
 
   setCurrentDirectory startDir
 
