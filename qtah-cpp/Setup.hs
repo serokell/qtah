@@ -186,7 +186,7 @@ doInstall verbosity packageDesc localBuildInfo copyDest = do
 
   -- Install the built library into the package's libdir.
   createDirectoryIfMissing True libDir
-  forM_ ["libqtah.so", "libqtah.so.0", "libqtah.so.0.1", "libqtah.so.0.1.0"] $ \p -> do
+  forM_ ["libqtah.so", "libqtah.so.0", "libqtah.so.0.1", "libqtah.so.0.1.2"] $ \p -> do
     let path = libDir </> p
     shouldDelete <-
       catchIOError (do _ <- getSymbolicLinkStatus path
@@ -194,9 +194,9 @@ doInstall verbosity packageDesc localBuildInfo copyDest = do
       (\e -> if isDoesNotExistError e then return False else ioError e)
     when shouldDelete $ removeFile path
   installExecutableFile verbosity
-                        (cppSourceDir </> "libqtah.so.0.1.0")
-                        (libDir </> "libqtah.so.0.1.0")
-  createSymbolicLink "libqtah.so.0.1.0" (libDir </> "libqtah.so.0.1")
+                        (cppSourceDir </> "libqtah.so.0.1.2")
+                        (libDir </> "libqtah.so.0.1.2")
+  createSymbolicLink "libqtah.so.0.1.2" (libDir </> "libqtah.so.0.1")
   createSymbolicLink "libqtah.so.0.1" (libDir </> "libqtah.so.0")
   createSymbolicLink "libqtah.so.0" (libDir </> "libqtah.so")
 

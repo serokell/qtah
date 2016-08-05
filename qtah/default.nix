@@ -22,7 +22,7 @@
 }:
 mkDerivation ({
   pname = "qtah";
-  version = "0.1.0";
+  version = "0.1.1";
   src = ./.;
   libraryHaskellDepends = [
     base binary bytestring hoppy-runtime qtah-cpp qtah-generator

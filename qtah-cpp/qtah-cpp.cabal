@@ -1,5 +1,5 @@
 name: qtah-cpp
-version: 0.1.1
+version: 0.1.2
 synopsis: Qt bindings for Haskell - C++ library
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
