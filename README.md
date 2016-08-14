@@ -85,8 +85,12 @@ installing Qtah:
 On Debian and derivatives:
 
     apt-get install make g++
-    apt-get install qt4-qmake libqt4-dev  # For Qt4.
-    apt-get install qt5-qmake qtbase5-dev  # For Qt5.
+    # For Qt 4:
+    apt-get install libqt4-dev  # Required.
+    apt-get install qt4-dev-tools  # For Assistant (Qt API documentation).
+    # For Qt 5:
+    apt-get install qtbase5-dev  # Required.
+    apt-get install qttools5-dev-tools qttools5-doc  # For Assistant (Qt API documentation).
 
 ### Qt version selection
 
