@@ -81,7 +81,10 @@ goToPkg qtah
 run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
     --enable-tests --enable-executable-dynamic
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
-run cabal test
+# We call the test executable directly instead of running 'cabal test', for
+# distros such as Debian Stretch that are affected by
+# https://github.com/haskell/cabal/issues/2438.
+run dist/build/test-qtah/test-qtah
 # Haddock spews out many thousands of lines about undocumented items, so we
 # silence them.
 run cabal haddock --haddock-options=--no-print-missing-docs
