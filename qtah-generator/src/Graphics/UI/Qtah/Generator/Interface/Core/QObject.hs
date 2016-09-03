@@ -36,7 +36,7 @@ import Foreign.Hoppy.Generator.Spec (
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Listener
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)

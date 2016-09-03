@@ -34,7 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Generator.Interface.Listener (c_ListenerQSize)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQSize)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar (c_QMenuBar)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar (c_QStatusBar)

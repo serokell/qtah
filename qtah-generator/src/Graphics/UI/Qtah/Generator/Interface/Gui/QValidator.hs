@@ -34,7 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
 import Foreign.Hoppy.Generator.Types (enumT, intT, objT, refT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Listener (c_Listener)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 

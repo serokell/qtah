@@ -15,7 +15,7 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.EventListener (
+module Graphics.UI.Qtah.Generator.Interface.Internal.EventListener (
   aModule,
   ) where
 
@@ -29,8 +29,8 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   )
 import Foreign.Hoppy.Generator.Types (callbackT, intT, ptrT)
-import Graphics.UI.Qtah.Generator.Interface.Callback (cb_PtrQObjectPtrQEventBool)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Callback (cb_PtrQObjectPtrQEventBool)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 

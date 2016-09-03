@@ -50,7 +50,10 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_LayoutDirection, e_NavigationMode)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard (c_QClipboard)
-import Graphics.UI.Qtah.Generator.Interface.Listener (c_Listener, c_ListenerPtrQWidgetPtrQWidget)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_Listener,
+  c_ListenerPtrQWidgetPtrQWidget,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types

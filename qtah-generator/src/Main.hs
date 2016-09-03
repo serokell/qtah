@@ -31,11 +31,9 @@ import Foreign.Hoppy.Generator.Spec (
 import qualified Foreign.Hoppy.Generator.Std as Std
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Module
-import qualified Graphics.UI.Qtah.Generator.Interface.Callback as Callback
 import qualified Graphics.UI.Qtah.Generator.Interface.Core as Core
-import qualified Graphics.UI.Qtah.Generator.Interface.EventListener as EventListener
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui as Gui
-import qualified Graphics.UI.Qtah.Generator.Interface.Listener as Listener
+import qualified Graphics.UI.Qtah.Generator.Interface.Internal as Internal
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets as Widgets
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
@@ -54,12 +52,10 @@ modules :: [AModule]
 modules =
   concat
   [ [ AHoppyModule mod_std
-    , Callback.aModule
-    , EventListener.aModule
-    , Listener.aModule
     ]
   , Core.modules
   , Gui.modules
+  , Internal.modules
   , Widgets.modules
   ]
 

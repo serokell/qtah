@@ -42,7 +42,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment, qreal)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QColor (c_QColor)
-import Graphics.UI.Qtah.Generator.Interface.Listener (
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
   c_ListenerBool,
   )

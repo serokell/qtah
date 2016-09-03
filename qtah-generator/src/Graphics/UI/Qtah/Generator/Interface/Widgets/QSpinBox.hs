@@ -37,7 +37,7 @@ import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Listener (
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_ListenerInt,
   c_ListenerQString,
   )

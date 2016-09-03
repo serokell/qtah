@@ -42,7 +42,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment, e_CursorMoveStyle)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QValidator (c_QValidator)
-import Graphics.UI.Qtah.Generator.Interface.Listener (
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
   c_ListenerIntInt,
   c_ListenerQString,

@@ -41,7 +41,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Orientation)
-import Graphics.UI.Qtah.Generator.Interface.Listener (
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
   c_ListenerInt,
   c_ListenerIntInt,

@@ -52,7 +52,6 @@ executable qtah-generator
       Graphics.UI.Qtah.Generator.Common
     , Graphics.UI.Qtah.Generator.Flag
     , Graphics.UI.Qtah.Generator.Flags
-    , Graphics.UI.Qtah.Generator.Interface.Callback
     , Graphics.UI.Qtah.Generator.Interface.Core
     , Graphics.UI.Qtah.Generator.Interface.Core.QChar
     , Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent
@@ -74,7 +73,6 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QVector
     , Graphics.UI.Qtah.Generator.Interface.Core.Types
-    , Graphics.UI.Qtah.Generator.Interface.EventListener
     , Graphics.UI.Qtah.Generator.Interface.Gui
     , Graphics.UI.Qtah.Generator.Interface.Gui.QActionEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard
@@ -97,7 +95,10 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent
     , Graphics.UI.Qtah.Generator.Interface.Imports
-    , Graphics.UI.Qtah.Generator.Interface.Listener
+    , Graphics.UI.Qtah.Generator.Interface.Internal
+    , Graphics.UI.Qtah.Generator.Interface.Internal.Callback
+    , Graphics.UI.Qtah.Generator.Interface.Internal.EventListener
+    , Graphics.UI.Qtah.Generator.Interface.Internal.Listener
     , Graphics.UI.Qtah.Generator.Interface.Widgets
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea

@@ -15,7 +15,7 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Callback where
+module Graphics.UI.Qtah.Generator.Interface.Internal.Callback where
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportCallback),

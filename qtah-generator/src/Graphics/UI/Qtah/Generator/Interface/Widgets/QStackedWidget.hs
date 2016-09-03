@@ -33,7 +33,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProps,
   )
 import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
-import Graphics.UI.Qtah.Generator.Interface.Listener (c_ListenerInt)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerInt)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)

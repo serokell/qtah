@@ -338,4 +338,4 @@ the signal `QLineEdit::textChanged(QString)` uses a listener class
 translation from `c_Listener<args>` to `cb_<args>Void` is automatic.  Listeners
 can be added to [qtah-listener-gen](qtah-generator/qtah-listener-gen) and
 callbacks to
-[Callback.hs](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Callback.hs).
+[Callback.hs](qtah-generator/src/Graphics/UI/Qtah/Generator/Interface/Internal/Callback.hs).

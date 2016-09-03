@@ -46,7 +46,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_TextFormat,
   e_WindowModality,
   )
-import Graphics.UI.Qtah.Generator.Interface.Listener (c_ListenerPtrQAbstractButton)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerPtrQAbstractButton)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QCheckBox (c_QCheckBox)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog (c_QDialog)
