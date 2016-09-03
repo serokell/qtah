@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportClass, ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -65,6 +66,7 @@ aModule =
 
 c_QDialogButtonBox =
   addReqIncludes [includeStd "QDialogButtonBox"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QDialogButtonBox") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

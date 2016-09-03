@@ -24,6 +24,7 @@ import Foreign.Hoppy.Generator.Spec (
   MethodApplicability (MStatic),
   Purity (Nonpure),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   ident2,
@@ -69,6 +70,7 @@ c_QApplication =
   addReqIncludes [ includeStd "QApplication"
                  , includeLocal "wrap_qapplication.hpp"
                  ] $
+  classSetEntityPrefix "" $
   makeClass (ident "QApplication") Nothing [c_QCoreApplication] [] $
   collect
   [ just $ makeFnMethod (ident2 "qtah" "qapplication" "create") "new" MStatic Nonpure

@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -57,6 +58,7 @@ aModule =
 
 c_QTabWidget =
   addReqIncludes [includeStd "QTabWidget"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QTabWidget") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

@@ -24,6 +24,7 @@ import Foreign.Hoppy.Generator.Spec (
   MethodApplicability (MConst),
   Purity (Nonpure),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   ident2,
@@ -64,6 +65,7 @@ aModule =
 c_QFormLayout =
   addReqIncludes [includeStd "QFormLayout",
                   includeLocal "wrap_qformlayout.hpp"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QFormLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

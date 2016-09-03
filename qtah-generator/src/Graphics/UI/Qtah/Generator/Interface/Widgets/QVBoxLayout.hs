@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -42,6 +43,7 @@ aModule =
 
 c_QVBoxLayout =
   addReqIncludes [includeStd "QVBoxLayout"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QVBoxLayout") Nothing [c_QBoxLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

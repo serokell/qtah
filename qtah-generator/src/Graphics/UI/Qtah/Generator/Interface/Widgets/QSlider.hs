@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QSlider (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -48,6 +49,7 @@ aModule =
 
 c_QSlider =
   addReqIncludes [includeStd "QSlider"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QSlider") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

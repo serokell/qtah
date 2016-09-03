@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -50,6 +51,7 @@ aModule =
 
 c_QStatusBar =
   addReqIncludes [includeStd "QStatusBar"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QStatusBar") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

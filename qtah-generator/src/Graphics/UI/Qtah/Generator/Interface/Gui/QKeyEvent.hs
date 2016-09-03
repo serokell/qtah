@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -47,6 +48,7 @@ aModule =
 
 c_QKeyEvent =
   addReqIncludes [includeStd "QKeyEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QKeyEvent") Nothing [c_QInputEvent]
   (collect
    [ just $ mkCtor "new" [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers]

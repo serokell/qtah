@@ -27,7 +27,6 @@ import Data.Monoid (mconcat)
 #endif
 import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
-  indent,
   sayLn,
   saysLn,
   )
@@ -41,6 +40,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
@@ -88,20 +88,15 @@ c_QMargins =
     , classHaskellConversionToCppFn = do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"]
-      saysLn ["qMargins_new <$> HMargins.left <*> HMargins.top <*> HMargins.right <*> ",
+      saysLn ["new <$> HMargins.left <*> HMargins.top <*> HMargins.right <*> ",
               "HMargins.bottom"]
     , classHaskellConversionFromCppFn = do
       addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins",
                             importForPrelude]
-      sayLn "\\q -> do"
-      indent $ do
-        sayLn "l <- qMargins_left q"
-        sayLn "t <- qMargins_top q"
-        sayLn "r <- qMargins_right q"
-        sayLn "b <- qMargins_bottom q"
-        sayLn "QtahP.return (HMargins.HMargins l t r b)"
+      sayLn "\\q -> HMargins.HMargins <$> left q <*> top q <*> right q <*> bottom q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QMargins") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [intT, intT, intT, intT]

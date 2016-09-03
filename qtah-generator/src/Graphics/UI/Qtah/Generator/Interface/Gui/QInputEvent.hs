@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -45,6 +46,7 @@ aModule =
 
 c_QInputEvent =
   addReqIncludes [includeStd "QInputEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QInputEvent") Nothing [c_QEvent]
   [] $
   collect

@@ -27,7 +27,6 @@ import Data.Monoid (mconcat)
 #endif
 import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
-  indent,
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
@@ -40,6 +39,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
@@ -88,17 +88,14 @@ c_QPointF =
     , classHaskellConversionToCppFn = do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF"]
-      sayLn "qPointF_new <$> HPointF.x <*> HPointF.y"
+      sayLn "new <$> HPointF.x <*> HPointF.y"
     , classHaskellConversionFromCppFn = do
       addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF",
                             importForPrelude]
-      sayLn "\\q -> do"
-      indent $ do
-        sayLn "y <- qPointF_x q"
-        sayLn "x <- qPointF_y q"
-        sayLn "QtahP.return (HPointF.HPointF x y)"
+      sayLn "\\q -> HPointF.HPointF <$> x q <*> y q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QPointF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal]

@@ -27,7 +27,6 @@ import Data.Monoid (mconcat)
 #endif
 import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
-  indent,
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
@@ -40,6 +39,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
@@ -86,17 +86,14 @@ c_QSize =
     , classHaskellConversionToCppFn = do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
-      sayLn "qSize_new <$> HSize.width <*> HSize.height"
+      sayLn "new <$> HSize.width <*> HSize.height"
     , classHaskellConversionFromCppFn = do
       addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize",
                             importForPrelude]
-      sayLn "\\q -> do"
-      indent $ do
-        sayLn "w <- qSize_width q"
-        sayLn "h <- qSize_height q"
-        sayLn "QtahP.return (HSize.HSize w h)"
+      sayLn "\\q -> HSize.HSize <$> width q <*> height q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QSize") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [intT, intT]

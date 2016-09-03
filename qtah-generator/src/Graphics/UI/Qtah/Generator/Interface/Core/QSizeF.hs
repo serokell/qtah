@@ -25,6 +25,7 @@ import Foreign.Hoppy.Generator.Spec (
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   addReqIncludes,
   classSetConversionToGc,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -57,6 +58,7 @@ c_QSizeF =
   addReqIncludes [includeStd "QSizeF"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classSetEntityPrefix "" $
   makeClass (ident "QSizeF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal]

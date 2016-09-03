@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QPushButton (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -49,6 +50,7 @@ aModule =
 
 c_QPushButton =
   addReqIncludes [includeStd "QPushButton"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QPushButton") Nothing
   [ c_QAbstractButton ]
   [ mkCtor "new" []

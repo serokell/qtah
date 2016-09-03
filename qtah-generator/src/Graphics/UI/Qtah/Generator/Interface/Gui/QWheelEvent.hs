@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -52,6 +53,7 @@ aModule =
 
 c_QWheelEvent =
   addReqIncludes [includeStd "QWheelEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QWheelEvent") Nothing [c_QInputEvent]
   (collect
    [ test (qtVersion < [5, 0]) $ mkCtor "new"

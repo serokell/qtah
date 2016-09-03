@@ -24,6 +24,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QValidator (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -48,6 +49,7 @@ aModule =
 
 c_QValidator =
   addReqIncludes [includeStd "QValidator"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QValidator") Nothing [c_QObject] [] $
   [ mkConstMethod "fixup" [refT $ objT c_QString] voidT
     -- TODO locale

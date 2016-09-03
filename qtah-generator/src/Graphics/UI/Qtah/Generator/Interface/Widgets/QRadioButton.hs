@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QRadioButton (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -43,6 +44,7 @@ aModule =
 
 c_QRadioButton =
   addReqIncludes [includeStd "QRadioButton"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QRadioButton") Nothing [c_QAbstractButton]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

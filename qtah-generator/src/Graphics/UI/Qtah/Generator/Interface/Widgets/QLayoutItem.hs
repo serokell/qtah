@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -49,6 +50,7 @@ aModule =
 
 c_QLayoutItem =
   addReqIncludes [includeStd "QLayoutItem"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QLayoutItem") Nothing []
   [] $  -- Abstract.
   [ -- TODO controlTypes

@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -44,6 +45,7 @@ aModule =
 
 c_QExposeEvent =
   addReqIncludes [includeStd "QExposeEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QExposeEvent") Nothing [c_QEvent]
   [ mkCtor "new" [objT c_QRegion]
   ]

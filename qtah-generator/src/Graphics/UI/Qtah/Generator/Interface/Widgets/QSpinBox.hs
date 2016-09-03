@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QSpinBox (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -55,6 +56,7 @@ aModule =
 
 c_QSpinBox =
   addReqIncludes [includeStd "QSpinBox"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QSpinBox") Nothing [c_QAbstractSpinBox]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

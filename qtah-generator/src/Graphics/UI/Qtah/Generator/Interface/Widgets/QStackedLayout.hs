@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -57,6 +58,7 @@ aModule =
 
 c_QStackedLayout =
   addReqIncludes [includeStd "QStackedLayout"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QStackedLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

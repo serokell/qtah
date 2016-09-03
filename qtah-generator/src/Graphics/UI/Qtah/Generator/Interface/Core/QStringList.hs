@@ -47,6 +47,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addAddendumHaskell,
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImport1,
   ident,
@@ -103,6 +104,7 @@ c_QStringList =
     } $
   addAddendumHaskell addendum $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QStringList") Nothing [c_QListQString]
   [ mkCtor "new" []
   ] $

@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QActionEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -43,6 +44,7 @@ aModule =
 
 c_QActionEvent =
   addReqIncludes [includeStd "QActionEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QActionEvent") Nothing [c_QEvent]
   [ mkCtor "new" [enumT e_Type, ptrT $ objT c_QAction]
   , mkCtor "newBefore" [enumT e_Type, ptrT $ objT c_QAction]

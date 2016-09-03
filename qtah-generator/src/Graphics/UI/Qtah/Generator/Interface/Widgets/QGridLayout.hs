@@ -24,6 +24,7 @@ import Foreign.Hoppy.Generator.Spec (
   MethodApplicability (MConst, MNormal),
   Purity (Nonpure),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident2,
   includeLocal,
@@ -58,6 +59,7 @@ aModule =
 c_QGridLayout =
   addReqIncludes [includeStd "QGridLayout",
                   includeLocal "wrap_qgridlayout.hpp"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QGridLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

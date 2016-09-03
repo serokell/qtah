@@ -24,6 +24,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QDoubleValidator (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -53,6 +54,7 @@ aModule =
 
 c_QDoubleValidator =
   addReqIncludes [includeStd "QDoubleValidator"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QDoubleValidator") Nothing [c_QValidator]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QObject]

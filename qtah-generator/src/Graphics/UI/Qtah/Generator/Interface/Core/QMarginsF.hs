@@ -24,6 +24,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   Operator (OpAddAssign, OpDivideAssign, OpMultiplyAssign, OpSubtractAssign),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -56,6 +57,7 @@ aModule =
 c_QMarginsF =
   addReqIncludes [includeStd "QMarginsF"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QMarginsF") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal, qreal, qreal]

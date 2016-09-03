@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -48,6 +49,7 @@ aModule =
 
 c_QAbstractScrollArea =
   addReqIncludes [includeStd "QAbstractScrollArea"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QAbstractScrollArea") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

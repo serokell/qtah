@@ -30,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   Operator (OpArray),
   addReqIncludes,
   classSetConversionToGc,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -70,6 +71,7 @@ c_QDir =
   addReqIncludes [includeStd "QDir"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classSetEntityPrefix "" $
   makeClass (ident "QDir") Nothing []
   [ mkCtor "new" [objT c_QString]
   ] $

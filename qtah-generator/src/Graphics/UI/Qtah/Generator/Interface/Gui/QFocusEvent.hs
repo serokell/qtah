@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -44,6 +45,7 @@ aModule =
 
 c_QFocusEvent =
   addReqIncludes [includeStd "QFocusEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QFocusEvent") Nothing [c_QEvent]
   [ mkCtor "new" [enumT e_Type, enumT e_FocusReason]
   ] $

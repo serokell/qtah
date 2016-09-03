@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QRectF (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetConversionToGc,
   ident,
   includeStd,
@@ -60,6 +61,7 @@ c_QRectF =
   addReqIncludes [includeStd "QRectF"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classSetEntityPrefix "" $
   makeClass (ident "QRectF") Nothing []
   (collect
    [ just $ mkCtor "newNull" []

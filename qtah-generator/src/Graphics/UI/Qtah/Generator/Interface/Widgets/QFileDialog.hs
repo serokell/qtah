@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -63,6 +64,7 @@ aModule =
 
 c_QFileDialog =
   addReqIncludes [includeStd "QFileDialog"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QFileDialog") Nothing [c_QDialog]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

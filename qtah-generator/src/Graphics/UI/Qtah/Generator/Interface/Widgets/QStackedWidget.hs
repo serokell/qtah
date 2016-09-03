@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedWidget (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -48,6 +49,7 @@ aModule =
 
 c_QStackedWidget =
   addReqIncludes [includeStd "QStackedWidget"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QStackedWidget") Nothing [c_QFrame]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

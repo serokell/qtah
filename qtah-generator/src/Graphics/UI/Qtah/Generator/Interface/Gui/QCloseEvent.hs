@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QCloseEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -39,6 +40,7 @@ aModule =
 
 c_QCloseEvent =
   addReqIncludes [includeStd "QCloseEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QCloseEvent") Nothing [c_QEvent]
   [ mkCtor "new" []
   ]

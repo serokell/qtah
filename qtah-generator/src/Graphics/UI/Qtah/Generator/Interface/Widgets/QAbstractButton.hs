@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -49,6 +50,7 @@ aModule =
 
 c_QAbstractButton =
   addReqIncludes [includeStd "QAbstractButton"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QAbstractButton") Nothing
   [ c_QWidget ]
   [] $  -- Abstact.

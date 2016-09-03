@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -54,6 +55,7 @@ aModule =
 
 c_QMenu =
   addReqIncludes [includeStd "QMenu"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QMenu") Nothing
   [ c_QWidget ]
   [ mkCtor "new" []

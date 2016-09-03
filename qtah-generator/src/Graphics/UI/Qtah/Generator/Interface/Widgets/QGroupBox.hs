@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QGroupBox (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -52,6 +53,7 @@ aModule =
 
 c_QGroupBox =
   addReqIncludes [includeStd "QGroupBox"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QGroupBox") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

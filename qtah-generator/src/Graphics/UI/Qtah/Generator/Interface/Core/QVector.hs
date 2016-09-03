@@ -57,6 +57,7 @@ import Foreign.Hoppy.Generator.Spec (
   Type,
   addReqs,
   addAddendumHaskell,
+  classSetEntityPrefix,
   classSetMonomorphicSuperclass,
   hsImport1,
   hsImports,
@@ -120,6 +121,7 @@ instantiate' vectorName t tReqs opts =
         addAddendumHaskell addendum $
         classAddFeatures features $
         classSetMonomorphicSuperclass $
+        classSetEntityPrefix "" $
         makeClass (identT "QVector" [t]) (Just $ toExtName vectorName) []
         [ mkCtor "new" []
         , mkCtor "newWithSize" [intT]

@@ -66,6 +66,7 @@ import Foreign.Hoppy.Generator.Spec (
   Type,
   addReqs,
   addAddendumHaskell,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   classSetMonomorphicSuperclass,
   hsImport1,
@@ -138,6 +139,7 @@ instantiate' listName t tReqs opts =
         classSetHaskellConversion conversion $
         classAddFeatures features $
         classSetMonomorphicSuperclass $
+        classSetEntityPrefix "" $
         makeClass (identT "QList" [t]) (Just $ toExtName listName) []
         [ mkCtor "new" []
         ] $

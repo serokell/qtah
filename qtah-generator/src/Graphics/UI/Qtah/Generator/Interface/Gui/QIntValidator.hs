@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -46,6 +47,7 @@ aModule =
 
 c_QIntValidator =
   addReqIncludes [includeStd "QIntValidator"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QIntValidator") Nothing [c_QValidator]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QObject]

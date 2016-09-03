@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QDial (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -46,6 +47,7 @@ aModule =
 
 c_QDial =
   addReqIncludes [includeStd "QDial"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QDial") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

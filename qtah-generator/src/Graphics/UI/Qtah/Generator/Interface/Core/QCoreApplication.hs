@@ -25,6 +25,7 @@ import Foreign.Hoppy.Generator.Spec (
   MethodApplicability (MStatic),
   Purity (Nonpure),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident2,
   includeLocal,
@@ -54,6 +55,7 @@ c_QCoreApplication =
   addReqIncludes [ includeStd "QCoreApplication"
                  , includeLocal "wrap_qcoreapplication.hpp"
                  ] $
+  classSetEntityPrefix "" $
   makeClass (ident "QCoreApplication") Nothing [c_QObject]
   [] $
   collect

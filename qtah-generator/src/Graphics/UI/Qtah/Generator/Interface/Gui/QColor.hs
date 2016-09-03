@@ -41,6 +41,7 @@ import Foreign.Hoppy.Generator.Spec (
   ),
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
@@ -92,6 +93,7 @@ c_QColor =
   addReqIncludes [includeStd "QColor"] $
   classSetHaskellConversion conversion $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QColor") Nothing []
   [ mkCtor "new" []
   , mkCtor "newRgb" [intT, intT, intT]
@@ -192,7 +194,7 @@ c_QColor =
                               hColorImport]
         sayLn "\\color' -> do"
         indent $ do
-          sayLn "this' <- qColor_new"
+          sayLn "this' <- new"
           sayLn "case color' of"
           indent $ forM_ components $ \(spec, letters, _) ->
             saysLn $ concat
@@ -200,7 +202,7 @@ c_QColor =
             , map (\var -> [' ', var, '\'']) letters
             , if null letters
               then [" -> QtahP.return ()"]
-              else [" -> qColor_set", spec, "a this'"]
+              else [" -> set", spec, "a this'"]
             , concatMap (\var -> [" (QtahFHR.coerceIntegral ", [var], "')"]) letters
             ]
           sayLn "QtahP.return this'"
@@ -210,12 +212,12 @@ c_QColor =
                               importForPrelude,
                               importForRuntime,
                               hColorImport]
-        sayLn "\\this' -> qColor_spec this' >>= \\spec' -> case spec' of"
+        sayLn "\\this' -> spec this' >>= \\spec' -> case spec' of"
         indent $ forM_ components $ \(spec, letters, getters) -> do
           saysLn ["QColorSpec_", spec, " -> do"]
           indent $ do
             forM_ (zip letters getters) $ \(var, get) ->
-              saysLn [[var], "' <- QtahP.fmap QtahFHR.coerceIntegral $ qColor_", get, " this'"]
+              saysLn [[var], "' <- QtahP.fmap QtahFHR.coerceIntegral $ ", get, " this'"]
             saysLn $ ["QtahP.return $ HColor.", spec] ++ map (\var -> [' ', var, '\'']) letters
       }
 

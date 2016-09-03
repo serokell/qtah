@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QRubberBand (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -49,6 +50,7 @@ aModule =
 
 c_QRubberBand =
   addReqIncludes [includeStd "QRubberBand"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QRubberBand") Nothing [c_QWidget]
   [ mkCtor "new" [enumT e_Shape]
   , mkCtor "newWithParent" [enumT e_Shape, ptrT $ objT c_QWidget]

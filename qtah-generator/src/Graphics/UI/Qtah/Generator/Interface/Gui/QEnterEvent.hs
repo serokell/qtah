@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -45,6 +46,7 @@ aModule =
 
 c_QEnterEvent =
   addReqIncludes [includeStd "QEnterEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QEnterEvent") Nothing [c_QEvent]
   [ mkCtor "new" [objT c_QPointF, objT c_QPointF, objT c_QPointF]
   ]

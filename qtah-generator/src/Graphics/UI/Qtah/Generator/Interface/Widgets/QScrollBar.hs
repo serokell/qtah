@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -43,6 +44,7 @@ aModule =
 
 c_QScrollBar =
   addReqIncludes [includeStd "QScrollBar"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QScrollBar") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

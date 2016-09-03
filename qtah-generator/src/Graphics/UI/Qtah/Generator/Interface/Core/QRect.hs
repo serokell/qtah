@@ -27,7 +27,6 @@ import Data.Monoid (mconcat)
 #endif
 import Foreign.Hoppy.Generator.Language.Haskell (
   addImports,
-  indent,
   sayLn,
   )
 import Foreign.Hoppy.Generator.Spec (
@@ -39,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec (
   ),
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImports,
   hsQualifiedImport,
@@ -88,19 +88,14 @@ c_QRect =
     , classHaskellConversionToCppFn = do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
-      sayLn "qRect_newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
+      sayLn "newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
     , classHaskellConversionFromCppFn = do
       addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect",
                             importForPrelude]
-      sayLn "\\q -> do"
-      indent $ do
-        sayLn "x <- qRect_x q"
-        sayLn "y <- qRect_y q"
-        sayLn "w <- qRect_width q"
-        sayLn "h <- qRect_height q"
-        sayLn "QtahP.return (HRect.HRect x y w h)"
+      sayLn "\\q -> HRect.HRect <$> x q <*> y q <*> width q <*> height q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
+  classSetEntityPrefix "" $
   makeClass (ident "QRect") Nothing []
   [ mkCtor "newNull" []
   , mkCtor "newWithPoints" [objT c_QPoint, objT c_QPoint]

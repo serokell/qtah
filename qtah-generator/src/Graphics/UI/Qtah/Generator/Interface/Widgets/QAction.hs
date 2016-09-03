@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -62,6 +63,7 @@ aModule =
 
 c_QAction =
   addReqIncludes [includeStd "QAction"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QAction") Nothing
   [ c_QObject ]
   [ mkCtor "new" [ptrT $ objT c_QObject]

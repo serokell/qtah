@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QMainWindow (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -51,6 +52,7 @@ aModule =
 
 c_QMainWindow =
   addReqIncludes [includeStd "QMainWindow"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QMainWindow") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

@@ -41,6 +41,7 @@ import Foreign.Hoppy.Generator.Spec (
   Operator (OpArray),
   Purity (Nonpure),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   ident,
   ident2,
@@ -89,9 +90,10 @@ c_QString =
       return $ HsTyCon $ UnQual $ HsIdent "QtahP.String"
     , classHaskellConversionToCppFn = do
       addImports $ mconcat [importForForeignC, importForPrelude]
-      sayLn "QtahP.flip QtahFC.withCString qString_newFromCString"
-    , classHaskellConversionFromCppFn = sayLn "qString_toStdString"
+      sayLn "QtahP.flip QtahFC.withCString newFromCString"
+    , classHaskellConversionFromCppFn = sayLn "toStdString"
     } $
+  classSetEntityPrefix "" $
   makeClass (ident "QString") Nothing []
   [ mkCtor "newFromCString" [ptrT $ constT charT]
   ] $

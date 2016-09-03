@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -42,6 +43,7 @@ aModule =
 
 c_QTimerEvent =
   addReqIncludes [includeStd "QTimerEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QTimerEvent") Nothing [c_QEvent]
   [ mkCtor "new" [intT]
   ]

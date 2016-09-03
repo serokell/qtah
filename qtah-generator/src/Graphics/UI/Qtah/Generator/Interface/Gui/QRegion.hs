@@ -24,6 +24,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   addReqIncludes,
   classSetConversionToGc,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -59,6 +60,7 @@ c_QRegion =
   addReqIncludes [includeStd "QRegion"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classSetEntityPrefix "" $
   makeClass (ident "QRegion") Nothing []
   [ mkCtor "new" []
   , mkCtor "newFromPoints" [intT, intT, intT, intT, enumT e_RegionType]

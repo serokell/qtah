@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QObject (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -52,6 +53,7 @@ aModule =
 
 c_QObject =
   addReqIncludes [includeStd "QObject"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QObject") Nothing []
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QObject]

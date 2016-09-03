@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QSplitter (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -50,6 +51,7 @@ aModule =
 
 c_QSplitter =
   addReqIncludes [includeStd "QSplitter"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QSplitter") Nothing [c_QFrame]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

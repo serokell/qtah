@@ -24,6 +24,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QEvent (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -53,6 +54,7 @@ aModule =
 
 c_QEvent =
   addReqIncludes [includeStd "QEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QEvent") Nothing []
   [ mkCtor "new" [enumT e_Type]
   ] $

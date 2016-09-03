@@ -23,6 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -51,6 +52,7 @@ aModule =
 
 c_QFrame =
   addReqIncludes [includeStd "QFrame"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QFrame") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

@@ -25,6 +25,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
   classSetDtorPrivate,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -57,6 +58,7 @@ aModule =
 c_QClipboard =
   addReqIncludes [includeStd "QClipboard"] $
   classSetDtorPrivate $
+  classSetEntityPrefix "" $
   makeClass (ident "QClipboard") Nothing [c_QObject] [] $
   collect
   [ just $ mkMethod' "clear" "clear" [] voidT

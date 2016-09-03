@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -48,6 +49,7 @@ aModule =
 
 c_QHoverEvent =
   addReqIncludes [includeStd "QHoverEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QHoverEvent") Nothing
   [if qtVersion >= [5, 0] then c_QInputEvent else c_QEvent]
   (collect

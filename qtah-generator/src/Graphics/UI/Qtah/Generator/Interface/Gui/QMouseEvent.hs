@@ -21,6 +21,7 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent (
 
 import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -54,6 +55,7 @@ aModule =
 
 c_QMouseEvent =
   addReqIncludes [includeStd "QMouseEvent"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QMouseEvent") Nothing [c_QInputEvent]
   (collect
    [ test (qtVersion < [5, 0]) $ mkCtor "new"

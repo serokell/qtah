@@ -23,6 +23,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
   classSetConversionToGc,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -58,6 +59,7 @@ c_QPolygonF =
   addReqIncludes [includeStd "QPolygonF"] $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classSetEntityPrefix "" $
   makeClass (ident "QPolygonF") Nothing [c_QVectorQPointF]
   [ mkCtor "new" []
   , mkCtor "newWithSize" [intT]

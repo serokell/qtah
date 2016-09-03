@@ -331,10 +331,8 @@ sayExportClass cls = do
   sayBind classDownCastConstReexportName $ toHsDownCastMethodName' Const cls
   sayBind classDownCastReexportName $ toHsDownCastMethodName' Nonconst cls
   sayClassEncodingFnReexports cls
-  forM_ (classCtors cls) $ \ctor ->
-    sayBind (getCtorReexportName ctor) $ toHsFnName' $ classEntityForeignName cls ctor
-  forM_ (classMethods cls) $ \method ->
-    sayBind (getMethodReexportName method) $ toHsFnName' $ classEntityForeignName cls method
+  -- Class constructors and methods don't need to be rebound, because their
+  -- names don't change.
 
 -- | Generates and exports a @Signal@ definition.  We create the signal from
 -- scratch in this module, rather than reexporting it from somewhere else.

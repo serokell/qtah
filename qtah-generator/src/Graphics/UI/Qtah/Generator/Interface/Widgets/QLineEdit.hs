@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QLineEdit (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -62,6 +63,7 @@ aModule =
 
 c_QLineEdit =
   addReqIncludes [includeStd "QLineEdit"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QLineEdit") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

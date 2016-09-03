@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QProgressBar (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportEnum, ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -56,6 +57,7 @@ aModule =
 
 c_QProgressBar =
   addReqIncludes [includeStd "QProgressBar"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QProgressBar") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QMessageBox (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportClass, ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   ident1,
   includeStd,
@@ -69,6 +70,7 @@ aModule =
 
 c_QMessageBox =
   addReqIncludes [includeStd "QMessageBox"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QMessageBox") Nothing [c_QDialog]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]

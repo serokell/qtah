@@ -38,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec (
   ),
   Export (ExportClass, ExportEnum),
   addReqIncludes,
+  classSetEntityPrefix,
   classSetHaskellConversion,
   hsImport1,
   ident,
@@ -95,12 +96,13 @@ c_QChar =
       return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
     , classHaskellConversionToCppFn = do
       addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForRuntime]
-      sayLn "qChar_newFromInt . QtahFHR.coerceIntegral . QtahDC.ord"
+      sayLn "newFromInt . QtahFHR.coerceIntegral . QtahDC.ord"
     , classHaskellConversionFromCppFn = do
       addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
                             importForRuntime]
-      sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . qChar_unicode"
+      sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . unicode"
     } $
+  classSetEntityPrefix "" $
   makeClass (ident "QChar") Nothing []
   [ mkCtor "new" []
   , mkCtor "newFromCellRow" [ucharT, ucharT]

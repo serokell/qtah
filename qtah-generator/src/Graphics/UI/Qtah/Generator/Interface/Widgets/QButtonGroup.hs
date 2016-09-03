@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup (
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
+  classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
@@ -57,6 +58,7 @@ aModule =
 
 c_QButtonGroup =
   addReqIncludes [includeStd "QButtonGroup"] $
+  classSetEntityPrefix "" $
   makeClass (ident "QButtonGroup") Nothing [c_QObject]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QObject]
