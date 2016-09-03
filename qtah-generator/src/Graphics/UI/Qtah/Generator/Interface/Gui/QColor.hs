@@ -214,7 +214,7 @@ c_QColor =
                               hColorImport]
         sayLn "\\this' -> spec this' >>= \\spec' -> case spec' of"
         indent $ forM_ components $ \(spec, letters, getters) -> do
-          saysLn ["QColorSpec_", spec, " -> do"]
+          saysLn [spec, " -> do"]
           indent $ do
             forM_ (zip letters getters) $ \(var, get) ->
               saysLn [[var], "' <- QtahP.fmap QtahFHR.coerceIntegral $ ", get, " this'"]

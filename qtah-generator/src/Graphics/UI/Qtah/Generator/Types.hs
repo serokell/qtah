@@ -35,6 +35,8 @@ import Foreign.Hoppy.Generator.Spec (
   addReqIncludes,
   bitspaceAddCppType,
   bitspaceAddEnum,
+  bitspaceSetValuePrefix,
+  enumSetValuePrefix,
   identifierParts,
   identT,
   idPartBase,
@@ -67,6 +69,7 @@ qtExportToExport qtExport = case qtExport of
 makeQtEnum :: Identifier -> [Include] -> [(Int, [String])] -> CppEnum
 makeQtEnum identifier includes valueNames =
   addReqIncludes includes $
+  enumSetValuePrefix "" $
   makeEnum identifier
            (Just $ toExtName $ concat $ map idPartBase $ identifierParts identifier)
            valueNames
@@ -85,6 +88,7 @@ makeQtEnumBitspace identifier bitspaceName includes valueNames =
                          (Just "QFlag")
                          (Just "int") $
       bitspaceAddEnum enum $
+      bitspaceSetValuePrefix "" $
       makeBitspace bitspaceExtName intT valueNames)
   where replaceLast _ [] = []
         replaceLast y [_] = [y]

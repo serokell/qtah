@@ -25,6 +25,7 @@ import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass, ExportEnum),
   addReqIncludes,
   classSetEntityPrefix,
+  enumSetValuePrefix,
   ident,
   ident1,
   includeStd,
@@ -91,18 +92,18 @@ signals =
   , makeSignal c_QAbstractSlider "valueChanged" c_ListenerInt
   ]
 
--- This uses 'makeEnum' rather than 'makeQtEnum' and also drops a "Slider"
--- prefix off of the start of each value name, unlike most Qt enums, because
--- 'QAbstractSliderSliderAction_SliderNoAction' is a tad too repetetive.
+-- This uses 'makeEnum' rather than 'makeQtEnum' in order to use the external
+-- name of "QAbstractSliderAction" instead of "QAbstractSliderSliderAction".
 e_SliderAction =
   addReqIncludes [includeStd "QAbstractSlider"] $
+  enumSetValuePrefix "" $
   makeEnum (ident1 "QAbstractSlider" "SliderAction") (Just $ toExtName "QAbstractSliderAction")
-  [ (0, ["no", "action"])
-  , (1, ["single", "step", "add"])
-  , (2, ["single", "step", "sub"])
-  , (3, ["page", "step", "add"])
-  , (4, ["page", "step", "sub"])
-  , (5, ["to", "minimum"])
-  , (6, ["to", "maximum"])
-  , (7, ["move"])
+  [ (0, ["slider", "no", "action"])
+  , (1, ["slider", "single", "step", "add"])
+  , (2, ["slider", "single", "step", "sub"])
+  , (3, ["slider", "page", "step", "add"])
+  , (4, ["slider", "page", "step", "sub"])
+  , (5, ["slider", "to", "minimum"])
+  , (6, ["slider", "to", "maximum"])
+  , (7, ["slider", "move"])
   ]

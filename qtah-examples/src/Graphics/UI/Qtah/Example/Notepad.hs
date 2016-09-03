@@ -189,13 +189,13 @@ confirmSaveIfDirty me title = do
                         (myWindow me)
                         title
                         "There are unsaved changes.  Would you like to save them?"
-                        (QMessageBox.qMessageBoxStandardButtons_Yes .|.
-                         QMessageBox.qMessageBoxStandardButtons_No .|.
-                         QMessageBox.qMessageBoxStandardButtons_Cancel)
-                        QMessageBox.QMessageBoxStandardButton_Cancel
+                        (QMessageBox.yes .|.
+                         QMessageBox.no .|.
+                         QMessageBox.cancel)
+                        QMessageBox.Cancel
             case response of
-              QMessageBox.QMessageBoxStandardButton_Yes -> fileSave me
-              QMessageBox.QMessageBoxStandardButton_No -> return True
+              QMessageBox.Yes -> fileSave me
+              QMessageBox.No -> return True
               _ -> return False
     else return True
 

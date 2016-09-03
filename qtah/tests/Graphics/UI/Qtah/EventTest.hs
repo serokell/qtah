@@ -43,7 +43,7 @@ tests _ =
 
   , "unregister works" ~: withScopedPtr QObject.new $ \receiver -> do
     countVar <- newMVar 0
-    let eventType = QEvent.QEventType_Drop
+    let eventType = QEvent.Drop
     reg <- onAnyEvent receiver $ \_ event -> do
       receivedType <- QEvent.eventType event
       when (receivedType == eventType) $ modifyMVar_ countVar $ return . (+ 1)

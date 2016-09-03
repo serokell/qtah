@@ -176,7 +176,7 @@ c_QDir =
   [ (0x00, ["name"])
   , (0x01, ["time"])
   , (0x02, ["size"])
-  , (0x80, ["type"])
+  , (0x80, ["typ"])  -- "type" is a Haskell keyword.
   , (0x03, ["unsorted"])
     -- QDir::NoSort = -1.  Not sure this is needed (it's used for parameter
     -- defaults).  Would need to check if negative values work as expected.
