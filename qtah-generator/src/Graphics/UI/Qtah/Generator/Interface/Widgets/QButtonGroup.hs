@@ -44,6 +44,7 @@ import Graphics.UI.Qtah.Generator.Interface.Listener (
   c_ListenerPtrQAbstractButtonBool,
   )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

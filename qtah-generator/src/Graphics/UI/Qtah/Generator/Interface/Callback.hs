@@ -22,6 +22,7 @@ import Foreign.Hoppy.Generator.Spec (
   makeCallback,
   makeModule,
   moduleAddExports,
+  moduleAddHaskellName,
   moduleModify',
   toExtName,
   )
@@ -40,32 +41,33 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlid
   )
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
-import Graphics.UI.Qtah.Generator.Types
+import Graphics.UI.Qtah.Generator.Module (AModule (AHoppyModule))
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 aModule =
   AHoppyModule $
-  moduleModify' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $
-  moduleAddExports
-  [ ExportCallback cb_BoolVoid
-  , ExportCallback cb_DoubleVoid
-  , ExportCallback cb_IntVoid
-  , ExportCallback cb_IntBoolVoid
-  , ExportCallback cb_IntIntVoid
-  , ExportCallback cb_PtrQAbstractButtonVoid
-  , ExportCallback cb_PtrQAbstractButtonBoolVoid
-  , ExportCallback cb_PtrQActionVoid
-  , ExportCallback cb_PtrQObjectPtrQEventBool
-  , ExportCallback cb_PtrQObjectVoid
-  , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
-  , ExportCallback cb_QAbstractSliderActionVoid
-  , ExportCallback cb_QClipboardModeVoid
-  , ExportCallback cb_QPointVoid
-  , ExportCallback cb_QSizeVoid
-  , ExportCallback cb_QStringVoid
-  , ExportCallback cb_Void
-  ]
+  moduleModify' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $ do
+    moduleAddHaskellName ["Internal", "Callback"]
+    moduleAddExports
+      [ ExportCallback cb_BoolVoid
+      , ExportCallback cb_DoubleVoid
+      , ExportCallback cb_IntVoid
+      , ExportCallback cb_IntBoolVoid
+      , ExportCallback cb_IntIntVoid
+      , ExportCallback cb_PtrQAbstractButtonVoid
+      , ExportCallback cb_PtrQAbstractButtonBoolVoid
+      , ExportCallback cb_PtrQActionVoid
+      , ExportCallback cb_PtrQObjectPtrQEventBool
+      , ExportCallback cb_PtrQObjectVoid
+      , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
+      , ExportCallback cb_QAbstractSliderActionVoid
+      , ExportCallback cb_QClipboardModeVoid
+      , ExportCallback cb_QPointVoid
+      , ExportCallback cb_QSizeVoid
+      , ExportCallback cb_QStringVoid
+      , ExportCallback cb_Void
+      ]
 
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")

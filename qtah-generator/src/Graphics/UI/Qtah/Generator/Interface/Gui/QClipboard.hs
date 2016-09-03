@@ -42,6 +42,7 @@ import Graphics.UI.Qtah.Generator.Interface.Listener (
   c_Listener,
   c_ListenerQClipboardMode,
   )
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

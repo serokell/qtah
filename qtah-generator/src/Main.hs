@@ -17,9 +17,8 @@
 
 module Main where
 
-import Data.Foldable (forM_)
 import Data.List (intercalate)
-import Foreign.Hoppy.Generator.Main (Action (GenHaskell), run)
+import Foreign.Hoppy.Generator.Main (run)
 import Foreign.Hoppy.Generator.Spec (
   Interface,
   Module,
@@ -31,9 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import qualified Foreign.Hoppy.Generator.Std as Std
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import Graphics.UI.Qtah.Generator.Common (maybeFail)
 import Graphics.UI.Qtah.Generator.Module
-import Graphics.UI.Qtah.Generator.Types
 import qualified Graphics.UI.Qtah.Generator.Interface.Callback as Callback
 import qualified Graphics.UI.Qtah.Generator.Interface.Core as Core
 import qualified Graphics.UI.Qtah.Generator.Interface.EventListener as EventListener
@@ -68,8 +65,8 @@ modules =
 
 interfaceResult :: Either String Interface
 interfaceResult =
-  interfaceAddHaskellModuleBase ["Graphics", "UI", "Qtah", "Generated"] =<<
-  interface "qtah" (map aModuleHoppy modules)
+  interfaceAddHaskellModuleBase ["Graphics", "UI", "Qtah"] =<<
+  interface "qtah" (concatMap aModuleHoppyModules modules)
 
 main :: IO ()
 main =
@@ -82,19 +79,8 @@ main =
       case args of
         ["--qt-version"] -> putStrLn $ intercalate "." $ map show qtVersion
         _ -> do
-          actions <- run [iface] args
-          forM_ actions $ \action -> case action of
-            GenHaskell path -> do
-              -- Generate nicely-named Qt modules that will point to the bindings,
-              -- and also contain signal definitions.
-              srcDir <- maybeFail ("Couldn't find src directory for path " ++ show path ++
-                                   " to generate Qt modules.") $
-                        findSrcDir path
-              forM_ modules $ \aModule -> case aModule of
-                AHoppyModule _ -> return ()
-                AQtModule qm -> generateModule iface srcDir "Graphics.UI.Qtah" qm
-
-            _ -> return ()
+          _ <- run [iface] args
+          return ()
 
 findSrcDir :: FilePath -> Maybe FilePath
 findSrcDir = go . dropTrailingPathSeparator

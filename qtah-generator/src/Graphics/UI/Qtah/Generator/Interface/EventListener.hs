@@ -30,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
 import Foreign.Hoppy.Generator.Types (callbackT, intT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Callback (cb_PtrQObjectPtrQEventBool)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

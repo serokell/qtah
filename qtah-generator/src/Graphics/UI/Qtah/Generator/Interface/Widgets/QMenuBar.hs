@@ -45,6 +45,7 @@ import Graphics.UI.Qtah.Generator.Interface.Listener (c_ListenerPtrQAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 aModule =

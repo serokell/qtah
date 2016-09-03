@@ -18,7 +18,14 @@
 {-# LANGUAGE CPP #-}
 
 module Graphics.UI.Qtah.Generator.Module (
-  generateModule,
+  AModule (..),
+  aModuleHoppyModules,
+  QtModule,
+  makeQtModule,
+  makeQtModuleWithMinVersion,
+  qtModulePath,
+  qtModuleQtExports,
+  qtModuleHoppy,
   ) where
 
 import Control.Monad (forM_, unless, when)
@@ -27,8 +34,9 @@ import Control.Monad.Except (throwError)
 #else
 import Control.Monad.Error (throwError)
 #endif
-import Data.List (find, intercalate, intersperse, isPrefixOf, sort)
-import Data.Maybe (isJust)
+import Data.Char (toLower)
+import Data.List (find, intersperse, sort)
+import Data.Maybe (isJust, mapMaybe)
 #if !MIN_VERSION_base(4,8,0)
 import Data.Monoid (mconcat)
 #endif
@@ -38,29 +46,30 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   HsTypeSide (HsHsSide),
   addExport,
   addExports,
+  addExtension,
   addImports,
+  askInterface,
   cppTypeToHsTypeAndUse,
-  execGenerator,
   getClassHaskellConversion,
-  importHsModuleForExtName,
+  getModuleForExtName,
+  getModuleName,
   indent,
   inFunction,
   ln,
   prettyPrint,
-  renderPartial,
   sayLn,
   saysLn,
-  toHsBitspaceClassName,
-  toHsBitspaceToNumName,
-  toHsBitspaceTypeName,
-  toHsBitspaceValueName,
-  toHsCastMethodName,
-  toHsDataTypeName,
-  toHsDownCastMethodName,
-  toHsEnumTypeName,
-  toHsFnName,
-  toHsPtrClassName,
-  toHsValueClassName,
+  toHsBitspaceClassName',
+  toHsBitspaceToNumName',
+  toHsBitspaceTypeName',
+  toHsBitspaceValueName',
+  toHsCastMethodName',
+  toHsDataTypeName',
+  toHsDownCastMethodName',
+  toHsEnumTypeName',
+  toHsFnName',
+  toHsPtrClassName',
+  toHsValueClassName',
   )
 import Foreign.Hoppy.Generator.Spec (
   Class,
@@ -70,42 +79,42 @@ import Foreign.Hoppy.Generator.Spec (
   ExtName,
   FnName (FnName),
   Function,
-  Interface,
   Method,
   MethodImpl (RealMethod),
+  Module,
   Type (Internal_TCallback),
-  bitspaceExtName,
+  addAddendumHaskell,
   bitspaceValueNames,
   callbackParams,
   classCtors,
+  classEntityForeignName,
   classExtName,
   classMethods,
   ctorExtName,
   ctorParams,
-  enumExtName,
   fnExtName,
   fromExtName,
-  getClassyExtName,
+  getPrimaryExtName,
   hsImport1,
   hsImports,
+  hsWholeModuleImport,
+  makeModule,
   methodExtName,
   methodImpl,
-  toExtName,
-  varExtName,
+  moduleAddExports,
+  moduleAddHaskellName,
+  moduleModify',
   varGetterExtName,
   varIsConst,
   varSetterExtName,
   )
 import Foreign.Hoppy.Generator.Types (objT)
-import Graphics.UI.Qtah.Generator.Flags (qrealFloat)
-import Graphics.UI.Qtah.Generator.Common (fromMaybeM, writeFileIfDifferent)
+import Graphics.UI.Qtah.Generator.Flags (Version, qrealFloat, qtVersion)
+import Graphics.UI.Qtah.Generator.Common (fromMaybeM)
 import Graphics.UI.Qtah.Generator.Types (
   QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal, QtExportSpecials),
-  QtModule,
   Signal,
-  moduleNameAppend,
-  qtModulePath,
-  qtModuleQtExports,
+  qtExportToExport,
   signalClass,
   signalCName,
   signalHaskellName,
@@ -118,36 +127,77 @@ import Language.Haskell.Syntax (
   HsQualType (HsQualType),
   HsType (HsTyApp, HsTyCon, HsTyFun, HsTyVar),
   )
-import System.Directory (createDirectoryIfMissing)
-import System.Exit (exitFailure)
-import System.FilePath ((</>), (<.>), pathSeparator, takeDirectory)
 
-generateModule :: Interface -> FilePath -> String -> QtModule -> IO ()
-generateModule iface srcDir baseModuleName qtModule = do
-  let fullModuleName = moduleNameAppend baseModuleName $ intercalate "." $ qtModulePath qtModule
-      qtExports = qtModuleQtExports qtModule
+-- | A union of Hoppy and Qt modules.
+data AModule = AHoppyModule Module | AQtModule QtModule
 
-  let generation =
-        fmap (("{-# LANGUAGE NoMonomorphismRestriction #-}\n\n" ++) . renderPartial) $
-        execGenerator iface fullModuleName $ do
-          -- As in generated Hoppy bindings, avoid non-qualified Prelude uses in
-          -- generated code here.
-          addImports $ hsImports "Prelude" []
+aModuleHoppyModules :: AModule -> [Module]
+aModuleHoppyModules (AHoppyModule m) = [m]
+aModuleHoppyModules (AQtModule qm) = [qtModuleHoppy qm, qtModuleHoppyWrapper qm]
 
-          -- Generate bindings for all of the exports.
-          mapM_ (sayQtExport $ qtModulePath qtModule) qtExports
+-- | A @QtModule@ (distinct from a Hoppy 'Module'), is a description of a
+-- Haskell module in the @Graphics.UI.Qtah.Q@ namespace that:
+--
+--     1. reexports 'Export's from a Hoppy module, dropping @ClassName_@
+--        prefixes from the reexported names.
+--     2. generates Signal definitions for Qt signals.
+data QtModule = QtModule
+  { qtModulePath :: [String]
+  , qtModuleQtExports :: [QtExport]
+    -- ^ A list of exports whose generated Hoppy bindings will be re-exported in
+    -- this module.
+  , qtModuleHoppy :: Module
+  , qtModuleHoppyWrapper :: Module
+  }
 
-  case generation of
-    Left errorMsg -> do
-      putStrLn $ "Error generating Qt modules: " ++ errorMsg
-      exitFailure
-    Right source -> do
-      let path =
-            srcDir </>
-            map (\c -> if c == '.' then pathSeparator else c) fullModuleName <.>
-            "hs"
-      createDirectoryIfMissing True $ takeDirectory path
-      writeFileIfDifferent path source
+makeQtModule :: [String] -> [QtExport] -> QtModule
+makeQtModule [] _ = error "makeQtModule: Module path must be nonempty."
+makeQtModule modulePath@(_:moduleNameParts) qtExports =
+  let lowerName = map toLower $ concat moduleNameParts
+  in QtModule
+     { qtModulePath = modulePath
+     , qtModuleQtExports = qtExports
+     , qtModuleHoppy =
+       moduleModify' (makeModule lowerName
+                      (concat ["b_", lowerName, ".hpp"])
+                      (concat ["b_", lowerName, ".cpp"])) $ do
+         moduleAddHaskellName $ "Generated" : modulePath
+         moduleAddExports $ mapMaybe qtExportToExport qtExports
+     , qtModuleHoppyWrapper =
+       addAddendumHaskell (sayWrapperModule modulePath qtExports) $
+       moduleModify' (makeModule (lowerName ++ "wrap")
+                      (concat ["b_", lowerName, "_w.hpp"])
+                      (concat ["b_", lowerName, "_w.cpp"])) $
+       moduleAddHaskellName modulePath
+     }
+
+-- | Creates a 'QtModule' (a la 'makeQtModule') that has a minimum version
+-- applied to all of its contents.  If Qtah is being built against a version of
+-- Qt below this minimum version, then the module will still be generated, but
+-- it will be empty; the exports list will be replaced with an empty list.
+makeQtModuleWithMinVersion :: [String] -> Version -> [QtExport] -> QtModule
+makeQtModuleWithMinVersion modulePath minVersion qtExports =
+  makeQtModule modulePath $
+  if qtVersion >= minVersion then qtExports else []
+
+sayWrapperModule :: [String] -> [QtExport] -> Generator ()
+sayWrapperModule modulePath qtExports = inFunction "<Qtah generateModule>" $ do
+  addExtension "NoMonomorphismRestriction"
+
+  -- As in generated Hoppy bindings, avoid non-qualified Prelude uses in
+  -- generated code here.
+  addImports $ hsImports "Prelude" []
+
+  -- Import the underlying Hoppy module wholesale.
+  case mapMaybe qtExportToExport qtExports of
+    [] -> return ()
+    export:_ -> importWholeModuleForExtName $ getPrimaryExtName export
+
+  -- Generate bindings for all of the exports.
+  mapM_ (sayQtExport modulePath) qtExports
+
+getFnImportName :: Function -> String
+getFnImportName = toHsFnName' . fnExtName
 
 getFnReexportName :: Function -> String
 getFnReexportName = getFnImportName
@@ -170,31 +220,11 @@ classEncodeReexportName = "encode"
 classDecodeReexportName :: String
 classDecodeReexportName = "decode"
 
-getCtorReexportName :: Class -> Ctor -> String
-getCtorReexportName cls = toBindingNameWithoutClassPrefix cls . ctorExtName
+getCtorReexportName :: Ctor -> String
+getCtorReexportName = toHsFnName' . ctorExtName
 
-getMethodReexportName :: Class -> Method -> String
-getMethodReexportName cls = toBindingNameWithoutClassPrefix cls . methodExtName
-
--- | Qtah uses @ClassName_innerName@ 'ExtName's for things in classes.  This
--- function strips the @ClassName_@ prefix off of an 'ExtName', if present, and
--- converts it to a function name.
-toBindingNameWithoutClassPrefix :: Class -> ExtName -> String
-toBindingNameWithoutClassPrefix cls name =
-  toHsFnName $ toExtName $
-  dropPrefix (fromExtName (classExtName cls) ++ "_") $
-  fromExtName name
-
--- | @dropPrefix prefix str@ strips @prefix@ from @str@ if @str@ starts with
--- @prefix@, and returns @str@ unmodified otherwise.
-dropPrefix :: String -> String -> String
-dropPrefix prefix str =
-  if prefix `isPrefixOf` str
-  then drop (length prefix) str
-  else str
-
-getFnImportName :: Function -> String
-getFnImportName = toHsFnName . fnExtName
+getMethodReexportName :: Method -> String
+getMethodReexportName = toHsFnName' . methodExtName
 
 sayClassEncodingFnReexports :: Class -> Generator ()
 sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
@@ -204,8 +234,8 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
     addImports $ mconcat [importForPrelude, importForRuntime]
 
     hsHsType <- cppTypeToHsTypeAndUse HsHsSide (objT cls)
-    let constPtrClassName = toHsPtrClassName Const cls
-        dataTypeName = toHsDataTypeName Nonconst cls
+    let constPtrClassName = toHsPtrClassName' Const cls
+        dataTypeName = toHsDataTypeName' Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
         thisTyVar = HsTyVar $ HsIdent "this"
         encodeFnType = HsTyFun hsHsType $ HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") ptrHsType
@@ -217,34 +247,29 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
     saysLn [classEncodeReexportName, " = QtahFHR.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
     ln
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
-    saysLn [classDecodeReexportName, " = QtahFHR.decode QtahP.. ", toHsCastMethodName Const cls]
+    saysLn [classDecodeReexportName, " = QtahFHR.decode QtahP.. ", toHsCastMethodName' Const cls]
 
 sayQtExport :: [String] -> QtExport -> Generator ()
 sayQtExport path qtExport = case qtExport of
   QtExport (ExportVariable v) -> do
-    importHsModuleForExtName $ varExtName v
-    addExport $ toHsFnName $ varGetterExtName v
-    unless (varIsConst v) $ addExport $ toHsFnName $ varSetterExtName v
+    addExport $ toHsFnName' $ varGetterExtName v
+    unless (varIsConst v) $ addExport $ toHsFnName' $ varSetterExtName v
 
   QtExport (ExportEnum e) -> do
-    importHsModuleForExtName $ enumExtName e
-    let spec = toHsEnumTypeName e ++ " (..)"
+    let spec = toHsEnumTypeName' e ++ " (..)"
     addExport spec
 
   QtExport (ExportBitspace b) -> do
-    importHsModuleForExtName $ bitspaceExtName b
-    addExport $ toHsBitspaceTypeName b
-    addExport $ toHsBitspaceToNumName b
-    addExport $ toHsBitspaceClassName b ++ " (..)"
+    addExport $ toHsBitspaceTypeName' b
+    addExport $ toHsBitspaceToNumName' b
+    addExport $ toHsBitspaceClassName' b ++ " (..)"
     forM_ (bitspaceValueNames b) $ \(_, valueName) ->
-      addExport $ toHsBitspaceValueName b valueName
+      addExport $ toHsBitspaceValueName' b valueName
 
   QtExport (ExportFn fn) -> do
-    importHsModuleForExtName $ fnExtName fn
     addExport $ getFnReexportName fn
 
   QtExportFnRenamed fn rename -> do
-    importHsModuleForExtName $ fnExtName fn
     addExport rename
     sayBind rename $ getFnImportName fn
 
@@ -257,7 +282,7 @@ sayQtExport path qtExport = case qtExport of
   QtExportEvent cls -> do
     sayExportClass cls
 
-    let typeName = toHsDataTypeName Nonconst cls
+    let typeName = toHsDataTypeName' Nonconst cls
     addImports $ mconcat [hsImport1 "Prelude" "($)",
                           importForEvent]
     ln
@@ -283,13 +308,12 @@ sayQtExport path qtExport = case qtExport of
 
 sayExportClass :: Class -> Generator ()
 sayExportClass cls = do
-  importHsModuleForExtName $ classExtName cls
   addExports $
-    (toHsValueClassName cls ++ " (..)") :
-    (toHsPtrClassName Const cls ++ " (..)") :
-    (toHsPtrClassName Nonconst cls ++ " (..)") :
-    toHsDataTypeName Const cls :
-    toHsDataTypeName Nonconst cls :
+    (toHsValueClassName' cls ++ " (..)") :
+    (toHsPtrClassName' Const cls ++ " (..)") :
+    (toHsPtrClassName' Nonconst cls ++ " (..)") :
+    toHsDataTypeName' Const cls :
+    toHsDataTypeName' Nonconst cls :
     classUpCastConstReexportName :
     classUpCastReexportName :
     classDownCastConstReexportName :
@@ -297,20 +321,20 @@ sayExportClass cls = do
     concat [ if classIsConvertible cls
              then [classEncodeReexportName, classDecodeReexportName]
              else []
-           , sort $ map (getCtorReexportName cls) $ classCtors cls
-           , sort $ map (getMethodReexportName cls) $ classMethods cls
+           , sort $ map getCtorReexportName $ classCtors cls
+           , sort $ map getMethodReexportName $ classMethods cls
            ]
 
   ln
-  sayBind classUpCastConstReexportName $ toHsCastMethodName Const cls
-  sayBind classUpCastReexportName $ toHsCastMethodName Nonconst cls
-  sayBind classDownCastConstReexportName $ toHsDownCastMethodName Const cls
-  sayBind classDownCastReexportName $ toHsDownCastMethodName Nonconst cls
+  sayBind classUpCastConstReexportName $ toHsCastMethodName' Const cls
+  sayBind classUpCastReexportName $ toHsCastMethodName' Nonconst cls
+  sayBind classDownCastConstReexportName $ toHsDownCastMethodName' Const cls
+  sayBind classDownCastReexportName $ toHsDownCastMethodName' Nonconst cls
   sayClassEncodingFnReexports cls
   forM_ (classCtors cls) $ \ctor ->
-    sayBind (getCtorReexportName cls ctor) $ toHsFnName $ getClassyExtName cls ctor
+    sayBind (getCtorReexportName ctor) $ toHsFnName' $ classEntityForeignName cls ctor
   forM_ (classMethods cls) $ \method ->
-    sayBind (getMethodReexportName cls method) $ toHsFnName $ getClassyExtName cls method
+    sayBind (getMethodReexportName method) $ toHsFnName' $ classEntityForeignName cls method
 
 -- | Generates and exports a @Signal@ definition.  We create the signal from
 -- scratch in this module, rather than reexporting it from somewhere else.
@@ -320,12 +344,12 @@ sayExportSignal signal = inFunction "sayExportSignal" $ do
 
   let name = signalCName signal
       cls = signalClass signal
-      ptrClassName = toHsPtrClassName Nonconst cls
+      ptrClassName = toHsPtrClassName' Nonconst cls
       varName = toSignalBindingName signal
   addExport varName
 
   let listenerClass = signalListenerClass signal
-  importHsModuleForExtName $ classExtName listenerClass
+  importWholeModuleForExtName $ classExtName listenerClass
   -- Find the listener constructor that only takes a callback.
   listenerCtor <-
     fromMaybeM (throwError $ concat
@@ -365,8 +389,9 @@ sayExportSignal signal = inFunction "sayExportSignal" $ do
   indent $ do
     sayLn "{ QtahSignal.internalConnectSignal = \\object' fn' -> do"
     indent $ do
-      saysLn ["listener' <- ", toHsFnName $ getClassyExtName listenerClass listenerCtor, " fn'"]
-      saysLn [toHsFnName $ getClassyExtName listenerClass listenerConnectMethod,
+      saysLn ["listener' <- ",
+              toHsFnName' $ classEntityForeignName listenerClass listenerCtor, " fn'"]
+      saysLn [toHsFnName' $ classEntityForeignName listenerClass listenerConnectMethod,
               " listener' object' ", show (toSignalConnectName signal paramTypes)]
     saysLn [", QtahSignal.internalName = ", show internalName]
     sayLn "}"
@@ -390,3 +415,8 @@ toSignalConnectName signal paramTypes =
 -- type with @encode@ and @decode@.
 classIsConvertible :: Class -> Bool
 classIsConvertible = isJust . getClassHaskellConversion
+
+importWholeModuleForExtName :: ExtName -> Generator ()
+importWholeModuleForExtName extName = do
+  iface <- askInterface
+  addImports . hsWholeModuleImport . getModuleName iface =<< getModuleForExtName extName

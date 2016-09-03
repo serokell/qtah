@@ -38,6 +38,7 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Listener (c_ListenerInt)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

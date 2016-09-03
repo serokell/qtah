@@ -63,6 +63,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Imports
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
   HsName (HsIdent),

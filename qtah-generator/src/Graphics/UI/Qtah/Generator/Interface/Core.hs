@@ -37,7 +37,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QStringList as QStrin
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent as QTimerEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QVector as QVector
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.Types as Types
-import Graphics.UI.Qtah.Generator.Types
+import Graphics.UI.Qtah.Generator.Module (AModule)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 

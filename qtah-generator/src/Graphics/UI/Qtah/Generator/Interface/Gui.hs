@@ -37,7 +37,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QRegion as QRegion
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QShowEvent as QShowEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QValidator as QValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent as QWheelEvent
-import Graphics.UI.Qtah.Generator.Types
+import Graphics.UI.Qtah.Generator.Module (AModule)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 

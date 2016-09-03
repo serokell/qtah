@@ -68,6 +68,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_GlobalColor, qreal)
 import Graphics.UI.Qtah.Generator.Interface.Imports
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
   HsName (HsIdent),

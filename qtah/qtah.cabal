@@ -54,9 +54,6 @@ library
     , Graphics.UI.Qtah.Core.QVector.QPoint
     , Graphics.UI.Qtah.Core.Types
     , Graphics.UI.Qtah.Event
-    -- TODO This should not be exposed directly, but there is no nice interface
-    -- to it right now.
-    , Graphics.UI.Qtah.Generated.Std
     , Graphics.UI.Qtah.Gui.HColor
     , Graphics.UI.Qtah.Gui.QActionEvent
     , Graphics.UI.Qtah.Gui.QClipboard
@@ -79,6 +76,9 @@ library
     , Graphics.UI.Qtah.Gui.QValidator
     , Graphics.UI.Qtah.Gui.QWheelEvent
     , Graphics.UI.Qtah.Signal
+    -- TODO This should not be exposed directly, but there is no nice interface
+    -- to it right now.
+    , Graphics.UI.Qtah.Std
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Widgets.QAbstractSlider
@@ -124,8 +124,7 @@ library
     , Graphics.UI.Qtah.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Widgets.QWidget
   other-modules:
-      Graphics.UI.Qtah.Generated.Callback
-    , Graphics.UI.Qtah.Generated.Core.QChar
+      Graphics.UI.Qtah.Generated.Core.QChar
     , Graphics.UI.Qtah.Generated.Core.QChildEvent
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
     , Graphics.UI.Qtah.Generated.Core.QDir
@@ -171,7 +170,6 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QValidator
     , Graphics.UI.Qtah.Generated.Gui.QWheelEvent
     , Graphics.UI.Qtah.Generated.Internal.EventListener
-    , Graphics.UI.Qtah.Generated.Listener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractSlider
@@ -216,7 +214,9 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QWidget
+    , Graphics.UI.Qtah.Internal.Callback
     , Graphics.UI.Qtah.Internal.EventListener
+    , Graphics.UI.Qtah.Internal.Listener
   other-extensions:
       FlexibleContexts
     , NoMonomorphismRestriction

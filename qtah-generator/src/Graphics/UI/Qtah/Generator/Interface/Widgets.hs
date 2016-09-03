@@ -61,7 +61,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget as QTab
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout as QVBoxLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget as QWidget
-import Graphics.UI.Qtah.Generator.Types
+import Graphics.UI.Qtah.Generator.Module (AModule)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 

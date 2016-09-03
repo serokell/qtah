@@ -41,6 +41,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
 import Foreign.Hoppy.Generator.Types (boolT, objT, refT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModuleWithMinVersion)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

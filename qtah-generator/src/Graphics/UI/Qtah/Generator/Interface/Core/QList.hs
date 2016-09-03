@@ -48,8 +48,8 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   prettyPrint,
   sayLn,
   saysLn,
+  toHsClassEntityName',
   toHsDataTypeName,
-  toHsMethodName',
   )
 import Foreign.Hoppy.Generator.Spec (
   Class,
@@ -92,6 +92,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), QtModule, makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
   HsQName (Special),
@@ -202,7 +203,7 @@ instantiate' listName t tReqs opts =
           addImports $ hsImport1 "Prelude" "($)"
 
         forM_ [Const, Nonconst] $ \cst -> do
-          let hsDataTypeName = toHsDataTypeName cst list
+          hsDataTypeName <- toHsDataTypeName cst list
           hsValueType <- cppTypeToHsTypeAndUse HsHsSide $ case cst of
             Const -> constT t
             Nonconst -> t
@@ -217,9 +218,9 @@ instantiate' listName t tReqs opts =
               let listAt = case cst of
                     Const -> "atConst"
                     Nonconst -> "at"
-              saysLn ["size' <- ", toHsMethodName' list "size", " this'"]
+              saysLn ["size' <- ", toHsClassEntityName' list "size", " this'"]
               saysLn ["QtahP.mapM (QtahFHR.decode <=< ",
-                      toHsMethodName' list listAt, " this') [0..size'-1]"]
+                      toHsClassEntityName' list listAt, " this') [0..size'-1]"]
 
           -- Only generate a nonconst FromContents instance.
           when (cst == Nonconst) $ do
@@ -229,11 +230,11 @@ instantiate' listName t tReqs opts =
             indent $ do
               sayLn "fromContents values' = do"
               indent $ do
-                saysLn ["list' <- ", toHsMethodName' list "new"]
+                saysLn ["list' <- ", toHsClassEntityName' list "new"]
                 when hasReserve $
-                  saysLn [toHsMethodName' list "reserve",
+                  saysLn [toHsClassEntityName' list "reserve",
                           " list' $ QtahFHR.coerceIntegral $ QtahP.length values'"]
-                saysLn ["QtahP.mapM_ (", toHsMethodName' list "append", " list') values'"]
+                saysLn ["QtahP.mapM_ (", toHsClassEntityName' list "append", " list') values'"]
                 sayLn "QtahP.return list'"
 
       -- A QList of some type converts into a Haskell list of the corresponding

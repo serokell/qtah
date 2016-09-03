@@ -32,8 +32,9 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   sayLn,
   saysLn,
   toHsCastMethodName,
+  toHsClassEntityName,
+  toHsClassEntityName',
   toHsDataTypeName,
-  toHsMethodName',
   )
 import Foreign.Hoppy.Generator.Spec (
   ClassHaskellConversion (
@@ -68,6 +69,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_CaseSensitivity)
 import Graphics.UI.Qtah.Generator.Interface.Imports
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
   HsName (HsIdent),
@@ -119,24 +121,26 @@ c_QStringList =
   ]
 
   where addendum = do
-          let hsDataTypeName = toHsDataTypeName Nonconst c_QStringList
-              hsDataTypeNameConst = toHsDataTypeName Const c_QStringList
+          hsDataTypeName <- toHsDataTypeName Nonconst c_QStringList
+          hsDataTypeNameConst <- toHsDataTypeName Const c_QStringList
+          castToQList <- toHsCastMethodName Const c_QListQString
           addImports $ mconcat [hsImport1 "Prelude" "(.)",
                                 importForPrelude,
                                 importForRuntime]
           ln
           saysLn ["instance QtahFHR.HasContents ", hsDataTypeNameConst, " QtahP.String where"]
           indent $
-            saysLn ["toContents = QtahFHR.toContents . ", toHsCastMethodName Const c_QListQString]
+            saysLn ["toContents = QtahFHR.toContents . ", castToQList]
           ln
           saysLn ["instance QtahFHR.HasContents ", hsDataTypeName, " QtahP.String where"]
           indent $
-            saysLn ["toContents = QtahFHR.toContents . ", toHsCastMethodName Const c_QStringList]
+            saysLn ["toContents = QtahFHR.toContents . ", castToQList]
           ln
           saysLn ["instance QtahFHR.FromContents ", hsDataTypeName, " QtahP.String where"]
           indent $ do
             sayLn "fromContents strs' = do"
             indent $ do
-              saysLn ["l' <- ", toHsMethodName' c_QStringList "new"]
-              saysLn ["QtahP.mapM_ (", toHsMethodName' c_QListQString "append", " l') strs'"]
+              listAppend <- toHsClassEntityName c_QListQString "append"
+              saysLn ["l' <- ", toHsClassEntityName' c_QStringList "new"]
+              saysLn ["QtahP.mapM_ (", listAppend, " l') strs'"]
               sayLn "QtahP.return l'"

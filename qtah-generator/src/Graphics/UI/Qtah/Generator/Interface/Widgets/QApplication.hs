@@ -51,6 +51,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_LayoutDirection, e_Nav
 import Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard (c_QClipboard)
 import Graphics.UI.Qtah.Generator.Interface.Listener (c_Listener, c_ListenerPtrQWidgetPtrQWidget)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

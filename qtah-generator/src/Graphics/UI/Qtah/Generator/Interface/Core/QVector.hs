@@ -45,8 +45,8 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   prettyPrint,
   sayLn,
   saysLn,
+  toHsClassEntityName',
   toHsDataTypeName,
-  toHsMethodName',
   )
 import Foreign.Hoppy.Generator.Spec (
   Class,
@@ -81,6 +81,7 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPointF (c_QPointF)
 import Graphics.UI.Qtah.Generator.Interface.Imports
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), QtModule, makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 -- | Options for instantiating the vector classes.
@@ -204,7 +205,7 @@ instantiate' vectorName t tReqs opts =
                               importForRuntime]
 
         forM_ [Const, Nonconst] $ \cst -> do
-          let hsDataTypeName = toHsDataTypeName cst vector
+          hsDataTypeName <- toHsDataTypeName cst vector
           hsValueType <- cppTypeToHsTypeAndUse HsHsSide $ case cst of
             Const -> constT t
             Nonconst -> t
@@ -219,9 +220,9 @@ instantiate' vectorName t tReqs opts =
               let vectorAt = case cst of
                     Const -> "atConst"
                     Nonconst -> "at"
-              saysLn ["size' <- ", toHsMethodName' vector "size", " this'"]
+              saysLn ["size' <- ", toHsClassEntityName' vector "size", " this'"]
               saysLn ["QtahP.mapM (QtahFHR.decode <=< ",
-                      toHsMethodName' vector vectorAt, " this') [0..size'-1]"]
+                      toHsClassEntityName' vector vectorAt, " this') [0..size'-1]"]
 
           -- Only generate a nonconst FromContents instance.
           when (cst == Nonconst) $ do
@@ -231,10 +232,10 @@ instantiate' vectorName t tReqs opts =
             indent $ do
               sayLn "fromContents values' = do"
               indent $ do
-                saysLn ["vector' <- ", toHsMethodName' vector "new"]
-                saysLn [toHsMethodName' vector "reserve",
+                saysLn ["vector' <- ", toHsClassEntityName' vector "new"]
+                saysLn [toHsClassEntityName' vector "reserve",
                         " vector' $ QtahFHR.coerceIntegral $ QtahP.length values'"]
-                saysLn ["QtahP.mapM_ (", toHsMethodName' vector "append", " vector') values'"]
+                saysLn ["QtahP.mapM_ (", toHsClassEntityName' vector "append", " vector') values'"]
                 sayLn "QtahP.return vector'"
 
   in Contents

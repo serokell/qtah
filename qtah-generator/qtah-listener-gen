@@ -200,7 +200,7 @@ if [[ -n $hsDir ]]; then
     say 'import qualified Foreign.Hoppy.Generator.Spec as S'
     say 'import qualified Foreign.Hoppy.Generator.Types as S'
     say 'import qualified Foreign.Hoppy.Generator.Std.String as String'
-    say 'import qualified Graphics.UI.Qtah.Generator.Types as T'
+    say 'import qualified Graphics.UI.Qtah.Generator.Module as M'
     say 'import qualified Graphics.UI.Qtah.Generator.Interface.Callback as C'
     say 'import qualified Graphics.UI.Qtah.Generator.Interface.Core.QObject as QObject'
     say
@@ -226,23 +226,24 @@ if [[ -n $hsDir ]]; then
     forEachListener writeHs
 
     say
-    say "aModule :: T.AModule"
+    say "aModule :: M.AModule"
     say "aModule ="
-    say "  T.AHoppyModule \$"
+    say "  M.AHoppyModule \$"
     say "  S.addReqIncludes [S.includeLocal \"listener.hpp\"] \$"
-    say "  S.moduleModify' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$"
-    say "  S.moduleAddExports"
+    say "  S.moduleModify' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$ do"
+    say "    S.moduleAddHaskellName [\"Internal\", \"Listener\"]"
+    say "    S.moduleAddExports"
     cont="["
     writeHs() {
         local -r name="${1?}"
         local -r className="Listener${name}"
         local -r classVar="c_${className}"
 
-        say "  ${cont} S.ExportClass ${classVar}"
+        say "      ${cont} S.ExportClass ${classVar}"
         if [[ $cont = '[' ]]; then cont=','; fi
     }
     forEachListener writeHs
-    say "  ]"
+    say "      ]"
 
     exec {fhs}>&-
     unset fhs writeHs

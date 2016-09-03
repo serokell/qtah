@@ -34,6 +34,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (e_Type)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_KeyboardModifiers)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent (c_QInputEvent)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

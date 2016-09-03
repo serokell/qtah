@@ -207,8 +207,8 @@ doClean cleanFlags = do
   delStartingWithInDir "Q" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Gui"]
   delStartingWithInDir "Q" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Widgets"]
   delStartingWithInDir "Types.hs" $ startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Core"]
-  delFile True (startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Internal"])
-    "EventListener.hs"
+  mapM_ (delFile True (startDir </> joinPath ["src", "Graphics", "UI", "Qtah", "Internal"]))
+    ["Callback.hs", "EventListener.hs", "Listener.hs"]
 
   where verbosity = fromFlagOrDefault normal $ cleanVerbosity cleanFlags
 

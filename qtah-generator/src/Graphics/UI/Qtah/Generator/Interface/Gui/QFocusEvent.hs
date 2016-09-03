@@ -31,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
 import Foreign.Hoppy.Generator.Types (boolT, enumT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent, e_Type)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_FocusReason)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

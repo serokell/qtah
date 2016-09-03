@@ -45,6 +45,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment, e_Corner)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem (c_QLayoutItem)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}

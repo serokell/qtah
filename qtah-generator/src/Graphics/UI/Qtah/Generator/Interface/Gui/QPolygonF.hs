@@ -44,6 +44,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QRectF (c_QRectF)
 import Graphics.UI.Qtah.Generator.Interface.Core.QVector (c_QVectorQPointF)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_FillRule)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon (c_QPolygon)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
