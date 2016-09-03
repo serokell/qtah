@@ -1,5 +1,5 @@
 name: qtah-generator
-version: 0.1.2
+version: 0.2.0
 synopsis: Generator for Qtah Qt bindings
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3

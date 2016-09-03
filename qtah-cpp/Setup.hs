@@ -194,10 +194,10 @@ doInstall verbosity packageDesc localBuildInfo copyDest = do
       (\e -> if isDoesNotExistError e then return False else ioError e)
     when shouldDelete $ removeFile path
   installExecutableFile verbosity
-                        (cppSourceDir </> "libqtah.so.0.1.2")
-                        (libDir </> "libqtah.so.0.1.2")
-  createSymbolicLink "libqtah.so.0.1.2" (libDir </> "libqtah.so.0.1")
-  createSymbolicLink "libqtah.so.0.1" (libDir </> "libqtah.so.0")
+                        (cppSourceDir </> "libqtah.so.0.2.0")
+                        (libDir </> "libqtah.so.0.2.0")
+  createSymbolicLink "libqtah.so.0.2.0" (libDir </> "libqtah.so.0.2")
+  createSymbolicLink "libqtah.so.0.2" (libDir </> "libqtah.so.0")
   createSymbolicLink "libqtah.so.0" (libDir </> "libqtah.so")
 
   -- Also record what version of Qt we are using, so that qtah can check that
