@@ -48,8 +48,7 @@ c_QFocusEvent =
   classSetEntityPrefix "" $
   makeClass (ident "QFocusEvent") Nothing [c_QEvent]
   [ mkCtor "new" [enumT e_Type, enumT e_FocusReason]
-  ] $
-  [ mkConstMethod "gotFocus" [] boolT
+  , mkConstMethod "gotFocus" [] boolT
   , mkConstMethod "lostFocus" [] boolT
   , mkConstMethod "reason" [] $ enumT e_FocusReason
   ]

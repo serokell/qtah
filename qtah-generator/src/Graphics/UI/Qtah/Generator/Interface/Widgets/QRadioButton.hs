@@ -51,4 +51,3 @@ c_QRadioButton =
   , mkCtor "newWithText" [objT c_QString]
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   ]
-  []

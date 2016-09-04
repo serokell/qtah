@@ -50,7 +50,7 @@ aModule =
 c_QValidator =
   addReqIncludes [includeStd "QValidator"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QValidator") Nothing [c_QObject] [] $
+  makeClass (ident "QValidator") Nothing [c_QObject] $
   [ mkConstMethod "fixup" [refT $ objT c_QString] voidT
     -- TODO locale
     -- TODO setLocale

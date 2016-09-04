@@ -33,7 +33,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
@@ -62,9 +61,9 @@ c_QMenu =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithTitle" [objT c_QString]
   , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
-  ] $
-  [ mkConstMethod "actionAt" [objT c_QPoint] $ ptrT $ objT c_QAction
+  , mkConstMethod "actionAt" [objT c_QPoint] $ ptrT $ objT c_QAction
   , mkConstMethod "actionGeometry" [ptrT $ objT c_QAction] $ objT c_QRect
+  , mkProp "activeAction" $ ptrT $ objT c_QAction
   , mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] voidT
   , mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
     -- TODO addNewActionWithIcon and connecting forms
@@ -73,10 +72,12 @@ c_QMenu =
     -- TODO addNewMenuWithIcon
   , mkMethod "addSeparator" [] $ ptrT $ objT c_QAction
   , mkMethod "clear" [] voidT
+  , mkProp "defaultAction" $ ptrT $ objT c_QAction
   , mkMethod' "exec" "exec" [] $ ptrT $ objT c_QAction
   , mkMethod' "exec" "execAt" [objT c_QPoint, ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
     -- TODO Static exec
   , mkMethod "hideTearOffMenu" [] voidT
+    -- TODO icon
   , mkMethod "insertMenu" [ptrT $ objT c_QAction, ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
   , mkMethod "insertSeparator" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
   , mkConstMethod "isEmpty" [] boolT
@@ -84,13 +85,8 @@ c_QMenu =
   , mkConstMethod "menuAction" [] $ ptrT $ objT c_QAction
   , mkMethod' "popup" "popup" [objT c_QPoint] voidT
   , mkMethod' "popup" "popupAction" [objT c_QPoint, ptrT $ objT c_QAction] voidT
-    -- TODO setIcon
-  ] ++
-  mkProps
-  [ mkProp "activeAction" $ ptrT $ objT c_QAction
-  , mkProp "defaultAction" $ ptrT $ objT c_QAction
-    -- TODO icon
   , mkProp "separatorsCollapsible" boolT
+    -- TODO setIcon
   , mkBoolIsProp "tearOffEnabled"
   , mkProp "title" $ objT c_QString
   ]

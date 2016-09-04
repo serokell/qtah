@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, doubleT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -60,18 +59,10 @@ c_QLabel =
   , mkCtor "newWithText" [objT c_QString]
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
     -- TODO Ctors taking Qt::WindowFlags.
-  ] $
-  [ mkMethod "clear" [] voidT
-  , mkConstMethod "hasSelectedText" [] boolT
-  , mkConstMethod "selectedText" [] $ objT c_QString
-  , mkConstMethod "selectionStart" [] intT
-  , mkMethod' "setNum" "setInt" [intT] voidT
-  , mkMethod' "setNum" "setDouble" [doubleT] voidT
-  , mkMethod "setSelection" [intT, intT] voidT
-  ] ++
-  mkProps
-  [ mkProp "alignment" $ bitspaceT bs_Alignment
+  , mkProp "alignment" $ bitspaceT bs_Alignment
   , mkProp "buddy" $ ptrT $ objT c_QWidget
+  , mkMethod "clear" [] voidT
+  , mkConstMethod "hasSelectedText" [] boolT
   , mkProp "indent" intT
   , mkProp "margin" intT
     -- TODO movie
@@ -79,6 +70,11 @@ c_QLabel =
     -- TODO picture
     -- TODO pixmap
   , mkBoolHasProp "scaledContents"
+  , mkConstMethod "selectedText" [] $ objT c_QString
+  , mkConstMethod "selectionStart" [] intT
+  , mkMethod' "setNum" "setInt" [intT] voidT
+  , mkMethod' "setNum" "setDouble" [doubleT] voidT
+  , mkMethod "setSelection" [intT, intT] voidT
   , mkProp "text" $ objT c_QString
   , mkProp "textFormat" $ enumT e_TextFormat
     -- TODO textInteractionFlags

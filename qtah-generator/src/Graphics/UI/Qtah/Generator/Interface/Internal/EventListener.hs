@@ -47,4 +47,3 @@ c_EventListener =
   makeClass (ident2 "qtah" "event" "EventListener") Nothing [c_QObject]
   [ mkCtor "new" [callbackT cb_PtrQObjectPtrQEventBool, ptrT intT]
   ]
-  []

@@ -140,11 +140,9 @@ instantiate' listName t tReqs opts =
         classAddFeatures features $
         classSetMonomorphicSuperclass $
         classSetEntityPrefix "" $
-        makeClass (identT "QList" [t]) (Just $ toExtName listName) []
-        [ mkCtor "new" []
-        ] $
-        collect
-        [ just $ mkMethod' "append" "append" [t] voidT
+        makeClass (identT "QList" [t]) (Just $ toExtName listName) [] $ collect
+        [ just $ mkCtor "new" []
+        , just $ mkMethod' "append" "append" [t] voidT
         , test (qtVersion >= [4, 5]) $ mkMethod' "append" "appendList" [objT list] voidT
         , just $ mkMethod' OpArray "at" [intT] $ refT t
         , just $ mkConstMethod' "at" "atConst" [intT] $ refT $ constT t

@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (doubleT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -58,20 +57,17 @@ c_QDoubleSpinBox =
   makeClass (ident "QDoubleSpinBox") Nothing [c_QAbstractSpinBox]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkConstMethod "cleanText" [] $ objT c_QString
-  , mkMethod "setRange" [doubleT, doubleT] voidT
-  , mkConstMethod "textFromValue" [doubleT] $ objT c_QString
-  , mkConstMethod "valueFromText" [objT c_QString] doubleT
-  ] ++
-  mkProps
-  [ mkProp "decimals" intT
+  , mkConstMethod "cleanText" [] $ objT c_QString
+  , mkProp "decimals" intT
   , mkProp "maximum" doubleT
   , mkProp "minimum" doubleT
   , mkProp "prefix" $ objT c_QString
+  , mkMethod "setRange" [doubleT, doubleT] voidT
   , mkProp "singleStep" doubleT
   , mkProp "suffix" $ objT c_QString
+  , mkConstMethod "textFromValue" [doubleT] $ objT c_QString
   , mkProp "value" doubleT
+  , mkConstMethod "valueFromText" [objT c_QString] doubleT
   ]
 
 signals =

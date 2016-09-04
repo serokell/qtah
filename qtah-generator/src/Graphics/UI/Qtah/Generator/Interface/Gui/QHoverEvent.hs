@@ -51,15 +51,13 @@ c_QHoverEvent =
   addReqIncludes [includeStd "QHoverEvent"] $
   classSetEntityPrefix "" $
   makeClass (ident "QHoverEvent") Nothing
-  [if qtVersion >= [5, 0] then c_QInputEvent else c_QEvent]
-  (collect
-   [ test (qtVersion < [5, 0]) $ mkCtor "new" [enumT e_Type, objT c_QPoint, objT c_QPoint]
-   , test (qtVersion >= [5, 0]) $ mkCtor "new" [enumT e_Type, objT c_QPointF, objT c_QPointF]
-   , test (qtVersion >= [5, 0]) $ mkCtor "newWithModifiers"
-     [enumT e_Type, objT c_QPointF, objT c_QPointF, bitspaceT bs_KeyboardModifiers]
-   ]) $
+  [if qtVersion >= [5, 0] then c_QInputEvent else c_QEvent] $
   collect
-  [ just $ mkConstMethod "oldPos" [] $ objT c_QPoint
+  [ test (qtVersion < [5, 0]) $ mkCtor "new" [enumT e_Type, objT c_QPoint, objT c_QPoint]
+  , test (qtVersion >= [5, 0]) $ mkCtor "new" [enumT e_Type, objT c_QPointF, objT c_QPointF]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newWithModifiers"
+    [enumT e_Type, objT c_QPointF, objT c_QPointF, bitspaceT bs_KeyboardModifiers]
+  , just $ mkConstMethod "oldPos" [] $ objT c_QPoint
   , test (qtVersion >= [5, 0]) $ mkConstMethod "oldPosF" [] $ objT c_QPointF
   , just $ mkConstMethod "pos" [] $ objT c_QPoint
   , test (qtVersion >= [5, 0]) $ mkConstMethod "posF" [] $ objT c_QPointF

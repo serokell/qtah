@@ -50,7 +50,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   mkStaticMethod,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
@@ -96,22 +95,19 @@ c_QPointF =
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QPointF") Nothing []
-  [ mkCtor "newNull" []
-  , mkCtor "new" [qreal, qreal]
-  , mkCtor "newFromPoint" [objT c_QPoint]
-  ] $
+  makeClass (ident "QPointF") Nothing [] $
   collect
-  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [objT c_QPointF, objT c_QPointF] qreal
+  [ just $ mkCtor "newNull" []
+  , just $ mkCtor "new" [qreal, qreal]
+  , just $ mkCtor "newFromPoint" [objT c_QPoint]
+  , test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [objT c_QPointF, objT c_QPointF] qreal
   , just $ mkConstMethod "isNull" [] boolT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "manhattanLength" [] qreal
   , just $ mkConstMethod "toPoint" [] $ objT c_QPoint
+  , just $ mkProp "x" qreal
+  , just $ mkProp "y" qreal
   , just $ mkMethod OpAddAssign [objT c_QPointF] $ refT $ objT c_QPointF
   , just $ mkMethod OpSubtractAssign [objT c_QPointF] $ refT $ objT c_QPointF
   , just $ mkMethod OpMultiplyAssign [qreal] $ refT $ objT c_QPointF
   , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QPointF
-  ] ++
-  mkProps
-  [ mkProp "x" qreal
-  , mkProp "y" qreal
   ]

@@ -103,14 +103,13 @@ c_QChar =
       sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . unicode"
     } $
   classSetEntityPrefix "" $
-  makeClass (ident "QChar") Nothing []
-  [ mkCtor "new" []
-  , mkCtor "newFromCellRow" [ucharT, ucharT]
-  , mkCtor "newFromInt" [intT]
-  , mkCtor "newFromSpecialCharacter" [enumT e_SpecialCharacter]
-  ] $
+  makeClass (ident "QChar") Nothing [] $
   collect
-  [ test (qtVersion < [5]) $ mkStaticMethod' "fromAscii" "newFromAscii" [charT] $ objT c_QChar
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newFromCellRow" [ucharT, ucharT]
+  , just $ mkCtor "newFromInt" [intT]
+  , just $ mkCtor "newFromSpecialCharacter" [enumT e_SpecialCharacter]
+  , test (qtVersion < [5]) $ mkStaticMethod' "fromAscii" "newFromAscii" [charT] $ objT c_QChar
   , just $ mkStaticMethod' "fromLatin1" "newFromLatin1" [charT] $ objT c_QChar
   , just $ mkConstMethod "category" [] $ enumT e_Category
   , just $ mkConstMethod "cell" [] ucharT

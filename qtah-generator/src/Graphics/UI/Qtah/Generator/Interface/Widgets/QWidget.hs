@@ -33,7 +33,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   mkStaticMethod,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
@@ -70,13 +69,11 @@ aModule =
 c_QWidget =
   addReqIncludes [includeStd "QWidget"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QWidget") Nothing
-  [ c_QObject ]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
+  makeClass (ident "QWidget") Nothing [c_QObject] $
   collect
-  [ just $ mkConstMethod "acceptDrops" [] boolT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkConstMethod "acceptDrops" [] boolT
   , just $ mkConstMethod "accessibleDescription" [] $ objT c_QString
   , just $ mkConstMethod "accessibleName" [] $ objT c_QString
     -- TODO actions
@@ -289,23 +286,21 @@ c_QWidget =
   , just $ mkConstMethod "width" [] intT
   , just $ mkConstMethod "window" [] $ ptrT $ objT c_QWidget
   , just $ mkConstMethod "windowFilePath" [] $ objT c_QString
+  , just $ mkProp "windowFlags" $ bitspaceT bs_WindowFlags
     -- TODO windowIcon
   , just $ mkConstMethod "windowIconText" [] $ objT c_QString
+  , just $ mkProp "windowModality" $ enumT e_WindowModality
+  , just $ mkProp "windowOpacity" qreal
   , just $ mkConstMethod "windowRole" [] $ objT c_QString
     -- TODO windowSurface
+  , just $ mkProp "windowState" $ bitspaceT bs_WindowStates
+  , just $ mkProp "windowTitle" $ objT c_QString
   , test (qtVersion < [5, 0]) $ mkConstMethod "windowType" [] $ enumT e_WindowType
     -- TODO winId
   , just $ mkConstMethod "x" [] intT
     -- TODO x11Info
     -- TODO x11PictureHandle
   , just $ mkConstMethod "y" [] intT
-  ] ++
-  mkProps
-  [ mkProp "windowFlags" $ bitspaceT bs_WindowFlags
-  , mkProp "windowModality" $ enumT e_WindowModality
-  , mkProp "windowOpacity" qreal
-  , mkProp "windowState" $ bitspaceT bs_WindowStates
-  , mkProp "windowTitle" $ objT c_QString
   ]
 
 signals =

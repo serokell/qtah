@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -58,12 +57,9 @@ c_QPushButton =
   , mkCtor "newWithText" [objT c_QString]
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
     -- TODO Ctors with QIcon.
-  ] $
-  [ mkMethod "showMenu" [] voidT
-  ] ++
-  mkProps
-  [ mkProp "autoDefault" boolT
+  , mkProp "autoDefault" boolT
   , mkBoolIsProp "default"
   , mkBoolIsProp "flat"
   , mkProp "menu" $ ptrT $ objT c_QMenu
+  , mkMethod "showMenu" [] voidT
   ]

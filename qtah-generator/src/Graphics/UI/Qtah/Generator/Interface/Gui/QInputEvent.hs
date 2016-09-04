@@ -47,8 +47,7 @@ aModule =
 c_QInputEvent =
   addReqIncludes [includeStd "QInputEvent"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QInputEvent") Nothing [c_QEvent]
-  [] $
+  makeClass (ident "QInputEvent") Nothing [c_QEvent] $
   collect
   [ just $ mkConstMethod "modifiers" [] $ bitspaceT bs_KeyboardModifiers
   , test (qtVersion >= [5, 0]) $ mkConstMethod "timestamp" [] ulongT

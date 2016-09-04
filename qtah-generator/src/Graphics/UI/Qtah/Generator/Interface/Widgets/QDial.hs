@@ -29,7 +29,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
@@ -51,11 +50,8 @@ c_QDial =
   makeClass (ident "QDial") Nothing [c_QAbstractSlider]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkConstMethod "notchSize" [] intT
-  ] ++
-  mkProps
-  [ mkProp "notchTarget" qreal
+  , mkConstMethod "notchSize" [] intT
+  , mkProp "notchTarget" qreal
   , mkProp "notchesVisible" boolT
   , mkProp "wrapping" boolT
   ]

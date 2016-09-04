@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -54,12 +53,11 @@ aModule =
 c_QObject =
   addReqIncludes [includeStd "QObject"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QObject") Nothing []
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
-  ] $
+  makeClass (ident "QObject") Nothing [] $
   collect
-  [ just $ mkMethod "blockSignals" [boolT] boolT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  , just $ mkMethod "blockSignals" [boolT] boolT
   , just $ mkMethod "children" [] $ objT c_QListQObject
     -- TODO connect
   , just $ mkMethod "deleteLater" [] voidT
@@ -79,16 +77,14 @@ c_QObject =
   , just $ mkMethod "killTimer" [intT] voidT
     -- TODO metaObject
     -- TODO moveToThread
+  , just $ mkProp "objectName" $ objT c_QString
+  , just $ mkProp "parent" $ ptrT $ objT c_QObject
     -- TODO property
   , just $ mkMethod "removeEventFilter" [ptrT $ objT c_QObject] voidT
     -- TODO setProperty
   , just $ mkConstMethod "signalsBlocked" [] boolT
   , just $ mkMethod "startTimer" [intT] intT
     -- TODO thread
-  ] ++
-  mkProps
-  [ mkProp "objectName" $ objT c_QString
-  , mkProp "parent" $ ptrT $ objT c_QObject
   ]
 
 signals =

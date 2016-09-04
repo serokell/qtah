@@ -54,8 +54,7 @@ c_QRubberBand =
   makeClass (ident "QRubberBand") Nothing [c_QWidget]
   [ mkCtor "new" [enumT e_Shape]
   , mkCtor "newWithParent" [enumT e_Shape, ptrT $ objT c_QWidget]
-  ]
-  [ mkMethod "move" [objT c_QPoint] voidT
+  , mkMethod "move" [objT c_QPoint] voidT
   , mkMethod "resize" [objT c_QSize] voidT
   , mkMethod "setGeometry" [objT c_QRect] voidT
   , mkConstMethod "shape" [] $ enumT e_Shape

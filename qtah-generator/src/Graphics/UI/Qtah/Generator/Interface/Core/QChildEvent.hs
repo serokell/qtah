@@ -47,8 +47,7 @@ c_QChildEvent =
   classSetEntityPrefix "" $
   makeClass (ident "QChildEvent") Nothing [c_QEvent]
   [ mkCtor "new" [enumT e_Type, ptrT $ objT c_QObject]
-  ]
-  [ mkConstMethod "added" [] boolT
+  , mkConstMethod "added" [] boolT
   , mkConstMethod "child" [] $ ptrT $ objT c_QObject
   , mkConstMethod "polished" [] boolT
   , mkConstMethod "removed" [] boolT

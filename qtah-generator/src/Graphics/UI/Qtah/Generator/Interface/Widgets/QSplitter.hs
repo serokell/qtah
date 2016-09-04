@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListInt)
@@ -57,14 +56,17 @@ c_QSplitter =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithOrientation" [enumT e_Orientation]
   , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod "addWidget" [ptrT $ objT c_QWidget] voidT
+  , mkProp "childrenCollapsible" boolT
   , mkConstMethod "count" [] intT
     -- TODO getRange
     -- TODO handle
+  , mkProp "handleWidth" intT
   , mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
   , mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] voidT
   , mkConstMethod "isCollapsible" [intT] boolT
+  , mkProp "opaqueResize" boolT
+  , mkProp "orientation" $ enumT e_Orientation
   , mkMethod "refresh" [] voidT
     -- TODO restoreState
     -- TODO saveState
@@ -73,12 +75,6 @@ c_QSplitter =
   , mkMethod "setStretchFactor" [intT, intT] voidT
   , mkMethod "sizes" [] $ objT c_QListInt
   , mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
-  ] ++
-  mkProps
-  [ mkProp "childrenCollapsible" boolT
-  , mkProp "handleWidth" intT
-  , mkProp "opaqueResize" boolT
-  , mkProp "orientation" $ enumT e_Orientation
   ]
 
 signals =

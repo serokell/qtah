@@ -38,7 +38,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, refT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
@@ -67,32 +66,29 @@ aModule =
 c_QAbstractSpinBox =
   addReqIncludes [includeStd "QAbstractSpinBox"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QAbstractSpinBox") Nothing [c_QWidget]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
+  makeClass (ident "QAbstractSpinBox") Nothing [c_QWidget] $
   collect
-  [ just $ mkMethod "clear" [] voidT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , test (qtVersion >= [4, 2]) $ mkBoolIsProp "accelerated"
+  , just $ mkProp "alignment" $ bitspaceT bs_Alignment
+  , test (qtVersion >= [4, 2]) $ mkProp "buttonSymbols" $ enumT e_ButtonSymbols
+  , just $ mkMethod "clear" [] voidT
+  , just $ mkProp "correctionMode" $ enumT e_CorrectionMode
   , test (qtVersion >= [4, 2]) $ mkConstMethod "hasAcceptableInput" [] boolT
   , just $ mkConstMethod "fixup" [refT $ objT c_QString] voidT
+  , test (qtVersion >= [4, 3]) $ mkBoolHasProp "frame"
+  , test (qtVersion >= [5, 3]) $ mkBoolIsProp "groupSeparatorShown"
   , just $ mkMethod "interpretText" [] voidT
+  , just $ mkProp "keyboardTracking" boolT
+  , just $ mkBoolIsProp "readOnly"
   , just $ mkMethod "selectAll" [] voidT
+  , just $ mkProp "specialValueText" $ objT c_QString
   , just $ mkMethod "stepBy" [intT] voidT
   , just $ mkMethod "stepDown" [] voidT
   , just $ mkMethod "stepUp" [] voidT
   , just $ mkConstMethod "text" [] $ objT c_QString
     -- TODO validate
-  ] ++
-  (mkProps . collect)
-  [ test (qtVersion >= [4, 2]) $ mkBoolIsProp "accelerated"
-  , just $ mkProp "alignment" $ bitspaceT bs_Alignment
-  , test (qtVersion >= [4, 2]) $ mkProp "buttonSymbols" $ enumT e_ButtonSymbols
-  , just $ mkProp "correctionMode" $ enumT e_CorrectionMode
-  , test (qtVersion >= [4, 3]) $ mkBoolHasProp "frame"
-  , just $ mkProp "keyboardTracking" boolT
-  , just $ mkBoolIsProp "readOnly"
-  , test (qtVersion >= [5, 3]) $ mkBoolIsProp "groupSeparatorShown"
-  , just $ mkProp "specialValueText" $ objT c_QString
   , just $ mkProp "wrapping" boolT
   ]
 

@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkMethod',
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
@@ -56,18 +55,15 @@ c_QActionGroup =
   makeClass (ident "QActionGroup") Nothing
   [ c_QObject ]
   [ mkCtor "new" [ptrT $ objT c_QObject]
-  ] $
-  [ -- TODO actions
+  , -- TODO actions
     mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
   , mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
     -- TODO addNewActionWithIcon
   , mkConstMethod "checkedAction" [] $ ptrT $ objT c_QAction
+  , mkBoolIsProp "enabled"
+  , mkBoolIsProp "exclusive"
   , mkMethod "removeAction" [ptrT $ objT c_QAction] voidT
   , mkMethod "setDisabled" [boolT] voidT
-  ] ++
-  mkProps
-  [ mkBoolIsProp "enabled"
-  , mkBoolIsProp "exclusive"
   , mkBoolIsProp "visible"
   ]
 

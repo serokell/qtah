@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -59,23 +58,20 @@ aModule =
 c_QButtonGroup =
   addReqIncludes [includeStd "QButtonGroup"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QButtonGroup") Nothing [c_QObject]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
-  ] $
+  makeClass (ident "QButtonGroup") Nothing [c_QObject] $
   collect
-  [ just $ mkMethod' "addButton" "addButton" [ptrT $ objT c_QAbstractButton] voidT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  , just $ mkMethod' "addButton" "addButton" [ptrT $ objT c_QAbstractButton] voidT
   , just $ mkMethod' "addButton" "addButtonWithId" [ptrT $ objT c_QAbstractButton, intT] voidT
   , test (qtVersion >= [4, 1]) $ mkConstMethod "button" [intT] $ ptrT $ objT c_QAbstractButton
   , just $ mkConstMethod "buttons" [] $ objT c_QListQAbstractButton
   , just $ mkConstMethod "checkedButton" [] $ ptrT $ objT c_QAbstractButton
   , test (qtVersion >= [4, 1]) $ mkConstMethod "checkedId" [] intT
+  , just $ mkProp "exclusive" boolT
   , test (qtVersion >= [4, 1]) $ mkConstMethod "id" [ptrT $ objT c_QAbstractButton] intT
   , just $ mkMethod "removeButton" [ptrT $ objT c_QAbstractButton] voidT
   , test (qtVersion >= [4, 1]) $ mkMethod "setId" [ptrT $ objT c_QAbstractButton, intT] voidT
-  ] ++
-  mkProps
-  [ mkProp "exclusive" boolT
   ]
 
 signals =

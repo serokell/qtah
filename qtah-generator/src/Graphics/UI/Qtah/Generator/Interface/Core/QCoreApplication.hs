@@ -56,8 +56,7 @@ c_QCoreApplication =
                  , includeLocal "wrap_qcoreapplication.hpp"
                  ] $
   classSetEntityPrefix "" $
-  makeClass (ident "QCoreApplication") Nothing [c_QObject]
-  [] $
+  makeClass (ident "QCoreApplication") Nothing [c_QObject] $
   collect
   [ just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
     [objT c_QStringList] $ ptrT $ objT c_QCoreApplication

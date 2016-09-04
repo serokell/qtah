@@ -33,7 +33,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
@@ -59,14 +58,14 @@ c_QSizeF =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
   classSetEntityPrefix "" $
-  makeClass (ident "QSizeF") Nothing []
-  [ mkCtor "newNull" []
-  , mkCtor "new" [qreal, qreal]
-  , mkCtor "newWithSize" [objT c_QSize]
-  ] $
+  makeClass (ident "QSizeF") Nothing [] $
   collect
-  [ just $ mkConstMethod "boundedTo" [objT c_QSizeF] $ objT c_QSizeF
+  [ just $ mkCtor "newNull" []
+  , just $ mkCtor "new" [qreal, qreal]
+  , just $ mkCtor "newWithSize" [objT c_QSize]
+  , just $ mkConstMethod "boundedTo" [objT c_QSizeF] $ objT c_QSizeF
   , just $ mkConstMethod "expandedTo" [objT c_QSizeF] $ objT c_QSizeF
+  , just $ mkProp "height" qreal
   , just $ mkConstMethod "isEmpty" [] boolT
   , just $ mkConstMethod "isNull" [] boolT
   , just $ mkConstMethod "isValid" [] boolT
@@ -76,12 +75,9 @@ c_QSizeF =
   , just $ mkConstMethod "toSize" [] $ objT c_QSize
   , just $ mkMethod "transpose" [] voidT
   , test (qtVersion >= [5, 0]) $ mkConstMethod "transposed" [] $ objT c_QSizeF
+  , just $ mkProp "width" qreal
   , just $ mkMethod OpAddAssign [objT c_QSizeF] $ refT $ objT c_QSizeF
   , just $ mkMethod OpSubtractAssign [objT c_QSizeF] $ objT c_QSizeF
   , just $ mkMethod OpMultiplyAssign [qreal] $ refT $ objT c_QSizeF
   , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QSizeF
-  ] ++
-  mkProps
-  [ mkProp "height" qreal
-  , mkProp "width" qreal
   ]

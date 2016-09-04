@@ -38,7 +38,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, constT, enumT, intT, objT, ptrT, refT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -69,13 +68,14 @@ c_QFormLayout =
   makeClass (ident "QFormLayout") Nothing [c_QLayout]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod' "addRow" "addRowWidgetWidget" [ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addRow" "addRowWidgetWidget" [ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
   , mkMethod' "addRow" "addRowWidgetLayout" [ptrT $ objT c_QWidget, ptrT $ objT c_QLayout] voidT
   , mkMethod' "addRow" "addRowStringWidget" [objT c_QString, ptrT $ objT c_QWidget] voidT
   , mkMethod' "addRow" "addRowStringLayout" [objT c_QString, ptrT $ objT c_QLayout] voidT
   , mkMethod' "addRow" "addRowWidget" [ptrT $ objT c_QWidget] voidT
   , mkMethod' "addRow" "addRowLayout" [ptrT $ objT c_QLayout] voidT
+  , mkProp "fieldGrowthPolicy" $ enumT e_FieldGrowthPolicy
+  , mkProp "formAlignment" $ bitspaceT bs_Alignment
   , makeFnMethod (ident2 "qtah" "qformlayout" "getItemRow") "getItemRow" MConst Nonpure
     [refT $ constT $ objT c_QFormLayout, intT] intT
   , makeFnMethod (ident2 "qtah" "qformlayout" "getItemRole") "getItemRole" MConst Nonpure
@@ -88,6 +88,7 @@ c_QFormLayout =
     [refT $ constT $ objT c_QFormLayout, ptrT $ objT c_QWidget] intT
   , makeFnMethod (ident2 "qtah" "qformlayout" "getWidgetRole") "getWidgetRole" MConst Nonpure
     [refT $ constT $ objT c_QFormLayout, ptrT $ objT c_QWidget] $ enumT e_ItemRole
+  , mkProp "horizontalSpacing" intT
   , mkMethod' "insertRow" "insertRowWidgetWidget"
     [intT, ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
   , mkMethod' "insertRow" "insertRowWidgetLayout"
@@ -99,21 +100,16 @@ c_QFormLayout =
   , mkMethod' "insertRow" "insertRowWidget" [intT, ptrT $ objT c_QWidget] voidT
   , mkMethod' "insertRow" "insertRowLayout" [intT, ptrT $ objT c_QLayout] voidT
   , mkConstMethod "itemAt" [intT, enumT e_ItemRole] $ ptrT $ objT c_QLayoutItem
+  , mkProp "labelAlignment" $ bitspaceT bs_Alignment
   , mkConstMethod' "labelForField" "labelForFieldWidget"
     [ptrT $ objT c_QWidget] $ ptrT $ objT c_QWidget
   , mkConstMethod' "labelForField" "labelForFieldLayout"
     [ptrT $ objT c_QLayout] $ ptrT $ objT c_QWidget
   , mkConstMethod "rowCount" [] intT
+  , mkProp "rowWrapPolicy" $ enumT e_RowWrapPolicy
   , mkMethod "setItem" [intT, enumT e_ItemRole, ptrT $ objT c_QLayoutItem] voidT
   , mkMethod "setLayout" [intT, enumT e_ItemRole, ptrT $ objT c_QLayout] voidT
   , mkMethod "setWidget" [intT, enumT e_ItemRole, ptrT $ objT c_QWidget] voidT
-  ] ++
-  mkProps
-  [ mkProp "fieldGrowthPolicy" $ enumT e_FieldGrowthPolicy
-  , mkProp "formAlignment" $ bitspaceT bs_Alignment
-  , mkProp "horizontalSpacing" intT
-  , mkProp "labelAlignment" $ bitspaceT bs_Alignment
-  , mkProp "rowWrapPolicy" $ enumT e_RowWrapPolicy
   , mkProp "spacing" intT
   , mkProp "verticalSpacing" intT
   ]

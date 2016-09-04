@@ -51,4 +51,3 @@ c_QScrollBar =
   , mkCtor "newWithOrientation" [enumT e_Orientation]
   , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
   ]
-  []

@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod',
   mkProp,
-  mkProps,
   operatorPreferredExtName',
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
@@ -62,8 +61,11 @@ c_QMarginsF =
   [ mkCtor "newNull" []
   , mkCtor "new" [qreal, qreal, qreal, qreal]
   , mkCtor "newWithMargins" [objT c_QMargins]
-  ] $
-  [ mkConstMethod "isNull" [] boolT
+  , mkProp "bottom" qreal
+  , mkConstMethod "isNull" [] boolT
+  , mkProp "left" qreal
+  , mkProp "right" qreal
+  , mkProp "top" qreal
   , mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign)
     [objT c_QMarginsF] $ refT $ objT c_QMarginsF
   , mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign ++ "Real")
@@ -76,10 +78,4 @@ c_QMarginsF =
     [qreal] $ refT $ objT c_QMarginsF
   , mkMethod' OpDivideAssign (operatorPreferredExtName' OpDivideAssign)
     [qreal] $ refT $ objT c_QMarginsF
-  ] ++
-  mkProps
-  [ mkProp "bottom" qreal
-  , mkProp "left" qreal
-  , mkProp "right" qreal
-  , mkProp "top" qreal
   ]

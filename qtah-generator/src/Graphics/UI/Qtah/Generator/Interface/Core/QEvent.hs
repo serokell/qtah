@@ -34,7 +34,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod',
   mkCtor,
   mkMethod,
-  mkProps,
   mkStaticMethod',
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, voidT)
@@ -55,11 +54,11 @@ aModule =
 c_QEvent =
   addReqIncludes [includeStd "QEvent"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QEvent") Nothing []
-  [ mkCtor "new" [enumT e_Type]
-  ] $
+  makeClass (ident "QEvent") Nothing [] $
   collect
-  [ just $ mkMethod "accept" [] voidT
+  [ just $ mkCtor "new" [enumT e_Type]
+  , just $ mkMethod "accept" [] voidT
+  , just $ mkBoolIsProp "accepted"
   , just $ mkMethod "ignore" [] voidT
   , test (qtVersion >= [4, 4]) $
     mkStaticMethod' "registerEventType" "registerEventType" [] intT
@@ -67,9 +66,6 @@ c_QEvent =
     mkStaticMethod' "registerEventType" "registerEventTypeWithHint" [intT] intT
   , just $ mkConstMethod "spontaneous" [] boolT
   , just $ mkConstMethod' "type" "eventType" [] $ enumT e_Type  -- 'type' is a Haskell keyword.
-  ] ++
-  mkProps
-  [ mkBoolIsProp "accepted"
   ]
 
 e_Type =

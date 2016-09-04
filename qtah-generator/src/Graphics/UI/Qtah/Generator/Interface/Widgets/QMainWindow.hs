@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
@@ -57,15 +56,22 @@ c_QMainWindow =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
-  ] $
-  [ -- TODO addDockWidget
+    -- TODO addDockWidget
     -- TODO addToolBar
     -- TODO addToolBarBreak
+  , mkBoolIsProp "animated"
+  , mkProp "centralWidget" $ ptrT $ objT c_QWidget
     -- TODO corner
-    mkMethod "createPopupMenu" [] $ ptrT $ objT c_QMenu
+  , mkMethod "createPopupMenu" [] $ ptrT $ objT c_QMenu
+  , mkBoolIsProp "dockNestingEnabled"
+    -- TODO dockOptions
     -- TODO dockWidgetArea
+  , mkProp "documentMode" boolT
+  , mkProp "iconSize" $ objT c_QSize
     -- TODO insertToolBar
     -- TODO insertToolBarBreak
+  , mkProp "menuBar" $ ptrT $ objT c_QMenuBar
+  , mkProp "menuWidget" $ ptrT $ objT c_QWidget
     -- TODO removeDockWidget
     -- TODO restoreState
     -- TODO saveState
@@ -73,24 +79,13 @@ c_QMainWindow =
     -- TODO setTabPosition
     -- TODO setTabShape
     -- TODO splitDockWidget
+  , mkProp "statusBar" $ ptrT $ objT c_QStatusBar
     -- TODO tabifiedDockWidgets
     -- TODO tabifyDockWidget
     -- TODO tabPosition
     -- TODO tabShape
     -- TODO toolBarArea
     -- TODO toolBarBreak
-  ] ++
-  mkProps
-  [ mkBoolIsProp "animated"
-  , mkProp "centralWidget" $ ptrT $ objT c_QWidget
-  , mkBoolIsProp "dockNestingEnabled"
-    -- TODO dockOptions
-  , mkProp "documentMode" boolT
-  , mkProp "iconSize" $ objT c_QSize
-  , mkProp "menuBar" $ ptrT $ objT c_QMenuBar
-  , mkProp "menuWidget" $ ptrT $ objT c_QWidget
-  , mkProp "statusBar" $ ptrT $ objT c_QStatusBar
-    -- TODO tabShape
     -- TODO toolButtonStyle
   , mkProp "unifiedTitleAndToolBarOnMac" boolT
   ]

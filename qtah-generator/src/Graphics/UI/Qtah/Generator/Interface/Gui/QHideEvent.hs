@@ -46,4 +46,3 @@ c_QHideEvent =
   makeClass (ident "QHideEvent") Nothing [c_QEvent]
   [ mkCtor "new" []
   ]
-  []

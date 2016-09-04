@@ -59,7 +59,7 @@ c_QClipboard =
   addReqIncludes [includeStd "QClipboard"] $
   classSetDtorPrivate $
   classSetEntityPrefix "" $
-  makeClass (ident "QClipboard") Nothing [c_QObject] [] $
+  makeClass (ident "QClipboard") Nothing [c_QObject] $
   collect
   [ just $ mkMethod' "clear" "clear" [] voidT
   , just $ mkMethod' "clear" "clearWithMode" [enumT e_Mode] voidT

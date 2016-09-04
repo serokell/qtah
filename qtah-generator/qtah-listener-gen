@@ -218,8 +218,7 @@ if [[ -n $hsDir ]]; then
         say "  [ S.mkCtor \"new\" [S.callbackT C.${callbackVar}]"
         say "  , S.mkCtor \"newWithParent\""
         say "    [S.callbackT C.${callbackVar}, S.ptrT \$ S.objT QObject.c_QObject]"
-        say "  ]"
-        say "  [ S.mkMethod \"connectListener\""
+        say "  , S.mkMethod \"connectListener\""
         say "    [S.ptrT \$ S.objT QObject.c_QObject, S.objT String.c_string] S.boolT"
         say "  ]"
     }

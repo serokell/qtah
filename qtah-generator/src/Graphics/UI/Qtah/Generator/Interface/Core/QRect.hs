@@ -50,7 +50,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
@@ -96,23 +95,27 @@ c_QRect =
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QRect") Nothing []
-  [ mkCtor "newNull" []
-  , mkCtor "newWithPoints" [objT c_QPoint, objT c_QPoint]
-  , mkCtor "newWithPointAndSize" [objT c_QPoint, objT c_QSize]
-  , mkCtor "newWithRaw" [intT, intT, intT, intT]
-  ] $
+  makeClass (ident "QRect") Nothing [] $
   collect
-  [ just $ mkMethod "adjust" [intT, intT, intT, intT] voidT
+  [ just $ mkCtor "newNull" []
+  , just $ mkCtor "newWithPoints" [objT c_QPoint, objT c_QPoint]
+  , just $ mkCtor "newWithPointAndSize" [objT c_QPoint, objT c_QSize]
+  , just $ mkCtor "newWithRaw" [intT, intT, intT, intT]
+  , just $ mkMethod "adjust" [intT, intT, intT, intT] voidT
   , just $ mkConstMethod "adjusted" [intT, intT, intT, intT] $ objT c_QRect
+  , just $ mkProp "bottom" intT
+  , just $ mkProp "bottomLeft" $ objT c_QPoint
+  , just $ mkProp "bottomRight" $ objT c_QPoint
   , just $ mkConstMethod "center" [] $ objT c_QPoint
   , just $ mkConstMethod' "contains" "containsPoint" [objT c_QPoint, boolT] boolT
   , just $ mkConstMethod' "contains" "containsRect" [objT c_QRect, boolT] boolT
+  , just $ mkProp "height" intT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "intersected" [objT c_QRect] $ objT c_QRect
   , just $ mkConstMethod "intersects" [objT c_QRect] boolT
   , just $ mkConstMethod "isEmpty" [] boolT
   , just $ mkConstMethod "isNull" [] boolT
   , just $ mkConstMethod "isValid" [] boolT
+  , just $ mkProp "left" intT
   , test (qtVersion >= [5, 1]) $ mkConstMethod "marginsAdded" [objT c_QMargins] $ objT c_QRect
   , test (qtVersion >= [5, 1]) $ mkConstMethod "marginsRemoved" [objT c_QMargins] $ objT c_QRect
   , just $ mkMethod "moveBottom" [intT] voidT
@@ -126,24 +129,17 @@ c_QRect =
   , just $ mkMethod "moveTopLeft" [objT c_QPoint] voidT
   , just $ mkMethod "moveTopRight" [objT c_QPoint] voidT
   , just $ mkConstMethod "normalized" [] $ objT c_QRect
+  , just $ mkProp "right" intT
   , just $ mkMethod "setCoords" [intT, intT, intT, intT] voidT
   , just $ mkMethod "setRect" [intT, intT, intT, intT] voidT
+  , just $ mkProp "size" $ objT c_QSize
+  , just $ mkProp "top" intT
+  , just $ mkProp "topLeft" $ objT c_QPoint
+  , just $ mkProp "topRight" $ objT c_QPoint
   , just $ mkMethod "translate" [objT c_QPoint] voidT
   , just $ mkConstMethod "translated" [objT c_QPoint] $ objT c_QRect
   , test (qtVersion >= [4, 2]) $ mkMethod "united" [objT c_QRect] $ objT c_QRect
-  ] ++
-  mkProps
-  [ mkProp "bottom" intT
-  , mkProp "bottomLeft" $ objT c_QPoint
-  , mkProp "bottomRight" $ objT c_QPoint
-  , mkProp "height" intT
-  , mkProp "left" intT
-  , mkProp "right" intT
-  , mkProp "size" $ objT c_QSize
-  , mkProp "top" intT
-  , mkProp "topLeft" $ objT c_QPoint
-  , mkProp "topRight" $ objT c_QPoint
-  , mkProp "width" intT
-  , mkProp "x" intT
-  , mkProp "y" intT
+  , just $ mkProp "width" intT
+  , just $ mkProp "x" intT
+  , just $ mkProp "y" intT
   ]

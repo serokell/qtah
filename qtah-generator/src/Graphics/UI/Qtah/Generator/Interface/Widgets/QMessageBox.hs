@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   mkStaticMethod,
   mkStaticMethod',
   )
@@ -71,12 +70,11 @@ aModule =
 c_QMessageBox =
   addReqIncludes [includeStd "QMessageBox"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QMessageBox") Nothing [c_QDialog]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
+  makeClass (ident "QMessageBox") Nothing [c_QDialog] $
   collect
-  [ just $ mkStaticMethod "about" [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] voidT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkStaticMethod "about" [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] voidT
   , just $ mkStaticMethod "aboutQt" [ptrT $ objT c_QWidget, objT c_QString] voidT
   , test (qtVersion >= [4, 2]) $ mkMethod' "addButton" "addButton"
     [ptrT $ objT c_QAbstractButton, enumT e_ButtonRole] voidT
@@ -89,6 +87,7 @@ c_QMessageBox =
   , test (qtVersion >= [4, 5]) $ mkConstMethod "buttonRole"
     [ptrT $ objT c_QAbstractButton] $ enumT e_ButtonRole
   , test (qtVersion >= [4, 5]) $ mkConstMethod "buttons" [] $ objT c_QListQAbstractButton
+  , test (qtVersion >= [5, 2]) $ mkProp "checkBox" $ ptrT $ objT c_QCheckBox
   , test (qtVersion >= [4, 2]) $ mkConstMethod "clickedButton" [] $ ptrT $ objT c_QAbstractButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "critical" "critical"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
@@ -97,7 +96,10 @@ c_QMessageBox =
      bitspaceT bs_StandardButtons, enumT e_StandardButton] $
     enumT e_StandardButton
   , just $ mkConstMethod "defaultButton" [] $ ptrT $ objT c_QPushButton
+  , test (qtVersion >= [4, 2]) $ mkProp "detailedText" $ objT c_QString
   , test (qtVersion >= [4, 2]) $ mkConstMethod "escapeButton" [] $ ptrT $ objT c_QAbstractButton
+  , just $ mkProp "icon" $ enumT e_Icon
+    -- TODO iconPixmap
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "information" "information"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "information" "informationWithButtons"
@@ -105,6 +107,7 @@ c_QMessageBox =
      bitspaceT bs_StandardButtons, enumT e_StandardButton] $
     enumT e_StandardButton
     -- OMIT open
+  , test (qtVersion >= [4, 2]) $ mkProp "informativeText" $ objT c_QString
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "question" "question"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "question" "questionWithButtons"
@@ -124,23 +127,16 @@ c_QMessageBox =
   , test (qtVersion >= [4, 2]) $ mkMethod "setWindowTitle" [objT c_QString] voidT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "standardButton"
     [ptrT $ objT c_QAbstractButton] $ enumT e_StandardButton
+  , test (qtVersion >= [4, 2]) $ mkProp "standardButtons" $ bitspaceT bs_StandardButtons
+  , just $ mkProp "text" $ objT c_QString
+  , just $ mkProp "textFormat" $ enumT e_TextFormat
+  , test (qtVersion >= [5, 1]) $ mkProp "textInteractionFlags" $ bitspaceT bs_TextInteractionFlags
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "warning" "warning"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "warning" "warningWithButtons"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString,
      bitspaceT bs_StandardButtons, enumT e_StandardButton] $
     enumT e_StandardButton
-  ] ++
-  (mkProps . collect)
-  [ test (qtVersion >= [5, 2]) $ mkProp "checkBox" $ ptrT $ objT c_QCheckBox
-  , test (qtVersion >= [4, 2]) $ mkProp "detailedText" $ objT c_QString
-  , just $ mkProp "icon" $ enumT e_Icon
-    -- TODO iconPixmap
-  , test (qtVersion >= [4, 2]) $ mkProp "informativeText" $ objT c_QString
-  , test (qtVersion >= [4, 2]) $ mkProp "standardButtons" $ bitspaceT bs_StandardButtons
-  , just $ mkProp "text" $ objT c_QString
-  , just $ mkProp "textFormat" $ enumT e_TextFormat
-  , test (qtVersion >= [5, 1]) $ mkProp "textInteractionFlags" $ bitspaceT bs_TextInteractionFlags
   ]
 
 signals =

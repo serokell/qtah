@@ -122,13 +122,12 @@ instantiate' vectorName t tReqs opts =
         classAddFeatures features $
         classSetMonomorphicSuperclass $
         classSetEntityPrefix "" $
-        makeClass (identT "QVector" [t]) (Just $ toExtName vectorName) []
-        [ mkCtor "new" []
-        , mkCtor "newWithSize" [intT]
-        , mkCtor "newWithSizeAndValue" [intT, t]
-        ] $
+        makeClass (identT "QVector" [t]) (Just $ toExtName vectorName) [] $
         collect
-        [ just $ mkMethod' "append" "append" [t] voidT
+        [ just $ mkCtor "new" []
+        , just $ mkCtor "newWithSize" [intT]
+        , just $ mkCtor "newWithSizeAndValue" [intT, t]
+        , just $ mkMethod' "append" "append" [t] voidT
         , test (qtVersion >= [5, 5]) $ mkMethod' "append" "appendVector" [objT vector] voidT
         , just $ mkMethod' OpArray "at" [intT] $ refT t
         , just $ mkConstMethod' "at" "atConst" [intT] $ refT $ constT t

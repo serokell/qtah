@@ -49,19 +49,17 @@ aModule =
 c_QKeyEvent =
   addReqIncludes [includeStd "QKeyEvent"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QKeyEvent") Nothing [c_QInputEvent]
-  (collect
-   [ just $ mkCtor "new" [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers]
-   , just $ mkCtor "newWithText"
-     [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, objT c_QString, boolT, ushortT]
-   , test (qtVersion >= [5, 0]) $ mkCtor "newNative"
-     [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, word32T, word32T, word32T]
-   , test (qtVersion >= [5, 0]) $ mkCtor "newNativeWithText"
-     [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, word32T, word32T, word32T,
-      objT c_QString, boolT, ushortT]
-   ]) $
+  makeClass (ident "QKeyEvent") Nothing [c_QInputEvent] $
   collect
-  [ just $ mkConstMethod "count" [] intT
+  [ just $ mkCtor "new" [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers]
+  , just $ mkCtor "newWithText"
+    [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, objT c_QString, boolT, ushortT]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newNative"
+    [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, word32T, word32T, word32T]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newNativeWithText"
+    [enumT e_Type, intT, bitspaceT bs_KeyboardModifiers, word32T, word32T, word32T,
+     objT c_QString, boolT, ushortT]
+  , just $ mkConstMethod "count" [] intT
   , just $ mkConstMethod "isAutoRepeat" [] boolT
   , just $ mkConstMethod "key" [] intT
     -- TODO matches (>=4.2)

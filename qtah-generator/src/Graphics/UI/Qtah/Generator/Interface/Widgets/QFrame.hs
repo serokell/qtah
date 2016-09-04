@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (enumT, intT, objT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
@@ -57,14 +56,11 @@ c_QFrame =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO QFrame(QWidget*, Qt::WindowFlags)
-  ] $
-  [ mkConstMethod "frameWidth" [] intT
-  ] ++
-  mkProps
-  [ mkProp "frameRect" $ objT c_QRect
+  , mkProp "frameRect" $ objT c_QRect
   , mkProp "frameShadow" $ enumT e_Shadow
   , mkProp "frameShape" $ enumT e_Shape
   , mkProp "frameStyle" intT
+  , mkConstMethod "frameWidth" [] intT
   , mkProp "lineWidth" intT
   , mkProp "midLineWidth" intT
   ]

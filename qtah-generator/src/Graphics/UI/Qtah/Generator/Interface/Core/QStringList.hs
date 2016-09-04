@@ -105,11 +105,10 @@ c_QStringList =
   addAddendumHaskell addendum $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QStringList") Nothing [c_QListQString]
-  [ mkCtor "new" []
-  ] $
+  makeClass (ident "QStringList") Nothing [c_QListQString] $
   collect
-  [ -- TODO Regexp methods.
+  [ just $ mkCtor "new" []
+  , -- TODO Regexp methods.
     just $ mkConstMethod' "contains" "containsCase" [objT c_QString, enumT e_CaseSensitivity] boolT
   , just $ mkConstMethod' "filter" "filter" [objT c_QString] $ objT c_QStringList
   , just $ mkConstMethod' "filter" "filterCase" [objT c_QString, enumT e_CaseSensitivity] $

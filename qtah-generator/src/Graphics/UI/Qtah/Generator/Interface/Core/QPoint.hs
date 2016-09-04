@@ -51,7 +51,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   mkStaticMethod,
   operatorPreferredExtName',
   )
@@ -97,14 +96,15 @@ c_QPoint =
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QPoint") Nothing []
-  [ mkCtor "newNull" []
-  , mkCtor "new" [intT, intT]
-  ] $
+  makeClass (ident "QPoint") Nothing [] $
   collect
-  [ test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [objT c_QPoint, objT c_QPoint] intT
+  [ just $ mkCtor "newNull" []
+  , just $ mkCtor "new" [intT, intT]
+  , test (qtVersion >= [5, 1]) $ mkStaticMethod "dotProduct" [objT c_QPoint, objT c_QPoint] intT
   , just $ mkConstMethod "isNull" [] boolT
   , just $ mkConstMethod "manhattanLength" [] intT
+  , just $ mkProp "x" intT
+  , just $ mkProp "y" intT
   , just $ mkMethod OpAddAssign [objT c_QPoint] $ refT $ objT c_QPoint
   , just $ mkMethod OpSubtractAssign [objT c_QPoint] $ refT $ objT c_QPoint
   , just $ mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign)
@@ -112,8 +112,4 @@ c_QPoint =
   , just $ mkMethod' OpMultiplyAssign (operatorPreferredExtName' OpMultiplyAssign ++ "Real")
     [qreal] $ refT $ objT c_QPoint
   , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QPoint
-  ] ++
-  mkProps
-  [ mkProp "x" intT
-  , mkProp "y" intT
   ]

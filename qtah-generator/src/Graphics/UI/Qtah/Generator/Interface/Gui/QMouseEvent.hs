@@ -56,27 +56,25 @@ aModule =
 c_QMouseEvent =
   addReqIncludes [includeStd "QMouseEvent"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QMouseEvent") Nothing [c_QInputEvent]
-  (collect
-   [ test (qtVersion < [5, 0]) $ mkCtor "new"
-     [enumT e_Type, objT c_QPoint, enumT e_MouseButton, bitspaceT bs_MouseButtons,
-      bitspaceT bs_KeyboardModifiers]
-   , test (qtVersion < [5, 0]) $ mkCtor "newWithGlobalPosition"
-     [enumT e_Type, objT c_QPoint, objT c_QPoint, enumT e_MouseButton, bitspaceT bs_MouseButtons,
-      bitspaceT bs_KeyboardModifiers]
-
-   , test (qtVersion >= [5, 0]) $ mkCtor "new"
-     [enumT e_Type, objT c_QPointF, enumT e_MouseButton, bitspaceT bs_MouseButtons,
-      bitspaceT bs_KeyboardModifiers]
-   , test (qtVersion >= [5, 0]) $ mkCtor "newWithScreenPosition"
-     [enumT e_Type, objT c_QPointF, objT c_QPointF, enumT e_MouseButton, bitspaceT bs_MouseButtons,
-      bitspaceT bs_KeyboardModifiers]
-   , test (qtVersion >= [5, 0]) $ mkCtor "newWithWindowAndScreenPosition"
-     [enumT e_Type, objT c_QPointF, objT c_QPointF, objT c_QPointF, enumT e_MouseButton,
-      bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers]
-   ]) $
+  makeClass (ident "QMouseEvent") Nothing [c_QInputEvent] $
   collect
-  [ just $ mkConstMethod "button" [] $ enumT e_MouseButton
+  [ test (qtVersion < [5, 0]) $ mkCtor "new"
+    [enumT e_Type, objT c_QPoint, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+     bitspaceT bs_KeyboardModifiers]
+  , test (qtVersion < [5, 0]) $ mkCtor "newWithGlobalPosition"
+    [enumT e_Type, objT c_QPoint, objT c_QPoint, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+     bitspaceT bs_KeyboardModifiers]
+
+  , test (qtVersion >= [5, 0]) $ mkCtor "new"
+    [enumT e_Type, objT c_QPointF, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+     bitspaceT bs_KeyboardModifiers]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newWithScreenPosition"
+    [enumT e_Type, objT c_QPointF, objT c_QPointF, enumT e_MouseButton, bitspaceT bs_MouseButtons,
+     bitspaceT bs_KeyboardModifiers]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newWithWindowAndScreenPosition"
+    [enumT e_Type, objT c_QPointF, objT c_QPointF, objT c_QPointF, enumT e_MouseButton,
+     bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers]
+  , just $ mkConstMethod "button" [] $ enumT e_MouseButton
   , just $ mkConstMethod "buttons" [] $ bitspaceT bs_MouseButtons
   , test (qtVersion >= [5, 3]) $ mkConstMethod "flags" [] $ bitspaceT bs_MouseEventFlags
   , just $ mkConstMethod "globalPos" [] $ objT c_QPoint

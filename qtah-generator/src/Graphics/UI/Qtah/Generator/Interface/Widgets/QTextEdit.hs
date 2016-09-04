@@ -34,7 +34,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
@@ -69,70 +68,67 @@ c_QTextEdit =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithText" [objT c_QString]
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
-  ] $
-  [ mkConstMethod "anchorAt" [objT c_QPoint] $ objT c_QString
+  , mkProp "acceptRichText" boolT
+  , mkProp "alignment" $ bitspaceT bs_Alignment
+  , mkConstMethod "anchorAt" [objT c_QPoint] $ objT c_QString
   , mkMethod "append" [objT c_QString] voidT
+    -- TODO autoFormatting
   , mkConstMethod "canPaste" [] boolT
   , mkMethod "clear" [] voidT
   , mkMethod "copy" [] voidT
   , mkMethod' "createStandardContextMenu" "createStandardContextMenu" [] $ ptrT $ objT c_QMenu
   , mkMethod' "createStandardContextMenu" "createStandardContextMenuAt" [objT c_QPoint] $
     ptrT $ objT c_QMenu
+    -- TODO currentCharFormat
+    -- TODO currentFont
     -- TODO cursorForPosition
   , mkConstMethod' "cursorRect" "cursorRect" [] $ objT c_QRect
     -- TODO cursorRect(const QTextCursor&)
+  , mkProp "cursorWidth" intT
   , mkMethod "cut" [] voidT
+    -- TODO document
+  , mkProp "documentTitle" $ objT c_QString
   , mkMethod "ensureCursorVisible" [] voidT
+    -- TODO extraSelections
   , mkMethod' "find" "find" [objT c_QString] boolT
     -- TODO find with FindFlags
+  , mkProp "fontFamily" $ objT c_QString
+  , mkProp "fontItalic" boolT
+  , mkProp "fontPointSize" qreal
+  , mkProp "fontUnderline" boolT
+  , mkProp "fontWeight" intT
   , mkMethod "insertHtml" [objT c_QString] voidT
   , mkMethod "insertPlainText" [objT c_QString] voidT
+  , mkProp "lineWrapColumnOrWidth" intT
+  , mkProp "lineWrapMode" $ enumT e_LineWrapMode
     -- TODO loadResource
     -- TODO mergeCurrentCharFormat
     -- TODO moveCursor
+  , mkProp "overwriteMode" boolT
   , mkMethod "paste" [] voidT
     -- TODO print
+  , mkBoolIsProp "readOnly"
   , mkMethod "redo" [] voidT
   , mkMethod "scrollToAnchor" [objT c_QString] voidT
   , mkMethod "selectAll" [] voidT
   , mkMethod "setHtml" [objT c_QString] voidT
   , mkMethod "setPlainText" [objT c_QString] voidT
   , mkMethod "setText" [objT c_QString] voidT
-  , mkConstMethod "toHtml" [] $ objT c_QString
-  , mkConstMethod "toPlainText" [] $ objT c_QString
-  , mkMethod "undo" [] voidT
-  , mkMethod "zoomIn" [] voidT
-  , mkMethod' "zoomIn" "zoomInPoints" [intT] voidT
-  , mkMethod "zoomOut" [] voidT
-  , mkMethod' "zoomOut" "zoomOutPoints" [intT] voidT
-  ] ++
-  mkProps
-  [ mkProp "acceptRichText" boolT
-  , mkProp "alignment" $ bitspaceT bs_Alignment
-    -- TODO autoFormatting
-    -- TODO currentCharFormat
-    -- TODO currentFont
-  , mkProp "cursorWidth" intT
-    -- TODO document
-  , mkProp "documentTitle" $ objT c_QString
-    -- TODO extraSelections
-  , mkProp "fontFamily" $ objT c_QString
-  , mkProp "fontItalic" boolT
-  , mkProp "fontPointSize" qreal
-  , mkProp "fontUnderline" boolT
-  , mkProp "fontWeight" intT
-  , mkProp "lineWrapColumnOrWidth" intT
-  , mkProp "lineWrapMode" $ enumT e_LineWrapMode
-  , mkProp "overwriteMode" boolT
-  , mkBoolIsProp "readOnly"
   , mkProp "tabChangesFocus" boolT
   , mkProp "tabStopWidth" intT
   , mkProp "textBackgroundColor" $ objT c_QColor
   , mkProp "textColor" $ objT c_QColor
     -- TODO textCursor
     -- TODO textInteractionFlags
+  , mkConstMethod "toHtml" [] $ objT c_QString
+  , mkConstMethod "toPlainText" [] $ objT c_QString
+  , mkMethod "undo" [] voidT
   , mkBoolIsProp "undoRedoEnabled"
     -- TODO wordWrapMode
+  , mkMethod "zoomIn" [] voidT
+  , mkMethod' "zoomIn" "zoomInPoints" [intT] voidT
+  , mkMethod "zoomOut" [] voidT
+  , mkMethod' "zoomOut" "zoomOutPoints" [intT] voidT
   ]
 
 signals =

@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (doubleT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
@@ -55,19 +54,17 @@ aModule =
 c_QDoubleValidator =
   addReqIncludes [includeStd "QDoubleValidator"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QDoubleValidator") Nothing [c_QValidator]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
-  , mkCtor "newWithOptions" [doubleT, doubleT, intT]
-  , mkCtor "newWithOptionsAndParent" [doubleT, doubleT, intT, ptrT $ objT c_QObject]
-  ] $
-  [ mkMethod' "setRange" "setRange" [doubleT, doubleT] voidT
-  , mkMethod' "setRange" "setRangeAndDecimals" [doubleT, doubleT, intT] voidT
-  ] ++
-  (mkProps . collect)
-  [ just $ mkProp "bottom" doubleT
+  makeClass (ident "QDoubleValidator") Nothing [c_QValidator] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  , just $ mkCtor "newWithOptions" [doubleT, doubleT, intT]
+  , just $ mkCtor "newWithOptionsAndParent" [doubleT, doubleT, intT, ptrT $ objT c_QObject]
+  , just $ mkProp "bottom" doubleT
   , just $ mkProp "decimals" intT
   , test (qtVersion >= [4, 3]) $ mkProp "notation" $ enumT e_Notation
+  , just $ mkMethod' "setRange" "setRange" [doubleT, doubleT] voidT
+  , just $ mkMethod' "setRange" "setRangeAndDecimals" [doubleT, doubleT, intT] voidT
   , just $ mkProp "top" doubleT
   ]
 

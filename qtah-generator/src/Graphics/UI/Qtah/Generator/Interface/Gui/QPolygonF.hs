@@ -60,15 +60,14 @@ c_QPolygonF =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
   classSetEntityPrefix "" $
-  makeClass (ident "QPolygonF") Nothing [c_QVectorQPointF]
-  [ mkCtor "new" []
-  , mkCtor "newWithSize" [intT]
-  , mkCtor "newWithPoints" [objT c_QVectorQPointF]
-  , mkCtor "newWithPolygon" [objT c_QPolygon]
-  , mkCtor "newWithRectangle" [objT c_QRectF]
-  ] $
+  makeClass (ident "QPolygonF") Nothing [c_QVectorQPointF] $
   collect
-  [ just $ mkConstMethod "boundingRect" [] $ objT c_QRectF
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithSize" [intT]
+  , just $ mkCtor "newWithPoints" [objT c_QVectorQPointF]
+  , just $ mkCtor "newWithPolygon" [objT c_QPolygon]
+  , just $ mkCtor "newWithRectangle" [objT c_QRectF]
+  , just $ mkConstMethod "boundingRect" [] $ objT c_QRectF
   , test (qtVersion >= [4, 3]) $ mkConstMethod "containsPoint"
     [objT c_QPointF, enumT e_FillRule] boolT
   , test (qtVersion >= [4, 3]) $ mkConstMethod "intersected" [objT c_QPolygonF] $ objT c_QPolygonF

@@ -49,8 +49,7 @@ c_QEnterEvent =
   classSetEntityPrefix "" $
   makeClass (ident "QEnterEvent") Nothing [c_QEvent]
   [ mkCtor "new" [objT c_QPointF, objT c_QPointF, objT c_QPointF]
-  ]
-  [ mkConstMethod "globalPos" [] $ objT c_QPoint
+  , mkConstMethod "globalPos" [] $ objT c_QPoint
   , mkConstMethod "globalX" [] intT
   , mkConstMethod "globalY" [] intT
   , mkConstMethod "localPos" [] $ objT c_QPointF

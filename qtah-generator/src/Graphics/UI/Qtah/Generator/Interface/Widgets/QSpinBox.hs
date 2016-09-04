@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
@@ -57,18 +56,16 @@ aModule =
 c_QSpinBox =
   addReqIncludes [includeStd "QSpinBox"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QSpinBox") Nothing [c_QAbstractSpinBox]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkConstMethod "cleanText" [] $ objT c_QString
-  , mkMethod "setRange" [intT, intT] voidT
-  ] ++
-  (mkProps . collect)
-  [ test (qtVersion >= [5, 2]) $ mkProp "displayIntegerBase" intT
+  makeClass (ident "QSpinBox") Nothing [c_QAbstractSpinBox] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkConstMethod "cleanText" [] $ objT c_QString
+  , test (qtVersion >= [5, 2]) $ mkProp "displayIntegerBase" intT
   , just $ mkProp "maximum" intT
   , just $ mkProp "minimum" intT
   , just $ mkProp "prefix" $ objT c_QString
+  , just $ mkMethod "setRange" [intT, intT] voidT
   , just $ mkProp "singleStep" intT
   , just $ mkProp "suffix" $ objT c_QString
   , just $ mkProp "value" intT

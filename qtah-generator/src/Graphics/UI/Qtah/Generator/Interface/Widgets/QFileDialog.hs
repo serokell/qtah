@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   mkStaticMethod',
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, objT, ptrT, voidT)
@@ -65,19 +64,22 @@ aModule =
 c_QFileDialog =
   addReqIncludes [includeStd "QFileDialog"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QFileDialog") Nothing [c_QDialog]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , mkCtor "newWithParentAndFlags" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags]
-  , mkCtor "newWithParentAndCaption" [ptrT $ objT c_QWidget, objT c_QString]
-  , mkCtor "newWithParentAndCaptionAndDirectory"
-    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString]
-  , mkCtor "newWithParentAndCaptionAndDirectoryAndFilter"
-    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, objT c_QString]
-  ] $
+  makeClass (ident "QFileDialog") Nothing [c_QDialog] $
   collect
-  [ just $ mkConstMethod "directory" [] $ objT c_QDir
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkCtor "newWithParentAndFlags" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags]
+  , just $ mkCtor "newWithParentAndCaption" [ptrT $ objT c_QWidget, objT c_QString]
+  , just $ mkCtor "newWithParentAndCaptionAndDirectory"
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString]
+  , just $ mkCtor "newWithParentAndCaptionAndDirectoryAndFilter"
+    [ptrT $ objT c_QWidget, objT c_QString, objT c_QString, objT c_QString]
+  , just $ mkProp "acceptMode" $ enumT e_AcceptMode
+  , just $ mkProp "defaultSuffix" $ objT c_QString
+  , just $ mkConstMethod "directory" [] $ objT c_QDir
     -- TODO directoryUrl (>=5.2)
+  , just $ mkProp "fileMode" $ enumT e_FileMode
+  , test (qtVersion >= [4, 4]) $ mkProp "filter" $ bitspaceT bs_Filters
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectory"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ objT c_QString
   , just $ mkStaticMethod' "getExistingDirectory" "getExistingDirectoryWithOptions"
@@ -104,11 +106,14 @@ c_QFileDialog =
      objT c_QString, ptrT $ objT c_QString, bitspaceT bs_Options] $
     objT c_QString
     -- TODO getSaveFileUrl (>=5.2)
-
+  , just $ mkProp "history" $ objT c_QStringList
     -- TODO iconProvider
     -- TODO itemDelegate
   , just $ mkConstMethod "labelText" [enumT e_DialogLabel] $ objT c_QString
+  , test (qtVersion >= [5, 2]) $ mkProp "mimeTypeFilters" $ objT c_QStringList
+  , test (qtVersion >= [4, 4]) $ mkProp "nameFilters" $ objT c_QStringList
     -- TODO open (>=4.5)
+  , test (qtVersion >= [4, 5]) $ mkProp "options" $ bitspaceT bs_Options
     -- TODO proxyModel
     -- TODO restoreState (>=4.3)
     -- TODO saveState (>=4.3)
@@ -129,18 +134,8 @@ c_QFileDialog =
   , test (qtVersion >= [4, 4]) $ mkMethod "setNameFilter" [objT c_QString] voidT
   , test (qtVersion >= [4, 5]) $ mkMethod "setOption" [enumT e_Option, boolT] voidT
     -- TODO setProxyModel (>=4.3)
-    -- TODO testOption (>=4.5)
-  ] ++
-  (mkProps . collect)
-  [ just $ mkProp "acceptMode" $ enumT e_AcceptMode
-  , just $ mkProp "defaultSuffix" $ objT c_QString
-  , just $ mkProp "fileMode" $ enumT e_FileMode
-  , test (qtVersion >= [4, 4]) $ mkProp "filter" $ bitspaceT bs_Filters
-  , just $ mkProp "history" $ objT c_QStringList
-  , test (qtVersion >= [5, 2]) $ mkProp "mimeTypeFilters" $ objT c_QStringList
-  , test (qtVersion >= [4, 4]) $ mkProp "nameFilters" $ objT c_QStringList
-  , test (qtVersion >= [4, 5]) $ mkProp "options" $ bitspaceT bs_Options
     -- TODO sidebarUrls (>=4.3)
+    -- TODO testOption (>=4.5)
   , just $ mkProp "viewMode" $ enumT e_ViewMode
   ]
 

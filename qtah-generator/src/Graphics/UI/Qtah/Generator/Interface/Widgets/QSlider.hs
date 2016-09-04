@@ -29,7 +29,6 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkCtor,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (enumT, intT, objT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Orientation)
@@ -55,9 +54,7 @@ c_QSlider =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithOrientation" [enumT e_Orientation]
   , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
-  ] $
-  mkProps
-  [ mkProp "tickInterval" intT
+  , mkProp "tickInterval" intT
   , mkProp "tickPosition" $ enumT e_TickPosition
   ]
 

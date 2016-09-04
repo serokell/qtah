@@ -32,8 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
-
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_WindowFlags)
@@ -58,15 +56,12 @@ c_QDialog =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithParentAndFlags" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags]
-  ] $
-  [ mkMethod "accept" [] voidT
+  , mkMethod "accept" [] voidT
   , mkMethod "done" [intT] voidT
   , mkMethod "exec" [] intT
+  , mkBoolIsProp "modal"
   , mkMethod "open" [] voidT
   , mkMethod "reject" [] voidT
-  ] ++
-  mkProps
-  [ mkBoolIsProp "modal"
   , mkProp "result" intT
   , mkBoolIsProp "sizeGripEnabled"
   ]

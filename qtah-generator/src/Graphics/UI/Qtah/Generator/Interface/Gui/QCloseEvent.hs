@@ -44,4 +44,3 @@ c_QCloseEvent =
   makeClass (ident "QCloseEvent") Nothing [c_QEvent]
   [ mkCtor "new" []
   ]
-  []

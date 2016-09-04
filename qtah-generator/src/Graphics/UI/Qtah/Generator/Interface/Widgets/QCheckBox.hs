@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkBoolIsProp,
   mkCtor,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -50,13 +49,11 @@ aModule =
 c_QCheckBox =
   addReqIncludes [includeStd "QCheckBox"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QCheckBox") Nothing [ c_QAbstractButton ]
+  makeClass (ident "QCheckBox") Nothing [c_QAbstractButton]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithText" [objT c_QString]
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
-  ] $
-  mkProps
-  [ mkProp "checkState" $ enumT e_CheckState
+  , mkProp "checkState" $ enumT e_CheckState
   , mkBoolIsProp "tristate"
   ]

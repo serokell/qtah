@@ -34,7 +34,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkStaticMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
@@ -61,9 +60,9 @@ aModule =
 c_QLayout =
   addReqIncludes [includeStd "QLayout"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem]
-  [] $  -- Abstract.
+  makeClass (ident "QLayout") Nothing [c_QObject, c_QLayoutItem] $
   collect
+  -- Abstract.
   [ just $ mkMethod "activate" [] boolT
   , just $ mkMethod "addItem" [ptrT $ objT c_QLayoutItem] voidT
   , just $ mkMethod "addWidget" [ptrT $ objT c_QWidget] voidT
@@ -72,8 +71,10 @@ c_QLayout =
   , test (qtVersion >= [4, 6]) $ mkConstMethod "contentsMargins" [] $ objT c_QMargins
   , test (qtVersion >= [4, 3]) $ mkConstMethod "contentsRect" [] $ objT c_QRect
   , just $ mkConstMethod "count" [] intT
+  , just $ mkBoolIsProp "enabled"
   , just $ mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
   , just $ mkConstMethod "itemAt" [intT] $ ptrT $ objT c_QLayoutItem
+  , just $ mkProp "menuBar" $ ptrT $ objT c_QWidget
   , just $ mkConstMethod "parentWidget" [] $ ptrT $ objT c_QWidget
   , just $ mkMethod "removeItem" [ptrT $ objT c_QLayoutItem] voidT
   , just $ mkMethod "removeWidget" [ptrT $ objT c_QWidget] voidT
@@ -86,14 +87,10 @@ c_QLayout =
     [objT c_QMargins] voidT
   , test (qtVersion >= [4, 3]) $ mkMethod' "setContentsMargins" "setContentsMarginsRaw"
     [intT, intT, intT, intT] voidT
+  , just $ mkProp "sizeConstraint" $ enumT e_SizeConstraint
+  , just $ mkProp "spacing" intT
   , just $ mkMethod "takeAt" [intT] $ ptrT $ objT c_QLayoutItem
   , just $ mkMethod "update" [] voidT
-  ] ++
-  mkProps
-  [ mkBoolIsProp "enabled"
-  , mkProp "menuBar" $ ptrT $ objT c_QWidget
-  , mkProp "sizeConstraint" $ enumT e_SizeConstraint
-  , mkProp "spacing" intT
   ]
 
 e_SizeConstraint =

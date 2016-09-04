@@ -48,4 +48,3 @@ c_QHBoxLayout =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   ]
-  []

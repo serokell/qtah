@@ -34,7 +34,6 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkConstMethod,
   mkProp,
-  mkProps,
   mkStaticMethod,
   mkStaticMethod',
   mkStaticProp,
@@ -74,24 +73,31 @@ c_QApplication =
                  , includeLocal "wrap_qapplication.hpp"
                  ] $
   classSetEntityPrefix "" $
-  makeClass (ident "QApplication") Nothing [c_QCoreApplication] [] $
+  makeClass (ident "QApplication") Nothing [c_QCoreApplication] $
   collect
   [ just $ makeFnMethod (ident2 "qtah" "qapplication" "create") "new" MStatic Nonpure
     [objT c_QStringList] $ ptrT $ objT c_QApplication
   , just $ mkStaticMethod "aboutQt" [] voidT
   , just $ mkStaticMethod "activeModalWidget" [] $ ptrT $ objT c_QWidget
   , just $ mkStaticMethod "activePopupWidget" [] $ ptrT $ objT c_QWidget
+  , just $ mkStaticProp "activeWindow" $ ptrT $ objT c_QWidget
   , just $ mkStaticMethod "alert" [ptrT $ objT c_QWidget, intT] voidT
   , just $ mkStaticMethod "allWidgets" [] $ objT c_QListQWidget
+  , just $ mkProp "autoSipEnabled" boolT
   , just $ mkStaticMethod "beep" [] voidT
     -- TODO changeOverrideCursor
   , just $ mkStaticMethod "clipboard" [] $ ptrT $ objT c_QClipboard
   , just $ mkStaticMethod "closeAllWindows" [] voidT
+  , just $ mkStaticProp "colorSpec" intT
     -- TODO commitData
+  , just $ mkStaticProp "cursorFlashTime" intT
     -- TODO desktop
+  , just $ mkStaticProp "desktopSettingsAware" boolT
+  , just $ mkStaticProp "doubleClickInterval" intT
   , just $ mkStaticMethod "focusWidget" [] $ ptrT $ objT c_QWidget
     -- TODO font
     -- TODO fontMetrics
+  , just $ mkStaticProp "globalStrut" $ objT c_QSize
     -- TODO inputContext
     -- TODO isEffectEnabled
   , just $ mkStaticMethod "isLeftToRight" [] boolT
@@ -128,7 +134,10 @@ c_QApplication =
     -- TODO setPalette
   , just $ mkStaticMethod "setQuitOnLastWindowClosed" [boolT] voidT
     -- TODO setStyle
+  , just $ mkProp "startDragDistance" intT
+  , just $ mkProp "startDragTime" intT
     -- TODO style
+  , just $ mkProp "styleSheet" $ objT c_QString
   , test (qtVersion < [5]) $ mkStaticMethod "syncX" [] voidT
     -- TODO symbianEventFilter
     -- TODO symbianProcessEvent
@@ -137,24 +146,12 @@ c_QApplication =
     -- TODO topLevelWidgets
     -- We rename type() since @type@ is a Haskell keyword.
   , test (qtVersion < [5]) $ mkStaticMethod' "type" "applicationType" [] $ enumT e_Type
+  , just $ mkStaticProp "wheelScrollLines" intT
   , just $ mkStaticMethod' "widgetAt" "widgetAtPoint" [objT c_QPoint] $ ptrT $ objT c_QWidget
   , just $ mkStaticMethod' "widgetAt" "widgetAtRaw" [intT, intT] $ ptrT $ objT c_QWidget
+    -- TODO windowIcon
     -- TODO x11EventFilter
     -- TODO x11ProcessEvent
-  ] ++
-  mkProps
-  [ mkStaticProp "activeWindow" $ ptrT $ objT c_QWidget
-  , mkProp "autoSipEnabled" boolT
-  , mkStaticProp "colorSpec" intT
-  , mkStaticProp "cursorFlashTime" intT
-  , mkStaticProp "desktopSettingsAware" boolT
-  , mkStaticProp "doubleClickInterval" intT
-  , mkStaticProp "globalStrut" $ objT c_QSize
-  , mkProp "startDragDistance" intT
-  , mkProp "startDragTime" intT
-  , mkProp "styleSheet" $ objT c_QString
-  , mkStaticProp "wheelScrollLines" intT
-    -- TODO windowIcon
   ]
 
 signals =

@@ -54,24 +54,22 @@ aModule =
 c_QWheelEvent =
   addReqIncludes [includeStd "QWheelEvent"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QWheelEvent") Nothing [c_QInputEvent]
-  (collect
-   [ test (qtVersion < [5, 0]) $ mkCtor "new"
-     [objT c_QPoint, intT, bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers,
-      enumT e_Orientation]
-   , test (qtVersion < [5, 0]) $ mkCtor "newWithGlobalPosition"
-     [objT c_QPoint, objT c_QPoint, intT, bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers,
-      enumT e_Orientation]
-
-   , test (qtVersion >= [5, 0]) $ mkCtor "new"
-     [objT c_QPointF, objT c_QPointF, objT c_QPoint, objT c_QPoint, intT, enumT e_Orientation,
-      bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers]
-   , test (qtVersion >= [5, 2]) $ mkCtor "newWithPhase"
-     [objT c_QPointF, objT c_QPointF, objT c_QPoint, objT c_QPoint, intT, enumT e_Orientation,
-      bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers, enumT e_ScrollPhase]
-   ]) $
+  makeClass (ident "QWheelEvent") Nothing [c_QInputEvent] $
   collect
-  [ test (qtVersion >= [5, 0]) $ mkConstMethod "angleDelta" [] $ objT c_QPoint
+  [ test (qtVersion < [5, 0]) $ mkCtor "new"
+    [objT c_QPoint, intT, bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers,
+     enumT e_Orientation]
+  , test (qtVersion < [5, 0]) $ mkCtor "newWithGlobalPosition"
+    [objT c_QPoint, objT c_QPoint, intT, bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers,
+     enumT e_Orientation]
+
+  , test (qtVersion >= [5, 0]) $ mkCtor "new"
+    [objT c_QPointF, objT c_QPointF, objT c_QPoint, objT c_QPoint, intT, enumT e_Orientation,
+     bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers]
+  , test (qtVersion >= [5, 2]) $ mkCtor "newWithPhase"
+    [objT c_QPointF, objT c_QPointF, objT c_QPoint, objT c_QPoint, intT, enumT e_Orientation,
+     bitspaceT bs_MouseButtons, bitspaceT bs_KeyboardModifiers, enumT e_ScrollPhase]
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "angleDelta" [] $ objT c_QPoint
   , just $ mkConstMethod "buttons" [] $ bitspaceT bs_MouseButtons
   , test (qtVersion < [5, 0]) $ mkConstMethod "delta" [] intT
   , just $ mkConstMethod "globalPos" [] $ objT c_QPoint

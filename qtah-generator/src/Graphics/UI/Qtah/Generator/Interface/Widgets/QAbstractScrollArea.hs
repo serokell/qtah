@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
@@ -53,15 +52,12 @@ c_QAbstractScrollArea =
   makeClass (ident "QAbstractScrollArea") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod "addScrollBarWidget" [ptrT $ objT c_QWidget, bitspaceT bs_Alignment] voidT
-  , mkConstMethod "maximumViewportSize" [] $ objT c_QSize
-    -- TODO scrollBarWidgets
-  ] ++
-  mkProps
-  [ mkProp "cornerWidget" $ ptrT $ objT c_QWidget
+  , mkMethod "addScrollBarWidget" [ptrT $ objT c_QWidget, bitspaceT bs_Alignment] voidT
+  , mkProp "cornerWidget" $ ptrT $ objT c_QWidget
     -- TODO horizontalScrollBar
   , mkProp "horizontalScrollBarPolicy" $ enumT e_ScrollBarPolicy
+  , mkConstMethod "maximumViewportSize" [] $ objT c_QSize
+    -- TODO scrollBarWidgets
     -- TODO verticalScrollBar
   , mkProp "verticalScrollBarPolicy" $ enumT e_ScrollBarPolicy
   , mkProp "viewport" $ ptrT $ objT c_QWidget

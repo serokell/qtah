@@ -51,7 +51,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod',
   mkProp,
-  mkProps,
   operatorPreferredExtName',
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
@@ -97,12 +96,15 @@ c_QMargins =
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QMargins") Nothing []
-  [ mkCtor "newNull" []
-  , mkCtor "new" [intT, intT, intT, intT]
-  ] $
+  makeClass (ident "QMargins") Nothing [] $
   collect
-  [ just $ mkConstMethod "isNull" [] boolT
+  [ just $ mkCtor "newNull" []
+  , just $ mkCtor "new" [intT, intT, intT, intT]
+  , just $ mkProp "bottom" intT
+  , just $ mkConstMethod "isNull" [] boolT
+  , just $ mkProp "left" intT
+  , just $ mkProp "right" intT
+  , just $ mkProp "top" intT
   , test (qtVersion >= [5, 1]) $
     mkMethod' OpAddAssign (operatorPreferredExtName' OpAddAssign)
     [objT c_QMargins] $ refT $ objT c_QMargins
@@ -127,10 +129,4 @@ c_QMargins =
   , test (qtVersion >= [5, 1]) $
     mkMethod' OpDivideAssign (operatorPreferredExtName' OpDivideAssign ++ "Real")
     [qreal] $ refT $ objT c_QMargins
-  ] ++
-  mkProps
-  [ mkProp "bottom" intT
-  , mkProp "left" intT
-  , mkProp "right" intT
-  , mkProp "top" intT
   ]

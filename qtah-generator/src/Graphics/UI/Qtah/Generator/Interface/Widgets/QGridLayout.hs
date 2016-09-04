@@ -36,7 +36,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, constT, enumT, intT, objT, ptrT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -60,12 +59,11 @@ c_QGridLayout =
   addReqIncludes [includeStd "QGridLayout",
                   includeLocal "wrap_qgridlayout.hpp"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QGridLayout") Nothing [c_QLayout]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
+  makeClass (ident "QGridLayout") Nothing [c_QLayout] $
   collect
-  [ just $ mkMethod' "addItem" "addItem" [ptrT $ objT c_QLayoutItem, intT, intT] voidT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkMethod' "addItem" "addItem" [ptrT $ objT c_QLayoutItem, intT, intT] voidT
   , just $ mkMethod' "addItem" "addItemWithSpan"
     [ptrT $ objT c_QLayoutItem, intT, intT, intT, intT] voidT
   , just $ mkMethod' "addItem" "addItemWithSpanAndAlignment"
@@ -92,8 +90,10 @@ c_QGridLayout =
     getItemPositionAppl Nonpure [getItemPositionThis, intT] intT
   , just $ makeFnMethod (ident2 "qtah" "qgridlayout" "getItemColumnSpan") "getItemColumnSpan"
     getItemPositionAppl Nonpure [getItemPositionThis, intT] intT
+  , test (qtVersion >= [4, 3]) $ mkProp "horizontalSpacing" intT
   , test (qtVersion >= [4, 4]) $
     mkConstMethod "itemAtPosition" [intT, intT] $ ptrT $ objT c_QLayoutItem
+  , just $ mkProp "originCorner" $ enumT e_Corner
   , just $ mkConstMethod "rowCount" [] intT
   , just $ mkConstMethod "rowMinimumHeight" [intT] intT
   , just $ mkConstMethod "rowStretch" [intT] intT
@@ -102,11 +102,7 @@ c_QGridLayout =
   , just $ mkMethod "setRowMinimumHeight" [intT, intT] voidT
   , just $ mkMethod "setRowStretch" [intT, intT] voidT
   , just $ mkConstMethod "spacing" [] intT
-  ] ++
-  (mkProps . collect)
-  [ test (qtVersion >= [4, 3]) $ mkProp "horizontalSpacing" intT
   , test (qtVersion >= [4, 3]) $ mkProp "verticalSpacing" intT
-  , just $ mkProp "originCorner" $ enumT e_Corner
   ]
 
   where (getItemPositionAppl, getItemPositionThis) =

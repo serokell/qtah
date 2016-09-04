@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
@@ -52,9 +51,11 @@ c_QLayoutItem =
   addReqIncludes [includeStd "QLayoutItem"] $
   classSetEntityPrefix "" $
   makeClass (ident "QLayoutItem") Nothing []
-  [] $  -- Abstract.
-  [ -- TODO controlTypes
-    mkConstMethod "expandingDirections" [] $ bitspaceT bs_Orientations
+  -- Abstract.
+  [ mkProp "alignment" $ bitspaceT bs_Alignment
+    -- TODO controlTypes
+  , mkConstMethod "expandingDirections" [] $ bitspaceT bs_Orientations
+  , mkProp "geometry" $ objT c_QRect
   , mkConstMethod "hasHeightForWidth" [] boolT
   , mkConstMethod "heightForWidth" [intT] intT
   , mkMethod "invalidate" [] voidT
@@ -66,8 +67,4 @@ c_QLayoutItem =
   , mkConstMethod "sizeHint" [] $ objT c_QSize
     -- TODO spacerItem
   , mkConstMethod "widget" [] $ ptrT $ objT c_QWidget
-  ] ++
-  mkProps
-  [ mkProp "alignment" $ bitspaceT bs_Alignment
-  , mkProp "geometry" $ objT c_QRect
   ]

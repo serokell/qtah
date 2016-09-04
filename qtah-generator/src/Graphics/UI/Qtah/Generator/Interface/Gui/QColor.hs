@@ -55,7 +55,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   mkStaticMethod,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
@@ -94,22 +93,27 @@ c_QColor =
   classSetHaskellConversion conversion $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QColor") Nothing []
-  [ mkCtor "new" []
-  , mkCtor "newRgb" [intT, intT, intT]
-  , mkCtor "newRgba" [intT, intT, intT, intT]
-  , mkCtor "newNamedColor" [objT c_QString]
-  , mkCtor "newGlobalColor" [enumT e_GlobalColor]
-  ] $
+  makeClass (ident "QColor") Nothing [] $
   collect
-  [ just $ mkConstMethod "black" [] intT
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newRgb" [intT, intT, intT]
+  , just $ mkCtor "newRgba" [intT, intT, intT, intT]
+  , just $ mkCtor "newNamedColor" [objT c_QString]
+  , just $ mkCtor "newGlobalColor" [enumT e_GlobalColor]
+  , just $ mkProp "alpha" intT
+  , just $ mkProp "alphaF" qreal
+  , just $ mkConstMethod "black" [] intT
   , just $ mkConstMethod "blackF" [] qreal
+  , just $ mkProp "blue" intT
+  , just $ mkProp "blueF" qreal
   , just $ mkStaticMethod "colorNames" [] $ objT c_QStringList
   , just $ mkConstMethod "convertTo" [enumT e_Spec] $ objT c_QColor
   , just $ mkConstMethod "cyan" [] intT
   , just $ mkConstMethod "cyanF" [] qreal
   , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darker" [] $ objT c_QColor
   , test (qtVersion >= [4, 3]) $ mkConstMethod' "darker" "darkerBy" [intT] $ objT c_QColor
+  , just $ mkProp "green" intT
+  , just $ mkProp "greenF" qreal
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHue" [] intT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslHueF" [] qreal
   , test (qtVersion >= [4, 6]) $ mkConstMethod "hslSaturation" [] intT
@@ -131,6 +135,8 @@ c_QColor =
   , just $ mkConstMethod' "name" "name" [] $ objT c_QString
   , test (qtVersion >= [5, 2]) $
     mkConstMethod' "name" "nameWithFormat" [enumT e_NameFormat] $ objT c_QString
+  , just $ mkProp "red" intT
+  , just $ mkProp "redF" qreal
   , just $ mkConstMethod "saturation" [] intT
   , just $ mkConstMethod "saturationF" [] qreal
   , just $ mkMethod' "setCmyk" "setCmyk" [intT, intT, intT, intT] voidT
@@ -159,16 +165,6 @@ c_QColor =
   , just $ mkConstMethod "valueF" [] qreal
   , just $ mkConstMethod "yellow" [] intT
   , just $ mkConstMethod "yellowF" [] qreal
-  ] ++
-  mkProps
-  [ mkProp "alpha" intT
-  , mkProp "alphaF" qreal
-  , mkProp "blue" intT
-  , mkProp "blueF" qreal
-  , mkProp "green" intT
-  , mkProp "greenF" qreal
-  , mkProp "red" intT
-  , mkProp "redF" qreal
   ]
 
   where

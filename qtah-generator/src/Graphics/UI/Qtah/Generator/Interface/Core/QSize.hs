@@ -50,7 +50,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
@@ -94,13 +93,13 @@ c_QSize =
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
-  makeClass (ident "QSize") Nothing []
-  [ mkCtor "newNull" []
-  , mkCtor "new" [intT, intT]
-  ] $
+  makeClass (ident "QSize") Nothing [] $
   collect
-  [ just $ mkConstMethod "boundedTo" [objT c_QSize] $ objT c_QSize
+  [ just $ mkCtor "newNull" []
+  , just $ mkCtor "new" [intT, intT]
+  , just $ mkConstMethod "boundedTo" [objT c_QSize] $ objT c_QSize
   , just $ mkConstMethod "expandedTo" [objT c_QSize] $ objT c_QSize
+  , just $ mkProp "height" intT
   , just $ mkConstMethod "isEmpty" [] boolT
   , just $ mkConstMethod "isNull" [] boolT
   , just $ mkConstMethod "isValid" [] boolT
@@ -109,12 +108,9 @@ c_QSize =
     mkConstMethod "scaled" [objT c_QSize, enumT e_AspectRatioMode] $ objT c_QSize
   , just $ mkMethod "transpose" [] voidT
   , test (qtVersion >= [5, 0]) $ mkConstMethod "transposed" [] $ objT c_QSize
+  , just $ mkProp "width" intT
   , just $ mkMethod OpAddAssign [objT c_QSize] $ refT $ objT c_QSize
   , just $ mkMethod OpSubtractAssign [objT c_QSize] $ refT $ objT c_QSize
   , just $ mkMethod OpMultiplyAssign [qreal] $ refT $ objT c_QSize
   , just $ mkMethod OpDivideAssign [qreal] $ refT $ objT c_QSize
-  ] ++
-  mkProps
-  [ mkProp "height" intT
-  , mkProp "width" intT
   ]

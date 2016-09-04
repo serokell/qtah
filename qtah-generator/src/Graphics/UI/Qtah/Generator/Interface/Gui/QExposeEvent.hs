@@ -48,6 +48,5 @@ c_QExposeEvent =
   classSetEntityPrefix "" $
   makeClass (ident "QExposeEvent") Nothing [c_QEvent]
   [ mkCtor "new" [objT c_QRegion]
-  ]
-  [ mkConstMethod "region" [] $ objT c_QRegion
+  , mkConstMethod "region" [] $ objT c_QRegion
   ]

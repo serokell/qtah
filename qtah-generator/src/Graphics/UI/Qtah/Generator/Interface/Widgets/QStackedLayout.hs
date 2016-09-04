@@ -31,7 +31,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (enumT, intT, objT, ptrT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -59,20 +58,18 @@ aModule =
 c_QStackedLayout =
   addReqIncludes [includeStd "QStackedLayout"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QStackedLayout") Nothing [c_QLayout]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , mkCtor "newWithLayout" [ptrT $ objT c_QLayout]
-  ] $
-  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] intT
-  , mkConstMethod "count" [] intT
-  , mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] intT
-  , mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
-  ] ++
-  (mkProps . collect)
-  [ just $ mkProp "currentIndex" intT
+  makeClass (ident "QStackedLayout") Nothing [c_QLayout] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkCtor "newWithLayout" [ptrT $ objT c_QLayout]
+  , just $ mkMethod "addWidget" [ptrT $ objT c_QWidget] intT
+  , just $ mkConstMethod "count" [] intT
+  , just $ mkProp "currentIndex" intT
   , just $ mkProp "currentWidget" $ ptrT $ objT c_QWidget
+  , just $ mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] intT
   , test (qtVersion >= [4, 4]) $ mkProp "stackingMode" $ enumT e_StackingMode
+  , just $ mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
   ]
 
 signals =

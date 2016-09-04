@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerInt)
@@ -53,17 +52,14 @@ c_QStackedWidget =
   makeClass (ident "QStackedWidget") Nothing [c_QFrame]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] intT
+  , mkMethod "addWidget" [ptrT $ objT c_QWidget] intT
   , mkConstMethod "count" [] intT
+  , mkProp "currentIndex" intT
+  , mkProp "currentWidget" $ ptrT $ objT c_QWidget
   , mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
   , mkMethod "insertWidget" [intT, ptrT $ objT c_QWidget] intT
   , mkMethod "removeWidget" [ptrT $ objT c_QWidget] voidT
   , mkConstMethod "widget" [intT] $ ptrT $ objT c_QWidget
-  ] ++
-  mkProps
-  [ mkProp "currentIndex" intT
-  , mkProp "currentWidget" $ ptrT $ objT c_QWidget
   ]
 
 signals =

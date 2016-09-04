@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkMethod',
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -55,8 +54,7 @@ c_QStatusBar =
   makeClass (ident "QStatusBar") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod' "addPermanentWidget" "addPermanentWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod' "addPermanentWidget" "addPermanentWidget" [ptrT $ objT c_QWidget] voidT
   , mkMethod' "addPermanentWidget" "addPermanentWidgetWithStretch"
     [ptrT $ objT c_QWidget, intT] voidT
   , mkMethod' "addWidget" "addWidget" [ptrT $ objT c_QWidget] voidT
@@ -71,9 +69,7 @@ c_QStatusBar =
   , mkMethod "removeWidget" [ptrT $ objT c_QWidget] voidT
   , mkMethod' "showMessage" "showMessage" [objT c_QString] voidT
   , mkMethod' "showMessage" "showMessageWithTimeout" [objT c_QString, intT] voidT
-  ] ++
-  mkProps
-  [ mkBoolIsProp "sizeGripEnabled"
+  , mkBoolIsProp "sizeGripEnabled"
   ]
 
 signals =

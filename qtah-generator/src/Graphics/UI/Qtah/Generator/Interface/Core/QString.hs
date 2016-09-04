@@ -94,11 +94,10 @@ c_QString =
     , classHaskellConversionFromCppFn = sayLn "toStdString"
     } $
   classSetEntityPrefix "" $
-  makeClass (ident "QString") Nothing []
-  [ mkCtor "newFromCString" [ptrT $ constT charT]
-  ] $
+  makeClass (ident "QString") Nothing [] $
   collect
-  [ just $ mkConstMethod' OpArray "at" [intT] $ objT c_QChar
+  [ just $ mkCtor "newFromCString" [ptrT $ constT charT]
+  , just $ mkConstMethod' OpArray "at" [intT] $ objT c_QChar
   , just $ makeFnMethod (ident2 "qtah" "qstring" "set") "set" MNormal Nonpure
     [refT $ objT c_QString, intT, objT c_QChar] voidT
   , test (qtVersion >= [5, 0]) $ mkConstMethod "toHtmlEscaped" [] $ objT c_QString

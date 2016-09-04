@@ -40,7 +40,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   mkStaticMethod,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
@@ -72,11 +71,10 @@ c_QDir =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
   classSetEntityPrefix "" $
-  makeClass (ident "QDir") Nothing []
-  [ mkCtor "new" [objT c_QString]
-  ] $
+  makeClass (ident "QDir") Nothing [] $
   collect
-  [ just $ mkConstMethod "absoluteFilePath" [objT c_QString] $ objT c_QString
+  [ just $ mkCtor "new" [objT c_QString]
+  , just $ mkConstMethod "absoluteFilePath" [objT c_QString] $ objT c_QString
   , just $ mkConstMethod "absolutePath" [] $ objT c_QString
   , test (qtVersion >= [4, 3]) $
     mkStaticMethod "addSearchPath" [objT c_QString, objT c_QString] voidT
@@ -94,6 +92,7 @@ c_QDir =
   , just $ mkConstMethod' "exists" "exists" [] boolT
   , just $ mkConstMethod' "exists" "entryExists" [objT c_QString] boolT
   , just $ mkConstMethod "filePath" [objT c_QString] $ objT c_QString
+  , just $ mkProp "filter" $ bitspaceT bs_Filters
   , test (qtVersion >= [4, 2]) $
     mkStaticMethod "fromNativeSeparators" [objT c_QString] $ objT c_QString
   , just $ mkStaticMethod "home" [] $ objT c_QDir
@@ -109,6 +108,8 @@ c_QDir =
     -- TODO match(QStringList, QString)
   , just $ mkConstMethod "mkdir" [objT c_QString] boolT
   , just $ mkConstMethod "mkpath" [objT c_QString] boolT
+    -- TODO nameFilters
+  , just $ mkProp "path" $ objT c_QString
   , just $ mkMethod "refresh" [] voidT
   , just $ mkConstMethod "relativeFilePath" [objT c_QString] $ objT c_QString
   , just $ mkMethod "remove" [objT c_QString] boolT
@@ -118,21 +119,16 @@ c_QDir =
   , just $ mkConstMethod "rmpath" [objT c_QString] boolT
   , just $ mkStaticMethod "root" [] $ objT c_QDir
   , just $ mkStaticMethod "rootPath" [] $ objT c_QString
+    -- TODO searchPaths (>=4.3)
   , just $ mkStaticMethod "separator" [] $ objT c_QChar
   , just $ mkStaticMethod "setCurrent" [objT c_QString] boolT
+  , just $ mkProp "sorting" $ bitspaceT bs_SortFlags
   , test (qtVersion >= [5, 0]) $ mkMethod "swap" [refT $ objT c_QDir] voidT
   , just $ mkStaticMethod "temp" [] $ objT c_QDir
   , just $ mkStaticMethod "tempPath" [] $ objT c_QString
   , test (qtVersion >= [4, 2]) $
     mkStaticMethod "toNativeSeparators" [objT c_QString] $ objT c_QString
   , just $ mkConstMethod OpArray [intT] $ objT c_QString
-  ] ++
-  mkProps
-  [ mkProp "filter" $ bitspaceT bs_Filters
-    -- TODO nameFilters
-  , mkProp "path" $ objT c_QString
-    -- TODO searchPaths (>=4.3)
-  , mkProp "sorting" $ bitspaceT bs_SortFlags
   ]
 
 (e_Filter, bs_Filters) =

@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -58,23 +57,21 @@ aModule =
 c_QProgressBar =
   addReqIncludes [includeStd "QProgressBar"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QProgressBar") Nothing [c_QWidget]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
+  makeClass (ident "QProgressBar") Nothing [c_QWidget] $
   collect
-  [ just $ mkMethod "reset" [] voidT
-  , test (qtVersion >= [5, 0]) $ mkMethod "resetFormat" [] voidT  -- ADDED-BETWEEN 4.8 5.4
-  , just $ mkMethod "setRange" [intT, intT] voidT
-  , just $ mkConstMethod "text" [] $ objT c_QString
-  ] ++
-  (mkProps . collect)
-  [ just $ mkProp "alignment" $ bitspaceT bs_Alignment
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+
+  , just $ mkProp "alignment" $ bitspaceT bs_Alignment
   , test (qtVersion >= [4, 2]) $ mkProp "format" $ objT c_QString
   , test (qtVersion >= [4, 1]) $ mkProp "invertedAppearance" boolT
   , just $ mkProp "maximum" intT
   , just $ mkProp "minimum" intT
   , test (qtVersion >= [4, 1]) $ mkProp "orientation" $ enumT e_Orientation
+  , just $ mkMethod "reset" [] voidT
+  , test (qtVersion >= [5, 0]) $ mkMethod "resetFormat" [] voidT  -- ADDED-BETWEEN 4.8 5.4
+  , just $ mkMethod "setRange" [intT, intT] voidT
+  , just $ mkConstMethod "text" [] $ objT c_QString
   , test (qtVersion >= [4, 1]) $ mkProp "textDirection" $ enumT e_Direction
   , just $ mkBoolIsProp "textVisible"
   , just $ mkProp "value" intT

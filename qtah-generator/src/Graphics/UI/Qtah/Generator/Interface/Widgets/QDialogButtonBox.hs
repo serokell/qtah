@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQAbstractButton)
@@ -77,21 +76,18 @@ c_QDialogButtonBox =
   --, mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   --, mkCtor "new" []
   --, mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod' "addButton" "addButton" [ptrT $ objT c_QAbstractButton, enumT e_ButtonRole] voidT
+  , mkMethod' "addButton" "addButton" [ptrT $ objT c_QAbstractButton, enumT e_ButtonRole] voidT
   , mkMethod' "addButton" "addButtonWithText"
     [objT c_QString, enumT e_ButtonRole] $ ptrT $ objT c_QPushButton
   , mkMethod' "addButton" "addStandardButton" [enumT e_StandardButton] $ ptrT $ objT c_QPushButton
   , mkConstMethod "button" [enumT e_StandardButton] $ ptrT $ objT c_QPushButton
   , mkConstMethod "buttonRole" [ptrT $ objT c_QAbstractButton] $ enumT e_ButtonRole
   , mkConstMethod "buttons" [] $ objT c_QListQAbstractButton
+  , mkProp "centerButtons" boolT
   , mkMethod "clear" [] voidT
+  , mkProp "orientation" $ enumT e_Orientation
   , mkMethod "removeButton" [ptrT $ objT c_QAbstractButton] voidT
   , mkConstMethod "standardButton" [ptrT $ objT c_QAbstractButton] $ enumT e_StandardButton
-  ] ++
-  mkProps
-  [ mkProp "centerButtons" boolT
-  , mkProp "orientation" $ enumT e_Orientation
   , mkProp "standardButtons" $ bitspaceT bs_StandardButtons
   ]
 

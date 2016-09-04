@@ -29,7 +29,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkBoolIsProp,
   mkCtor,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, objT, ptrT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -59,9 +58,7 @@ c_QGroupBox =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithTitle" [objT c_QString]
   , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
-  ] $
-  mkProps
-  [ mkProp "alignment" $ bitspaceT bs_Alignment
+  , mkProp "alignment" $ bitspaceT bs_Alignment
   , mkBoolIsProp "checkable"
   , mkBoolIsProp "checked"
   , mkBoolIsProp "flat"

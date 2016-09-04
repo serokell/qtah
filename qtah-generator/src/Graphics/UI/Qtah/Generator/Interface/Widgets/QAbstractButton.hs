@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkBoolIsProp,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
@@ -52,25 +51,23 @@ c_QAbstractButton =
   addReqIncludes [includeStd "QAbstractButton"] $
   classSetEntityPrefix "" $
   makeClass (ident "QAbstractButton") Nothing
-  [ c_QWidget ]
-  [] $  -- Abstact.
+  [ c_QWidget ] $
+  -- Abstact.
   [ mkMethod "animateClick" [intT] voidT
-  , mkMethod "click" [] voidT
-    -- TODO group
-  , mkMethod "toggle" [] voidT
-  ] ++
-  mkProps
-  [ mkProp "autoExclusive" boolT
+  , mkProp "autoExclusive" boolT
   , mkProp "autoRepeat" boolT
   , mkProp "autoRepeatDelay" intT
   , mkProp "autoRepeatInterval" intT
   , mkBoolIsProp "checkable"
   , mkBoolIsProp "checked"
+  , mkMethod "click" [] voidT
   , mkBoolIsProp "down"
+    -- TODO group
     -- TODO icon
   , mkProp "iconSize" $ objT c_QSize
     -- TODO shortcut
   , mkProp "text" $ objT c_QString
+  , mkMethod "toggle" [] voidT
   ]
 
 signals =

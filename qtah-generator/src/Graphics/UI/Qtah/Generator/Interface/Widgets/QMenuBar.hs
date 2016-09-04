@@ -33,7 +33,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
@@ -58,31 +57,29 @@ aModule =
 c_QMenuBar =
   addReqIncludes [includeStd "QMenuBar"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QMenuBar") Nothing
-  [ c_QWidget ]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkConstMethod "actionAt" [objT c_QPoint] $ ptrT $ objT c_QAction
-  , mkConstMethod "actionGeometry" [ptrT $ objT c_QAction] $ objT c_QRect
-  , mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] voidT
-  , mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
+  makeClass (ident "QMenuBar") Nothing [c_QWidget] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkConstMethod "actionAt" [objT c_QPoint] $ ptrT $ objT c_QAction
+  , just $ mkConstMethod "actionGeometry" [ptrT $ objT c_QAction] $ objT c_QRect
+  , just $ mkProp "activeAction" $ ptrT $ objT c_QAction
+  , just $ mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] voidT
+  , just $ mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
     -- TODO addNewActionWithIcon and connecting forms
-  , mkMethod' "addMenu" "addMenu" [ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
-  , mkMethod' "addMenu" "addNewMenu" [objT c_QString] $ ptrT $ objT c_QMenu
+  , just $ mkMethod' "addMenu" "addMenu" [ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
+  , just $ mkMethod' "addMenu" "addNewMenu" [objT c_QString] $ ptrT $ objT c_QMenu
     -- TODO addNewMenuWithIcon
-  , mkMethod "addSeparator" [] $ ptrT $ objT c_QAction
-  , mkMethod "clear" [] voidT
-  , mkConstMethod "cornerWidget" [enumT e_Corner] $ ptrT $ objT c_QWidget
-  , mkMethod "insertMenu" [ptrT $ objT c_QAction, ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
-  , mkMethod "insertSeparator" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
-  , mkMethod "setCornerWidget" [ptrT $ objT c_QWidget, enumT e_Corner] voidT
-  ] ++
-  (mkProps . collect)
-  [ just $ mkProp "activeAction" $ ptrT $ objT c_QAction
+  , just $ mkMethod "addSeparator" [] $ ptrT $ objT c_QAction
+  , just $ mkMethod "clear" [] voidT
+  , just $ mkConstMethod "cornerWidget" [enumT e_Corner] $ ptrT $ objT c_QWidget
   , test wsWince $ mkProp "defaultAction" $ ptrT $ objT c_QAction
   , just $ mkBoolIsProp "defaultUp"
+  , just $
+    mkMethod "insertMenu" [ptrT $ objT c_QAction, ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
+  , just $ mkMethod "insertSeparator" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
   , just $ mkBoolIsProp "nativeMenuBar"
+  , just $ mkMethod "setCornerWidget" [ptrT $ objT c_QWidget, enumT e_Corner] voidT
   ]
 
 signals =

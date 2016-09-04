@@ -46,6 +46,5 @@ c_QTimerEvent =
   classSetEntityPrefix "" $
   makeClass (ident "QTimerEvent") Nothing [c_QEvent]
   [ mkCtor "new" [intT]
-  ]
-  [ mkConstMethod "timerId" [] intT
+  , mkConstMethod "timerId" [] intT
   ]

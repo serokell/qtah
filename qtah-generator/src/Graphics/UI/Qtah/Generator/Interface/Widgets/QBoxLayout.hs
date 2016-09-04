@@ -32,7 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkMethod',
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
@@ -56,8 +55,7 @@ c_QBoxLayout =
   makeClass (ident "QBoxLayout") Nothing [c_QLayout]
   [ mkCtor "new" [enumT e_Direction]
   , mkCtor "newWithParent" [enumT e_Direction, ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod' "addLayout" "addLayout" [ptrT $ objT c_QLayout] voidT
+  , mkMethod' "addLayout" "addLayout" [ptrT $ objT c_QLayout] voidT
   , mkMethod' "addLayout" "addLayoutWithStretch" [ptrT $ objT c_QLayout, intT] voidT
   , mkMethod "addSpacing" [intT] voidT
   , mkMethod' "addStretch" "addStretch" [] voidT
@@ -67,6 +65,7 @@ c_QBoxLayout =
   , mkMethod' "addWidget" "addWidgetWithStretch" [ptrT $ objT c_QWidget, intT] voidT
   , mkMethod' "addWidget" "addWidgetWithStretchAndAlignment"
     [ptrT $ objT c_QWidget, intT, bitspaceT bs_Alignment] voidT
+  , mkProp "direction" $ enumT e_Direction
   , mkMethod' "insertLayout" "insertLayout" [intT, ptrT $ objT c_QLayout] voidT
   , mkMethod' "insertLayout" "insertLayoutWithStretch" [intT, ptrT $ objT c_QLayout, intT] voidT
     -- TODO insertSpacerItem
@@ -80,9 +79,6 @@ c_QBoxLayout =
   , mkMethod "setStretch" [intT, intT] voidT
   , mkMethod' "setStretchFactor" "setWidgetStretchFactor" [ptrT $ objT c_QWidget, intT] boolT
   , mkMethod' "setStretchFactor" "setLayoutStretchFactor" [ptrT $ objT c_QLayout, intT] boolT
-  ] ++
-  mkProps
-  [ mkProp "direction" $ enumT e_Direction
   , mkProp "spacing" intT
   ]
 

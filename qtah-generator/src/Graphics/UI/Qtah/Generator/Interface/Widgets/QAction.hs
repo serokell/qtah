@@ -33,7 +33,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
@@ -64,46 +63,43 @@ aModule =
 c_QAction =
   addReqIncludes [includeStd "QAction"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QAction") Nothing
-  [ c_QObject ]
-  [ mkCtor "new" [ptrT $ objT c_QObject]
-  , mkCtor "newWithText" [objT c_QString, ptrT $ objT c_QObject]
+  makeClass (ident "QAction") Nothing [c_QObject] $
+  collect
+  [ just $ mkCtor "new" [ptrT $ objT c_QObject]
+  , just $ mkCtor "newWithText" [objT c_QString, ptrT $ objT c_QObject]
     -- TODO newWithIconAndText
-  ] $
-  [ mkMethod "activate" [enumT e_ActionEvent] voidT
+  , just $ mkProp "actionGroup" $ ptrT $ objT c_QActionGroup
+  , just $ mkMethod "activate" [enumT e_ActionEvent] voidT
     -- TODO associatedGraphicsWidgets
     -- TODO associatedWidgets
-  , mkMethod "hover" [] voidT
-  , mkConstMethod "parentWidget" [] $ ptrT $ objT c_QWidget
-  , mkConstMethod "priority" [] $ enumT e_Priority
-  , mkMethod "setDisabled" [boolT] voidT
-  , mkMethod "setPriority" [enumT e_Priority] voidT
-    -- TODO setShortcuts
-    -- TODO shortcuts
-  , mkMethod "showStatusText" [ptrT $ objT c_QWidget] boolT
-  , mkMethod "toggle" [] voidT
-  , mkMethod "trigger" [] voidT
-  ] ++
-  (mkProps . collect)
-  [ just $ mkProp "actionGroup" $ ptrT $ objT c_QActionGroup
   , just $ mkProp "autoRepeat" boolT
   , just $ mkBoolIsProp "checkable"
   , just $ mkBoolIsProp "checked"
     -- TODO data
   , just $ mkBoolIsProp "enabled"
     -- TODO font
+  , just $ mkMethod "hover" [] voidT
     -- TODO icon
   , just $ mkProp "iconText" $ objT c_QString
   , just $ mkBoolIsProp "iconVisibleInMenu"
   , just $ mkProp "menu" $ ptrT $ objT c_QMenu
   , just $ mkProp "menuRole" $ enumT e_MenuRole
+  , just $ mkConstMethod "parentWidget" [] $ ptrT $ objT c_QWidget
+  , just $ mkConstMethod "priority" [] $ enumT e_Priority
   , just $ mkBoolIsProp "separator"
+  , just $ mkMethod "setDisabled" [boolT] voidT
+  , just $ mkMethod "setPriority" [enumT e_Priority] voidT
+    -- TODO setShortcuts
     -- TODO shortcut
     -- TODO shortcutContext
+    -- TODO shortcuts
+  , just $ mkMethod "showStatusText" [ptrT $ objT c_QWidget] boolT
   , test (qtVersion < [5]) $ mkProp "softKeyRole" $ enumT e_SoftKeyRole
   , just $ mkProp "statusTip" $ objT c_QString
   , just $ mkProp "text" $ objT c_QString
+  , just $ mkMethod "toggle" [] voidT
   , just $ mkProp "toolTip" $ objT c_QString
+  , just $ mkMethod "trigger" [] voidT
   , just $ mkBoolIsProp "visible"
   , just $ mkProp "whatsThis" $ objT c_QString
   ]

@@ -30,7 +30,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   )
 import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
@@ -53,10 +52,7 @@ c_QIntValidator =
   , mkCtor "newWithParent" [ptrT $ objT c_QObject]
   , mkCtor "newWithOptions" [intT, intT]
   , mkCtor "newWithOptionsAndParent" [intT, intT, ptrT $ objT c_QObject]
-  ] $
-  [ mkMethod "setRange" [intT, intT] voidT
-  ] ++
-  mkProps
-  [ mkProp "bottom" intT
+  , mkProp "bottom" intT
+  , mkMethod "setRange" [intT, intT] voidT
   , mkProp "top" intT
   ]

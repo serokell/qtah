@@ -61,15 +61,14 @@ c_QRegion =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
   classSetEntityPrefix "" $
-  makeClass (ident "QRegion") Nothing []
-  [ mkCtor "new" []
-  , mkCtor "newFromPoints" [intT, intT, intT, intT, enumT e_RegionType]
+  makeClass (ident "QRegion") Nothing [] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newFromPoints" [intT, intT, intT, intT, enumT e_RegionType]
     -- TODO newFromPolygon (needs QPolygon)
     -- TODO newFromBitmap (needs QBitmap)
-  , mkCtor "newFromRect" [objT c_QRect, enumT e_RegionType]
-  ] $
-  collect
-  [ just $ mkConstMethod "boundingRect" [] $ objT c_QRect
+  , just $ mkCtor "newFromRect" [objT c_QRect, enumT e_RegionType]
+  , just $ mkConstMethod "boundingRect" [] $ objT c_QRect
   , just $ mkConstMethod' "contains" "containsPoint" [objT c_QPoint] boolT
   , just $ mkConstMethod' "contains" "containsRect" [objT c_QRect] boolT
   , test (qtVersion >= [4, 2]) $

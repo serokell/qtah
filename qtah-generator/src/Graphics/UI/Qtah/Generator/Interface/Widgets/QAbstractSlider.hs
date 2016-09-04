@@ -36,7 +36,6 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   mkProp,
-  mkProps,
   toExtName,
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
@@ -66,11 +65,7 @@ c_QAbstractSlider =
   makeClass (ident "QAbstractSlider") Nothing [c_QWidget]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  ] $
-  [ mkMethod "triggerAction" [enumT e_SliderAction] voidT
-  ] ++
-  mkProps
-  [ mkProp "invertedAppearance" boolT
+  , mkProp "invertedAppearance" boolT
   , mkProp "invertedControls" boolT
   , mkProp "maximum" intT
   , mkProp "minimum" intT
@@ -80,6 +75,7 @@ c_QAbstractSlider =
   , mkBoolIsProp "sliderDown"
   , mkProp "sliderPosition" intT
   , mkBoolHasProp "tracking"
+  , mkMethod "triggerAction" [enumT e_SliderAction] voidT
   , mkProp "value" intT
   ]
 
