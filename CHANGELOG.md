@@ -3,9 +3,12 @@
 ## Unreleased *-0.2.0
 
 - Makes use of the new class/enum/bitspace prefix customization feature in Hoppy
-  to strip the repetitive class name off of enum value names, for enums
+  0.3.0 to strip the repetitive class name off of enum value names, for enums
   contained within classes (issue #10).  This is an API change from 0.1.*.  (We
   also do this internally for class entities to simplify Qtah's generator.)
+
+- Fixed the conversion from QPoint and QPointF to their H* components mistakenly
+  swapping the components.
 
 ## (2016-08-04) qtah-generator-0.1.2, qtah-cpp-0.1.2, qtah-0.1.1
 
