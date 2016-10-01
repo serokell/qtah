@@ -61,7 +61,6 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
-import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
@@ -89,8 +88,8 @@ c_QPointF =
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF"]
       sayLn "new <$> HPointF.x <*> HPointF.y"
     , classHaskellConversionFromCppFn = do
-      addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF",
-                            importForPrelude]
+      addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                            hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF"]
       sayLn "\\q -> HPointF.HPointF <$> x q <*> y q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $

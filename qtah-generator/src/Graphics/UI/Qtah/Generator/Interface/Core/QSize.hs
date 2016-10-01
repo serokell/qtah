@@ -59,7 +59,6 @@ import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_AspectRatioMode, qreal)
-import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
@@ -87,8 +86,8 @@ c_QSize =
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
       sayLn "new <$> HSize.width <*> HSize.height"
     , classHaskellConversionFromCppFn = do
-      addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize",
-                            importForPrelude]
+      addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                            hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
       sayLn "\\q -> HSize.HSize <$> width q <*> height q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $

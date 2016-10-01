@@ -61,7 +61,6 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
@@ -89,8 +88,8 @@ c_QRect =
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
       sayLn "newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
     , classHaskellConversionFromCppFn = do
-      addImports $ mconcat [hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect",
-                            importForPrelude]
+      addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
+                            hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
       sayLn "\\q -> HRect.HRect <$> x q <*> y q <*> width q <*> height q"
     } $
   classAddFeatures [Assignable, Copyable, Equatable] $
