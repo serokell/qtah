@@ -10,6 +10,10 @@
 - Fixed the conversion from QPoint and QPointF to their H* components mistakenly
   swapping the components.
 
+## (2016-10-01) qtah-0.1.2, qtah-examples-0.1.2
+
+- Version bump to support binary-0.8.*.
+
 ## (2016-08-04) qtah-generator-0.1.2, qtah-cpp-0.1.2, qtah-0.1.1
 
 - Fixes the custom install logic to install additional files into requested
