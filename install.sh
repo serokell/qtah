@@ -84,7 +84,13 @@ run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 # We call the test executable directly instead of running 'cabal test', for
 # distros such as Debian Stretch that are affected by
 # https://github.com/haskell/cabal/issues/2438.
-run dist/build/test-qtah/test-qtah
+#
+#run dist/build/test-qtah/test-qtah
+#
+# Switched back to 'cabal test'.  With GHC 8 on Gentoo it seems that running the
+# test binary manually can't find libHSqtah-...-ghc8.0.1.so.  If this continues
+# to cause problems, we could use LD_LIBRARY_PATH with the test binary.
+cabal test
 # Haddock spews out many thousands of lines about undocumented items, so we
 # silence them.
 run cabal haddock --haddock-options=--no-print-missing-docs
