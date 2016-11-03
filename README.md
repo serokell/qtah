@@ -127,6 +127,10 @@ using `install.sh`, the environment variable `QTAH_QT_FLAGS` will be passed via
 Whether using an environment variable or a flag to specify a Qt version, it
 needs to be specified for both `cabal configure` and `cabal install`.
 
+The path to the QMake executable can be specified in the environment variable
+`QTAH_QMAKE`, if Qtah can't find it or you wish to override it (it's used while
+building `qtah-cpp`).
+
 ### Release versions
 
 Different major versions of Qt can be installed in parallel.  To extend this to

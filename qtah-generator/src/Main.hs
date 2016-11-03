@@ -29,7 +29,7 @@ import Foreign.Hoppy.Generator.Spec (
   moduleSetHppPath,
   )
 import qualified Foreign.Hoppy.Generator.Std as Std
-import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Flags (qmakeArguments, qmakeExecutable, qtVersion)
 import Graphics.UI.Qtah.Generator.Module
 import qualified Graphics.UI.Qtah.Generator.Interface.Core as Core
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui as Gui
@@ -74,6 +74,7 @@ main =
       args <- getArgs
       case args of
         ["--qt-version"] -> putStrLn $ intercalate "." $ map show qtVersion
+        ["--qmake-executable"] -> putStrLn $ unlines $ qmakeExecutable : qmakeArguments
         _ -> do
           _ <- run [iface] args
           return ()

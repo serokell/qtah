@@ -27,6 +27,8 @@
 module Graphics.UI.Qtah.Generator.Flags (
   Version,
   qtVersion,
+  qmakeExecutable,
+  qmakeArguments,
   keypadNavigation,
   qdoc,
   qrealFloat,
@@ -35,8 +37,8 @@ module Graphics.UI.Qtah.Generator.Flags (
 
 import Control.Monad (unless)
 import Data.Char (isDigit, isSpace)
-import Data.List (isPrefixOf)
-import Graphics.UI.Qtah.Generator.Common (fromMaybeM, splitOn)
+import Data.List (intercalate, isPrefixOf)
+import Graphics.UI.Qtah.Generator.Common (firstM, fromMaybeM, splitOn)
 import System.Directory (findExecutable)
 import System.Environment (lookupEnv)
 import System.Exit (ExitCode (ExitSuccess))
@@ -49,11 +51,22 @@ import System.Process (readProcessWithExitCode)
 -- future, if necessary.
 type Version = [Int]
 
+showVersion :: Version -> String
+showVersion = intercalate "." . map show
+
+-- | An internal record of Qt configuration info.
+data QtConfig = QtConfig
+  { configVersion :: Version
+  , configQmakeExecutable :: FilePath
+  , configQmakeArguments :: [String]
+  }
+
 -- | This is initialized at program startup with the version of Qt that the
--- generator will work with.  This controls which functions and types are made
--- available in the API.
+-- generator will work with, along with the corresponding QMake binary and
+-- arguments necessary to invoke it.  The Qt version which functions and types
+-- are made available in the API.
 --
--- This is determined the following method:
+-- The Qt version determined the following method:
 --
 -- * If @QTAH_QT=x.y@ is in the environment, then this value will be used.
 --
@@ -64,9 +77,18 @@ type Version = [Int]
 -- @QT_SELECT@ in the environment can select a major version of Qt to use.
 --
 -- For more information on @qmake -qt@ and @QT_SELECT@, see @man qtchooser@.
+qtConfig :: QtConfig
+{-# NOINLINE qtConfig #-}
+qtConfig = unsafePerformIO readQt
+
 qtVersion :: Version
-{-# NOINLINE qtVersion #-}
-qtVersion = unsafePerformIO readQtVersion
+qtVersion = configVersion qtConfig
+
+qmakeExecutable :: FilePath
+qmakeExecutable = configQmakeExecutable qtConfig
+
+qmakeArguments :: [String]
+qmakeArguments = configQmakeArguments qtConfig
 
 keypadNavigation :: Bool
 keypadNavigation = False
@@ -82,10 +104,10 @@ qrealFloat = unsafePerformIO $ readBool "QTAH_QREAL_FLOAT" False
 wsWince :: Bool
 wsWince = False
 
--- | Reads a Qt version from the environment variable @QTAH_QT@.  See
--- 'qtVersion'.
-readQtVersion :: IO Version
-readQtVersion = do
+-- | Reads a Qt version from the environment variable @QTAH_QT@, and looks up a
+-- qmake binary.
+readQt :: IO QtConfig
+readQt = do
   maybeStr <- fmap (\x -> case x of
                       Just "" -> Nothing
                       _ -> x) $
@@ -98,32 +120,54 @@ readQtVersion = do
         ["qtah-generator requires QTAH_QT=x or QTAH_QT=x.y, can't parse value ", show str, "."]
       let version = map (read :: String -> Int) strs
       case version of
-        [_, _] -> return version
-        [x] -> queryQmakeQtVersion $ Just x
+        [x] -> queryQmake $ Just x
+        [x, y] -> do
+          config <- queryQmake $ Just x
+          case configVersion config of
+            foundVersion@(x':y':_) | x /= x' || y /= y' ->
+              fail $ "qtah-generator: Mismatch between requested and installed " ++
+              "Qt versions.  Requested " ++ showVersion version ++ ", found " ++
+              showVersion foundVersion ++ "."
+            _ -> return ()
+          return config
         _ -> fail $ concat
              ["qtah-generator: Internal error, incorrect parsing of QTAH_QT value ", show str, "."]
-    Nothing -> queryQmakeQtVersion Nothing
+    Nothing -> queryQmake Nothing
 
-  where queryQmakeQtVersion :: Maybe Int -> IO Version
-        queryQmakeQtVersion maybePreferredMajorVersion = do
+  where -- | When we don't have a preferred qmake version, then we'll search for
+        -- qmake's executables, first unqualified, then qualified by version
+        -- number in decreasing order.
+        allQmakeExecutableNames :: [String]
+        allQmakeExecutableNames = ["qmake", "qmake-qt5", "qmake-qt4"]
+
+        -- | When we /do/ have a prefered qmake version, then try the qualified
+        -- version name first, falling back to the generic qmake executable if
+        -- possible.
+        qmakeExecutableNamesForVersion :: Int -> [String]
+        qmakeExecutableNamesForVersion major = ["qmake-qt" ++ show major, "qmake"]
+
+        queryQmake :: Maybe Int -> IO QtConfig
+        queryQmake maybePreferredMajorVersion = do
           case maybePreferredMajorVersion of
             Nothing ->
               -- No major version preference, so take whatever Qt is available.
-              queryQmakeQtVersion' []
+              queryQmake' allQmakeExecutableNames []
             Just preferredMajorVersion -> do
               -- Even though we have a preferred major version, we don't want to
               -- run "qmake -qt=X -version" initially because we might be on a
               -- system (NixOS) where qtchooser isn't available and the only
-              -- qmake available *is* the desired version.  Only pass "-qt=X" if
-              -- we get the wrong default version.
-              defaultVersion <- queryQmakeQtVersion' []
-              case defaultVersion of
-                (x:_) | x == preferredMajorVersion -> return defaultVersion
-                _ -> queryQmakeQtVersion' ["-qt=" ++ show preferredMajorVersion]
+              -- qmake available *is* the desired version (in NixOS's case, the
+              -- binary is called "qmake", not "qmake-qtX").  Only pass "-qt=X"
+              -- if we get the wrong default version.
+              let executableNames = qmakeExecutableNamesForVersion preferredMajorVersion
+              defaultConfig <- queryQmake' executableNames []
+              case configVersion defaultConfig of
+                (x:_) | x == preferredMajorVersion -> return defaultConfig
+                _ -> queryQmake' executableNames ["-qt=" ++ show preferredMajorVersion]
 
-        queryQmakeQtVersion' :: [String] -> IO Version
-        queryQmakeQtVersion' extraArgs = do
-          qmakePath <- findQMake
+        queryQmake' :: [String] -> [String] -> IO QtConfig
+        queryQmake' executableNames extraArgs = do
+          qmakePath <- findQMake executableNames
           let args = extraArgs ++ ["-version"]
           (exitCode, out, err) <- readProcessWithExitCode qmakePath args ""
           let qmakeDebugWords =
@@ -144,7 +188,12 @@ readQtVersion = do
                   else Nothing
 
           case maybeVersionStrs of
-            Just strs -> return $ map (read :: String -> Int) strs
+            Just strs ->
+              return QtConfig
+              { configVersion = map (read :: String -> Int) strs
+              , configQmakeExecutable = qmakePath
+              , configQmakeArguments = extraArgs
+              }
             Nothing ->
               fail $ concat $
               "qtah-generator: Can't parse Qt version from qmake output." : qmakeDebugWords
@@ -169,10 +218,11 @@ readBool name defaultValue = do
            ["qtah-generator: Expected a boolean value for ", name,
             " (true/false).  Got ", show s, "."]
 
-findQMake :: IO FilePath
-findQMake = lookupEnv "QTAH_QMAKE" >>= fromMaybeM findQmake
-  where findQmake =
-          findExecutable "qmake" >>=
+findQMake :: [String] -> IO FilePath
+findQMake executableNames = lookupEnv "QTAH_QMAKE" >>= fromMaybeM findBinary
+  where findBinary =
+          firstM (map findExecutable executableNames) >>=
           fromMaybeM
-          (fail $ "qtah-generator: Can't find qmake.  Please ensure qmake " ++
-           "is installed and set QTAH_QMAKE to qmake's path.")
+          (fail $ "qtah-generator: Can't find qmake named any of " ++
+           show executableNames ++ ".  Please ensure qmake is installed " ++
+           "and set QTAH_QMAKE to qmake's path.")

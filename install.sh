@@ -41,6 +41,9 @@ control this script's operation:
     This value is passed as --flags to the qtah-cpp and qtah packages, and can
     be used to set the qtX flags (e.g. qt4, qt5).
 
+  QTAH_QMAKE:
+    This overrides the QMake executable used to build qtah-cpp.
+
   QTAH_QT and QT_SELECT and be used to select Qt versions.  See README.md for
   more information.
 EOF

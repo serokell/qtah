@@ -67,7 +67,7 @@ main = defaultMainWithHooks qtahHooks
 
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
-  { hookedPrograms = [listenerGenProgram, qmakeProgram]
+  { hookedPrograms = [listenerGenProgram]
   , postConf = \_ _ _ lbi -> generateSources lbi
   , copyHook = \pd lbi uh cf -> do let dest = fromFlagOrDefault NoCopyDest $ copyDest cf
                                    doInstall pd lbi dest
@@ -86,9 +86,6 @@ listenerGenProgram =
   { programFindLocation = \verbosity _ ->
     findProgramOnSearchPath verbosity [ProgramSearchPathDir "."] "qtah-listener-gen"
   }
-
-qmakeProgram :: Program
-qmakeProgram = simpleProgram "qmake"
 
 generateSources :: LocalBuildInfo -> IO ()
 generateSources localBuildInfo = do

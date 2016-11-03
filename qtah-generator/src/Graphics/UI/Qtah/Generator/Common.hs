@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Common (
   splitOn,
   fromMaybeM,
   maybeFail,
+  firstM,
   writeFileIfDifferent,
   ) where
 
@@ -30,6 +31,8 @@ import Control.Applicative ((<$>))
 #endif
 import Control.Exception (evaluate)
 import Control.Monad (when)
+import Control.Monad.Trans.Maybe (MaybeT (MaybeT), runMaybeT)
+import Data.Foldable (asum)
 import Data.List (findIndex)
 import System.Directory (doesFileExist)
 import System.IO (IOMode (ReadMode), hGetContents, withFile)
@@ -54,6 +57,11 @@ fromMaybeM = flip maybe return
 -- | @maybeFail s x = maybe (fail s) x@
 maybeFail :: Monad m => String -> Maybe a -> m a
 maybeFail = fromMaybeM . fail
+
+-- | Runs a list of monadic actions until one returns a 'Just' value, then
+-- returning that value.  Returns 'Nothing' if all actions return 'Nothing'.
+firstM :: (Functor m, Monad m) => [m (Maybe a)] -> m (Maybe a)
+firstM = runMaybeT . asum . map MaybeT
 
 -- | If the file specified does not exist or its contents does not match the
 -- given string, then this writes the string to the file.

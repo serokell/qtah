@@ -35,6 +35,7 @@ import Distribution.Simple.LocalBuildInfo (
   )
 import Distribution.Simple.Program (
   Program,
+  ProgramConfiguration,
   getProgramOutput,
   lookupProgram,
   runDbProgram,
@@ -87,6 +88,7 @@ import System.IO.Error (catchIOError, isDoesNotExistError)
 import System.Environment (lookupEnv, setEnv)
 import System.FilePath ((</>), takeDirectory)
 import System.Posix (createSymbolicLink, getSymbolicLinkStatus)
+import System.Process (callProcess)
 
 packageName :: String
 -- Careful, this line is modified by set-qt-version.sh.
@@ -97,7 +99,7 @@ main = defaultMainWithHooks qtahHooks
 
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
-  { hookedPrograms = [generatorProgram, listenerGenProgram, makeProgram, qmakeProgram]
+  { hookedPrograms = [generatorProgram, listenerGenProgram, makeProgram]
   , postConf = \_ cf _ lbi -> do generateSources cf lbi
   , buildHook = \pd lbi uh bf -> do doBuild lbi bf
                                     buildHook simpleUserHooks pd lbi uh bf
@@ -123,8 +125,17 @@ listenerGenProgram = simpleProgram "qtah-listener-gen"
 makeProgram :: Program
 makeProgram = simpleProgram "make"
 
-qmakeProgram :: Program
-qmakeProgram = simpleProgram "qmake"
+findQmake :: ProgramConfiguration -> Verbosity -> IO (FilePath, [String])
+findQmake programDb verbosity = do
+  generatorConfiguredProgram <-
+    maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
+    lookupProgram generatorProgram programDb
+  output <- fmap lines $
+            getProgramOutput verbosity generatorConfiguredProgram ["--qmake-executable"]
+  case output of
+    executable:args -> return (executable, args)
+    [] -> fail $ packageName ++
+          ": Couldn't ask qtah-generator for the location of qmake.  Received no output."
 
 generateSources :: ConfigFlags -> LocalBuildInfo -> IO ()
 generateSources configFlags localBuildInfo = do
@@ -143,7 +154,8 @@ generateSources configFlags localBuildInfo = do
 
   -- Run qmake to generate the makefile.
   setCurrentDirectory cppSourceDir
-  runDbProgram verbosity qmakeProgram programDb ["qtah.pro"]
+  (qmakeExecutable, qmakeArguments) <- findQmake programDb verbosity
+  callProcess qmakeExecutable $ qmakeArguments ++ ["qtah.pro"]
 
   setCurrentDirectory startDir
 
