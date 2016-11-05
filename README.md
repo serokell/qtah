@@ -90,7 +90,7 @@ On Debian and derivatives:
     apt-get install qt4-dev-tools  # For Assistant (Qt API documentation).
     # For Qt 5:
     apt-get install qtbase5-dev  # Required.
-    apt-get install qttools5-dev-tools qttools5-doc  # For Assistant (Qt API documentation).
+    apt-get install qttools5-dev-tools qtbase5-doc  # For Assistant (Qt API documentation).
 
 ### Qt version selection
 
