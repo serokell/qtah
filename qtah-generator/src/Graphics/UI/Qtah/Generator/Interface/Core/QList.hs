@@ -32,6 +32,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   c_QListQAbstractButton,
   c_QListQObject,
   c_QListQString,
+  c_QListQVariant,
   c_QListQWidget,
   ) where
 
@@ -90,6 +91,7 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
@@ -271,6 +273,7 @@ allModules =
   , qmod_QAbstractButton
   , qmod_QObject
   , qmod_QString
+  , qmod_QVariant
   , qmod_QWidget
   ]
 
@@ -310,6 +313,15 @@ contents_QString = instantiate "QListQString" (objT c_QString) mempty
 
 c_QListQString :: Class
 c_QListQString = c_QList contents_QString
+
+qmod_QVariant :: QtModule
+qmod_QVariant = createModule "QVariant" contents_QVariant
+
+contents_QVariant :: Contents
+contents_QVariant = instantiate "QListQVariant" (objT c_QVariant) mempty
+
+c_QListQVariant :: Class
+c_QListQVariant = c_QList contents_QVariant
 
 qmod_QWidget :: QtModule
 qmod_QWidget = createModule "QWidget" contents_QWidget

@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Core.QVariant (
   aModule,
+  c_QVariant,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -54,6 +55,7 @@ import Foreign.Hoppy.Generator.Types (
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QChar (c_QChar)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQVariant)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPointF (c_QPointF)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
@@ -96,6 +98,7 @@ c_QVariant =
     -- 5.6), it's been deleted because it unexpectedly creates a QVariant of
     -- type int instead of the enum type.
   , just $ mkCtor "newWithInt" [intT]
+  , just $ mkCtor "newWithList" [objT c_QListQVariant]
   , just $ mkCtor "newWithLongLong" [llongT]
   , just $ mkCtor "newWithPointF" [objT c_QPointF]
   , just $ mkCtor "newWithPoint" [objT c_QPoint]
@@ -118,6 +121,7 @@ c_QVariant =
   , just $ mkMethod' "setValue" "setToDouble" [doubleT] voidT
   , test (qtVersion >= [4, 6]) $ mkMethod' "setValue" "setToFloat" [floatT] voidT
   , just $ mkMethod' "setValue" "setToInt" [intT] voidT
+  , just $ mkMethod' "setValue" "setToList" [objT c_QListQVariant] voidT
   , just $ mkMethod' "setValue" "setToLongLong" [llongT] voidT
   , just $ mkMethod' "setValue" "setToPoint" [objT c_QPoint] voidT
   , just $ mkMethod' "setValue" "setToPointF" [objT c_QPointF] voidT

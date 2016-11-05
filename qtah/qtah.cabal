@@ -38,6 +38,7 @@ library
     , Graphics.UI.Qtah.Core.QList.QAbstractButton
     , Graphics.UI.Qtah.Core.QList.QObject
     , Graphics.UI.Qtah.Core.QList.QString
+    , Graphics.UI.Qtah.Core.QList.QVariant
     , Graphics.UI.Qtah.Core.QList.QWidget
     , Graphics.UI.Qtah.Core.QMargins
     , Graphics.UI.Qtah.Core.QMarginsF
@@ -137,6 +138,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QAbstractButton
     , Graphics.UI.Qtah.Generated.Core.QList.QObject
     , Graphics.UI.Qtah.Generated.Core.QList.QString
+    , Graphics.UI.Qtah.Generated.Core.QList.QVariant
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
     , Graphics.UI.Qtah.Generated.Core.QMargins
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
