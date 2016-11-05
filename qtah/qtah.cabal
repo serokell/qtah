@@ -51,6 +51,7 @@ library
     , Graphics.UI.Qtah.Core.QString
     , Graphics.UI.Qtah.Core.QStringList
     , Graphics.UI.Qtah.Core.QTimerEvent
+    , Graphics.UI.Qtah.Core.QVariant
     , Graphics.UI.Qtah.Core.QVector.QPoint
     , Graphics.UI.Qtah.Core.Types
     , Graphics.UI.Qtah.Event
@@ -146,6 +147,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QString
     , Graphics.UI.Qtah.Generated.Core.QStringList
     , Graphics.UI.Qtah.Generated.Core.QTimerEvent
+    , Graphics.UI.Qtah.Generated.Core.QVariant
     , Graphics.UI.Qtah.Generated.Core.QVector.QPoint
     , Graphics.UI.Qtah.Generated.Core.QVector.QPointF
     , Graphics.UI.Qtah.Generated.Core.Types
