@@ -130,25 +130,25 @@ c_QVariant =
   , just $ mkMethod' "setValue" "setToUInt" [uintT] voidT
   , just $ mkMethod' "setValue" "setToULongLong" [ullongT] voidT
   , test (qtVersion >= [4, 8]) $ mkMethod' "setValue" "swap" [refT $ objT c_QVariant] voidT
-  , just $ mkConstMethod' "setValue" "toBool" [boolT] voidT
-  , just $ mkConstMethod' "setValue" "toChar" [objT c_QChar] voidT
-  , just $ mkConstMethod' "setValue" "toDouble" [doubleT] voidT
-  , test (qtVersion >= [4, 6]) $ mkConstMethod' "setValue" "toFloat" [floatT] voidT
-  , just $ mkConstMethod' "setValue" "toInt" [intT] voidT
-  , just $ mkConstMethod' "setValue" "toLongLong" [llongT] voidT
-  , just $ mkConstMethod' "setValue" "toPoint" [objT c_QPoint] voidT
-  , just $ mkConstMethod' "setValue" "toPointF" [objT c_QPointF] voidT
-  , just $ mkConstMethod' "setValue" "toRect" [objT c_QRect] voidT
-  , just $ mkConstMethod' "setValue" "toRectF" [objT c_QRectF] voidT
-  , just $ mkConstMethod' "setValue" "toSize" [objT c_QSize] voidT
-  , just $ mkConstMethod' "setValue" "toSizeF" [objT c_QSizeF] voidT
-  , just $ mkConstMethod' "setValue" "toStringList" [objT c_QStringList] voidT
-  , just $ mkConstMethod' "setValue" "toString" [objT c_QString] voidT
-  , just $ mkConstMethod' "setValue" "toUInt" [uintT] voidT
-  , just $ mkConstMethod' "setValue" "toULongLong" [ullongT] voidT
+  , just $ mkConstMethod "toBool" [] boolT
+  , just $ mkConstMethod "toChar" [] $ objT c_QChar
+  , just $ mkConstMethod "toDouble" [] doubleT
+  , test (qtVersion >= [4, 6]) $ mkConstMethod "toFloat" [] floatT
+  , just $ mkConstMethod "toInt" [] intT
+  , just $ mkConstMethod "toLongLong" [] llongT
+  , just $ mkConstMethod "toPoint" [] $ objT c_QPoint
+  , just $ mkConstMethod "toPointF" [] $ objT c_QPointF
+  , just $ mkConstMethod "toRect" [] $ objT c_QRect
+  , just $ mkConstMethod "toRectF" [] $ objT c_QRectF
+  , just $ mkConstMethod "toSize" [] $ objT c_QSize
+  , just $ mkConstMethod "toSizeF" [] $ objT c_QSizeF
+  , just $ mkConstMethod "toStringList" [] $ objT c_QStringList
+  , just $ mkConstMethod "toString" [] $ objT c_QString
+  , just $ mkConstMethod "toUInt" [] uintT
+  , just $ mkConstMethod "toULongLong" [] ullongT
   , -- Have to rename this, because "type" is reserved in Haskell.
     just $ mkConstMethod' "type" "getType" [] $ enumT e_Type
-  , just $ mkConstMethod "userType" [] $ intT
+  , just $ mkConstMethod "userType" [] intT
   ]
 
 e_Type =
