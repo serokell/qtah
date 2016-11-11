@@ -30,6 +30,8 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_FillRule,
   e_FocusReason,
   e_GlobalColor,
+  e_InputMethodHint,
+  bs_InputMethodHints,
   e_KeyboardModifier,
   bs_KeyboardModifiers,
   e_LayoutDirection,
@@ -92,6 +94,8 @@ exports =
   , just $ ExportEnum e_FillRule
   , just $ ExportEnum e_FocusReason
   , just $ ExportEnum e_GlobalColor
+  , just $ ExportEnum e_InputMethodHint
+  , just $ ExportBitspace bs_InputMethodHints
   , just $ ExportEnum e_KeyboardModifier
   , just $ ExportBitspace bs_KeyboardModifiers
   , just $ ExportEnum e_LayoutDirection
@@ -219,6 +223,31 @@ e_GlobalColor =
   , (19, ["transparent"])
   , (0, ["color0"])
   , (1, ["color1"])
+  ]
+
+(e_InputMethodHint, bs_InputMethodHints) =
+  makeQtEnumBitspace (ident1 "Qt" "InputMethodHint") "InputMethodHints" qtInclude
+  [ (0x0, ["imh", "none"])
+  , (0x1, ["imh", "hidden", "text"])
+  , (0x2, ["imh", "sensitive", "data"])
+  , (0x4, ["imh", "no", "auto", "uppercase"])
+  , (0x8, ["imh", "prefer", "numbers"])
+  , (0x10, ["imh", "prefer", "uppercase"])
+  , (0x20, ["imh", "prefer", "lowercase"])
+  , (0x40, ["imh", "no", "predictive", "text"])
+  , (0x80, ["imh", "date"])
+  , (0x100, ["imh", "time"])
+  , (0x200, ["imh", "prefer", "latin"])
+  , (0x400, ["imh", "multi", "line"])
+  , (0x10000, ["imh", "digits", "only"])
+  , (0x20000, ["imh", "formatted", "numbers", "only"])
+  , (0x40000, ["imh", "uppercase", "only"])
+  , (0x80000, ["imh", "lowercase", "only"])
+  , (0x100000, ["imh", "dialable", "characters", "only"])
+  , (0x200000, ["imh", "email", "characters", "only"])
+  , (0x400000, ["imh", "url", "characters", "only"])
+  , (0x800000, ["imh", "latin", "only"])
+  , (0xffff0000, ["imh", "exclusive", "input", "mask"])
   ]
 
 (e_KeyboardModifier, bs_KeyboardModifiers) =

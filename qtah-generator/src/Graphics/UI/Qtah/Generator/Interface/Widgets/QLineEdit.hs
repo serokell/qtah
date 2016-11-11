@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Widgets.QLineEdit (
   aModule,
+  e_EchoMode,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

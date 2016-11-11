@@ -122,6 +122,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QGridLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QGroupBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QHBoxLayout
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QInputDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QLabel
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem

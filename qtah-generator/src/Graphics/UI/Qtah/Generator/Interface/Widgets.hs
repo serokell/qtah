@@ -37,6 +37,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame as QFrame
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGridLayout as QGridLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGroupBox as QGroupBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QHBoxLayout as QHBoxLayout
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QInputDialog as QInputDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLabel as QLabel
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout as QLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem as QLayoutItem
@@ -87,6 +88,7 @@ modules =
   , QGridLayout.aModule
   , QGroupBox.aModule
   , QHBoxLayout.aModule
+  , QInputDialog.aModule
   , QLabel.aModule
   , QLayout.aModule
   , QLayoutItem.aModule
