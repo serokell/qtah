@@ -52,7 +52,9 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QRadioButton as QR
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QRubberBand as QRubberBand
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollArea as QScrollArea
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar as QScrollBar
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSizePolicy as QSizePolicy
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSlider as QSlider
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSpacerItem as QSpacerItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSpinBox as QSpinBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSplitter as QSplitter
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout as QStackedLayout
@@ -103,7 +105,9 @@ modules =
   , QRubberBand.aModule
   , QScrollArea.aModule
   , QScrollBar.aModule
+  , QSizePolicy.aModule
   , QSlider.aModule
+  , QSpacerItem.aModule
   , QSpinBox.aModule
   , QSplitter.aModule
   , QStackedLayout.aModule

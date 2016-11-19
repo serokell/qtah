@@ -115,7 +115,9 @@ library
     , Graphics.UI.Qtah.Widgets.QRubberBand
     , Graphics.UI.Qtah.Widgets.QScrollArea
     , Graphics.UI.Qtah.Widgets.QScrollBar
+    , Graphics.UI.Qtah.Widgets.QSizePolicy
     , Graphics.UI.Qtah.Widgets.QSlider
+    , Graphics.UI.Qtah.Widgets.QSpacerItem
     , Graphics.UI.Qtah.Widgets.QSpinBox
     , Graphics.UI.Qtah.Widgets.QSplitter
     , Graphics.UI.Qtah.Widgets.QStackedLayout
@@ -208,7 +210,9 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QRubberBand
     , Graphics.UI.Qtah.Generated.Widgets.QScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QScrollBar
+    , Graphics.UI.Qtah.Generated.Widgets.QSizePolicy
     , Graphics.UI.Qtah.Generated.Widgets.QSlider
+    , Graphics.UI.Qtah.Generated.Widgets.QSpacerItem
     , Graphics.UI.Qtah.Generated.Widgets.QSpinBox
     , Graphics.UI.Qtah.Generated.Widgets.QSplitter
     , Graphics.UI.Qtah.Generated.Widgets.QStackedLayout

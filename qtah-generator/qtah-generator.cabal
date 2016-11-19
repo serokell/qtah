@@ -137,7 +137,9 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QRubberBand
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollArea
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QSizePolicy
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QSlider
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QSpacerItem
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QSpinBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QSplitter
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout
