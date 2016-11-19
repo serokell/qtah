@@ -67,6 +67,7 @@ run = withScopedPtr (getArgs >>= QApplication.new) $ \_ -> do
 makeMainWindow :: IO QMainWindow
 makeMainWindow = do
   window <- QMainWindow.new
+  QWidget.resizeRaw window 640 480
 
   menu <- QMenuBar.new
   QMainWindow.setMenuBar window menu
