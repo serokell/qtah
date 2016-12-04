@@ -28,7 +28,7 @@ module Graphics.UI.Qtah.Generator.Module (
   qtModuleHoppy,
   ) where
 
-import Control.Monad (forM_, unless, when)
+import Control.Monad (forM_, unless)
 #if MIN_VERSION_mtl(2,2,1)
 import Control.Monad.Except (throwError)
 #else
@@ -89,6 +89,8 @@ import Foreign.Hoppy.Generator.Spec (
   classCtors,
   classEntityForeignName,
   classExtName,
+  classHaskellConversionFromCppFn,
+  classHaskellConversionToCppFn,
   classMethods,
   ctorExtName,
   ctorParams,
@@ -227,24 +229,27 @@ getMethodReexportName :: Method -> String
 getMethodReexportName = toHsFnName' . methodExtName
 
 sayClassEncodingFnReexports :: Class -> Generator ()
-sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $
-  when (classIsConvertible cls) $ do
-    -- Generated encode and decode functions require some things from Hoppy
-    -- support and the Prelude.
-    addImports $ mconcat [importForPrelude, importForRuntime]
+sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $ do
+  let conv = getClassHaskellConversion cls
 
+  forM_ (classHaskellConversionToCppFn conv) $ \_ -> do
     hsHsType <- cppTypeToHsTypeAndUse HsHsSide (objT cls)
-    let constPtrClassName = toHsPtrClassName' Const cls
-        dataTypeName = toHsDataTypeName' Nonconst cls
+    let dataTypeName = toHsDataTypeName' Nonconst cls
         ptrHsType = HsTyCon $ UnQual $ HsIdent dataTypeName
-        thisTyVar = HsTyVar $ HsIdent "this"
         encodeFnType = HsTyFun hsHsType $ HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") ptrHsType
-        decodeFnType = HsQualType [(UnQual $ HsIdent constPtrClassName, [thisTyVar])] $
-                       HsTyFun thisTyVar $
-                       HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") hsHsType
+    addImports $ mconcat [importForPrelude, importForRuntime]
     ln
     saysLn [classEncodeReexportName, " :: ", prettyPrint encodeFnType]
     saysLn [classEncodeReexportName, " = QtahFHR.encodeAs (QtahP.undefined :: ", dataTypeName, ")"]
+
+  forM_ (classHaskellConversionFromCppFn conv) $ \_ -> do
+    hsHsType <- cppTypeToHsTypeAndUse HsHsSide (objT cls)
+    let constPtrClassName = toHsPtrClassName' Const cls
+        thisTyVar = HsTyVar $ HsIdent "this"
+        decodeFnType = HsQualType [(UnQual $ HsIdent constPtrClassName, [thisTyVar])] $
+                       HsTyFun thisTyVar $
+                       HsTyApp (HsTyCon $ UnQual $ HsIdent "QtahP.IO") hsHsType
+    addImports $ mconcat [importForPrelude, importForRuntime]
     ln
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
     saysLn [classDecodeReexportName, " = QtahFHR.decode QtahP.. ", toHsCastMethodName' Const cls]
@@ -318,8 +323,11 @@ sayExportClass cls = do
     classUpCastReexportName :
     classDownCastConstReexportName :
     classDownCastReexportName :
-    concat [ if classIsConvertible cls
-             then [classEncodeReexportName, classDecodeReexportName]
+    concat [ if isJust $ classHaskellConversionToCppFn $ getClassHaskellConversion cls
+             then [classEncodeReexportName]
+             else []
+           , if isJust $ classHaskellConversionFromCppFn $ getClassHaskellConversion cls
+             then [classDecodeReexportName]
              else []
            , sort $ map getCtorReexportName $ classCtors cls
            , sort $ map getMethodReexportName $ classMethods cls
@@ -408,11 +416,6 @@ toSignalConnectName signal paramTypes =
   "(" :
   intersperse "," (map (execChunkWriter . sayType Nothing) paramTypes) ++
   [")"]
-
--- | Returns true iff a given class is convertible to/from a Haskell
--- type with @encode@ and @decode@.
-classIsConvertible :: Class -> Bool
-classIsConvertible = isJust . getClassHaskellConversion
 
 importWholeModuleForExtName :: ExtName -> Generator ()
 importWholeModuleForExtName extName = do

@@ -68,8 +68,8 @@ aModule =
 
 c_QDir =
   addReqIncludes [includeStd "QDir"] $
-  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QDir") Nothing [] $
   collect

@@ -80,15 +80,15 @@ c_QMargins =
   addReqIncludes [includeStd "QMargins"] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"
       return $ HsTyCon $ UnQual $ HsIdent "HMargins.HMargins"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"]
       saysLn ["new <$> HMargins.left <*> HMargins.top <*> HMargins.right <*> ",
               "HMargins.bottom"]
-    , classHaskellConversionFromCppFn = do
+    , classHaskellConversionFromCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HMargins" "HMargins"]
       sayLn "\\q -> HMargins.HMargins <$> left q <*> top q <*> right q <*> bottom q"

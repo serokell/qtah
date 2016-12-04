@@ -78,14 +78,14 @@ c_QSize =
   addReqIncludes [includeStd "QSize"] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"
       return $ HsTyCon $ UnQual $ HsIdent "HSize.HSize"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
       sayLn "new <$> HSize.width <*> HSize.height"
-    , classHaskellConversionFromCppFn = do
+    , classHaskellConversionFromCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HSize" "HSize"]
       sayLn "\\q -> HSize.HSize <$> width q <*> height q"

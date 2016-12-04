@@ -80,14 +80,14 @@ c_QRect =
   addReqIncludes [includeStd "QRect"] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"
       return $ HsTyCon $ UnQual $ HsIdent "HRect.HRect"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
       sayLn "newWithRaw <$> HRect.x <*> HRect.y <*> HRect.width <*> HRect.height"
-    , classHaskellConversionFromCppFn = do
+    , classHaskellConversionFromCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HRect" "HRect"]
       sayLn "\\q -> HRect.HRect <$> x q <*> y q <*> width q <*> height q"

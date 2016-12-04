@@ -80,14 +80,14 @@ c_QPointF =
   addReqIncludes [includeStd "QPointF"] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports $ hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF"
       return $ HsTyCon $ UnQual $ HsIdent "HPointF.HPointF"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF"]
       sayLn "new <$> HPointF.x <*> HPointF.y"
-    , classHaskellConversionFromCppFn = do
+    , classHaskellConversionFromCppFn = Just $ do
       addImports $ mconcat [hsImports "Control.Applicative" ["(<$>)", "(<*>)"],
                             hsQualifiedImport "Graphics.UI.Qtah.Core.HPointF" "HPointF"]
       sayLn "\\q -> HPointF.HPointF <$> x q <*> y q"

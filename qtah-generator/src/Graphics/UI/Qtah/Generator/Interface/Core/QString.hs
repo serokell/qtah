@@ -85,13 +85,13 @@ c_QString =
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports importForPrelude
       return $ HsTyCon $ UnQual $ HsIdent "QtahP.String"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports $ mconcat [importForForeignC, importForPrelude]
       sayLn "QtahP.flip QtahFC.withCString newFromCString"
-    , classHaskellConversionFromCppFn = sayLn "toStdString"
+    , classHaskellConversionFromCppFn = Just $ sayLn "toStdString"
     } $
   classSetEntityPrefix "" $
   makeClass (ident "QString") Nothing [] $

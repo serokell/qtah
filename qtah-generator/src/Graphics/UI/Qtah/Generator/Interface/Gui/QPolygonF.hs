@@ -57,8 +57,8 @@ aModule =
 
 c_QPolygonF =
   addReqIncludes [includeStd "QPolygonF"] $
-  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QPolygonF") Nothing [c_QVectorQPointF] $
   collect

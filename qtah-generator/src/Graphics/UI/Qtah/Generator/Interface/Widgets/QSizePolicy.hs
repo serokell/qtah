@@ -37,7 +37,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
-  ClassFeature (Equatable),
+  ClassFeature (Copyable, Equatable),
   classAddFeatures,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, voidT)
@@ -62,8 +62,8 @@ aModule =
 
 c_QSizePolicy =
   addReqIncludes [includeStd "QSizePolicy"] $
-  classAddFeatures [Equatable] $
   classSetConversionToGc $
+  classAddFeatures [Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QSizePolicy") Nothing [] $
   collect

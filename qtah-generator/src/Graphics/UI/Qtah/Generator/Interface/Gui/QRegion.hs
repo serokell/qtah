@@ -58,8 +58,8 @@ aModule =
 
 c_QRegion =
   addReqIncludes [includeStd "QRegion"] $
-  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QRegion") Nothing [] $
   collect

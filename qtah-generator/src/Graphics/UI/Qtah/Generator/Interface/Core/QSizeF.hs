@@ -55,8 +55,8 @@ aModule =
 
 c_QSizeF =
   addReqIncludes [includeStd "QSizeF"] $
-  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QSizeF") Nothing [] $
   collect

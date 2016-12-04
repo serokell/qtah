@@ -91,13 +91,13 @@ c_QChar =
   classAddFeatures [Assignable, Copyable, Comparable, Equatable] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports importForPrelude
       return $ HsTyCon $ UnQual $ HsIdent "QtahP.Char"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForRuntime]
       sayLn "newFromInt . QtahFHR.coerceIntegral . QtahDC.ord"
-    , classHaskellConversionFromCppFn = do
+    , classHaskellConversionFromCppFn = Just $ do
       addImports $ mconcat [hsImport1 "Prelude" "(.)", importForChar, importForPrelude,
                             importForRuntime]
       sayLn "QtahP.fmap (QtahDC.chr . QtahFHR.coerceIntegral) . unicode"

@@ -58,8 +58,8 @@ aModule =
 
 c_QRectF =
   addReqIncludes [includeStd "QRectF"] $
-  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetConversionToGc $
+  classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QRectF") Nothing [] $
   collect

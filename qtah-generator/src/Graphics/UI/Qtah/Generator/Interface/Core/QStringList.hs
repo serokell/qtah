@@ -90,15 +90,15 @@ c_QStringList =
   addReqIncludes [includeStd "QStringList"] $
   classSetHaskellConversion
     ClassHaskellConversion
-    { classHaskellConversionType = do
+    { classHaskellConversionType = Just $ do
       addImports importForPrelude
       return $
         HsTyApp (HsTyCon $ Special $ HsListCon) $
         HsTyCon $ UnQual $ HsIdent "QtahP.String"
-    , classHaskellConversionToCppFn = do
+    , classHaskellConversionToCppFn = Just $ do
       addImports importForRuntime
       sayLn "QtahFHR.fromContents"
-    , classHaskellConversionFromCppFn = do
+    , classHaskellConversionFromCppFn = Just $ do
       addImports importForRuntime
       sayLn "QtahFHR.toContents"
     } $

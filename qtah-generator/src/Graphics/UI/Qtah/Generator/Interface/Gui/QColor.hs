@@ -180,11 +180,11 @@ c_QColor =
 
     conversion =
       ClassHaskellConversion
-      { classHaskellConversionType = do
+      { classHaskellConversionType = Just $ do
         addImports hColorImport
         return $ HsTyCon $ UnQual $ HsIdent "HColor.HColor"
 
-      , classHaskellConversionToCppFn = do
+      , classHaskellConversionToCppFn = Just $ do
         addImports $ mconcat [importForPrelude,
                               importForRuntime,
                               hColorImport]
@@ -203,7 +203,7 @@ c_QColor =
             ]
           sayLn "QtahP.return this'"
 
-      , classHaskellConversionFromCppFn = do
+      , classHaskellConversionFromCppFn = Just $ do
         addImports $ mconcat [hsImports "Prelude" ["($)", "(>>=)"],
                               importForPrelude,
                               importForRuntime,
