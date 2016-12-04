@@ -46,7 +46,7 @@ executable qtah-generator
     , haskell-src >=1.0 && <1.1
     , mtl >=2.1 && <2.3
     , process >=1.2 && <1.5
-    , transformers >=0.3 && <0.5
+    , transformers >=0.3 && <0.6
   hs-source-dirs: src
   main-is: Main.hs
   other-modules:
