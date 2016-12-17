@@ -28,13 +28,14 @@ module Graphics.UI.Qtah.Generator.Module (
   qtModuleHoppy,
   ) where
 
-import Control.Monad (forM_, unless)
+import Control.Monad (unless)
 #if MIN_VERSION_mtl(2,2,1)
 import Control.Monad.Except (throwError)
 #else
 import Control.Monad.Error (throwError)
 #endif
 import Data.Char (toLower)
+import Data.Foldable (forM_)
 import Data.List (find, intersperse, sort)
 import Data.Maybe (isJust, mapMaybe)
 #if !MIN_VERSION_base(4,8,0)
