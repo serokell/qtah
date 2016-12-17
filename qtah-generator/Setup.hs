@@ -17,7 +17,7 @@
 
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
 
-import Control.Monad (when)
+import Control.Monad (unless, when)
 import Distribution.PackageDescription (PackageDescription)
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
 import Distribution.Simple.LocalBuildInfo (
@@ -53,8 +53,12 @@ import Distribution.Verbosity (normal, verbose)
 import System.Directory (
   createDirectoryIfMissing,
   doesFileExist,
+  executable,
   getCurrentDirectory,
+  getPermissions,
   removeFile,
+  setOwnerExecutable,
+  setPermissions,
   )
 import System.FilePath ((</>), joinPath, takeDirectory)
 
@@ -78,14 +82,21 @@ qtahHooks = simpleUserHooks
 findProjectRootDir :: LocalBuildInfo -> IO FilePath
 findProjectRootDir localBuildInfo = case pkgDescrFile localBuildInfo of
   Just path -> return $ takeDirectory path
-  Nothing -> die "Couldn't find qtah-listener-gen."
+  Nothing -> die "Couldn't find the project root path."
 
 generateSources :: LocalBuildInfo -> IO ()
 generateSources localBuildInfo = do
   -- Generate binding sources for the generated C++ listener classes.
   projectRootDir <- findProjectRootDir localBuildInfo
-  let program = simpleConfiguredProgram "qtah-listener-gen" $
-                FoundOnSystem $ projectRootDir </> "qtah-listener-gen"
+  let genPath = projectRootDir </> "qtah-listener-gen"
+      program = simpleConfiguredProgram "qtah-listener-gen" $ FoundOnSystem genPath
+
+  -- Cabal 1.24 (GHC 8?) seems to remove the executable bit from
+  -- qtah-listener-gen before configuring, so we have to re-add it.
+  perms <- getPermissions genPath
+  unless (executable perms) $
+    setPermissions genPath $ setOwnerExecutable True perms
+
   runProgram normal program ["--gen-hs-dir", "."]
 
 doInstall :: PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
