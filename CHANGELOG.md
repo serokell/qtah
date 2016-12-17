@@ -10,6 +10,8 @@
 - Fixed the conversion from QPoint and QPointF to their H* components mistakenly
   swapping the components.
 
+- Attempting to fix build path issues with GHC 8 / Cabal 1.24 (issue #14).
+
 ## (2016-10-01) qtah-0.1.2, qtah-examples-0.1.2
 
 - Version bump to support binary-0.8.*.

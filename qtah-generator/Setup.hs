@@ -24,16 +24,13 @@ import Distribution.Simple.LocalBuildInfo (
   LocalBuildInfo,
   absoluteInstallDirs,
   bindir,
-  withPrograms,
+  pkgDescrFile,
   )
-import Distribution.Simple.Program (
-  Program,
-  ProgramSearchPathEntry (ProgramSearchPathDir),
-  programFindLocation,
-  runDbProgram,
-  simpleProgram,
+import Distribution.Simple.Program (runProgram)
+import Distribution.Simple.Program.Types (
+  ProgramLocation (FoundOnSystem),
+  simpleConfiguredProgram,
   )
-import Distribution.Simple.Program.Find (findProgramOnSearchPath)
 import Distribution.Simple.Setup (
   CleanFlags,
   CopyDest (CopyTo, NoCopyDest),
@@ -45,14 +42,13 @@ import Distribution.Simple.Setup (
   )
 import Distribution.Simple.UserHooks (
   UserHooks (
-    hookedPrograms,
     cleanHook,
     copyHook,
     instHook,
     postConf
     ),
   )
-import Distribution.Simple.Utils (info, installExecutableFile)
+import Distribution.Simple.Utils (die, info, installExecutableFile)
 import Distribution.Verbosity (normal, verbose)
 import System.Directory (
   createDirectoryIfMissing,
@@ -60,15 +56,14 @@ import System.Directory (
   getCurrentDirectory,
   removeFile,
   )
-import System.FilePath ((</>), joinPath)
+import System.FilePath ((</>), joinPath, takeDirectory)
 
 main :: IO ()
 main = defaultMainWithHooks qtahHooks
 
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
-  { hookedPrograms = [listenerGenProgram]
-  , postConf = \_ _ _ lbi -> generateSources lbi
+  { postConf = \_ _ _ lbi -> generateSources lbi
   , copyHook = \pd lbi uh cf -> do let dest = fromFlagOrDefault NoCopyDest $ copyDest cf
                                    doInstall pd lbi dest
                                    copyHook simpleUserHooks pd lbi uh cf
@@ -80,26 +75,26 @@ qtahHooks = simpleUserHooks
                                   cleanHook simpleUserHooks pd z uh cf
   }
 
-listenerGenProgram :: Program
-listenerGenProgram =
-  (simpleProgram "qtah-listener-gen")
-  { programFindLocation = \verbosity _ ->
-    findProgramOnSearchPath verbosity [ProgramSearchPathDir "."] "qtah-listener-gen"
-  }
+findProjectRootDir :: LocalBuildInfo -> IO FilePath
+findProjectRootDir localBuildInfo = case pkgDescrFile localBuildInfo of
+  Just path -> return $ takeDirectory path
+  Nothing -> die "Couldn't find qtah-listener-gen."
 
 generateSources :: LocalBuildInfo -> IO ()
 generateSources localBuildInfo = do
   -- Generate binding sources for the generated C++ listener classes.
-  let programDb = withPrograms localBuildInfo
-  runDbProgram normal listenerGenProgram programDb ["--gen-hs-dir", "."]
+  projectRootDir <- findProjectRootDir localBuildInfo
+  let program = simpleConfiguredProgram "qtah-listener-gen" $
+                FoundOnSystem $ projectRootDir </> "qtah-listener-gen"
+  runProgram normal program ["--gen-hs-dir", "."]
 
 doInstall :: PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
 doInstall packageDesc localBuildInfo copyDest = do
-  startDir <- getCurrentDirectory
+  projectRootDir <- findProjectRootDir localBuildInfo
   let binDir = bindir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
   createDirectoryIfMissing True binDir
   installExecutableFile verbose
-                        (startDir </> "qtah-listener-gen")
+                        (projectRootDir </> "qtah-listener-gen")
                         (binDir </> "qtah-listener-gen")
 
 doClean :: CleanFlags -> IO ()
