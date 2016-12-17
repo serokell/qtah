@@ -22,7 +22,7 @@
 }:
 mkDerivation ({
   pname = "qtah-generator";
-  version = "0.2.0";
+  version = "0.2.1";
   src = ./.;
   isLibrary = true;
   isExecutable = true;

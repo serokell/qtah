@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## (2016-12-16) *-0.2.0
+## (2016-12-16) *-0.2.0, qtah-generator-0.2.1
 
 - Makes use of the new class/enum/bitspace prefix customization feature in Hoppy
   0.3.0 to strip the repetitive class name off of enum value names, for enums
@@ -12,7 +12,7 @@
 - Fixed the conversion from QPoint and QPointF to their H* components mistakenly
   swapping the components.
 
-- Attempting to fix build path issues with GHC 8 / Cabal 1.24 (issue #14).
+- Fixed build issue with Cabal 1.24 / GHC 8 (issue #14).
 
 ## (2016-10-01) qtah-0.1.2, qtah-examples-0.1.2
 
