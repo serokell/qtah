@@ -1,6 +1,8 @@
 # Qtah Changelog
 
-## Unreleased *-0.2.0
+## Unreleased
+
+## (2016-12-16) *-0.2.0
 
 - Makes use of the new class/enum/bitspace prefix customization feature in Hoppy
   0.3.0 to strip the repetitive class name off of enum value names, for enums
