@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## (2017-01-14) qtah-examples-0.2.1
+
+- Add a configure warning when qtah-examples is being built without dynamic
+  executable linking, since without this hint, it's not obvious at all why a
+  simple "cabal install qtah-examples" fails.
+
 ## (2016-12-16) *-0.2.0, qtah-generator-0.2.1
 
 - Makes use of the new class/enum/bitspace prefix customization feature in Hoppy
