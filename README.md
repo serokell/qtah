@@ -5,7 +5,7 @@ traditional imperative interface to a mature GUI toolkit.
 
 Homepage: http://khumba.net/projects/qtah
 
-Copyright 2015-2016 Bryan Gardiner <bog@khumba.net>
+Copyright 2015-2017 Bryan Gardiner <bog@khumba.net>
 
 A range of successive copyright years may be written as XXXX-YYYY as an
 abbreviation for listing all of the years from XXXX to YYYY inclusive,
