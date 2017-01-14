@@ -24,7 +24,7 @@
 }:
 mkDerivation ({
   pname = "qtah-examples";
-  version = "0.1.2";
+  version = "0.2.1";
   src = ./.;
   isLibrary = false;
   isExecutable = true;
