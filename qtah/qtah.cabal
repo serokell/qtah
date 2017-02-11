@@ -54,6 +54,7 @@ library
     , Graphics.UI.Qtah.Core.QTimerEvent
     , Graphics.UI.Qtah.Core.QVariant
     , Graphics.UI.Qtah.Core.QVector.QPoint
+    , Graphics.UI.Qtah.Core.QVector.QPointF
     , Graphics.UI.Qtah.Core.Types
     , Graphics.UI.Qtah.Event
     , Graphics.UI.Qtah.Gui.HColor
