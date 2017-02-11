@@ -105,8 +105,8 @@ while read file; do
             head -10 "$file" | grep -q Copyright && \
                 (! head -20 "$file" | grep -q 'Copyright[^<]\+$') && \
                 head -20 "$file" | grep -qF 'GNU Lesser General Public License' && \
-                head -20 "$file" | grep -qF 'either version 3 of the License, or' "$file" && \
-                head -20 "$file" | grep -qF '(at your option) any later version.' "$file" && \
+                head -20 "$file" | grep -qF 'either version 3 of the License, or' && \
+                head -20 "$file" | grep -qF '(at your option) any later version.' && \
                 grep -q 'license =.*\blgpl3Plus;' "$file";;
         *)
             # Other source files must include copyright statements with email
