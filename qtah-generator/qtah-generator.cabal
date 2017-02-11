@@ -74,6 +74,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QSizeF
     , Graphics.UI.Qtah.Generator.Interface.Core.QString
     , Graphics.UI.Qtah.Generator.Interface.Core.QStringList
+    , Graphics.UI.Qtah.Generator.Interface.Core.QStringListModel
     , Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QVariant
     , Graphics.UI.Qtah.Generator.Interface.Core.QVector
