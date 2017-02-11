@@ -81,6 +81,9 @@ forEachListener() {
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
     $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
     $fn QClipboardMode "QClipboard::Mode"
+    $fn QModelIndexIntInt "QModelIndex|int|int"
+    $fn QModelIndexIntIntQModelIndexInt "QModelIndex|int|int|QModelIndex|int"
+    $fn QModelIndexQModelIndexQVectorInt "QModelIndex|QModelIndex|QVector<int>"
     $fn QPoint "QPoint"
     $fn QSize "QSize"
     $fn QString "QString"
@@ -107,9 +110,11 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QAbstractSlider>'
     sayHpp '#include <QAction>'
     sayHpp '#include <QClipboard>'
+    sayHpp '#include <QModelIndex>'
     sayHpp '#include <QObject>'
     sayHpp '#include <QPoint>'
     sayHpp '#include <QSize>'
+    sayHpp '#include <QVector>'
     sayHpp '#include <QWidget>'
     sayHpp '#include "b_callback.hpp"'
 

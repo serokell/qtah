@@ -26,12 +26,14 @@ import Foreign.Hoppy.Generator.Spec (
   moduleModify',
   toExtName,
   )
-import Foreign.Hoppy.Generator.Types (boolT, doubleT, enumT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, doubleT, enumT, intT, objT, ptrT, toGcT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
+import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QVector (c_QVectorInt)
 import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard as QClipboard
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (
   c_QAbstractButton,
@@ -63,6 +65,9 @@ aModule =
       , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
       , ExportCallback cb_QAbstractSliderActionVoid
       , ExportCallback cb_QClipboardModeVoid
+      , ExportCallback cb_QModelIndexIntIntVoid
+      , ExportCallback cb_QModelIndexIntIntQModelIndexIntVoid
+      , ExportCallback cb_QModelIndexQModelIndexQVectorIntVoid
       , ExportCallback cb_QPointVoid
       , ExportCallback cb_QSizeVoid
       , ExportCallback cb_QStringVoid
@@ -120,6 +125,18 @@ cb_QAbstractSliderActionVoid =
 cb_QClipboardModeVoid =
   makeCallback (toExtName "CallbackQClipboardModeVoid")
   [enumT QClipboard.e_Mode] voidT
+
+cb_QModelIndexIntIntVoid =
+  makeCallback (toExtName "CallbackQModelIndexIntIntVoid")
+  [objT c_QModelIndex, intT, intT] voidT
+
+cb_QModelIndexIntIntQModelIndexIntVoid =
+  makeCallback (toExtName "CallbackQModelIndexIntIntQModelIndexIntVoid")
+  [objT c_QModelIndex, intT, intT, objT c_QModelIndex, intT] voidT
+
+cb_QModelIndexQModelIndexQVectorIntVoid =
+  makeCallback (toExtName "CallbackQModelIndexQModelIndexQVectorIntVoid")
+  [objT c_QModelIndex, objT c_QModelIndex, toGcT $ objT c_QVectorInt] voidT
 
 cb_QPointVoid =
   makeCallback (toExtName "CallbackQPointVoid")

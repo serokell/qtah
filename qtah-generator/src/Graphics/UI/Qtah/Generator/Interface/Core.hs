@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Core (modules) where
 
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel as QAbstractItemModel
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent as QChildEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication as QCoreApplication
@@ -25,6 +26,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QEvent as QEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QList as QList
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF as QMarginsF
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex as QModelIndex
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QObject as QObject
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPoint as QPoint
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPointF as QPointF
@@ -45,13 +47,15 @@ import Graphics.UI.Qtah.Generator.Module (AModule)
 modules :: [AModule]
 modules =
   concat
-  [ [ QChar.aModule
+  [ [ QAbstractItemModel.aModule
+    , QChar.aModule
     , QChildEvent.aModule
     , QCoreApplication.aModule
     , QDir.aModule
     , QEvent.aModule
     , QMargins.aModule
     , QMarginsF.aModule
+    , QModelIndex.aModule
     , QObject.aModule
     , QPoint.aModule
     , QPointF.aModule

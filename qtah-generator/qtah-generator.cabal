@@ -54,6 +54,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Flag
     , Graphics.UI.Qtah.Generator.Flags
     , Graphics.UI.Qtah.Generator.Interface.Core
+    , Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel
     , Graphics.UI.Qtah.Generator.Interface.Core.QChar
     , Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication
@@ -62,6 +63,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QList
     , Graphics.UI.Qtah.Generator.Interface.Core.QMargins
     , Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF
+    , Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex
     , Graphics.UI.Qtah.Generator.Interface.Core.QObject
     , Graphics.UI.Qtah.Generator.Interface.Core.QPoint
     , Graphics.UI.Qtah.Generator.Interface.Core.QPointF

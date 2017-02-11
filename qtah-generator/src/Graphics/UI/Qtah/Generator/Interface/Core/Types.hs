@@ -32,6 +32,9 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_GlobalColor,
   e_InputMethodHint,
   bs_InputMethodHints,
+  e_ItemDataRole,
+  e_ItemFlag,
+  bs_ItemFlags,
   e_KeyboardModifier,
   bs_KeyboardModifiers,
   e_LayoutDirection,
@@ -45,6 +48,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_Orientations,
   e_ScrollBarPolicy,
   e_ScrollPhase,
+  e_SortOrder,
   e_TextElideMode,
   e_TextFormat,
   e_TextInteractionFlag,
@@ -96,6 +100,9 @@ exports =
   , just $ ExportEnum e_GlobalColor
   , just $ ExportEnum e_InputMethodHint
   , just $ ExportBitspace bs_InputMethodHints
+  , just $ ExportEnum e_ItemDataRole
+  , just $ ExportEnum e_ItemFlag
+  , just $ ExportBitspace bs_ItemFlags
   , just $ ExportEnum e_KeyboardModifier
   , just $ ExportBitspace bs_KeyboardModifiers
   , just $ ExportEnum e_LayoutDirection
@@ -109,6 +116,7 @@ exports =
   , just $ ExportBitspace bs_Orientations
   , just $ ExportEnum e_ScrollBarPolicy
   , test (qtVersion >= e_ScrollPhase_version) $ ExportEnum e_ScrollPhase
+  , just $ ExportEnum e_SortOrder
   , just $ ExportEnum e_TextElideMode
   , just $ ExportEnum e_TextFormat
   , just $ ExportEnum e_TextInteractionFlag
@@ -250,6 +258,50 @@ e_GlobalColor =
   , (0xffff0000, ["imh", "exclusive", "input", "mask"])
   ]
 
+-- TODO Support for custom ItemDataRole values.
+e_ItemDataRole =
+  makeQtEnum (ident1 "Qt" "ItemDataRole") qtInclude $
+  collect
+  [ -- General-purpose roles:
+    just (0, ["display", "role"])
+  , just (1, ["decoration", "role"])
+  , just (2, ["edit", "role"])
+  , just (3, ["tool", "tip", "role"])
+  , just (4, ["status", "tip", "role"])
+  , just (5, ["whats", "this", "role"])
+  , just (13, ["size", "hint", "role"])
+
+    -- Roles describing appearance and metadata:
+  , just (6, ["font", "role"])
+  , just (7, ["text", "alignment", "role"])
+  , just (8, ["background", "role"])
+  , just (9, ["foreground", "role"])
+  , just (10, ["check", "state", "role"])
+  , test (qtVersion >= [4, 8]) (14, ["initial", "sort", "order", "role"])
+
+    -- Accessibility roles:
+  , just (11, ["accessible", "text", "role"])
+  , just (12, ["accessible", "description", "role"])
+
+    -- User roles:
+  , just (0x0100, ["user", "role"])
+  ]
+
+(e_ItemFlag, bs_ItemFlags) =
+  makeQtEnumBitspace (ident1 "Qt" "ItemFlag") "ItemFlags" qtInclude $
+  collect
+  [ just (0, ["no", "item", "flags"])
+  , just (1, ["item", "is", "selectable"])
+  , just (2, ["item", "is", "editable"])
+  , just (4, ["item", "is", "drag", "enabled"])
+  , just (8, ["item", "is", "drop", "enabled"])
+  , just (16, ["item", "is", "user", "checkable"])
+  , just (32, ["item", "is", "enabled"])
+  , just (64, ["item", "is", "auto", "tristate"])
+  , just (128, ["item", "never", "has", "children"])
+  , test (qtVersion >= [5, 5]) (256, ["item", "is", "user", "tristate"])
+  ]
+
 (e_KeyboardModifier, bs_KeyboardModifiers) =
   makeQtEnumBitspace (ident1 "Qt" "KeyboardModifier") "KeyboardModifiers" qtInclude
   [ (0x00000000, ["no", "modifier"])
@@ -324,6 +376,12 @@ e_ScrollPhase =
   ]
 
 e_ScrollPhase_version = [5, 2]
+
+e_SortOrder =
+  makeQtEnum (ident1 "Qt" "SortOrder") qtInclude
+  [ (0, ["ascending", "order"])
+  , (1, ["descending", "order"])
+  ]
 
 e_TextElideMode =
   makeQtEnum (ident1 "Qt" "TextElideMode") qtInclude

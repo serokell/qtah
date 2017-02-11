@@ -28,6 +28,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QVector (
   toExports,
   -- * Instantiations
   allModules,
+  c_QVectorInt,
   c_QVectorQPoint,
   c_QVectorQPointF,
   ) where
@@ -254,9 +255,19 @@ createModule name contents = makeQtModule ["Core", "QVector", name] $ toExports 
 allModules :: [AModule]
 allModules =
   map AQtModule
-  [ qmod_QPoint
+  [ qmod_Int
+  , qmod_QPoint
   , qmod_QPointF
   ]
+
+qmod_Int :: QtModule
+qmod_Int = createModule "Int" contents_Int
+
+contents_Int :: Contents
+contents_Int = instantiate "QVectorInt" intT mempty
+
+c_QVectorInt :: Class
+c_QVectorInt = c_QVector contents_Int
 
 qmod_QPoint :: QtModule
 qmod_QPoint = createModule "QPoint" contents_QPoint

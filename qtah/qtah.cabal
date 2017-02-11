@@ -29,6 +29,7 @@ library
     , Graphics.UI.Qtah.Core.HPointF
     , Graphics.UI.Qtah.Core.HRect
     , Graphics.UI.Qtah.Core.HSize
+    , Graphics.UI.Qtah.Core.QAbstractItemModel
     , Graphics.UI.Qtah.Core.QChar
     , Graphics.UI.Qtah.Core.QChildEvent
     , Graphics.UI.Qtah.Core.QCoreApplication
@@ -42,6 +43,7 @@ library
     , Graphics.UI.Qtah.Core.QList.QWidget
     , Graphics.UI.Qtah.Core.QMargins
     , Graphics.UI.Qtah.Core.QMarginsF
+    , Graphics.UI.Qtah.Core.QModelIndex
     , Graphics.UI.Qtah.Core.QObject
     , Graphics.UI.Qtah.Core.QPoint
     , Graphics.UI.Qtah.Core.QPointF
@@ -53,6 +55,7 @@ library
     , Graphics.UI.Qtah.Core.QStringList
     , Graphics.UI.Qtah.Core.QTimerEvent
     , Graphics.UI.Qtah.Core.QVariant
+    , Graphics.UI.Qtah.Core.QVector.Int
     , Graphics.UI.Qtah.Core.QVector.QPoint
     , Graphics.UI.Qtah.Core.QVector.QPointF
     , Graphics.UI.Qtah.Core.Types
@@ -130,6 +133,7 @@ library
     , Graphics.UI.Qtah.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Widgets.QWidget
   other-modules:
+      Graphics.UI.Qtah.Generated.Core.QAbstractItemModel
       Graphics.UI.Qtah.Generated.Core.QChar
     , Graphics.UI.Qtah.Generated.Core.QChildEvent
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
@@ -143,6 +147,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
     , Graphics.UI.Qtah.Generated.Core.QMargins
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
+    , Graphics.UI.Qtah.Generated.Core.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QObject
     , Graphics.UI.Qtah.Generated.Core.QPoint
     , Graphics.UI.Qtah.Generated.Core.QPointF
@@ -154,6 +159,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QStringList
     , Graphics.UI.Qtah.Generated.Core.QTimerEvent
     , Graphics.UI.Qtah.Generated.Core.QVariant
+    , Graphics.UI.Qtah.Generated.Core.QVector.Int
     , Graphics.UI.Qtah.Generated.Core.QVector.QPoint
     , Graphics.UI.Qtah.Generated.Core.QVector.QPointF
     , Graphics.UI.Qtah.Generated.Core.Types
