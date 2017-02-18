@@ -56,6 +56,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core
     , Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel
     , Graphics.UI.Qtah.Generator.Interface.Core.QAbstractListModel
+    , Graphics.UI.Qtah.Generator.Interface.Core.QAbstractTableModel
     , Graphics.UI.Qtah.Generator.Interface.Core.QChar
     , Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication
