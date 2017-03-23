@@ -87,7 +87,10 @@ run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 # We call the test executable directly instead of running 'cabal test', for
 # distros such as Debian Stretch that are affected by
 # https://github.com/haskell/cabal/issues/2438.
-run env LD_LIBRARY_PATH=$PWD/dist/build dist/build/test-qtah/test-qtah
+#run env LD_LIBRARY_PATH=$PWD/dist/build dist/build/test-qtah/test-qtah
+# 2017-03-22: Switch back to 'cabal test' for debugging tests not running on
+# GHC-8.0.2:
+run cabal test
 # Haddock spews out many thousands of lines about undocumented items, so we
 # silence them.
 run cabal haddock --haddock-options=--no-print-missing-docs
