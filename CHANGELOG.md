@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Dependency bump to support directory-1.3 in GHC 8.0.2.
+
 ## (2017-01-14) qtah-examples-0.2.1
 
 - Add a configure warning when qtah-examples is being built without dynamic
