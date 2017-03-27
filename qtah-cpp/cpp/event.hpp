@@ -46,6 +46,30 @@ private:
     int* deleted_;
 };
 
+class SceneEventListener : public QGraphicsItem {
+
+public:
+    SceneEventListener(CallbackPtrQGraphicsItemPtrQEventBool callback, int* deletedPtr) :
+        callback_(callback), deleted_(deletedPtr) {}
+
+    ~SceneEventListener() {
+        if (deleted_) {
+            *deleted_ = 1;
+        }
+    }
+
+    virtual QRectF boundingRect() const { return QRectF(); }
+    virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0) { return; }
+
+    virtual bool sceneEventFilter(QGraphicsItem* receiver, QEvent* event) {
+        return callback_(receiver, event);
+    }
+
+private:
+    CallbackPtrQGraphicsItemPtrQEventBool callback_;
+    int* deleted_;
+};
+
 }  // namespace event
 }  // namespace qtah
 

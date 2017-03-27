@@ -15,9 +15,9 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar (
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsEllipseItem (
   aModule,
-  c_QScrollBar
+  c_QGraphicsEllipseItem,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -29,26 +29,23 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkCtor,
   )
-import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Orientation)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (c_QAbstractSlider)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Foreign.Hoppy.Generator.Types (doubleT)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem (c_QAbstractGraphicsShapeItem)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QScrollBar"]
-  [ QtExport $ ExportClass c_QScrollBar ]
+  makeQtModule ["Widgets", "QGraphicsEllipseItem"]
+  [ QtExport $ ExportClass c_QGraphicsEllipseItem
+  ]
 
-c_QScrollBar =
-  addReqIncludes [includeStd "QScrollBar"] $
+c_QGraphicsEllipseItem =
+  addReqIncludes [includeStd "QGraphicsEllipseItem"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QScrollBar") Nothing [c_QAbstractSlider]
+  makeClass (ident "QGraphicsEllipseItem") Nothing [c_QAbstractGraphicsShapeItem]
   [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , mkCtor "newWithOrientation" [enumT e_Orientation]
-  , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
+  , mkCtor "newRectRaw" [doubleT, doubleT, doubleT, doubleT]
   ]

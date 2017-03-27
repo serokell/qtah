@@ -34,6 +34,16 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDoubleSpinBox as 
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout as QFormLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame as QFrame
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem as QAbstractGraphicsShapeItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsEllipseItem as QGraphicsEllipseItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem as QGraphicsItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsPolygonItem as QGraphicsPolygonItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsRectItem as QGraphicsRectItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsScene as QGraphicsScene
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneEvent as QGraphicsSceneEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneMouseEvent as QGraphicsSceneMouseEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneWheelEvent as QGraphicsSceneWheelEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsView as QGraphicsView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGridLayout as QGridLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGroupBox as QGroupBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QHBoxLayout as QHBoxLayout
@@ -87,6 +97,16 @@ modules =
   , QFileDialog.aModule
   , QFormLayout.aModule
   , QFrame.aModule
+  , QAbstractGraphicsShapeItem.aModule
+  , QGraphicsEllipseItem.aModule
+  , QGraphicsItem.aModule
+  , QGraphicsPolygonItem.aModule
+  , QGraphicsRectItem.aModule
+  , QGraphicsScene.aModule
+  , QGraphicsSceneEvent.aModule
+  , QGraphicsSceneMouseEvent.aModule
+  , QGraphicsSceneWheelEvent.aModule
+  , QGraphicsView.aModule
   , QGridLayout.aModule
   , QGroupBox.aModule
   , QHBoxLayout.aModule

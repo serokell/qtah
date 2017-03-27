@@ -18,6 +18,7 @@
 module Graphics.UI.Qtah.Generator.Interface.Gui (modules) where
 
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QActionEvent as QActionEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QBrush as QBrush
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard as QClipboard
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QCloseEvent as QCloseEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QColor as QColor
@@ -31,10 +32,14 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent as QInputE
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator as QIntValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent as QKeyEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent as QMouseEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainter as QPainter
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath as QPainterPath
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPen as QPen
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon as QPolygon
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF as QPolygonF
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QRegion as QRegion
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QShowEvent as QShowEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QTransform as QTransform
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QValidator as QValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent as QWheelEvent
 import Graphics.UI.Qtah.Generator.Module (AModule)
@@ -44,6 +49,7 @@ import Graphics.UI.Qtah.Generator.Module (AModule)
 modules :: [AModule]
 modules =
   [ QActionEvent.aModule
+  , QBrush.aModule
   , QClipboard.aModule
   , QCloseEvent.aModule
   , QColor.aModule
@@ -57,10 +63,14 @@ modules =
   , QIntValidator.aModule
   , QKeyEvent.aModule
   , QMouseEvent.aModule
+  , QPainter.aModule
+  , QPainterPath.aModule
+  , QPen.aModule
   , QPolygon.aModule
   , QPolygonF.aModule
   , QRegion.aModule
   , QShowEvent.aModule
+  , QTransform.aModule
   , QValidator.aModule
   , QWheelEvent.aModule
   ]

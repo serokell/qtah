@@ -15,26 +15,10 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Core.HPoint (
-  HPoint (..),
-  null,
-  isNull,
-  manhattanLength,
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (
+  c_QGraphicsItem,
   ) where
 
-import Prelude hiding (null)
+import Foreign.Hoppy.Generator.Spec (Class)
 
-data HPoint = HPoint
-  { x :: Int
-  , y :: Int
-  } deriving (Eq, Ord, Show)
-
-null :: HPoint
-null = HPoint 0 0
-
-isNull :: HPoint -> Bool
-isNull (HPoint 0 0) = True
-isNull _ = False
-
-manhattanLength :: HPoint -> Int
-manhattanLength (HPoint x y) = abs x + abs y
+c_QGraphicsItem :: Class

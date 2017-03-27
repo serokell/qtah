@@ -18,16 +18,16 @@
 {-# LANGUAGE ExistentialQuantification #-}
 
 -- | General routines for managing 'QEvent's.
-module Graphics.UI.Qtah.Event (
+module Graphics.UI.Qtah.SceneEvent (
   -- * High-level interface.
-  Event (..),
-  EventRegistration,
+  SceneEvent (..),
+  SceneEventRegistration (..),
   unregister,
   -- * Low-level interface
-  EventFilter,
-  onAnyEvent,
+  SceneEventFilter,
+  onAnySceneEvent,
   -- * Internal
-  internalOnEvent,
+  internalOnSceneEvent,
   ) where
 
 import Control.Concurrent.MVar (MVar, modifyMVar_, newMVar)
@@ -35,72 +35,75 @@ import Control.Monad (when)
 import Foreign.C.Types (CInt)
 import Foreign.Hoppy.Runtime (delete)
 import Foreign.Ptr (Ptr, nullPtr)
-import Graphics.UI.Qtah.SceneEvent (SceneEvent)
-import Graphics.UI.Qtah.Core.QObject (QObject, QObjectPtr)
-import qualified Graphics.UI.Qtah.Core.QObject as QObject
+-- import Graphics.UI.Qtah.Core.QObject (QObject, QObjectPtr)
+import Graphics.UI.Qtah.Generated.Widgets.QGraphicsScene (addItem)
+import Graphics.UI.Qtah.Generated.Widgets.QGraphicsItem
+  (QGraphicsItem, QGraphicsItemPtr, scene, installSceneEventFilter, removeSceneEventFilter)
 -- Note, Generated import, since the non-Generated import imports this module.
 import Graphics.UI.Qtah.Generated.Core.QEvent (QEvent)
-import Graphics.UI.Qtah.Internal.EventListener (EventListener)
-import qualified Graphics.UI.Qtah.Internal.EventListener as EventListener
-import Graphics.UI.Qtah.Signal (connect)
+import Graphics.UI.Qtah.Internal.SceneEventListener (SceneEventListener)
+import qualified Graphics.UI.Qtah.Internal.SceneEventListener as SceneEventListener
+-- import Graphics.UI.Qtah.Signal (connect)
 
-data Receiver = forall a. QObjectPtr a => Receiver a
+data Receiver = forall a. QGraphicsItemPtr a => Receiver a
 
 -- | A typeclass for Qt event classes (subclasses of @QEvent@).
-class SceneEvent e => Event e where
+class SceneEvent e where
   -- | Registers a callback function to be invoked when an event of type @e@ is
-  -- sent to an object.  This is a wrapper around 'onAnyEvent', so for details,
-  -- see that function; all comments about @EventFilter@s apply equally to
+  -- sent to an object.  This is a wrapper around 'onAnySceneEvent', so for details,
+  -- see that function; all comments about @SceneEventFilter@s apply equally to
   -- handlers given here.
-  onEvent :: QObjectPtr this => this -> (e -> IO Bool) -> IO EventRegistration
+  onSceneEvent :: QGraphicsItemPtr this => this -> (e -> IO Bool) -> IO SceneEventRegistration
 
 -- | A record that an event handler was registered with a receiver object.  This
 -- can be given to 'unregister' to destroy the corresponding handler.
-data EventRegistration = EventRegistration
+data SceneEventRegistration = SceneEventRegistration
   { regReceiver :: Receiver
-  , regListener :: EventListener
+  , regListener :: SceneEventListener
   , regActive :: MVar Bool
   }
 
 -- | An filter that can handle any type of event.
-type EventFilter = QObject -> QEvent -> IO Bool
+type SceneEventFilter = QGraphicsItem -> QEvent -> IO Bool
 
--- | Registers an 'EventFilter' to listen to events that a 'QObject' receives.
+-- | Registers an 'SceneEventFilter' to listen to events that a 'QGraphicsItem' receives.
 -- A filter can return false to allow the event to propagate further, or true to
 -- indicate that the event has been handled, and stop propagation.  When
 -- multiple filters are attached to an object, the last one installed is called
 -- first.  The filter will stay active until the receiver is deleted, or
 -- 'unregister' is called.
 --
--- This function uses 'QObject.installEventFilter' under the hood.
-onAnyEvent :: QObjectPtr target => target -> EventFilter -> IO EventRegistration
-onAnyEvent receiver filter = internalOnEvent receiver nullPtr filter
+-- This function uses 'QGraphicsItem.installSceneEventFilter' under the hood.
+onAnySceneEvent :: QGraphicsItemPtr target => target -> SceneEventFilter -> IO SceneEventRegistration
+onAnySceneEvent receiver filter = internalOnSceneEvent receiver nullPtr filter
 
 -- | Internal function, do not use outside of Qtah.
 --
--- Implements 'onAnyEvent'.  Also takes a pointer to an @int@ that is passed to
--- the underlying 'EventListener.EventListener' object to be set to 1 when the
+-- Implements 'onAnySceneEvent'.  Also takes a pointer to an @int@ that is passed to
+-- the underlying 'SceneEventListener.SceneEventListener' object to be set to 1 when the
 -- listener is deleted.  This is used for testing purposes.
-internalOnEvent :: QObjectPtr target => target -> Ptr CInt -> EventFilter -> IO EventRegistration
-internalOnEvent receiver deletedPtr filter = do
-  listener <- EventListener.new filter deletedPtr
+internalOnSceneEvent :: QGraphicsItemPtr target => target -> Ptr CInt -> SceneEventFilter -> IO SceneEventRegistration
+internalOnSceneEvent receiver deletedPtr filter = do
+  listener <- SceneEventListener.new filter deletedPtr
   activeVar <- newMVar True
-  let reg = EventRegistration
+  let reg = SceneEventRegistration
             { regReceiver = Receiver receiver
             , regListener = listener
             , regActive = activeVar
             }
-  QObject.installEventFilter receiver listener
-  _ <- connect receiver QObject.destroyedSignal $ \_ -> unregister reg
+  -- 'addItem' is due to the fact that 'listener' must be on the same scene as 'receiver'.
+  scene receiver >>= flip addItem listener
+  installSceneEventFilter receiver listener
+  -- _ <- connect receiver QGraphicsItem.destroyedSignal $ \_ -> unregister reg
   return reg
 
 -- | Disconnects an event handler and frees its resources.  This function is
 -- idempotent.
-unregister :: EventRegistration -> IO ()
+unregister :: SceneEventRegistration -> IO ()
 unregister reg = modifyMVar_ (regActive reg) $ \active -> do
   when active $ do
     let listener = regListener reg
     case regReceiver reg of
-      Receiver receiver -> QObject.removeEventFilter receiver listener
+      Receiver receiver -> removeSceneEventFilter receiver listener
     delete listener
   return False

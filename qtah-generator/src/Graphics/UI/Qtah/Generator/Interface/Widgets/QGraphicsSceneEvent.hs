@@ -1,6 +1,6 @@
 -- This file is part of Qtah.
 --
--- Copyright 2015-2017 Bryan Gardiner <bog@khumba.net>
+-- Copyright 2016-2017 Bryan Gardiner <bog@khumba.net>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU Lesser General Public License as published by
@@ -15,23 +15,21 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar (
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneEvent (
   aModule,
-  c_QScrollBar
+  c_QGraphicsSceneEvent,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
-  mkCtor,
+  mkConstMethod,
   )
-import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Orientation)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (c_QAbstractSlider)
+import Foreign.Hoppy.Generator.Types (objT, ptrT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -40,15 +38,13 @@ import Graphics.UI.Qtah.Generator.Types
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QScrollBar"]
-  [ QtExport $ ExportClass c_QScrollBar ]
+  makeQtModule ["Widgets", "QGraphicsSceneEvent"]
+  [ QtExportEvent c_QGraphicsSceneEvent
+  ]
 
-c_QScrollBar =
-  addReqIncludes [includeStd "QScrollBar"] $
+c_QGraphicsSceneEvent =
+  addReqIncludes [includeStd "QGraphicsSceneEvent"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QScrollBar") Nothing [c_QAbstractSlider]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , mkCtor "newWithOrientation" [enumT e_Orientation]
-  , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
+  makeClass (ident "QGraphicsSceneEvent") Nothing [c_QEvent] $
+  [ mkConstMethod "widget" [] $ ptrT $ objT c_QWidget
   ]

@@ -38,7 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (boolT, objT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, objT, voidT, doubleT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF (c_QMarginsF)
@@ -64,6 +64,7 @@ c_QRectF =
   makeClass (ident "QRectF") Nothing [] $
   collect
   [ just $ mkCtor "newNull" []
+  , just $ mkCtor "newCoord" [doubleT, doubleT, doubleT, doubleT]
   , test (qtVersion >= [4, 3]) $ mkCtor "newFromPoints" [objT c_QPointF, objT c_QPointF]
   , just $ mkCtor "newWithPointAndSize" [objT c_QPointF, objT c_QSizeF]
   , just $ mkCtor "newWithRect" [objT c_QRect]

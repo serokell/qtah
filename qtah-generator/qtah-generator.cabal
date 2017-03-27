@@ -76,12 +76,14 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QString
     , Graphics.UI.Qtah.Generator.Interface.Core.QStringList
     , Graphics.UI.Qtah.Generator.Interface.Core.QStringListModel
+    , Graphics.UI.Qtah.Generator.Interface.Core.QTimer
     , Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QVariant
     , Graphics.UI.Qtah.Generator.Interface.Core.QVector
     , Graphics.UI.Qtah.Generator.Interface.Core.Types
     , Graphics.UI.Qtah.Generator.Interface.Gui
     , Graphics.UI.Qtah.Generator.Interface.Gui.QActionEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QBrush
     , Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard
     , Graphics.UI.Qtah.Generator.Interface.Gui.QCloseEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QColor
@@ -95,10 +97,14 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPainter
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPen
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF
     , Graphics.UI.Qtah.Generator.Interface.Gui.QRegion
     , Graphics.UI.Qtah.Generator.Interface.Gui.QShowEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QTransform
     , Graphics.UI.Qtah.Generator.Interface.Gui.QValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent
     , Graphics.UI.Qtah.Generator.Interface.Imports
@@ -106,8 +112,10 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Internal.Callback
     , Graphics.UI.Qtah.Generator.Interface.Internal.EventListener
     , Graphics.UI.Qtah.Generator.Interface.Internal.Listener
+    , Graphics.UI.Qtah.Generator.Interface.Internal.SceneEventListener
     , Graphics.UI.Qtah.Generator.Interface.Widgets
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSpinBox
@@ -124,6 +132,15 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsEllipseItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsPolygonItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsRectItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsScene
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneEvent
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneMouseEvent
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneWheelEvent
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QGridLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QGroupBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QHBoxLayout
