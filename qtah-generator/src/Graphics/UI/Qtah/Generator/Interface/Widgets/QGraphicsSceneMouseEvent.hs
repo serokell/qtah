@@ -65,7 +65,8 @@ c_QGraphicsSceneMouseEvent =
   , just $ mkConstMethod "buttonDownScenePos" [enumT e_MouseButton] $ objT c_QPointF
   , just $ mkConstMethod "buttonDownScreenPos" [enumT e_MouseButton] $ objT c_QPoint
   , just $ mkConstMethod "buttons" [] $ bitspaceT bs_MouseButtons
-  , test (qtVersion >= e_MouseEventFlag_version) $ mkConstMethod "flags" [] $ bitspaceT bs_MouseEventFlags
+  , test (qtVersion >= e_MouseEventFlag_version) $ mkConstMethod "flags" [] $
+      bitspaceT bs_MouseEventFlags
   , just $ mkConstMethod "lastPos" [] $ objT c_QPointF
   , just $ mkConstMethod "lastScenePos" [] $ objT c_QPointF
   , just $ mkConstMethod "lastScreenPos" [] $ objT c_QPoint
@@ -73,5 +74,6 @@ c_QGraphicsSceneMouseEvent =
   , just $ mkConstMethod "pos" [] $ objT c_QPointF
   , just $ mkConstMethod "scenePos" [] $ objT c_QPointF
   , just $ mkConstMethod "screenPos" [] $ objT c_QPoint
-  , test (qtVersion >= e_MouseEventSource_version) $ mkConstMethod "source" [] $ enumT e_MouseEventSource
+  , test (qtVersion >= e_MouseEventSource_version) $ mkConstMethod "source" [] $
+      enumT e_MouseEventSource
   ]

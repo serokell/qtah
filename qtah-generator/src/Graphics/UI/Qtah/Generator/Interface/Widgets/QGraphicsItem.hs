@@ -83,12 +83,16 @@ c_QGraphicsItem =
   , mkMethod "clearFocus" [] voidT
   , mkConstMethod "clipPath" [] $ objT c_QPainterPath
   , mkConstMethod "collidesWithItem" [ptrT $ constT $ objT c_QGraphicsItem] boolT
-  -- TODO mkConstMethod' "collidesWithItem" "collidesWithItemAll" [ptrT $ constT $ objT c_QGraphicsItem, objT c_Qt::ItemSelectionMode] boolT
+  -- TODO mkConstMethod' "collidesWithItem" "collidesWithItemAll"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_Qt::ItemSelectionMode] boolT
   , mkConstMethod "collidesWithPath" [objT c_QPainterPath] boolT
-  -- TODO mkConstMethod' "collidesWithPath" "collidesWithPathAll" [objT c_QPainterPath, objT c_Qt::ItemSelectionMode] boolT
+  -- TODO mkConstMethod' "collidesWithPath" "collidesWithPathAll"
+  --   [objT c_QPainterPath, objT c_Qt::ItemSelectionMode] boolT
   -- TODO mkConstMethod "collidingItems" [] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "collidingItems" "collidingItemsAll" [objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
-  , mkConstMethod "commonAncestorItem" [ptrT $ constT $ objT c_QGraphicsItem] $ ptrT $ objT c_QGraphicsItem
+  -- TODO mkConstMethod' "collidingItems" "collidingItemsAll"
+  --   [objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
+  , mkConstMethod "commonAncestorItem" [ptrT $ constT $ objT c_QGraphicsItem] $
+      ptrT $ objT c_QGraphicsItem
   , mkConstMethod "contains" [objT c_QPointF] boolT
   -- TODO mkConstMethod "cursor" [] $ objT c_QCursor
   -- TODO mkConstMethod "data" [intT] $ objT c_QVariant
@@ -96,8 +100,10 @@ c_QGraphicsItem =
   , mkConstMethod "effectiveOpacity" [] doubleT
   , mkMethod "ensureVisible" [] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRectFAll" [objT c_QRectF, intT, intT] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleRaw" [doubleT, doubleT, doubleT, doubleT] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleRawAll" [doubleT, doubleT, doubleT, doubleT, intT, intT] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleRaw"
+      [doubleT, doubleT, doubleT, doubleT] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleRawAll"
+      [doubleT, doubleT, doubleT, doubleT, intT, intT] voidT
   , mkConstMethod "filtersChildEvents" [] boolT
   -- TODO mkConstMethod "flags" [] $ objT c_GraphicsItemFlags
   , mkConstMethod "focusItem" [] $ ptrT $ objT c_QGraphicsItem
@@ -114,7 +120,8 @@ c_QGraphicsItem =
   , mkConstMethod "isActive" [] boolT
   , mkConstMethod "isAncestorOf" [ptrT $ constT $ objT c_QGraphicsItem] boolT
   , mkConstMethod "isBlockedByModalPanel" [] boolT
-  -- ! , mkConstMethod' "isBlockedByModalPanel" "isBlockedByModalPanelAll" [objT c_QGraphicsItem] boolT
+  , mkConstMethod' "isBlockedByModalPanel" "isBlockedByModalPanelAll"
+      [ptrT $ ptrT $ objT c_QGraphicsItem] boolT
   , mkConstMethod "isClipped" [] boolT
   , mkConstMethod "isEnabled" [] boolT
   , mkConstMethod "isObscured" [] boolT
@@ -128,61 +135,116 @@ c_QGraphicsItem =
   , mkConstMethod "isVisibleTo" [ptrT $ constT $ objT c_QGraphicsItem] boolT
   , mkConstMethod "isWidget" [] boolT
   , mkConstMethod "isWindow" [] boolT
-  -- TODO mkConstMethod "itemTransform" [ptrT $ constT $ objT c_QGraphicsItem] $ objT c_QTransform
-  -- TODO mkConstMethod' "itemTransform" "itemTransformAll" [ptrT $ constT $ objT c_QGraphicsItem, ptrT $ boolT] $ objT c_QTransform
-  -- TODO mkConstMethod' "mapFromItem" "mapFromItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPointF] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapFromItem" "mapFromItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromItem" "mapFromItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPolygonF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromItem" "mapFromItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPainterPath] $ objT c_QPainterPath
-  -- TODO mkConstMethod' "mapFromItem" "mapFromItem" [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromItem" "mapFromItem" [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapFromParent" "mapFromParent" [objT c_QPointF] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapFromParent" "mapFromParent" [objT c_QRectF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromParent" "mapFromParent" [objT c_QPolygonF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromParent" "mapFromParent" [objT c_QPainterPath] $ objT c_QPainterPath
-  -- TODO mkConstMethod' "mapFromParent" "mapFromParent" [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromParent" "mapFromParent" [doubleT, doubleT] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapFromScene" "mapFromScene" [objT c_QPointF] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapFromScene" "mapFromScene" [objT c_QRectF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromScene" "mapFromScene" [objT c_QPolygonF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromScene" "mapFromScene" [objT c_QPainterPath] $ objT c_QPainterPath
-  -- TODO mkConstMethod' "mapFromScene" "mapFromScene" [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapFromScene" "mapFromScene" [doubleT, doubleT] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapRectFromItem" "mapRectFromItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectFromItem" "mapRectFromItem" [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectFromParent" "mapRectFromParent" [objT c_QRectF] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectFromParent" "mapRectFromParent" [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectFromScene" "mapRectFromScene" [objT c_QRectF] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectFromScene" "mapRectFromScene" [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectToItem" "mapRectToItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectToItem" "mapRectToItem" [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectToParent" "mapRectToParent" [objT c_QRectF] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectToParent" "mapRectToParent" [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectToScene" "mapRectToScene" [objT c_QRectF] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapRectToScene" "mapRectToScene" [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
-  -- TODO mkConstMethod' "mapToItem" "mapToItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPointF] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapToItem" "mapToItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToItem" "mapToItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPolygonF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToItem" "mapToItem" [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPainterPath] $ objT c_QPainterPath
-  -- TODO mkConstMethod' "mapToItem" "mapToItem" [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToItem" "mapToItem" [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapToParent" "mapToParent" [objT c_QPointF] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapToParent" "mapToParent" [objT c_QRectF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToParent" "mapToParent" [objT c_QPolygonF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToParent" "mapToParent" [objT c_QPainterPath] $ objT c_QPainterPath
-  -- TODO mkConstMethod' "mapToParent" "mapToParent" [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToParent" "mapToParent" [doubleT, doubleT] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapToScene" "mapToScene" [objT c_QPointF] $ objT c_QPointF
-  -- TODO mkConstMethod' "mapToScene" "mapToScene" [objT c_QRectF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToScene" "mapToScene" [objT c_QPolygonF] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToScene" "mapToScene" [objT c_QPainterPath] $ objT c_QPainterPath
-  -- TODO mkConstMethod' "mapToScene" "mapToScene" [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
-  -- TODO mkConstMethod' "mapToScene" "mapToScene" [doubleT, doubleT] $ objT c_QPointF
+  -- TODO mkConstMethod "itemTransform" [ptrT $ constT $ objT c_QGraphicsItem] $
+  --   objT c_QTransform
+  -- TODO mkConstMethod' "itemTransform" "itemTransformAll"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, ptrT $ boolT] $ objT c_QTransform
+  -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPointF] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPolygonF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPainterPath] $ objT c_QPainterPath
+  -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
+  --   [objT c_QPointF] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
+  --   [objT c_QRectF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
+  --   [objT c_QPolygonF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
+  --   [objT c_QPainterPath] $ objT c_QPainterPath
+  -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
+  --   [doubleT, doubleT] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
+  --   [objT c_QPointF] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
+  --   [objT c_QRectF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
+  --   [objT c_QPolygonF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
+  --   [objT c_QPainterPath] $ objT c_QPainterPath
+  -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
+  --   [doubleT, doubleT] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapRectFromItem" "mapRectFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectFromItem" "mapRectFromItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectFromParent" "mapRectFromParent"
+  --   [objT c_QRectF] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectFromParent" "mapRectFromParent"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectFromScene" "mapRectFromScene"
+  --   [objT c_QRectF] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectFromScene" "mapRectFromScene"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectToItem" "mapRectToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectToItem" "mapRectToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectToParent" "mapRectToParent"
+  --   [objT c_QRectF] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectToParent" "mapRectToParent"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectToScene" "mapRectToScene"
+  --   [objT c_QRectF] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapRectToScene" "mapRectToScene"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  -- TODO mkConstMethod' "mapToItem" "mapToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPointF] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapToItem" "mapToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToItem" "mapToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPolygonF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToItem" "mapToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPainterPath] $ objT c_QPainterPath
+  -- TODO mkConstMethod' "mapToItem" "mapToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToItem" "mapToItem"
+  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapToParent" "mapToParent"
+  --   [objT c_QPointF] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapToParent" "mapToParent"
+  --   [objT c_QRectF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToParent" "mapToParent"
+  --   [objT c_QPolygonF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToParent" "mapToParent"
+  --   [objT c_QPainterPath] $ objT c_QPainterPath
+  -- TODO mkConstMethod' "mapToParent" "mapToParent"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToParent" "mapToParent"
+  --   [doubleT, doubleT] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapToScene" "mapToScene"
+  --   [objT c_QPointF] $ objT c_QPointF
+  -- TODO mkConstMethod' "mapToScene" "mapToScene"
+  --   [objT c_QRectF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToScene" "mapToScene"
+  --   [objT c_QPolygonF] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToScene" "mapToScene"
+  --   [objT c_QPainterPath] $ objT c_QPainterPath
+  -- TODO mkConstMethod' "mapToScene" "mapToScene"
+  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  -- TODO mkConstMethod' "mapToScene" "mapToScene"
+  --   [doubleT, doubleT] $ objT c_QPointF
   , mkMethod "moveBy" [doubleT, doubleT] voidT
   , mkConstMethod "opacity" [] doubleT
   , mkConstMethod "opaqueArea" [] $ objT c_QPainterPath
-  -- TODO mkMethod "paint" [ptrT $ objT c_QPainter, ptrT $ constT $ objT c_QStyleOptionGraphicsItem] voidT
-  -- TODO mkMethod' "paint" "paintAll" [ptrT $ objT c_QPainter, ptrT $ constT $ objT c_QStyleOptionGraphicsItem, ptrT $ objT c_QWidget] voidT
+  -- TODO mkMethod "paint"
+  --   [ptrT $ objT c_QPainter, ptrT $ constT $ objT c_QStyleOptionGraphicsItem] voidT
+  -- TODO mkMethod' "paint" "paintAll"
+  --   [ ptrT $ objT c_QPainter
+  --   , ptrT $ constT $ objT c_QStyleOptionGraphicsItem
+  --   , ptrT $ objT c_QWidget
+  --   ] voidT
   , mkConstMethod "panel" [] $ ptrT $ objT c_QGraphicsItem
   -- TODO mkConstMethod "panelModality" [] $ objT c_PanelModality
   , mkConstMethod "parentItem" [] $ ptrT $ objT c_QGraphicsItem
@@ -241,8 +303,10 @@ c_QGraphicsItem =
   , mkConstMethod "shape" [] $ objT c_QPainterPath
   , mkMethod "show" [] voidT
   , mkMethod "stackBefore" [ptrT $ constT $ objT c_QGraphicsItem] voidT
-  -- TODO mkMethod' "toGraphicsObject" "toGraphicsObject" [] $ ptrT $ objT c_QGraphicsObject
-  -- TODO mkConstMethod' "toGraphicsObject" "toGraphicsObject" [] $ ptrT $ constT $ objT c_QGraphicsObject
+  -- TODO mkMethod' "toGraphicsObject" "toGraphicsObject" [] $
+  --   ptrT $ objT c_QGraphicsObject
+  -- TODO mkConstMethod' "toGraphicsObject" "toGraphicsObject" [] $
+  --   ptrT $ constT $ objT c_QGraphicsObject
   , mkConstMethod "toolTip" [] $ objT c_QString
   , mkConstMethod "topLevelItem" [] $ ptrT $ objT c_QGraphicsItem
   -- TODO mkConstMethod "topLevelWidget" [] $ ptrT $ objT c_QGraphicsWidget
@@ -308,7 +372,8 @@ e_GraphicsItemChange =
   ]
 
 (e_GraphicsItemFlag, bs_GraphicsItemFlags) =
-  makeQtEnumBitspace (ident1 "QGraphicsItem" "GraphicsItemFlag") "GraphicsItemFlags" [includeStd "QGraphicsItem"] $
+  makeQtEnumBitspace (ident1 "QGraphicsItem" "GraphicsItemFlag") "GraphicsItemFlags"
+    [includeStd "QGraphicsItem"] $
   collect
   [ just $ (0x1, ["item","is","movable"])
   , just $ (0x2, ["item","is","selectable"])

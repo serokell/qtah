@@ -86,35 +86,56 @@ c_QGraphicsScene =
   , just $ mkCtor "newWithRaw" [doubleT, doubleT, doubleT, doubleT]
   , just $ mkConstMethod "activePanel" [] $ ptrT $ objT c_QGraphicsItem
   -- TODO mkConstMethod "activeWindow" [] $ ptrT $ objT c_QGraphicsWidget
-  , just $ mkMethod' "addEllipse" "addEllipseRectF" [objT c_QRectF] $ ptrT $ objT c_QGraphicsEllipseItem
-  , just $ mkMethod' "addEllipse" "addEllipseRectFAll" [objT c_QRectF, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsEllipseItem
-  , just $ mkMethod' "addEllipse" "addEllipseRaw" [doubleT, doubleT, doubleT, doubleT] $ ptrT $ objT c_QGraphicsEllipseItem
-  , just $ mkMethod' "addEllipse" "addEllipseRawAll" [doubleT, doubleT, doubleT, doubleT, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsEllipseItem
+  , just $ mkMethod' "addEllipse" "addEllipseRectF"
+      [objT c_QRectF] $ ptrT $ objT c_QGraphicsEllipseItem
+  , just $ mkMethod' "addEllipse" "addEllipseRectFAll"
+      [objT c_QRectF, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsEllipseItem
+  , just $ mkMethod' "addEllipse" "addEllipseRaw"
+      [doubleT, doubleT, doubleT, doubleT] $ ptrT $ objT c_QGraphicsEllipseItem
+  , just $ mkMethod' "addEllipse" "addEllipseRawAll"
+      [doubleT, doubleT, doubleT, doubleT, objT c_QPen, objT c_QBrush] $
+        ptrT $ objT c_QGraphicsEllipseItem
   , just $ mkMethod "addItem" [ptrT $ objT c_QGraphicsItem] voidT
-  -- TODO mkMethod' "addLine" "addLine" [objT c_QLineF] $ ptrT $ objT c_QGraphicsLineItem
-  -- TODO mkMethod' "addLine" "addLineAll" [objT c_QLineF, objT c_QPen] $ ptrT $ objT c_QGraphicsLineItem
-  -- TODO mkMethod' "addLine" "addLine" [doubleT, doubleT, doubleT, doubleT] $ ptrT $ objT c_QGraphicsLineItem
-  -- TODO mkMethod' "addLine" "addLineAll" [doubleT, doubleT, doubleT, doubleT, objT c_QPen] $ ptrT $ objT c_QGraphicsLineItem
+  -- TODO mkMethod' "addLine" "addLine" [objT c_QLineF] $
+  --   ptrT $ objT c_QGraphicsLineItem
+  -- TODO mkMethod' "addLine" "addLineAll" [objT c_QLineF, objT c_QPen] $
+  --   ptrT $ objT c_QGraphicsLineItem
+  -- TODO mkMethod' "addLine" "addLine" [doubleT, doubleT, doubleT, doubleT] $
+  --   ptrT $ objT c_QGraphicsLineItem
+  -- TODO mkMethod' "addLine" "addLineAll" [doubleT, doubleT, doubleT, doubleT, objT c_QPen] $
+  --   ptrT $ objT c_QGraphicsLineItem
   -- TODO mkMethod "addPath" [objT c_QPainterPath] $ ptrT $ objT c_QGraphicsPathItem
-  -- TODO mkMethod' "addPath" "addPathAll" [objT c_QPainterPath, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsPathItem
+  -- TODO mkMethod' "addPath" "addPathAll" [objT c_QPainterPath, objT c_QPen, objT c_QBrush] $
+  --   ptrT $ objT c_QGraphicsPathItem
   -- TODO mkMethod "addPixmap" [objT c_QPixmap] $ ptrT $ objT c_QGraphicsPixmapItem
   , just $ mkMethod "addPolygon" [objT c_QPolygonF] $ ptrT $ objT c_QGraphicsPolygonItem
-  , just $ mkMethod' "addPolygon" "addPolygonAll" [objT c_QPolygonF, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsPolygonItem
+  , just $ mkMethod' "addPolygon" "addPolygonAll" [objT c_QPolygonF, objT c_QPen, objT c_QBrush] $
+      ptrT $ objT c_QGraphicsPolygonItem
   , just $ mkMethod "addRect" [objT c_QRectF] $ ptrT $ objT c_QGraphicsRectItem
-  , just $ mkMethod' "addRect" "addRectAll" [objT c_QRectF, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsRectItem
-  , just $ mkMethod' "addRect" "addRectRaw" [doubleT, doubleT, doubleT, doubleT] $ ptrT $ objT c_QGraphicsRectItem
-  , just $ mkMethod' "addRect" "addRectRawAll" [doubleT, doubleT, doubleT, doubleT, objT c_QPen, objT c_QBrush] $ ptrT $ objT c_QGraphicsRectItem
+  , just $ mkMethod' "addRect" "addRectAll" [objT c_QRectF, objT c_QPen, objT c_QBrush] $
+      ptrT $ objT c_QGraphicsRectItem
+  , just $ mkMethod' "addRect" "addRectRaw" [doubleT, doubleT, doubleT, doubleT] $
+      ptrT $ objT c_QGraphicsRectItem
+  , just $ mkMethod' "addRect" "addRectRawAll"
+      [doubleT, doubleT, doubleT, doubleT, objT c_QPen, objT c_QBrush] $
+        ptrT $ objT c_QGraphicsRectItem
   -- TODO mkMethod "addSimpleText" [objT c_QString] $ ptrT $ objT c_QGraphicsSimpleTextItem
-  -- TODO mkMethod' "addSimpleText" "addSimpleTextAll" [objT c_QString, objT c_QFont] $ ptrT $ objT c_QGraphicsSimpleTextItem
+  -- TODO mkMethod' "addSimpleText" "addSimpleTextAll" [objT c_QString, objT c_QFont] $
+  --   ptrT $ objT c_QGraphicsSimpleTextItem
   -- TODO mkMethod "addText" [objT c_QString] $ ptrT $ objT c_QGraphicsTextItem
-  -- TODO mkMethod' "addText" "addTextAll" [objT c_QString, objT c_QFont] $ ptrT $ objT c_QGraphicsTextItem
+  -- TODO mkMethod' "addText" "addTextAll" [objT c_QString, objT c_QFont] $
+  --   ptrT $ objT c_QGraphicsTextItem
   -- TODO mkMethod "addWidget" [ptrT $ objT c_QWidget] $ ptrT $ objT c_QGraphicsProxyWidget
-  -- TODO mkMethod' "addWidget" "addWidgetAll" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags] $ ptrT $ objT c_QGraphicsProxyWidget
+  -- TODO mkMethod' "addWidget" "addWidgetAll" [ptrT $ objT c_QWidget, bitspaceT bs_WindowFlags] $
+  --   ptrT $ objT c_QGraphicsProxyWidget
   , just $ mkConstMethod "backgroundBrush" [] $ objT c_QBrush
   , just $ mkConstMethod "bspTreeDepth" [] intT
   , just $ mkMethod "clearFocus" [] voidT
-  -- TODO mkConstMethod "collidingItems" [ptrT $ objT c_QGraphicsItem] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "collidingItems" "collidingItemsAll" [ptrT $ objT c_QGraphicsItem, objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod "collidingItems" [ptrT $ objT c_QGraphicsItem] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "collidingItems" "collidingItemsAll"
+  --   [ptrT $ objT c_QGraphicsItem, objT c_Qt::ItemSelectionMode] $
+  --     objT c_QList<QGraphicsItem $ objT c_*>
   -- TODO mkMethod "createItemGroup" [objT c_QList<QGraphicsItem] $ ptrT $ objT c_QGraphicsItemGroup
   -- TODO mkMethod "destroyItemGroup" [ptrT $ objT c_QGraphicsItemGroup] voidT
   , just $ mkConstMethod "focusItem" [] $ ptrT $ objT c_QGraphicsItem
@@ -124,30 +145,53 @@ c_QGraphicsScene =
   , just $ mkConstMethod "height" [] doubleT
   -- TODO mkConstMethod "inputMethodQuery" [objT c_Qt::InputMethodQuery] $ objT c_QVariant
   , just $ mkMethod "invalidate" [doubleT, doubleT, doubleT, doubleT] voidT
-  -- TODO mkMethod' "invalidate" "invalidateAll" [doubleT, doubleT, doubleT, doubleT, objT c_SceneLayers] voidT
+  -- TODO mkMethod' "invalidate" "invalidateAll"
+  --   [doubleT, doubleT, doubleT, doubleT, objT c_SceneLayers] voidT
   , just $ mkConstMethod "isActive" [] boolT
-  , just $ mkConstMethod' "itemAt" "itemAtPointF" [objT c_QPointF, objT c_QTransform] $ ptrT $ objT c_QGraphicsItem
-  , just $ mkConstMethod' "itemAt" "itemAtRaw" [doubleT, doubleT, objT c_QTransform] $ ptrT $ objT c_QGraphicsItem
+  , just $ mkConstMethod' "itemAt" "itemAtPointF" [objT c_QPointF, objT c_QTransform] $
+      ptrT $ objT c_QGraphicsItem
+  , just $ mkConstMethod' "itemAt" "itemAtRaw" [doubleT, doubleT, objT c_QTransform] $
+      ptrT $ objT c_QGraphicsItem
   -- TODO mkConstMethod "itemIndexMethod" [] $ objT c_ItemIndexMethod
   -- TODO mkConstMethod' "items" "items" [] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "itemsAll" [enumT e_SortOrder] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "items" [objT c_QPointF] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "itemsAll" [objT c_QPointF, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "items" [objT c_QRectF] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "itemsAll" [objT c_QRectF, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "items" [objT c_QPolygonF] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "itemsAll" [objT c_QPolygonF, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "items" [objT c_QPainterPath] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "itemsAll" [objT c_QPainterPath, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "items" [doubleT, doubleT, doubleT, doubleT, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod' "items" "itemsAll" [doubleT, doubleT, doubleT, doubleT, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $ objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "itemsAll" [enumT e_SortOrder] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "items" [objT c_QPointF] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "itemsAll"
+  --   [objT c_QPointF, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $
+  --     objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "items" [objT c_QRectF] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "itemsAll"
+  --   [objT c_QRectF, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $
+  --     objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "items" [objT c_QPolygonF] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "itemsAll"
+  --   [objT c_QPolygonF, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder, objT c_QTransform] $
+  --     objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "items" [objT c_QPainterPath] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "itemsAll"
+  --   [objT c_QPainterPath, objT c_Qt::ItemSelectionMode
+  --   , objT c_Qt::SortOrder, objT c_QTransform
+  --   ] $ objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "items"
+  --   [doubleT, doubleT, doubleT, doubleT, objT c_Qt::ItemSelectionMode, objT c_Qt::SortOrder] $
+  --     objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod' "items" "itemsAll"
+  --   [ doubleT, doubleT, doubleT, doubleT, objT c_Qt::ItemSelectionMode
+  --   , objT c_Qt::SortOrder, objT c_QTransform
+  --   ] $ objT c_QList<QGraphicsItem $ objT c_*>
   , just $ mkConstMethod "itemsBoundingRect" [] $ objT c_QRectF
   , test (qtVersion >= [5, 4]) $ mkConstMethod "minimumRenderSize" [] doubleT
   , just $ mkConstMethod "mouseGrabberItem" [] $ ptrT $ objT c_QGraphicsItem
   -- TODO mkConstMethod "palette" [] $ objT c_QPalette
   , just $ mkMethod "removeItem" [ptrT $ objT c_QGraphicsItem] voidT
   -- TODO mkMethod "render" [ptrT $ objT c_QPainter] voidT
-  -- TODO mkMethod' "render" "renderAll" [ptrT $ objT c_QPainter, objT c_QRectF, objT c_QRectF, enumT e_AspectRatioMode] voidT
+  -- TODO mkMethod' "render" "renderAll"
+  --   [ptrT $ objT c_QPainter, objT c_QRectF, objT c_QRectF, enumT e_AspectRatioMode] voidT
   , just $ mkConstMethod "sceneRect" [] $ objT c_QRectF
   -- TODO mkConstMethod "selectedItems" [] $ objT c_QList<QGraphicsItem $ objT c_*>
   , just $ mkConstMethod "selectionArea" [] $ objT c_QPainterPath
@@ -159,7 +203,8 @@ c_QGraphicsScene =
   , just $ mkMethod "setFocus" [] voidT
   , just $ mkMethod' "setFocus" "setFocusAll" [enumT e_FocusReason] voidT
   , just $ mkMethod "setFocusItem" [ptrT $ objT c_QGraphicsItem] voidT
-  , just $ mkMethod' "setFocusItem" "setFocusItemAll" [ptrT $ objT c_QGraphicsItem, enumT e_FocusReason] voidT
+  , just $ mkMethod' "setFocusItem" "setFocusItemAll"
+      [ptrT $ objT c_QGraphicsItem, enumT e_FocusReason] voidT
   -- TODO mkMethod "setFont" [objT c_QFont] voidT
   , just $ mkMethod "setForegroundBrush" [objT c_QBrush] voidT
   -- TODO mkMethod "setItemIndexMethod" [objT c_ItemIndexMethod] voidT
@@ -167,11 +212,17 @@ c_QGraphicsScene =
   -- TODO mkMethod "setPalette" [objT c_QPalette] voidT
   , just $ mkMethod "setSceneRect" [objT c_QRectF] voidT
   , just $ mkMethod' "setSceneRect" "setSceneRectRaw" [doubleT, doubleT, doubleT, doubleT] voidT
-  , test (qtVersion >= [5, 5]) $ mkMethod' "setSelectionArea" "setSelectionAreaTransform" [objT c_QPainterPath, objT c_QTransform] voidT
+  , test (qtVersion >= [5, 5]) $ mkMethod' "setSelectionArea" "setSelectionAreaTransform"
+      [objT c_QPainterPath, objT c_QTransform] voidT
   , test (qtVersion >= [5, 5]) $ mkMethod "setSelectionArea" [objT c_QPainterPath] voidT
-  -- TODO mkMethod' "setSelectionArea" "setSelectionAreaAll" [objT c_QPainterPath, objT c_Qt::ItemSelectionMode, objT c_QTransform] voidT
-  -- TODO mkMethod' "setSelectionArea" "setSelectionArea" [objT c_QPainterPath, objT c_Qt::ItemSelectionOperation] voidT
-  -- TODO mkMethod' "setSelectionArea" "setSelectionAreaAll" [objT c_QPainterPath, objT c_Qt::ItemSelectionOperation, objT c_Qt::ItemSelectionMode, objT c_QTransform] voidT
+  -- TODO mkMethod' "setSelectionArea" "setSelectionAreaAll"
+  --   [objT c_QPainterPath, objT c_Qt::ItemSelectionMode, objT c_QTransform] voidT
+  -- TODO mkMethod' "setSelectionArea" "setSelectionArea"
+  --   [objT c_QPainterPath, objT c_Qt::ItemSelectionOperation] voidT
+  -- TODO mkMethod' "setSelectionArea" "setSelectionAreaAll"
+  --   [ objT c_QPainterPath, objT c_Qt::ItemSelectionOperation
+  --   , objT c_Qt::ItemSelectionMode, objT c_QTransform
+  --   ] voidT
   , just $ mkMethod "setStickyFocus" [boolT] voidT
   -- TODO mkMethod "setStyle" [ptrT $ objT c_QStyle] voidT
   , just $ mkConstMethod "stickyFocus" [] boolT
@@ -182,13 +233,15 @@ c_QGraphicsScene =
   ]
 
 e_ItemIndexMethod =
-  makeQtEnum (ident1 "QGraphicsScene" "ItemIndexMethod") [includeStd "QGraphicsScene"]
+  makeQtEnum (ident1 "QGraphicsScene" "ItemIndexMethod")
+    [includeStd "QGraphicsScene"]
   [ (0, ["bsp","tree","index"])
   , (-1, ["no","index"])
   ]
 
 (e_SceneLayer, bs_SceneLayers) =
-  makeQtEnumBitspace (ident1 "QGraphicsView" "SceneLayer") "SceneLayers" [includeStd "QGraphicsView"]
+  makeQtEnumBitspace (ident1 "QGraphicsView" "SceneLayer") "SceneLayers"
+    [includeStd "QGraphicsView"]
   [ (0x1, ["item","layer"])
   , (0x2, ["background","layer"])
   , (0x4, ["foreground","layer"])

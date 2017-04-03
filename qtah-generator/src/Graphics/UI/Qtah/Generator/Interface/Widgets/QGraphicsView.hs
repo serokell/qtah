@@ -41,7 +41,17 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod',
   mkCtor
   )
-import Foreign.Hoppy.Generator.Types (objT, constT, ptrT, intT, voidT, enumT, boolT, doubleT, bitspaceT)
+import Foreign.Hoppy.Generator.Types (
+  objT,
+  constT,
+  ptrT,
+  intT,
+  voidT,
+  enumT,
+  boolT,
+  doubleT,
+  bitspaceT,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Core.Types hiding (aModule)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPointF (c_QPointF)
@@ -94,17 +104,24 @@ c_QGraphicsView =
   , mkMethod' "centerOn" "centerOnItem" [ptrT $ constT $ objT c_QGraphicsItem] voidT
   , mkConstMethod "dragMode" [] $ enumT e_DragMode
   , mkMethod' "ensureVisible" "ensureVisibleRectF" [objT c_QRectF] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleRaw" [doubleT, doubleT, doubleT, doubleT] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleItem" [ptrT $ constT $ objT c_QGraphicsItem] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleRectFAll" [objT c_QRectF, intT, intT] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleRawAll" [doubleT, doubleT, doubleT, doubleT, intT, intT] voidT
-  , mkMethod' "ensureVisible" "ensureVisibleItemAll" [ptrT $ constT $ objT c_QGraphicsItem, intT, intT] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleRaw"
+      [doubleT, doubleT, doubleT, doubleT] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleItem"
+      [ptrT $ constT $ objT c_QGraphicsItem] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleRectFAll"
+      [objT c_QRectF, intT, intT] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleRawAll"
+      [doubleT, doubleT, doubleT, doubleT, intT, intT] voidT
+  , mkMethod' "ensureVisible" "ensureVisibleItemAll"
+      [ptrT $ constT $ objT c_QGraphicsItem, intT, intT] voidT
   , mkMethod' "fitInView" "fitInViewRectF" [objT c_QRectF] voidT
   , mkMethod' "fitInView" "fitInViewRect" [doubleT, doubleT, doubleT, doubleT] voidT
   , mkMethod' "fitInView" "fitInViewItem" [ptrT $ constT $ objT c_QGraphicsItem] voidT
   , mkMethod' "fitInView" "fitInViewRectFAll" [objT c_QRectF, enumT e_AspectRatioMode] voidT
-  , mkMethod' "fitInView" "fitInViewRectAll" [doubleT, doubleT, doubleT, doubleT, enumT e_AspectRatioMode] voidT
-  , mkMethod' "fitInView" "fitInViewItemAll" [ptrT $ constT $ objT c_QGraphicsItem, enumT e_AspectRatioMode] voidT
+  , mkMethod' "fitInView" "fitInViewRectAll"
+      [doubleT, doubleT, doubleT, doubleT, enumT e_AspectRatioMode] voidT
+  , mkMethod' "fitInView" "fitInViewItemAll"
+      [ptrT $ constT $ objT c_QGraphicsItem, enumT e_AspectRatioMode] voidT
   , mkConstMethod "foregroundBrush" [] $ objT c_QBrush
   , mkConstMethod "isInteractive" [] boolT
   , mkConstMethod "isTransformed" [] boolT
@@ -113,26 +130,43 @@ c_QGraphicsView =
   -- TODO mkConstMethod "items" [] $ objT c_QList<QGraphicsItem $ objT c_*>
   -- TODO mkConstMethod "items" [objT c_QPoint] $ objT c_QList<QGraphicsItem $ objT c_*>
   -- TODO mkConstMethod "items" [intT, intT] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod "items" [intT, intT, intT, intT, objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod "items" [objT c_QRect, objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod "items" [objT c_QPolygon, objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
-  -- TODO mkConstMethod "items" [objT c_QPainterPath, objT c_Qt::ItemSelectionMode] $ objT c_QList<QGraphicsItem $ objT c_*>
-  , mkConstMethod' "mapFromScene" "mapFromScenePointF" [objT c_QPointF] $ objT c_QPoint
-  , mkConstMethod' "mapFromScene" "mapFromSceneRectF" [objT c_QRectF] $ objT c_QPolygon
-  , mkConstMethod' "mapFromScene" "mapFromScenePolygonF" [objT c_QPolygonF] $ objT c_QPolygon
-  , mkConstMethod' "mapFromScene" "mapFromScenePainterPath" [objT c_QPainterPath] $ objT c_QPainterPath
-  , mkConstMethod' "mapFromScene" "mapFromScenePointFRaw" [doubleT, doubleT] $ objT c_QPoint
-  , mkConstMethod' "mapFromScene" "mapFromSceneRectFRaw" [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygon
-  , mkConstMethod' "mapToScene" "mapToScenePoint" [objT c_QPoint] $ objT c_QPointF
-  , mkConstMethod' "mapToScene" "mapToSceneRect" [objT c_QRect] $ objT c_QPolygonF
-  , mkConstMethod' "mapToScene" "mapToScenePolygon" [objT c_QPolygon] $ objT c_QPolygonF
-  , mkConstMethod' "mapToScene" "mapToScenePainterPath" [objT c_QPainterPath] $ objT c_QPainterPath
-  , mkConstMethod' "mapToScene" "mapToScenePointRaw" [intT, intT] $ objT c_QPointF
-  , mkConstMethod' "mapToScene" "mapToSceneRectRaw" [intT, intT, intT, intT] $ objT c_QPolygonF
+  -- TODO mkConstMethod "items" [intT, intT, intT, intT, objT c_Qt::ItemSelectionMode] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod "items" [objT c_QRect, objT c_Qt::ItemSelectionMode] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod "items" [objT c_QPolygon, objT c_Qt::ItemSelectionMode] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  -- TODO mkConstMethod "items" [objT c_QPainterPath, objT c_Qt::ItemSelectionMode] $
+  --   objT c_QList<QGraphicsItem $ objT c_*>
+  , mkConstMethod' "mapFromScene" "mapFromScenePointF"
+      [objT c_QPointF] $ objT c_QPoint
+  , mkConstMethod' "mapFromScene" "mapFromSceneRectF"
+      [objT c_QRectF] $ objT c_QPolygon
+  , mkConstMethod' "mapFromScene" "mapFromScenePolygonF"
+      [objT c_QPolygonF] $ objT c_QPolygon
+  , mkConstMethod' "mapFromScene" "mapFromScenePainterPath"
+      [objT c_QPainterPath] $ objT c_QPainterPath
+  , mkConstMethod' "mapFromScene" "mapFromScenePointFRaw"
+      [doubleT, doubleT] $ objT c_QPoint
+  , mkConstMethod' "mapFromScene" "mapFromSceneRectFRaw"
+      [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygon
+  , mkConstMethod' "mapToScene" "mapToScenePoint"
+      [objT c_QPoint] $ objT c_QPointF
+  , mkConstMethod' "mapToScene" "mapToSceneRect"
+      [objT c_QRect] $ objT c_QPolygonF
+  , mkConstMethod' "mapToScene" "mapToScenePolygon"
+      [objT c_QPolygon] $ objT c_QPolygonF
+  , mkConstMethod' "mapToScene" "mapToScenePainterPath"
+      [objT c_QPainterPath] $ objT c_QPainterPath
+  , mkConstMethod' "mapToScene" "mapToScenePointRaw"
+      [intT, intT] $ objT c_QPointF
+  , mkConstMethod' "mapToScene" "mapToSceneRectRaw"
+      [intT, intT, intT, intT] $ objT c_QPolygonF
   -- TODO mkConstMethod "matrix" [] $ objT c_QMatrix
   , mkConstMethod "optimizationFlags" [] $ bitspaceT bs_OptimizationFlags
   , mkMethod "render" [ptrT $ objT c_QPainter] voidT
-  , mkMethod' "render" "renderAll" [ptrT $ objT c_QPainter, objT c_QRectF, objT c_QRect, enumT e_AspectRatioMode] voidT
+  , mkMethod' "render" "renderAll"
+      [ptrT $ objT c_QPainter, objT c_QRectF, objT c_QRect, enumT e_AspectRatioMode] voidT
   , mkConstMethod "renderHints" [] $ bitspaceT bs_RenderHints
   , mkMethod "resetCachedContent" [] voidT
   , mkMethod "resetMatrix" [] voidT
@@ -174,7 +208,8 @@ c_QGraphicsView =
   ]
 
 (e_CacheModeFlag, bs_CacheMode) =
-  makeQtEnumBitspace (ident1 "QGraphicsView" "CacheModeFlag") "CacheMode" [includeStd "QGraphicsView"]
+  makeQtEnumBitspace (ident1 "QGraphicsView" "CacheModeFlag") "CacheMode"
+    [includeStd "QGraphicsView"]
   [ (0x0, ["cache","none"])
   , (0x1, ["cache","background"])
   ]
@@ -187,7 +222,8 @@ e_DragMode =
   ]
 
 (e_OptimizationFlag, bs_OptimizationFlags) =
-  makeQtEnumBitspace (ident1 "QGraphicsView" "OptimizationFlag") "OptimizationFlags" [includeStd "QGraphicsView"]
+  makeQtEnumBitspace (ident1 "QGraphicsView" "OptimizationFlag") "OptimizationFlags"
+    [includeStd "QGraphicsView"]
   [ (0x1, ["dont","clip","painter"])
   , (0x2, ["dont","save","painter","state"])
   , (0x4, ["dont","adjust","for","antialiasing"])
@@ -195,14 +231,16 @@ e_DragMode =
   ]
 
 e_ViewportAnchor =
-  makeQtEnum (ident1 "QGraphicsView" "ViewportAnchor") [includeStd "QGraphicsView"]
+  makeQtEnum (ident1 "QGraphicsView" "ViewportAnchor")
+    [includeStd "QGraphicsView"]
   [ (0, ["no", "anchor"])
   , (1, ["anchor", "view", "center"])
   , (2, ["anchor", "under", "mouse"])
   ]
 
 e_ViewportUpdateMode =
-  makeQtEnum (ident1 "QGraphicsView" "ViewportUpdateMode") [includeStd "QGraphicsView"]
+  makeQtEnum (ident1 "QGraphicsView" "ViewportUpdateMode")
+    [includeStd "QGraphicsView"]
   [ (0, ["full","viewport","update"])
   , (1, ["minimal","viewport","update"])
   , (2, ["smart","viewport","update"])
@@ -213,8 +251,12 @@ e_ViewportUpdateMode =
 -- Methods with optional arguments that weren't handled properly in the bindings above
 -- (i.e. `foo` + `fooAll`).
 {-
-QList<QGraphicsItem *>  items(int x, int y, int w, int h, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
-QList<QGraphicsItem *>  items(const QRect & rect, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
-QList<QGraphicsItem *>  items(const QPolygon & polygon, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
-QList<QGraphicsItem *>  items(const QPainterPath & path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
+QList<QGraphicsItem *>  items
+  (int x, int y, int w, int h, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
+QList<QGraphicsItem *>  items
+  (const QRect & rect, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
+QList<QGraphicsItem *>  items
+  (const QPolygon & polygon, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
+QList<QGraphicsItem *>  items
+  (const QPainterPath & path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
 -}

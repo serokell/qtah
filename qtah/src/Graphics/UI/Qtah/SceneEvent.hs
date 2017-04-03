@@ -74,7 +74,8 @@ type SceneEventFilter = QGraphicsItem -> QEvent -> IO Bool
 -- 'unregister' is called.
 --
 -- This function uses 'QGraphicsItem.installSceneEventFilter' under the hood.
-onAnySceneEvent :: QGraphicsItemPtr target => target -> SceneEventFilter -> IO SceneEventRegistration
+onAnySceneEvent :: QGraphicsItemPtr target =>
+  target -> SceneEventFilter -> IO SceneEventRegistration
 onAnySceneEvent receiver filter = internalOnSceneEvent receiver nullPtr filter
 
 -- | Internal function, do not use outside of Qtah.
@@ -82,7 +83,8 @@ onAnySceneEvent receiver filter = internalOnSceneEvent receiver nullPtr filter
 -- Implements 'onAnySceneEvent'.  Also takes a pointer to an @int@ that is passed to
 -- the underlying 'SceneEventListener.SceneEventListener' object to be set to 1 when the
 -- listener is deleted.  This is used for testing purposes.
-internalOnSceneEvent :: QGraphicsItemPtr target => target -> Ptr CInt -> SceneEventFilter -> IO SceneEventRegistration
+internalOnSceneEvent :: QGraphicsItemPtr target =>
+  target -> Ptr CInt -> SceneEventFilter -> IO SceneEventRegistration
 internalOnSceneEvent receiver deletedPtr filter = do
   listener <- SceneEventListener.new filter deletedPtr
   activeVar <- newMVar True

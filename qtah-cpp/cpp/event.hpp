@@ -59,7 +59,8 @@ public:
     }
 
     virtual QRectF boundingRect() const { return QRectF(); }
-    virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0) { return; }
+    virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option,
+                           QWidget * widget = 0) { return; }
 
     virtual bool sceneEventFilter(QGraphicsItem* receiver, QEvent* event) {
         return callback_(receiver, event);
