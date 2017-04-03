@@ -49,9 +49,7 @@ c_QAbstractGraphicsShapeItem =
   addReqIncludes [includeStd "QAbstractGraphicsShapeItem"] $
   classSetEntityPrefix "" $
   makeClass (ident "QAbstractGraphicsShapeItem") Nothing [c_QGraphicsItem]
-  [ {-mkConstMethod "isObscuredBy" [ptrT . constT . objT $ c_QGraphicsItem] boolT
-  , mkConstMethod "opaqueArea" [] $ objT c_QPainterPath-}
-    mkConstMethod "brush" [] $ objT c_QBrush
+  [ mkConstMethod "brush" [] $ objT c_QBrush
   , mkConstMethod "pen" [] $ objT c_QPen
   , mkMethod "setBrush" [objT c_QBrush] voidT
   , mkMethod "setPen" [objT c_QPen] voidT
