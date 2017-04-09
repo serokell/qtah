@@ -100,7 +100,8 @@ main = defaultMainWithHooks qtahHooks
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [generatorProgram, listenerGenProgram, makeProgram]
-  , postConf = \_ cf _ lbi -> do generateSources cf lbi
+  , postConf = \args cf pd lbi -> do generateSources cf lbi
+                                     postConf simpleUserHooks args cf pd lbi
   , buildHook = \pd lbi uh bf -> do doBuild lbi bf
                                     buildHook simpleUserHooks pd lbi uh bf
   , copyHook = \pd lbi uh cf -> do let verbosity = fromFlagOrDefault normal $ copyVerbosity cf

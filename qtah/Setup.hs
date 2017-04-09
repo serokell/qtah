@@ -106,9 +106,10 @@ main = defaultMainWithHooks qtahHooks
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [generatorProgram]
-  , postConf = \_ cf _ lbi -> do libDir <- lookupQtahCppLibDir lbi
-                                 storeQtahCppLibDir libDir
-                                 generateSources cf lbi libDir
+  , postConf = \args cf pd lbi -> do libDir <- lookupQtahCppLibDir lbi
+                                     storeQtahCppLibDir libDir
+                                     generateSources cf lbi libDir
+                                     postConf simpleUserHooks args cf pd lbi
   , preBuild = \_ _ -> addLibDir
   , preTest = \_ _ -> addLibDir
   , preCopy = \_ _ -> addLibDir  -- Not sure if necessary, but doesn't hurt.
