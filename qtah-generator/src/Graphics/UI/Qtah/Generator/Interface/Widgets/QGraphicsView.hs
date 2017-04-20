@@ -67,6 +67,7 @@ import Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath (c_QPainterPath)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsItem)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsScene (c_QGraphicsScene)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -94,8 +95,8 @@ c_QGraphicsView =
   makeClass (ident "QGraphicsView") Nothing [c_QAbstractScrollArea]
   [ mkCtor "new" []
   , mkCtor "newWithScene" [ptrT $ objT c_QGraphicsScene]
-  , mkCtor "newWithParent" [ptrT $ objT c_QAbstractScrollArea]
-  , mkCtor "newWithSceneAndParent" [ptrT $ objT c_QGraphicsScene, ptrT $ objT c_QAbstractScrollArea]
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithSceneAndParent" [ptrT $ objT c_QGraphicsScene, ptrT $ objT c_QWidget]
   , mkConstMethod "alignment" [] $ bitspaceT bs_Alignment
   , mkConstMethod "backgroundBrush" [] $ objT c_QBrush
   , mkConstMethod "cacheMode" [] $ bitspaceT bs_CacheMode
