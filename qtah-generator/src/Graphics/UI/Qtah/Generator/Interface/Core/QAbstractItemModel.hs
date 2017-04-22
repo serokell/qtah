@@ -108,10 +108,14 @@ c_QAbstractItemModel =
     -- TODO match
     -- TODO mimeData
     -- TODO mimeTypes
-  , just $ mkMethod "moveColumn" [objT c_QModelIndex, intT, objT c_QModelIndex, intT] boolT
-  , just $ mkMethod "moveColumns" [objT c_QModelIndex, intT, intT, objT c_QModelIndex, intT] boolT
-  , just $ mkMethod "moveRow" [objT c_QModelIndex, intT, objT c_QModelIndex, intT] boolT
-  , just $ mkMethod "moveRows" [objT c_QModelIndex, intT, intT, objT c_QModelIndex, intT] boolT
+  , test (qtVersion >= [5, 0]) $ mkMethod "moveColumn"
+    [objT c_QModelIndex, intT, objT c_QModelIndex, intT] boolT
+  , test (qtVersion >= [5, 0]) $ mkMethod "moveColumns"
+    [objT c_QModelIndex, intT, intT, objT c_QModelIndex, intT] boolT
+  , test (qtVersion >= [5, 0]) $ mkMethod "moveRow"
+    [objT c_QModelIndex, intT, objT c_QModelIndex, intT] boolT
+  , test (qtVersion >= [5, 0]) $ mkMethod "moveRows"
+    [objT c_QModelIndex, intT, intT, objT c_QModelIndex, intT] boolT
   , just $ mkConstMethod "parent" [objT c_QModelIndex] $ objT c_QModelIndex
   , just $ mkMethod' "removeColumn" "removeColumn" [intT] boolT
   , just $ mkMethod' "removeColumn" "removeColumnAt" [intT, objT c_QModelIndex] boolT
