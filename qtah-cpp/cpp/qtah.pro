@@ -38,8 +38,5 @@ HEADERS += \
     event.hpp \
     listener.hpp
 
-isEmpty( PREFIX ) {
-  PREFIX=/usr/local
-}
-target.path = $${PREFIX}/lib
+target.path = /
 INSTALLS += target

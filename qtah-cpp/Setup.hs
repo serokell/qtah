@@ -18,7 +18,7 @@
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
 
 import Control.Applicative ((<|>))
-import Control.Monad (forM_, unless, when)
+import Control.Monad (unless, when)
 import Data.Char (isDigit)
 import Data.List (isPrefixOf, isSuffixOf)
 import Data.Maybe (fromMaybe)
@@ -70,7 +70,6 @@ import Distribution.Simple.UserHooks (
 import Distribution.Simple.Utils (
   die,
   info,
-  installExecutableFile,
   installOrdinaryFile,
   notice,
   warn,
@@ -84,10 +83,8 @@ import System.Directory (
   setCurrentDirectory,
   removeFile,
   )
-import System.IO.Error (catchIOError, isDoesNotExistError)
 import System.Environment (lookupEnv, setEnv)
 import System.FilePath ((</>), takeDirectory)
-import System.Posix (createSymbolicLink, getSymbolicLinkStatus)
 import System.Process (callProcess)
 
 packageName :: String
@@ -185,33 +182,20 @@ doBuild localBuildInfo buildFlags = do
                  ", expected a positive integer."]
               return ([], "")
 
-  setCurrentDirectory cppSourceDir
   notice verbosity $ concat ["Building the Qtah C++ library", jobMsg, "..."]
-  runDbProgram verbosity makeProgram programDb makeArgs
-
-  setCurrentDirectory startDir
+  runDbProgram verbosity makeProgram programDb $ "-C" : cppSourceDir : makeArgs
 
 doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
 doInstall verbosity packageDesc localBuildInfo copyDest = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
+      programDb = withPrograms localBuildInfo
 
-  -- Install the built library into the package's libdir.
-  createDirectoryIfMissing True libDir
-  forM_ ["libqtah.so", "libqtah.so.0", "libqtah.so.0.2", "libqtah.so.0.2.0"] $ \p -> do
-    let path = libDir </> p
-    shouldDelete <-
-      catchIOError (do _ <- getSymbolicLinkStatus path
-                       return True)
-      (\e -> if isDoesNotExistError e then return False else ioError e)
-    when shouldDelete $ removeFile path
-  installExecutableFile verbosity
-                        (cppSourceDir </> "libqtah.so.0.2.0")
-                        (libDir </> "libqtah.so.0.2.0")
-  createSymbolicLink "libqtah.so.0.2.0" (libDir </> "libqtah.so.0.2")
-  createSymbolicLink "libqtah.so.0.2" (libDir </> "libqtah.so.0")
-  createSymbolicLink "libqtah.so.0" (libDir </> "libqtah.so")
+  -- Call the makefile to install the C++ shared library into the package's
+  -- libdir.
+  runDbProgram verbosity makeProgram programDb
+    ["-C", cppSourceDir, "install", "INSTALL_ROOT=" ++ libDir]
 
   -- Also record what version of Qt we are using, so that qtah can check that
   -- it's using the same version.
