@@ -20,8 +20,7 @@
 module Graphics.UI.Qtah.EventTest (tests) where
 
 import Control.Concurrent.MVar (modifyMVar_, newMVar, readMVar)
-import Control.Monad (unless, when)
-import Foreign (alloca, peek, poke)
+import Control.Monad (when)
 import Foreign.Hoppy.Runtime (delete, withScopedPtr)
 import qualified Graphics.UI.Qtah.Core.QCoreApplication as QCoreApplication
 import qualified Graphics.UI.Qtah.Core.QEvent as QEvent
@@ -33,13 +32,12 @@ import Test.HUnit (Test (TestList), (~:), (@?=), assertFailure)
 tests :: QCoreApplication -> Test
 tests _ =
   TestList
-  [ "listener gets deleted when receiver is deleted" ~: alloca $ \deletedPtr -> do
-    poke deletedPtr 0
+  [ "listener gets deleted when receiver is deleted" ~: do
     receiver <- QObject.new
-    _ <- internalOnEvent receiver deletedPtr $ \_ _ -> return False
+    reg <- onAnyEvent receiver $ \_ _ -> return False
     delete receiver
-    deleted <- peek deletedPtr
-    unless (deleted == 1) $ assertFailure "Listener was not deleted."
+    live <- internalRegistrationIsLive reg
+    when live $ assertFailure "Listener was not deleted."
 
   , "unregister works" ~: withScopedPtr QObject.new $ \receiver -> do
     countVar <- newMVar 0

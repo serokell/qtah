@@ -27,10 +27,11 @@ import Foreign.Hoppy.Generator.Spec (
   includeLocal,
   makeClass,
   mkCtor,
+  mkMethod,
   )
-import Foreign.Hoppy.Generator.Types (callbackT, intT, ptrT)
+import Foreign.Hoppy.Generator.Types (callbackT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
-import Graphics.UI.Qtah.Generator.Interface.Internal.Callback (cb_PtrQObjectPtrQEventBool)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Callback (cb_PtrQObjectPtrQEventBool, cb_Void)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -45,5 +46,6 @@ c_EventListener =
   addReqIncludes [includeLocal "event.hpp"] $
   classSetEntityPrefix "" $
   makeClass (ident2 "qtah" "event" "EventListener") Nothing [c_QObject]
-  [ mkCtor "new" [callbackT cb_PtrQObjectPtrQEventBool, ptrT intT]
+  [ mkCtor "new" [ptrT $ objT c_QObject, callbackT cb_PtrQObjectPtrQEventBool, callbackT cb_Void]
+  , mkMethod "doNotNotifyOnDelete" [] voidT
   ]

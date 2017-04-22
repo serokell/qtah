@@ -28,22 +28,36 @@ class EventListener : public QObject {
     Q_OBJECT
 
 public:
-    EventListener(CallbackPtrQObjectPtrQEventBool callback, int* deletedPtr) :
-        callback_(callback), deleted_(deletedPtr) {}
+    EventListener(
+        QObject *parent,
+        CallbackPtrQObjectPtrQEventBool eventCallback,
+        CallbackVoid deletedCallback) :
+        QObject(parent),
+        eventCallback_(eventCallback),
+        deletedCallback_(deletedCallback),
+        notifyDeleted_(true) {
+        parent->installEventFilter(this);
+    }
 
     ~EventListener() {
-        if (deleted_) {
-            *deleted_ = 1;
+        parent()->removeEventFilter(this);
+        if (notifyDeleted_) {
+            deletedCallback_();
         }
     }
 
     virtual bool eventFilter(QObject* receiver, QEvent* event) {
-        return callback_(receiver, event);
+        return eventCallback_(receiver, event);
+    }
+
+    void doNotNotifyOnDelete() {
+        notifyDeleted_ = false;
     }
 
 private:
-    CallbackPtrQObjectPtrQEventBool callback_;
-    int* deleted_;
+    CallbackPtrQObjectPtrQEventBool eventCallback_;
+    CallbackVoid deletedCallback_;
+    bool notifyDeleted_;
 };
 
 }  // namespace event

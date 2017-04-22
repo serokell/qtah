@@ -27,23 +27,20 @@ module Graphics.UI.Qtah.Event (
   EventFilter,
   onAnyEvent,
   -- * Internal
-  internalOnEvent,
+  internalRegistrationIsLive,
   ) where
 
-import Control.Concurrent.MVar (MVar, modifyMVar_, newMVar)
+import Control.Concurrent.MVar (MVar, modifyMVar_, newMVar, readMVar)
 import Control.Monad (when)
-import Foreign.C.Types (CInt)
 import Foreign.Hoppy.Runtime (delete)
-import Foreign.Ptr (Ptr, nullPtr)
-import Graphics.UI.Qtah.Core.QObject (QObject, QObjectPtr)
+-- Importing QObject in both ways is a silly, but it prevents unused import
+-- warnings from having a doc link to installEventFilter.
+import Graphics.UI.Qtah.Core.QObject (QObjectPtr)
 import qualified Graphics.UI.Qtah.Core.QObject as QObject
 -- Note, Generated import, since the non-Generated import imports this module.
 import Graphics.UI.Qtah.Generated.Core.QEvent (QEvent)
 import Graphics.UI.Qtah.Internal.EventListener (EventListener)
 import qualified Graphics.UI.Qtah.Internal.EventListener as EventListener
-import Graphics.UI.Qtah.Signal (connect)
-
-data Receiver = forall a. QObjectPtr a => Receiver a
 
 -- | A typeclass for Qt event classes (subclasses of @QEvent@).
 class Event e where
@@ -56,15 +53,14 @@ class Event e where
 -- | A record that an event handler was registered with a receiver object.  This
 -- can be given to 'unregister' to destroy the corresponding handler.
 data EventRegistration = EventRegistration
-  { regReceiver :: Receiver
-  , regListener :: EventListener
-  , regActive :: MVar Bool
+  { regListener :: EventListener
+  , regLive :: MVar Bool
   }
 
 -- | An filter that can handle any type of event.
-type EventFilter = QObject -> QEvent -> IO Bool
+type EventFilter = QObject.QObject -> QEvent -> IO Bool
 
--- | Registers an 'EventFilter' to listen to events that a 'QObject' receives.
+-- | Registers an 'EventFilter' to listen to events that a 'QObject.QObject' receives.
 -- A filter can return false to allow the event to propagate further, or true to
 -- indicate that the event has been handled, and stop propagation.  When
 -- multiple filters are attached to an object, the last one installed is called
@@ -73,33 +69,25 @@ type EventFilter = QObject -> QEvent -> IO Bool
 --
 -- This function uses 'QObject.installEventFilter' under the hood.
 onAnyEvent :: QObjectPtr target => target -> EventFilter -> IO EventRegistration
-onAnyEvent receiver filter = internalOnEvent receiver nullPtr filter
-
--- | Internal function, do not use outside of Qtah.
---
--- Implements 'onAnyEvent'.  Also takes a pointer to an @int@ that is passed to
--- the underlying 'EventListener.EventListener' object to be set to 1 when the
--- listener is deleted.  This is used for testing purposes.
-internalOnEvent :: QObjectPtr target => target -> Ptr CInt -> EventFilter -> IO EventRegistration
-internalOnEvent receiver deletedPtr filter = do
-  listener <- EventListener.new filter deletedPtr
-  activeVar <- newMVar True
-  let reg = EventRegistration
-            { regReceiver = Receiver receiver
-            , regListener = listener
-            , regActive = activeVar
-            }
-  QObject.installEventFilter receiver listener
-  _ <- connect receiver QObject.destroyedSignal $ \_ -> unregister reg
-  return reg
+onAnyEvent receiver filter = do
+  liveVar <- newMVar True
+  listener <- EventListener.new receiver filter $ modifyMVar_ liveVar $ const $ return False
+  return $ EventRegistration
+    { regListener = listener
+    , regLive = liveVar
+    }
 
 -- | Disconnects an event handler and frees its resources.  This function is
 -- idempotent.
 unregister :: EventRegistration -> IO ()
-unregister reg = modifyMVar_ (regActive reg) $ \active -> do
-  when active $ do
+unregister reg = modifyMVar_ (regLive reg) $ \live -> do
+  when live $ do
     let listener = regListener reg
-    case regReceiver reg of
-      Receiver receiver -> QObject.removeEventFilter receiver listener
+    -- The on-delete callback tries to modify regLive too, so skip it to avoid
+    -- deadlock, because we already know the listener is being deleted.
+    EventListener.doNotNotifyOnDelete listener
     delete listener
   return False
+
+internalRegistrationIsLive :: EventRegistration -> IO Bool
+internalRegistrationIsLive = readMVar . regLive
