@@ -21,6 +21,9 @@
 # .git/hooks/pre-commit.
 
 set -euo pipefail  # "Unofficial Bash strict mode."
+if [[ $(uname) = Darwin ]] && which greadlink >/dev/null 2>&1; then
+    alias readlink=greadlink
+fi
 
 # Merging these lines won't cause the command to fail (for set -e).
 projectDir=$(git rev-parse --git-dir)

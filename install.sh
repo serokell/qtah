@@ -20,6 +20,9 @@
 # Builds and installs Qtah.  See --help.
 
 set -euo pipefail
+if [[ $(uname) = Darwin ]] && which greadlink >/dev/null 2>&1; then
+    alias readlink=greadlink
+fi
 projectDir=$(readlink -f "$0")
 projectDir=$(dirname "$projectDir")
 declare -r projectDir

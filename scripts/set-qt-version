@@ -21,6 +21,9 @@
 # names are qtah-cpp-qtX and qtah-qtX, for Qt version X.  See README.md.
 
 set -euo pipefail
+if [[ $(uname) = Darwin ]] && which greadlink >/dev/null 2>&1; then
+    alias readlink=greadlink
+fi
 qtahDir=$(readlink -f "$0")
 qtahDir=$(dirname "$qtahDir")
 qtahDir=$(dirname "$qtahDir")
