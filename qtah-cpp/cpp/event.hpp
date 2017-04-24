@@ -28,47 +28,75 @@ class EventListener : public QObject {
     Q_OBJECT
 
 public:
-    EventListener(CallbackPtrQObjectPtrQEventBool callback, int* deletedPtr) :
-        callback_(callback), deleted_(deletedPtr) {}
+    EventListener(
+        QObject *parent,
+        CallbackPtrQObjectPtrQEventBool eventCallback,
+        CallbackVoid deletedCallback) :
+        QObject(parent),
+        eventCallback_(eventCallback),
+        deletedCallback_(deletedCallback),
+        notifyDeleted_(true) {
+        parent->installEventFilter(this);
+    }
 
     ~EventListener() {
-        if (deleted_) {
-            *deleted_ = 1;
+        parent()->removeEventFilter(this);
+        if (notifyDeleted_) {
+            deletedCallback_();
         }
     }
 
     virtual bool eventFilter(QObject* receiver, QEvent* event) {
-        return callback_(receiver, event);
+        return eventCallback_(receiver, event);
+    }
+
+    void doNotNotifyOnDelete() {
+        notifyDeleted_ = false;
     }
 
 private:
-    CallbackPtrQObjectPtrQEventBool callback_;
-    int* deleted_;
+    CallbackPtrQObjectPtrQEventBool eventCallback_;
+    CallbackVoid deletedCallback_;
+    bool notifyDeleted_;
 };
 
 class SceneEventListener : public QGraphicsItem {
 
 public:
-    SceneEventListener(CallbackPtrQGraphicsItemPtrQEventBool callback, int* deletedPtr) :
-        callback_(callback), deleted_(deletedPtr) {}
+    SceneEventListener(
+        QGraphicsItem *parent,
+        CallbackPtrQGraphicsItemPtrQEventBool eventCallback,
+        CallbackVoid deletedCallback) :
+        QGraphicsItem(parent),
+        eventCallback_(eventCallback),
+        deletedCallback_(deletedCallback),
+        notifyDeleted_(true) {
+        parent->installSceneEventFilter(this);
+    }
 
     ~SceneEventListener() {
-        if (deleted_) {
-            *deleted_ = 1;
+        parentItem()->removeSceneEventFilter(this);
+        if (notifyDeleted_) {
+            deletedCallback_();
         }
+    }
+
+    virtual bool eventFilter(QGraphicsItem* receiver, QEvent* event) {
+        return eventCallback_(receiver, event);
+    }
+
+    void doNotNotifyOnDelete() {
+        notifyDeleted_ = false;
     }
 
     virtual QRectF boundingRect() const { return QRectF(); }
     virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option,
                            QWidget * widget = 0) { return; }
 
-    virtual bool sceneEventFilter(QGraphicsItem* receiver, QEvent* event) {
-        return callback_(receiver, event);
-    }
-
 private:
-    CallbackPtrQGraphicsItemPtrQEventBool callback_;
-    int* deleted_;
+    CallbackPtrQGraphicsItemPtrQEventBool eventCallback_;
+    CallbackVoid deletedCallback_;
+    bool notifyDeleted_;
 };
 
 }  // namespace event
