@@ -37,9 +37,10 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkConstMethod'
   )
-import Foreign.Hoppy.Generator.Types (voidT, objT, ptrT, doubleT, boolT, constT, intT)
+import Foreign.Hoppy.Generator.Types (voidT, objT, ptrT, boolT, constT, intT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPointF (c_QPointF)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRectF (c_QRectF)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -76,7 +77,7 @@ c_QGraphicsItem =
   , mkMethod "advance" [intT] voidT
   , mkConstMethod "boundingRect" [] $ objT c_QRectF
   -- TODO mkConstMethod "boundingRegion" [objT c_QTransform] $ objT c_QRegion
-  , mkConstMethod "boundingRegionGranularity" [] doubleT
+  , mkConstMethod "boundingRegionGranularity" [] qreal
   -- TODO mkConstMethod "cacheMode" [] $ objT bs_CacheMode
   -- TODO mkConstMethod "childItems" [] $ objT c_QList<QGraphicsItem $ objT c_*>
   , mkConstMethod "childrenBoundingRect" [] $ objT c_QRectF
@@ -97,13 +98,13 @@ c_QGraphicsItem =
   -- TODO mkConstMethod "cursor" [] $ objT c_QCursor
   -- TODO mkConstMethod "data" [intT] $ objT c_QVariant
   -- TODO mkConstMethod "deviceTransform" [objT c_QTransform] $ objT c_QTransform
-  , mkConstMethod "effectiveOpacity" [] doubleT
+  , mkConstMethod "effectiveOpacity" [] qreal
   , mkMethod "ensureVisible" [] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRectFAll" [objT c_QRectF, intT, intT] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRaw"
-      [doubleT, doubleT, doubleT, doubleT] voidT
+      [qreal, qreal, qreal, qreal] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRawAll"
-      [doubleT, doubleT, doubleT, doubleT, intT, intT] voidT
+      [qreal, qreal, qreal, qreal, intT, intT] voidT
   , mkConstMethod "filtersChildEvents" [] boolT
   -- TODO mkConstMethod "flags" [] $ objT c_GraphicsItemFlags
   , mkConstMethod "focusItem" [] $ ptrT $ objT c_QGraphicsItem
@@ -125,7 +126,7 @@ c_QGraphicsItem =
   , mkConstMethod "isClipped" [] boolT
   , mkConstMethod "isEnabled" [] boolT
   , mkConstMethod "isObscured" [] boolT
-  , mkConstMethod' "isObscured" "isObscuredRaw" [doubleT, doubleT, doubleT, doubleT] boolT
+  , mkConstMethod' "isObscured" "isObscuredRaw" [qreal, qreal, qreal, qreal] boolT
   , mkConstMethod' "isObscured" "isObscuredRectF" [objT c_QRectF] boolT
   , mkConstMethod "isObscuredBy" [ptrT $ constT $ objT c_QGraphicsItem] boolT
   , mkConstMethod "isPanel" [] boolT
@@ -148,9 +149,9 @@ c_QGraphicsItem =
   -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
   --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPainterPath] $ objT c_QPainterPath
   -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
-  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  --   [ptrT $ constT $ objT c_QGraphicsItem, qreal, qreal, qreal, qreal] $ objT c_QPolygonF
   -- TODO mkConstMethod' "mapFromItem" "mapFromItem"
-  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT] $ objT c_QPointF
+  --   [ptrT $ constT $ objT c_QGraphicsItem, qreal, qreal] $ objT c_QPointF
   -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
   --   [objT c_QPointF] $ objT c_QPointF
   -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
@@ -160,9 +161,9 @@ c_QGraphicsItem =
   -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
   --   [objT c_QPainterPath] $ objT c_QPainterPath
   -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QPolygonF
   -- TODO mkConstMethod' "mapFromParent" "mapFromParent"
-  --   [doubleT, doubleT] $ objT c_QPointF
+  --   [qreal, qreal] $ objT c_QPointF
   -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
   --   [objT c_QPointF] $ objT c_QPointF
   -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
@@ -172,33 +173,33 @@ c_QGraphicsItem =
   -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
   --   [objT c_QPainterPath] $ objT c_QPainterPath
   -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QPolygonF
   -- TODO mkConstMethod' "mapFromScene" "mapFromScene"
-  --   [doubleT, doubleT] $ objT c_QPointF
+  --   [qreal, qreal] $ objT c_QPointF
   -- TODO mkConstMethod' "mapRectFromItem" "mapRectFromItem"
   --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectFromItem" "mapRectFromItem"
-  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  --   [ptrT $ constT $ objT c_QGraphicsItem, qreal, qreal, qreal, qreal] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectFromParent" "mapRectFromParent"
   --   [objT c_QRectF] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectFromParent" "mapRectFromParent"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectFromScene" "mapRectFromScene"
   --   [objT c_QRectF] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectFromScene" "mapRectFromScene"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectToItem" "mapRectToItem"
   --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QRectF] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectToItem" "mapRectToItem"
-  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  --   [ptrT $ constT $ objT c_QGraphicsItem, qreal, qreal, qreal, qreal] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectToParent" "mapRectToParent"
   --   [objT c_QRectF] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectToParent" "mapRectToParent"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectToScene" "mapRectToScene"
   --   [objT c_QRectF] $ objT c_QRectF
   -- TODO mkConstMethod' "mapRectToScene" "mapRectToScene"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QRectF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QRectF
   -- TODO mkConstMethod' "mapToItem" "mapToItem"
   --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPointF] $ objT c_QPointF
   -- TODO mkConstMethod' "mapToItem" "mapToItem"
@@ -208,9 +209,9 @@ c_QGraphicsItem =
   -- TODO mkConstMethod' "mapToItem" "mapToItem"
   --   [ptrT $ constT $ objT c_QGraphicsItem, objT c_QPainterPath] $ objT c_QPainterPath
   -- TODO mkConstMethod' "mapToItem" "mapToItem"
-  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  --   [ptrT $ constT $ objT c_QGraphicsItem, qreal, qreal, qreal, qreal] $ objT c_QPolygonF
   -- TODO mkConstMethod' "mapToItem" "mapToItem"
-  --   [ptrT $ constT $ objT c_QGraphicsItem, doubleT, doubleT] $ objT c_QPointF
+  --   [ptrT $ constT $ objT c_QGraphicsItem, qreal, qreal] $ objT c_QPointF
   -- TODO mkConstMethod' "mapToParent" "mapToParent"
   --   [objT c_QPointF] $ objT c_QPointF
   -- TODO mkConstMethod' "mapToParent" "mapToParent"
@@ -220,9 +221,9 @@ c_QGraphicsItem =
   -- TODO mkConstMethod' "mapToParent" "mapToParent"
   --   [objT c_QPainterPath] $ objT c_QPainterPath
   -- TODO mkConstMethod' "mapToParent" "mapToParent"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QPolygonF
   -- TODO mkConstMethod' "mapToParent" "mapToParent"
-  --   [doubleT, doubleT] $ objT c_QPointF
+  --   [qreal, qreal] $ objT c_QPointF
   -- TODO mkConstMethod' "mapToScene" "mapToScene"
   --   [objT c_QPointF] $ objT c_QPointF
   -- TODO mkConstMethod' "mapToScene" "mapToScene"
@@ -232,11 +233,11 @@ c_QGraphicsItem =
   -- TODO mkConstMethod' "mapToScene" "mapToScene"
   --   [objT c_QPainterPath] $ objT c_QPainterPath
   -- TODO mkConstMethod' "mapToScene" "mapToScene"
-  --   [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygonF
+  --   [qreal, qreal, qreal, qreal] $ objT c_QPolygonF
   -- TODO mkConstMethod' "mapToScene" "mapToScene"
-  --   [doubleT, doubleT] $ objT c_QPointF
-  , mkMethod "moveBy" [doubleT, doubleT] voidT
-  , mkConstMethod "opacity" [] doubleT
+  --   [qreal, qreal] $ objT c_QPointF
+  , mkMethod "moveBy" [qreal, qreal] voidT
+  , mkConstMethod "opacity" [] qreal
   , mkConstMethod "opaqueArea" [] $ objT c_QPainterPath
   -- TODO mkMethod "paint"
   --   [ptrT $ objT c_QPainter, ptrT $ constT $ objT c_QStyleOptionGraphicsItem] voidT
@@ -253,20 +254,20 @@ c_QGraphicsItem =
   , mkConstMethod "pos" [] $ objT c_QPointF
   , mkMethod "removeSceneEventFilter" [ptrT $ objT c_QGraphicsItem] voidT
   , mkMethod "resetTransform" [] voidT
-  , mkConstMethod "rotation" [] doubleT
-  , mkConstMethod "scale" [] doubleT
+  , mkConstMethod "rotation" [] qreal
+  , mkConstMethod "scale" [] qreal
   , mkConstMethod "scene" [] $ ptrT $ objT c_QGraphicsScene
   , mkConstMethod "sceneBoundingRect" [] $ objT c_QRectF
   , mkConstMethod "scenePos" [] $ objT c_QPointF
   -- TODO mkConstMethod "sceneTransform" [] $ objT c_QTransform
-  , mkMethod "scroll" [doubleT, doubleT] voidT
-  , mkMethod' "scroll" "scrollAll" [doubleT, doubleT, objT c_QRectF] voidT
+  , mkMethod "scroll" [qreal, qreal] voidT
+  , mkMethod' "scroll" "scrollAll" [qreal, qreal, objT c_QRectF] voidT
   , mkMethod "setAcceptDrops" [boolT] voidT
   , mkMethod "setAcceptHoverEvents" [boolT] voidT
   , mkMethod "setAcceptTouchEvents" [boolT] voidT
   -- TODO mkMethod "setAcceptedMouseButtons" [objT c_Qt::MouseButtons] voidT
   , mkMethod "setActive" [boolT] voidT
-  , mkMethod "setBoundingRegionGranularity" [doubleT] voidT
+  , mkMethod "setBoundingRegionGranularity" [qreal] voidT
   -- TODO mkMethod "setCacheMode" [objT c_CacheMode] voidT
   -- TODO mkMethod' "setCacheMode" "setCacheModeAll" [objT c_CacheMode, objT c_QSize] voidT
   -- TODO mkMethod "setCursor" [objT c_QCursor] voidT
@@ -282,24 +283,24 @@ c_QGraphicsItem =
   -- TODO mkMethod "setGraphicsEffect" [ptrT $ objT c_QGraphicsEffect] voidT
   -- TODO mkMethod "setGroup" [ptrT $ objT c_QGraphicsItemGroup] voidT
   -- TODO mkMethod "setInputMethodHints" [objT c_Qt::InputMethodHints] voidT
-  , mkMethod "setOpacity" [doubleT] voidT
+  , mkMethod "setOpacity" [qreal] voidT
   -- TODO mkMethod "setPanelModality" [objT c_PanelModality] voidT
   , mkMethod "setParentItem" [ptrT $ objT c_QGraphicsItem] voidT
   , mkMethod' "setPos" "setPosPointF" [objT c_QPointF] voidT
-  , mkMethod' "setPos" "setPosRaw" [doubleT, doubleT] voidT
-  , mkMethod "setRotation" [doubleT] voidT
-  , mkMethod "setScale" [doubleT] voidT
+  , mkMethod' "setPos" "setPosRaw" [qreal, qreal] voidT
+  , mkMethod "setRotation" [qreal] voidT
+  , mkMethod "setScale" [qreal] voidT
   , mkMethod "setSelected" [boolT] voidT
   , mkMethod "setToolTip" [objT c_QString] voidT
   -- TODO mkMethod "setTransform" [objT c_QTransform] voidT
   -- TODO mkMethod' "setTransform" "setTransformAll" [objT c_QTransform, boolT] voidT
   , mkMethod' "setTransformOriginPoint" "setTransformOriginPointF" [objT c_QPointF] voidT
-  , mkMethod' "setTransformOriginPoint" "setTransformOriginPointRaw" [doubleT, doubleT] voidT
+  , mkMethod' "setTransformOriginPoint" "setTransformOriginPointRaw" [qreal, qreal] voidT
   -- TODO mkMethod "setTransformations" [objT c_QList<QGraphicsTransform] voidT
   , mkMethod "setVisible" [boolT] voidT
-  , mkMethod "setX" [doubleT] voidT
-  , mkMethod "setY" [doubleT] voidT
-  , mkMethod "setZValue" [doubleT] voidT
+  , mkMethod "setX" [qreal] voidT
+  , mkMethod "setY" [qreal] voidT
+  , mkMethod "setZValue" [qreal] voidT
   , mkConstMethod "shape" [] $ objT c_QPainterPath
   , mkMethod "show" [] voidT
   , mkMethod "stackBefore" [ptrT $ constT $ objT c_QGraphicsItem] voidT
@@ -319,11 +320,11 @@ c_QGraphicsItem =
   , mkMethod "unsetCursor" [] voidT
   , mkMethod "update" [] voidT
   , mkMethod' "update" "updateRectF" [objT c_QRectF] voidT
-  , mkMethod' "update" "updateRaw" [doubleT, doubleT, doubleT, doubleT] voidT
+  , mkMethod' "update" "updateRaw" [qreal, qreal, qreal, qreal] voidT
   -- TODO mkConstMethod "window" [] $ ptrT $ objT c_QGraphicsWidget
-  , mkConstMethod "x" [] doubleT
-  , mkConstMethod "y" [] doubleT
-  , mkConstMethod "zValue" [] doubleT
+  , mkConstMethod "x" [] qreal
+  , mkConstMethod "y" [] qreal
+  , mkConstMethod "zValue" [] qreal
   ]
 
 e_CacheMode =

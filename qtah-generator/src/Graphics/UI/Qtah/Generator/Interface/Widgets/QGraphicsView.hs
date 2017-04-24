@@ -49,7 +49,6 @@ import Foreign.Hoppy.Generator.Types (
   voidT,
   enumT,
   boolT,
-  doubleT,
   bitspaceT,
   )
 import Graphics.UI.Qtah.Generator.Interface.Core.Types hiding (aModule)
@@ -101,26 +100,26 @@ c_QGraphicsView =
   , mkConstMethod "backgroundBrush" [] $ objT c_QBrush
   , mkConstMethod "cacheMode" [] $ bitspaceT bs_CacheMode
   , mkMethod' "centerOn" "centerOnPointF" [objT c_QPointF] voidT
-  , mkMethod' "centerOn" "centerOnRaw" [doubleT, doubleT] voidT
+  , mkMethod' "centerOn" "centerOnRaw" [qreal, qreal] voidT
   , mkMethod' "centerOn" "centerOnItem" [ptrT $ constT $ objT c_QGraphicsItem] voidT
   , mkConstMethod "dragMode" [] $ enumT e_DragMode
   , mkMethod' "ensureVisible" "ensureVisibleRectF" [objT c_QRectF] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRaw"
-      [doubleT, doubleT, doubleT, doubleT] voidT
+      [qreal, qreal, qreal, qreal] voidT
   , mkMethod' "ensureVisible" "ensureVisibleItem"
       [ptrT $ constT $ objT c_QGraphicsItem] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRectFAll"
       [objT c_QRectF, intT, intT] voidT
   , mkMethod' "ensureVisible" "ensureVisibleRawAll"
-      [doubleT, doubleT, doubleT, doubleT, intT, intT] voidT
+      [qreal, qreal, qreal, qreal, intT, intT] voidT
   , mkMethod' "ensureVisible" "ensureVisibleItemAll"
       [ptrT $ constT $ objT c_QGraphicsItem, intT, intT] voidT
   , mkMethod' "fitInView" "fitInViewRectF" [objT c_QRectF] voidT
-  , mkMethod' "fitInView" "fitInViewRect" [doubleT, doubleT, doubleT, doubleT] voidT
+  , mkMethod' "fitInView" "fitInViewRect" [qreal, qreal, qreal, qreal] voidT
   , mkMethod' "fitInView" "fitInViewItem" [ptrT $ constT $ objT c_QGraphicsItem] voidT
   , mkMethod' "fitInView" "fitInViewRectFAll" [objT c_QRectF, enumT e_AspectRatioMode] voidT
   , mkMethod' "fitInView" "fitInViewRectAll"
-      [doubleT, doubleT, doubleT, doubleT, enumT e_AspectRatioMode] voidT
+      [qreal, qreal, qreal, qreal, enumT e_AspectRatioMode] voidT
   , mkMethod' "fitInView" "fitInViewItemAll"
       [ptrT $ constT $ objT c_QGraphicsItem, enumT e_AspectRatioMode] voidT
   , mkConstMethod "foregroundBrush" [] $ objT c_QBrush
@@ -148,9 +147,9 @@ c_QGraphicsView =
   , mkConstMethod' "mapFromScene" "mapFromScenePainterPath"
       [objT c_QPainterPath] $ objT c_QPainterPath
   , mkConstMethod' "mapFromScene" "mapFromScenePointFRaw"
-      [doubleT, doubleT] $ objT c_QPoint
+      [qreal, qreal] $ objT c_QPoint
   , mkConstMethod' "mapFromScene" "mapFromSceneRectFRaw"
-      [doubleT, doubleT, doubleT, doubleT] $ objT c_QPolygon
+      [qreal, qreal, qreal, qreal] $ objT c_QPolygon
   , mkConstMethod' "mapToScene" "mapToScenePoint"
       [objT c_QPoint] $ objT c_QPointF
   , mkConstMethod' "mapToScene" "mapToSceneRect"
@@ -173,9 +172,9 @@ c_QGraphicsView =
   , mkMethod "resetMatrix" [] voidT
   , mkMethod "resetTransform" [] voidT
   , mkConstMethod "resizeAnchor" [] $ enumT e_ViewportAnchor
-  , mkMethod "rotate" [doubleT] voidT
+  , mkMethod "rotate" [qreal] voidT
   -- TODO mkConstMethod "rubberBandSelectionMode" [] $ objT c_Qt::ItemSelectionMode
-  , mkMethod "scale" [doubleT, doubleT] voidT
+  , mkMethod "scale" [qreal, qreal] voidT
   , mkConstMethod "scene" [] $ ptrT $ objT c_QGraphicsScene
   , mkConstMethod "sceneRect" [] $ objT c_QRectF
   , mkMethod "setAlignment" [bitspaceT bs_Alignment] voidT
@@ -196,15 +195,15 @@ c_QGraphicsView =
   -- TODO mkMethod "setRubberBandSelectionMode" [objT c_Qt::ItemSelectionMode] voidT
   , mkMethod "setScene" [ptrT $ objT c_QGraphicsScene] voidT
   , mkMethod' "setSceneRect" "setSceneRectF" [objT c_QRectF] voidT
-  , mkMethod' "setSceneRect" "setSceneRectRaw" [doubleT, doubleT, doubleT, doubleT] voidT
+  , mkMethod' "setSceneRect" "setSceneRectRaw" [qreal, qreal, qreal, qreal] voidT
   , mkMethod "setTransform" [objT c_QTransform] voidT
   , mkMethod' "setTransform" "setTransformAll" [objT c_QTransform, boolT] voidT
   , mkMethod "setTransformationAnchor" [enumT e_ViewportAnchor] voidT
   , mkMethod "setViewportUpdateMode" [enumT e_ViewportUpdateMode] voidT
-  , mkMethod "shear" [doubleT, doubleT] voidT
+  , mkMethod "shear" [qreal, qreal] voidT
   , mkConstMethod "transform" [] $ objT c_QTransform
   , mkConstMethod "transformationAnchor" [] $ enumT e_ViewportAnchor
-  , mkMethod "translate" [doubleT, doubleT] voidT
+  , mkMethod "translate" [qreal, qreal] voidT
   , mkConstMethod "viewportTransform" [] $ objT c_QTransform
   ]
 

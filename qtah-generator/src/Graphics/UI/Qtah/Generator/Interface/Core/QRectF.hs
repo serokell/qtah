@@ -38,7 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (boolT, objT, voidT, doubleT)
+import Foreign.Hoppy.Generator.Types (boolT, objT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF (c_QMarginsF)

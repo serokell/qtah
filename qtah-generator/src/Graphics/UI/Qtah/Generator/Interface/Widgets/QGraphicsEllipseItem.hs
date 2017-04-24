@@ -29,7 +29,7 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkCtor,
   )
-import Foreign.Hoppy.Generator.Types (doubleT)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem
   (c_QAbstractGraphicsShapeItem)
@@ -48,5 +48,5 @@ c_QGraphicsEllipseItem =
   classSetEntityPrefix "" $
   makeClass (ident "QGraphicsEllipseItem") Nothing [c_QAbstractGraphicsShapeItem]
   [ mkCtor "new" []
-  , mkCtor "newRectRaw" [doubleT, doubleT, doubleT, doubleT]
+  , mkCtor "newRectRaw" [qreal, qreal, qreal, qreal]
   ]

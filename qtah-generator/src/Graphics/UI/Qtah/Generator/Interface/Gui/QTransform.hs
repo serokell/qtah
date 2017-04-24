@@ -34,7 +34,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (doubleT)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -51,5 +51,5 @@ c_QTransform =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QTransform") Nothing [] $
-  [ mkCtor "new2x2" [doubleT, doubleT, doubleT, doubleT, doubleT, doubleT]
+  [ mkCtor "new2x2" [qreal, qreal, qreal, qreal, qreal, qreal]
   ]

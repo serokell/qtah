@@ -35,9 +35,10 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (voidT, doubleT)
+import Foreign.Hoppy.Generator.Types (voidT)
 import Foreign.Hoppy.Generator.Version (collect, just)
 -- import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -56,6 +57,6 @@ c_QPainterPath =
   makeClass (ident "QPainterPath") Nothing [] $
   collect
   [ just $ mkCtor "new" []
-  , just $ mkMethod' "addRect" "addRectRaw" [doubleT, doubleT, doubleT, doubleT] voidT
+  , just $ mkMethod' "addRect" "addRectRaw" [qreal, qreal, qreal, qreal] voidT
   ]
 
