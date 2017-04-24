@@ -64,7 +64,6 @@ c_QRectF =
   makeClass (ident "QRectF") Nothing [] $
   collect
   [ just $ mkCtor "newNull" []
-  , just $ mkCtor "newCoord" [doubleT, doubleT, doubleT, doubleT]
   , test (qtVersion >= [4, 3]) $ mkCtor "newFromPoints" [objT c_QPointF, objT c_QPointF]
   , just $ mkCtor "newWithPointAndSize" [objT c_QPointF, objT c_QSizeF]
   , just $ mkCtor "newWithRect" [objT c_QRect]

@@ -50,7 +50,8 @@ c_QGraphicsRectItem =
   addReqIncludes [includeStd "QGraphicsRectItem"] $
   classSetEntityPrefix "" $
   makeClass (ident "QGraphicsRectItem") Nothing [c_QAbstractGraphicsShapeItem]
-  [ mkCtor "new" [doubleT, doubleT, doubleT, doubleT]
+  [ mkCtor "new" []
+  , mkCtor "newWithRect" [doubleT, doubleT, doubleT, doubleT]
   , mkConstMethod "rect" [] $ objT c_QRectF
   , mkMethod' "setRect" "setRectRaw" [doubleT, doubleT, doubleT, doubleT] voidT
   ]

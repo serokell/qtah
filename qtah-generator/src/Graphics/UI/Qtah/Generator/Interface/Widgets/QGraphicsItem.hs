@@ -74,7 +74,7 @@ c_QGraphicsItem =
   , mkConstMethod "acceptTouchEvents" [] boolT
   -- TODO mkConstMethod "acceptedMouseButtons" [] $ objT c_Qt::MouseButtons
   , mkMethod "advance" [intT] voidT
-  , mkMethod "boundingRect" [] $ objT c_QRectF
+  , mkConstMethod "boundingRect" [] $ objT c_QRectF
   -- TODO mkConstMethod "boundingRegion" [objT c_QTransform] $ objT c_QRegion
   , mkConstMethod "boundingRegionGranularity" [] doubleT
   -- TODO mkConstMethod "cacheMode" [] $ objT bs_CacheMode
@@ -293,7 +293,7 @@ c_QGraphicsItem =
   , mkMethod "setToolTip" [objT c_QString] voidT
   -- TODO mkMethod "setTransform" [objT c_QTransform] voidT
   -- TODO mkMethod' "setTransform" "setTransformAll" [objT c_QTransform, boolT] voidT
-  , mkMethod' "setTransformOriginPoint" "setTransformOriginPointPointF" [objT c_QPointF] voidT
+  , mkMethod' "setTransformOriginPoint" "setTransformOriginPointF" [objT c_QPointF] voidT
   , mkMethod' "setTransformOriginPoint" "setTransformOriginPointRaw" [doubleT, doubleT] voidT
   -- TODO mkMethod "setTransformations" [objT c_QList<QGraphicsTransform] voidT
   , mkMethod "setVisible" [boolT] voidT
@@ -364,8 +364,8 @@ e_GraphicsItemChange =
   , (20, ["item","tool","tip","has","changed"])
   , (21, ["item","flags","change"])
   , (22, ["item","flags","have","changed"])
-  , (23, ["item","zvalue","change"])
-  , (24, ["item","zvalue","has","changed"])
+  , (23, ["item","z","value","change"])
+  , (24, ["item","z","value","has","changed"])
   , (25, ["item","opacity","change"])
   , (26, ["item","opacity","has","changed"])
   , (27, ["item","scene","position","has","changed"])
@@ -388,7 +388,7 @@ e_GraphicsItemChange =
   , just $ (0x400, ["item","has","no","contents"])
   , just $ (0x800, ["item","sends","geometry","changes"])
   , just $ (0x1000, ["item","accepts","input","method"])
-  , just $ (0x2000, ["item","negative","zstacks","behind","parent"])
+  , just $ (0x2000, ["item","negative","z","stacks","behind","parent"])
   , just $ (0x4000, ["item","is","panel"])
   , just $ (0x10000, ["item","sends","scene","position","changes"])
   , test (qtVersion >= [5, 4]) $ (0x80000, ["item","contains","children","in","shape"])

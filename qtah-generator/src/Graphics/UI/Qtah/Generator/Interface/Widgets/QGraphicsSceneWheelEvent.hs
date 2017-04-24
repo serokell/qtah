@@ -17,7 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneWheelEvent (
   aModule,
-  c_QGraphicsSceneEvent,
+  c_QGraphicsSceneWheelEvent,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

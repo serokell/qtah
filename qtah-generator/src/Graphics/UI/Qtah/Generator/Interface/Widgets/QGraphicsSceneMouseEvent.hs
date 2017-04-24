@@ -17,7 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneMouseEvent (
   aModule,
-  c_QGraphicsSceneEvent,
+  c_QGraphicsSceneMouseEvent,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

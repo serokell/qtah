@@ -51,5 +51,5 @@ c_QTransform =
   classAddFeatures [Assignable, Copyable, Equatable] $
   classSetEntityPrefix "" $
   makeClass (ident "QTransform") Nothing [] $
-  [ mkCtor "new" [doubleT, doubleT, doubleT, doubleT, doubleT, doubleT]
+  [ mkCtor "new2x2" [doubleT, doubleT, doubleT, doubleT, doubleT, doubleT]
   ]

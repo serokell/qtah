@@ -195,7 +195,7 @@ c_QGraphicsView =
   , mkMethod "setResizeAnchor" [enumT e_ViewportAnchor] voidT
   -- TODO mkMethod "setRubberBandSelectionMode" [objT c_Qt::ItemSelectionMode] voidT
   , mkMethod "setScene" [ptrT $ objT c_QGraphicsScene] voidT
-  , mkMethod' "setSceneRect" "setSceneRectRectF" [objT c_QRectF] voidT
+  , mkMethod' "setSceneRect" "setSceneRectF" [objT c_QRectF] voidT
   , mkMethod' "setSceneRect" "setSceneRectRaw" [doubleT, doubleT, doubleT, doubleT] voidT
   , mkMethod "setTransform" [objT c_QTransform] voidT
   , mkMethod' "setTransform" "setTransformAll" [objT c_QTransform, boolT] voidT
