@@ -264,6 +264,7 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $ do
 handleEventKind :: [String] -> String -> Class -> Generator ()
 handleEventKind path eventKind cls = do
   let typeName = toHsDataTypeName' Nonconst cls
+  addImports $ hsImport1 "Prelude" "($)"
   ln
   saysLn ["instance Qtah", eventKind, ".", eventKind, " ", typeName, " where"]
   indent $ do
@@ -312,16 +313,14 @@ sayQtExport path qtExport = case qtExport of
   QtExportEvent cls -> do
     sayExportClass cls
 
-    addImports $ mconcat [hsImport1 "Prelude" "($)",
-                          importForEvent, importForSceneEvent]
+    addImports $ mconcat [importForEvent, importForSceneEvent]
     handleEventKind path "Event" cls
     handleEventKind path "SceneEvent" cls
 
   QtExportSceneEvent cls -> do
     sayExportClass cls
 
-    addImports $ mconcat [hsImport1 "Prelude" "($)",
-                          importForEvent, importForSceneEvent]
+    addImports importForSceneEvent
     handleEventKind path "SceneEvent" cls
 
   QtExportSpecials -> do
