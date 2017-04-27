@@ -17,15 +17,16 @@
 
 {-# LANGUAGE ExistentialQuantification #-}
 
--- | General routines for managing 'QEvent's.
-module Graphics.UI.Qtah.Event (
+-- | General routines for managing events for
+-- "Graphics.UI.Qtah.Widgets.QGraphicsScene"s.
+module Graphics.UI.Qtah.SceneEvent (
   -- * High-level interface.
-  Event (..),
-  EventRegistration,
+  SceneEvent (..),
+  SceneEventRegistration,
   unregister,
   -- * Low-level interface
-  EventFilter,
-  onAnyEvent,
+  SceneEventFilter,
+  onAnySceneEvent,
   -- * Internal
   internalRegistrationIsLive,
   ) where
@@ -33,62 +34,60 @@ module Graphics.UI.Qtah.Event (
 import Control.Concurrent.MVar (MVar, modifyMVar_, newMVar, readMVar)
 import Control.Monad (when)
 import Foreign.Hoppy.Runtime (delete)
--- Importing QObject in both ways is a silly, but it prevents unused import
--- warnings from having a doc link to installEventFilter.
-import Graphics.UI.Qtah.Core.QObject (QObjectPtr)
-import qualified Graphics.UI.Qtah.Core.QObject as QObject
-import Graphics.UI.Qtah.SceneEvent (SceneEvent)
+import Graphics.UI.Qtah.Widgets.QGraphicsItem (QGraphicsItem, QGraphicsItemPtr)
 -- Note, Generated import, since the non-Generated import imports this module.
 import Graphics.UI.Qtah.Generated.Core.QEvent (QEvent)
-import Graphics.UI.Qtah.Internal.EventListener (EventListener)
-import qualified Graphics.UI.Qtah.Internal.EventListener as EventListener
+import Graphics.UI.Qtah.Internal.SceneEventListener (SceneEventListener)
+import qualified Graphics.UI.Qtah.Internal.SceneEventListener as SceneEventListener
 
--- | A typeclass for Qt event classes (subclasses of @QEvent@).
-class SceneEvent e => Event e where
+-- | A typeclass for Qt events within a
+-- 'Graphics.UI.Qtah.Widgets.QGraphicsScene.QGraphicsScene'.
+class SceneEvent e where
   -- | Registers a callback function to be invoked when an event of type @e@ is
-  -- sent to an object.  This is a wrapper around 'onAnyEvent', so for details,
-  -- see that function; all comments about @EventFilter@s apply equally to
+  -- sent to an object.  This is a wrapper around 'onAnySceneEvent', so for details,
+  -- see that function; all comments about @SceneEventFilter@s apply equally to
   -- handlers given here.
-  onEvent :: QObjectPtr this => this -> (e -> IO Bool) -> IO EventRegistration
+  onSceneEvent :: QGraphicsItemPtr this => this -> (e -> IO Bool) -> IO SceneEventRegistration
 
 -- | A record that an event handler was registered with a receiver object.  This
 -- can be given to 'unregister' to destroy the corresponding handler.
-data EventRegistration = EventRegistration
-  { regListener :: EventListener
+data SceneEventRegistration = SceneEventRegistration
+  { regListener :: SceneEventListener
   , regLive :: MVar Bool
   }
 
 -- | An filter that can handle any type of event.
-type EventFilter = QObject.QObject -> QEvent -> IO Bool
+type SceneEventFilter = QGraphicsItem -> QEvent -> IO Bool
 
--- | Registers an 'EventFilter' to listen to events that a 'QObject.QObject' receives.
+-- | Registers an 'SceneEventFilter' to listen to events that a 'QGraphicsItem' receives.
 -- A filter can return false to allow the event to propagate further, or true to
 -- indicate that the event has been handled, and stop propagation.  When
 -- multiple filters are attached to an object, the last one installed is called
 -- first.  The filter will stay active until the receiver is deleted, or
 -- 'unregister' is called.
 --
--- This function uses 'QObject.installEventFilter' under the hood.
-onAnyEvent :: QObjectPtr target => target -> EventFilter -> IO EventRegistration
-onAnyEvent receiver filter = do
+-- This function uses 'QGraphicsItem.installSceneEventFilter' under the hood.
+onAnySceneEvent :: QGraphicsItemPtr target =>
+  target -> SceneEventFilter -> IO SceneEventRegistration
+onAnySceneEvent receiver filter = do
   liveVar <- newMVar True
-  listener <- EventListener.new receiver filter $ modifyMVar_ liveVar $ const $ return False
-  return $ EventRegistration
+  listener <- SceneEventListener.new receiver filter $ modifyMVar_ liveVar $ const $ return False
+  return $ SceneEventRegistration
     { regListener = listener
     , regLive = liveVar
     }
 
 -- | Disconnects an event handler and frees its resources.  This function is
 -- idempotent.
-unregister :: EventRegistration -> IO ()
+unregister :: SceneEventRegistration -> IO ()
 unregister reg = modifyMVar_ (regLive reg) $ \live -> do
   when live $ do
     let listener = regListener reg
     -- The on-delete callback tries to modify regLive too, so skip it to avoid
     -- deadlock, because we already know the listener is being deleted.
-    EventListener.doNotNotifyOnDelete listener
+    SceneEventListener.doNotNotifyOnDelete listener
     delete listener
   return False
 
-internalRegistrationIsLive :: EventRegistration -> IO Bool
+internalRegistrationIsLive :: SceneEventRegistration -> IO Bool
 internalRegistrationIsLive = readMVar . regLive

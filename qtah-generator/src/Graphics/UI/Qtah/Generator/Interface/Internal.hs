@@ -20,6 +20,7 @@ module Graphics.UI.Qtah.Generator.Interface.Internal (modules) where
 import qualified Graphics.UI.Qtah.Generator.Interface.Internal.Callback as Callback
 import qualified Graphics.UI.Qtah.Generator.Interface.Internal.EventListener as EventListener
 import qualified Graphics.UI.Qtah.Generator.Interface.Internal.Listener as Listener
+import qualified Graphics.UI.Qtah.Generator.Interface.Internal.SceneEventListener as SceneEventListener
 import Graphics.UI.Qtah.Generator.Module (AModule)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -29,4 +30,5 @@ modules =
   [ Callback.aModule
   , EventListener.aModule
   , Listener.aModule
+  , SceneEventListener.aModule
   ]

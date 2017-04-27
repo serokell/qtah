@@ -24,6 +24,7 @@ module Graphics.UI.Qtah.Generator.Interface.Imports (
   importForForeign,
   importForForeignC,
   importForPrelude,
+  importForSceneEvent,
   importForSignal,
   importForRuntime,
   ) where
@@ -44,6 +45,9 @@ importForForeignC = hsQualifiedImport "Foreign.C" "QtahFC"
 
 importForPrelude :: HsImportSet
 importForPrelude = hsQualifiedImport "Prelude" "QtahP"
+
+importForSceneEvent :: HsImportSet
+importForSceneEvent = hsQualifiedImport "Graphics.UI.Qtah.SceneEvent" "QtahSceneEvent"
 
 importForSignal :: HsImportSet
 importForSignal = hsQualifiedImport "Graphics.UI.Qtah.Signal" "QtahSignal"

@@ -59,15 +59,14 @@ the version of Qt that Qtah is built against, you must first clean the existing
 build outputs (`clean.sh`) before running the build script again.
 
 Packages that use Qtah should only depend on a `qtah-qtX` package (or just
-`qtah` if building locally).  Executables that use Qtah should be linked
-dynamically, by passing the `--enable-executable-dynamic` flag to `cabal
-configure` or `cabal install`.  This includes unit tests.
+`qtah` if building locally).  Executables that use Qtah need to be linked
+dynamically, so put `ghc-options: -dynamic` in your Cabal file.  This includes
+unit tests.
 
 There is a demo program in `/qtah-examples` that can be built and run after
 installing Qtah:
 
     $ cd qtah-examples
-    $ cabal configure --enable-executable-dynamic
     $ cabal run
 
 ### Dependencies

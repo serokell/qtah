@@ -58,6 +58,9 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_WindowStates,
   e_WindowType,
   bs_WindowFlags,
+  e_MouseEventFlag_version,
+  e_MouseEventSource_version,
+  e_ScrollPhase_version
   ) where
 
 import Data.Bits ((.|.))

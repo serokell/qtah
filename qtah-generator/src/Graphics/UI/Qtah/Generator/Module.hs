@@ -115,7 +115,13 @@ import Foreign.Hoppy.Generator.Types (objT)
 import Graphics.UI.Qtah.Generator.Flags (Version, qrealFloat, qtVersion)
 import Graphics.UI.Qtah.Generator.Common (fromMaybeM)
 import Graphics.UI.Qtah.Generator.Types (
-  QtExport (QtExport, QtExportEvent, QtExportFnRenamed, QtExportSignal, QtExportSpecials),
+  QtExport (QtExport,
+            QtExportEvent,
+            QtExportSceneEvent,
+            QtExportFnRenamed,
+            QtExportSignal,
+            QtExportSpecials
+           ),
   Signal,
   qtExportToExport,
   signalClass,
@@ -255,6 +261,24 @@ sayClassEncodingFnReexports cls = inFunction "sayClassEncodingFnReexports" $ do
     saysLn [classDecodeReexportName, " :: ", prettyPrint decodeFnType]
     saysLn [classDecodeReexportName, " = QtahFHR.decode QtahP.. ", toHsCastMethodName' Const cls]
 
+handleEventKind :: [String] -> String -> Class -> Generator ()
+handleEventKind path eventKind cls = do
+  let typeName = toHsDataTypeName' Nonconst cls
+  ln
+  saysLn ["instance Qtah", eventKind, ".", eventKind, " ", typeName, " where"]
+  indent $ do
+    saysLn ["on", eventKind, " receiver' handler' = Qtah", eventKind,
+              ".onAny", eventKind, " receiver' $ \\_ qevent' ->"]
+    indent $
+      if path == ["Core", "QEvent"]
+      then sayLn "handler' qevent'"
+      else do
+        addImports $ mconcat [hsImport1 "Prelude" "(==)",
+                              importForPrelude,
+                              importForRuntime]
+        saysLn ["let event' = ", classDownCastReexportName, " qevent'"]
+        sayLn "in if event' == QtahFHR.nullptr then QtahP.return QtahP.False else handler' event'"
+
 sayQtExport :: [String] -> QtExport -> Generator ()
 sayQtExport path qtExport = case qtExport of
   QtExport (ExportVariable v) -> do
@@ -288,22 +312,17 @@ sayQtExport path qtExport = case qtExport of
   QtExportEvent cls -> do
     sayExportClass cls
 
-    let typeName = toHsDataTypeName' Nonconst cls
     addImports $ mconcat [hsImport1 "Prelude" "($)",
-                          importForEvent]
-    ln
-    saysLn ["instance QtahEvent.Event ", typeName, " where"]
-    indent $ do
-      sayLn "onEvent receiver' handler' = QtahEvent.onAnyEvent receiver' $ \\_ qevent' ->"
-      indent $
-        if path == ["Core", "QEvent"]
-        then sayLn "handler' qevent'"
-        else do
-          addImports $ mconcat [hsImport1 "Prelude" "(==)",
-                                importForPrelude,
-                                importForRuntime]
-          saysLn ["let event' = ", classDownCastReexportName, " qevent'"]
-          sayLn "in if event' == QtahFHR.nullptr then QtahP.return QtahP.False else handler' event'"
+                          importForEvent, importForSceneEvent]
+    handleEventKind path "Event" cls
+    handleEventKind path "SceneEvent" cls
+
+  QtExportSceneEvent cls -> do
+    sayExportClass cls
+
+    addImports $ mconcat [hsImport1 "Prelude" "($)",
+                          importForEvent, importForSceneEvent]
+    handleEventKind path "SceneEvent" cls
 
   QtExportSpecials -> do
     -- Generate a type synonym for qreal.

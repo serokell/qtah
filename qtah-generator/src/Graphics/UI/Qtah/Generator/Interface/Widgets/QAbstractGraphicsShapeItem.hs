@@ -15,9 +15,9 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar (
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem (
   aModule,
-  c_QScrollBar
+  c_QAbstractGraphicsShapeItem,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -27,12 +27,13 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
-  mkCtor,
+  mkConstMethod,
+  mkMethod
   )
-import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Orientation)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (c_QAbstractSlider)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Foreign.Hoppy.Generator.Types (objT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QBrush (c_QBrush)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPen (c_QPen)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsItem)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -40,15 +41,16 @@ import Graphics.UI.Qtah.Generator.Types
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QScrollBar"]
-  [ QtExport $ ExportClass c_QScrollBar ]
+  makeQtModule ["Widgets", "QAbstractGraphicsShapeItem"]
+  [ QtExport $ ExportClass c_QAbstractGraphicsShapeItem
+  ]
 
-c_QScrollBar =
-  addReqIncludes [includeStd "QScrollBar"] $
+c_QAbstractGraphicsShapeItem =
+  addReqIncludes [includeStd "QAbstractGraphicsShapeItem"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QScrollBar") Nothing [c_QAbstractSlider]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , mkCtor "newWithOrientation" [enumT e_Orientation]
-  , mkCtor "newWithOrientationAndParent" [enumT e_Orientation, ptrT $ objT c_QWidget]
+  makeClass (ident "QAbstractGraphicsShapeItem") Nothing [c_QGraphicsItem]
+  [ mkConstMethod "brush" [] $ objT c_QBrush
+  , mkConstMethod "pen" [] $ objT c_QPen
+  , mkMethod "setBrush" [objT c_QBrush] voidT
+  , mkMethod "setPen" [objT c_QPen] voidT
   ]

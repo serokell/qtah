@@ -19,6 +19,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QEvent>
+#include <QGraphicsItem>
+#include <QObject>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QWidget>
 #include "b_callback.hpp"
 
 namespace qtah {
@@ -56,6 +61,44 @@ public:
 
 private:
     CallbackPtrQObjectPtrQEventBool eventCallback_;
+    CallbackVoid deletedCallback_;
+    bool notifyDeleted_;
+};
+
+class SceneEventListener : public QGraphicsItem {
+
+public:
+    SceneEventListener(
+        QGraphicsItem *parent,
+        CallbackPtrQGraphicsItemPtrQEventBool eventCallback,
+        CallbackVoid deletedCallback) :
+        QGraphicsItem(parent),
+        eventCallback_(eventCallback),
+        deletedCallback_(deletedCallback),
+        notifyDeleted_(true) {
+        parent->installSceneEventFilter(this);
+    }
+
+    ~SceneEventListener() {
+        parentItem()->removeSceneEventFilter(this);
+        if (notifyDeleted_) {
+            deletedCallback_();
+        }
+    }
+
+    virtual bool sceneEventFilter(QGraphicsItem* receiver, QEvent* event) {
+        return eventCallback_(receiver, event);
+    }
+
+    void doNotNotifyOnDelete() {
+        notifyDeleted_ = false;
+    }
+
+    virtual QRectF boundingRect() const { return QRectF(); }
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* = 0) { return; }
+
+private:
+    CallbackPtrQGraphicsItemPtrQEventBool eventCallback_;
     CallbackVoid deletedCallback_;
     bool notifyDeleted_;
 };

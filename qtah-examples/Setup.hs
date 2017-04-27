@@ -15,25 +15,7 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import Control.Monad (unless)
-import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
-import Distribution.Simple.Setup (ConfigFlags, configDynExe, configVerbosity, fromFlagOrDefault)
-import Distribution.Simple.UserHooks (UserHooks (postConf))
-import Distribution.Simple.Utils (warn)
-import Distribution.Verbosity (normal)
+import Distribution.Simple (defaultMain)
 
 main :: IO ()
-main = defaultMainWithHooks qtahHooks
-
-qtahHooks :: UserHooks
-qtahHooks = simpleUserHooks
-  { postConf = \_ cf _ _ -> warnAboutDynExe cf
-  }
-
-warnAboutDynExe :: ConfigFlags -> IO ()
-warnAboutDynExe configFlags = do
-  let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
-  unless (fromFlagOrDefault False $ configDynExe configFlags) $
-    warn verbosity $
-    "qtah-examples needs to be a dynamically linked executable; " ++
-    "please pass --enable-executable-dynamic to 'cabal install'."
+main = defaultMain

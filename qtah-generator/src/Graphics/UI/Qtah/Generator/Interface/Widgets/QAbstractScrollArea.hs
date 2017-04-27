@@ -30,12 +30,12 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   mkMethod,
-  mkProp,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment, e_ScrollBarPolicy)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QScrollBar (c_QScrollBar)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -53,12 +53,18 @@ c_QAbstractScrollArea =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkMethod "addScrollBarWidget" [ptrT $ objT c_QWidget, bitspaceT bs_Alignment] voidT
-  , mkProp "cornerWidget" $ ptrT $ objT c_QWidget
-    -- TODO horizontalScrollBar
-  , mkProp "horizontalScrollBarPolicy" $ enumT e_ScrollBarPolicy
+  , mkConstMethod "cornerWidget" [] $ ptrT $ objT c_QWidget
+  , mkConstMethod "horizontalScrollBar" [] $ ptrT $ objT c_QScrollBar
+  , mkConstMethod "horizontalScrollBarPolicy" [] $ enumT e_ScrollBarPolicy
   , mkConstMethod "maximumViewportSize" [] $ objT c_QSize
-    -- TODO scrollBarWidgets
-    -- TODO verticalScrollBar
-  , mkProp "verticalScrollBarPolicy" $ enumT e_ScrollBarPolicy
-  , mkProp "viewport" $ ptrT $ objT c_QWidget
+  -- TODO mkMethod "scrollBarWidgets" [enumT e_Alignment] $ objT c_QWidgetList
+  , mkMethod "setCornerWidget" [ptrT $ objT c_QWidget] voidT
+  , mkMethod "setHorizontalScrollBar" [ptrT $ objT c_QScrollBar] voidT
+  , mkMethod "setHorizontalScrollBarPolicy" [enumT e_ScrollBarPolicy] voidT
+  , mkMethod "setVerticalScrollBar" [ptrT $ objT c_QScrollBar] voidT
+  , mkMethod "setVerticalScrollBarPolicy" [enumT e_ScrollBarPolicy] voidT
+  , mkMethod "setViewport" [ptrT $ objT c_QWidget] voidT
+  , mkConstMethod "verticalScrollBar" [] $ ptrT $ objT c_QScrollBar
+  , mkConstMethod "verticalScrollBarPolicy" [] $ enumT e_ScrollBarPolicy
+  , mkConstMethod "viewport" [] $ ptrT $ objT c_QWidget
   ]

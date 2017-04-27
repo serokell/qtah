@@ -45,6 +45,7 @@
 /qtah/src/Graphics/UI/Qtah/Gui/Q*
 /qtah/src/Graphics/UI/Qtah/Internal/Callback.hs
 /qtah/src/Graphics/UI/Qtah/Internal/EventListener.hs
+/qtah/src/Graphics/UI/Qtah/Internal/SceneEventListener.hs
 /qtah/src/Graphics/UI/Qtah/Internal/Listener.hs
 /qtah/src/Graphics/UI/Qtah/Std.hs
 /qtah/src/Graphics/UI/Qtah/Widgets/Q*
@@ -56,6 +57,11 @@
 /qtah-qt?/src/Graphics/UI/Qtah/Gui/Q*
 /qtah-qt?/src/Graphics/UI/Qtah/Internal/Callback.hs
 /qtah-qt?/src/Graphics/UI/Qtah/Internal/EventListener.hs
+/qtah-qt?/src/Graphics/UI/Qtah/Internal/SceneEventListener.hs
 /qtah-qt?/src/Graphics/UI/Qtah/Internal/Listener.hs
 /qtah-qt?/src/Graphics/UI/Qtah/Std.hs
 /qtah-qt?/src/Graphics/UI/Qtah/Widgets/Q*
+
+*~
+.stack-work
+

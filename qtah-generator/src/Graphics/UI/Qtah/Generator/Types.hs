@@ -52,6 +52,7 @@ data QtExport =
   | QtExportFnRenamed Function String
   | QtExportSignal Signal
   | QtExportEvent Class
+  | QtExportSceneEvent Class
   | QtExportSpecials
     -- ^ This is a special value that is exported exactly once, and generates
     -- some bindings that need special logic.
@@ -62,6 +63,7 @@ qtExportToExport qtExport = case qtExport of
   QtExportFnRenamed fn _ -> Just $ ExportFn fn
   QtExportSignal {} -> Nothing
   QtExportEvent cls -> Just $ ExportClass cls
+  QtExportSceneEvent cls -> Just $ ExportClass cls
   QtExportSpecials -> Nothing
 
 -- | Creates a 'CppEnum' whose 'ExtName' is the concatenation of all part of its

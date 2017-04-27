@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF (
   aModule,
+  c_QPolygonF
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
