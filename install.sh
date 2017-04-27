@@ -81,8 +81,7 @@ sdist
 echo
 msg "Building and installing qtah."
 goToPkg qtah
-run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
-    --enable-tests --enable-executable-dynamic
+run cabal configure ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} --enable-tests
 run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
 # We call the test executable directly instead of running 'cabal test', for
 # distros such as Debian Stretch that are affected by
@@ -92,14 +91,14 @@ run env LD_LIBRARY_PATH=$PWD/dist/build dist/build/test-qtah/test-qtah
 # silence them.
 run cabal haddock --haddock-options=--no-print-missing-docs
 run cabal install ${QTAH_QT_FLAGS:+--flags="$QTAH_QT_FLAGS"} \
-    --enable-tests --enable-executable-dynamic --force-reinstalls
+    --enable-tests --force-reinstalls
 sdist
 
 if [[ $commands = *\ examples\ * ]] || [[ $commands = *\ sdist\ * ]]; then
     echo
     msg "Building qtah-examples."
     goToPkg qtah-examples
-    run cabal configure --enable-executable-dynamic
+    run cabal configure
     run cabal build
     sdist
 fi
