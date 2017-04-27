@@ -19,6 +19,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QEvent>
+#include <QGraphicsItem>
+#include <QObject>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QWidget>
 #include "b_callback.hpp"
 
 namespace qtah {
@@ -81,7 +86,7 @@ public:
         }
     }
 
-    virtual bool eventFilter(QGraphicsItem* receiver, QEvent* event) {
+    virtual bool sceneEventFilter(QGraphicsItem* receiver, QEvent* event) {
         return eventCallback_(receiver, event);
     }
 
@@ -90,8 +95,7 @@ public:
     }
 
     virtual QRectF boundingRect() const { return QRectF(); }
-    virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option,
-                           QWidget * widget = 0) { return; }
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget* = 0) { return; }
 
 private:
     CallbackPtrQGraphicsItemPtrQEventBool eventCallback_;

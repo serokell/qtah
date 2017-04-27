@@ -17,27 +17,8 @@
 
 {-# LANGUAGE ExistentialQuantification #-}
 
--- | General routines for managing 'QEvent's.
--- This file is part of Qtah.
---
--- Copyright 2016-2017 Bryan Gardiner <bog@khumba.net>
---
--- This program is free software: you can redistribute it and/or modify
--- it under the terms of the GNU Lesser General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
---
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- GNU Lesser General Public License for more details.
---
--- You should have received a copy of the GNU Lesser General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-{-# LANGUAGE ExistentialQuantification #-}
-
--- | General routines for managing 'QEvent's.
+-- | General routines for managing events for
+-- "Graphics.UI.Qtah.Widgets.QGraphicsScene"s.
 module Graphics.UI.Qtah.SceneEvent (
   -- * High-level interface.
   SceneEvent (..),
@@ -53,15 +34,14 @@ module Graphics.UI.Qtah.SceneEvent (
 import Control.Concurrent.MVar (MVar, modifyMVar_, newMVar, readMVar)
 import Control.Monad (when)
 import Foreign.Hoppy.Runtime (delete)
-import Graphics.UI.Qtah.Widgets.QGraphicsScene (addItem)
-import Graphics.UI.Qtah.Widgets.QGraphicsItem
-  (QGraphicsItem, QGraphicsItemPtr, scene, installSceneEventFilter, removeSceneEventFilter)
+import Graphics.UI.Qtah.Widgets.QGraphicsItem (QGraphicsItem, QGraphicsItemPtr)
 -- Note, Generated import, since the non-Generated import imports this module.
 import Graphics.UI.Qtah.Generated.Core.QEvent (QEvent)
 import Graphics.UI.Qtah.Internal.SceneEventListener (SceneEventListener)
 import qualified Graphics.UI.Qtah.Internal.SceneEventListener as SceneEventListener
 
--- | A typeclass for Qt event classes (subclasses of @QEvent@).
+-- | A typeclass for Qt events within a
+-- 'Graphics.UI.Qtah.Widgets.QGraphicsScene.QGraphicsScene'.
 class SceneEvent e where
   -- | Registers a callback function to be invoked when an event of type @e@ is
   -- sent to an object.  This is a wrapper around 'onAnySceneEvent', so for details,

@@ -18,6 +18,7 @@
 module Graphics.UI.Qtah.Generator.Interface.Widgets (modules) where
 
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton as QAbstractButton
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem as QAbstractGraphicsShapeItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider as QAbstractSlider
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSpinBox as QAbstractSpinBox
@@ -34,7 +35,6 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDoubleSpinBox as 
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout as QFormLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame as QFrame
-import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem as QAbstractGraphicsShapeItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsEllipseItem as QGraphicsEllipseItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem as QGraphicsItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsPolygonItem as QGraphicsPolygonItem
@@ -81,6 +81,7 @@ import Graphics.UI.Qtah.Generator.Module (AModule)
 modules :: [AModule]
 modules =
   [ QAbstractButton.aModule
+  , QAbstractGraphicsShapeItem.aModule
   , QAbstractScrollArea.aModule
   , QAbstractSlider.aModule
   , QAbstractSpinBox.aModule
@@ -97,7 +98,6 @@ modules =
   , QFileDialog.aModule
   , QFormLayout.aModule
   , QFrame.aModule
-  , QAbstractGraphicsShapeItem.aModule
   , QGraphicsEllipseItem.aModule
   , QGraphicsItem.aModule
   , QGraphicsPolygonItem.aModule

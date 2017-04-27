@@ -52,7 +52,7 @@ c_QGraphicsRectItem =
   classSetEntityPrefix "" $
   makeClass (ident "QGraphicsRectItem") Nothing [c_QAbstractGraphicsShapeItem]
   [ mkCtor "new" []
-  , mkCtor "newWithRect" [qreal, qreal, qreal, qreal]
+  , mkCtor "newWithRaw" [qreal, qreal, qreal, qreal]
   , mkConstMethod "rect" [] $ objT c_QRectF
   , mkMethod' "setRect" "setRectRaw" [qreal, qreal, qreal, qreal] voidT
   ]

@@ -32,6 +32,8 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   )
 import Foreign.Hoppy.Generator.Types (boolT, intT, voidT)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -49,21 +51,22 @@ aModule =
 c_QTimer =
   addReqIncludes [includeStd "QTimer"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QTimer") Nothing [c_QObject]
-  [ mkCtor "new" []
-  , mkConstMethod "interval" [] intT
-  -- , mkConstMethod "intervalAsDuration" [] $ objT c_std::chrono::milliseconds
-  , mkConstMethod "isActive" [] boolT
-  , mkConstMethod "isSingleShot" [] boolT
-  , mkConstMethod "remainingTime" [] intT
-  -- , mkConstMethod "remainingTimeAsDuration" [] $ objT c_std::chrono::milliseconds
-  , mkMethod "setInterval" [intT] voidT
-  -- , mkMethod' "setInterval" "setInterval" [objT c_std::chrono::milliseconds] voidT
-  , mkMethod "setSingleShot" [boolT] voidT
-  -- , mkMethod "setTimerType" [objT c_Qt::TimerType] voidT
-  , mkMethod "start" [intT] voidT
-  , mkConstMethod "timerId" [] intT
-  -- , mkConstMethod "timerType" [] $ objT c_Qt::TimerType
+  makeClass (ident "QTimer") Nothing [c_QObject] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkConstMethod "interval" [] intT
+  -- , just $ mkConstMethod "intervalAsDuration" [] $ objT c_std::chrono::milliseconds
+  , just $ mkConstMethod "isActive" [] boolT
+  , just $ mkConstMethod "isSingleShot" [] boolT
+  , test (qtVersion >= [5, 0]) $ mkConstMethod "remainingTime" [] intT
+  -- , just $ mkConstMethod "remainingTimeAsDuration" [] $ objT c_std::chrono::milliseconds
+  , just $ mkMethod "setInterval" [intT] voidT
+  -- , just $ mkMethod' "setInterval" "setInterval" [objT c_std::chrono::milliseconds] voidT
+  , just $ mkMethod "setSingleShot" [boolT] voidT
+  -- , just $ mkMethod "setTimerType" [objT c_Qt::TimerType] voidT
+  , just $ mkMethod "start" [intT] voidT
+  , just $ mkConstMethod "timerId" [] intT
+  -- , just $ mkConstMethod "timerType" [] $ objT c_Qt::TimerType
   ]
 
 s_timeout = makeSignal c_QTimer "timeout" c_Listener

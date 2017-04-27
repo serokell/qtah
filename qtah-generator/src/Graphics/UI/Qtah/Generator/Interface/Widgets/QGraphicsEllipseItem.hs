@@ -48,5 +48,5 @@ c_QGraphicsEllipseItem =
   classSetEntityPrefix "" $
   makeClass (ident "QGraphicsEllipseItem") Nothing [c_QAbstractGraphicsShapeItem]
   [ mkCtor "new" []
-  , mkCtor "newRectRaw" [qreal, qreal, qreal, qreal]
+  , mkCtor "newWithRaw" [qreal, qreal, qreal, qreal]
   ]
