@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- Dependency bump to support directory-1.3 in GHC 8.0.2.
+- Added support for the Qt graphics view framework thanks to @effectfully.
+
+- Dependency bump to support directory-1.3 in GHC 8.0.2, and HUnit-1.6.
 
 ## (2017-01-14) qtah-examples-0.2.1
 
