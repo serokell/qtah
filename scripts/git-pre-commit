@@ -27,7 +27,7 @@ fi
 
 # Merging these lines won't cause the command to fail (for set -e).
 projectDir=$(git rev-parse --git-dir)
-projectDir=$(readlink -f "$projectDir")
+projectDir=$(greadlink -f "$projectDir")
 projectDir=$(dirname "$projectDir")
 declare -r projectDir
 cd "$projectDir"
