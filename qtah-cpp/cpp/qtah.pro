@@ -25,6 +25,8 @@ VERSION = 0.2.0
 # Doesn't seem to work here: CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++11
 
+mac:QMAKE_SONAME_PREFIX = @rpath
+
 SOURCES += \
     $$files(b_*.cpp) \
     $$files(wrap_*.cpp) \
