@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_AlignmentFlag,
   bs_Alignment,
   e_AspectRatioMode,
+  e_BrushStyle,
   e_CaseSensitivity,
   e_CheckState,
   e_Corner,
@@ -93,6 +94,7 @@ exports =
   [ just $ ExportEnum e_AlignmentFlag
   , just $ ExportBitspace bs_Alignment
   , just $ ExportEnum e_AspectRatioMode
+  , just $ ExportEnum e_BrushStyle
   , just $ ExportEnum e_CaseSensitivity
   , just $ ExportEnum e_CheckState
   , just $ ExportEnum e_Corner
@@ -158,6 +160,29 @@ e_AspectRatioMode =
   [ (0, ["ignore", "aspect", "ratio"])
   , (1, ["keep", "aspect", "ratio"])
   , (2, ["keep", "aspect", "ratio", "by", "expanding"])
+  ]
+
+e_BrushStyle =
+  makeQtEnum (ident1 "Qt" "BrushStyle") qtInclude
+  [ (0, ["no", "brush"])
+  , (1, ["solid", "pattern"])
+  , (2, ["dense", "1", "pattern"])
+  , (3, ["dense", "2", "pattern"])
+  , (4, ["dense", "3", "pattern"])
+  , (5, ["dense", "4", "pattern"])
+  , (6, ["dense", "5", "pattern"])
+  , (7, ["dense", "6", "pattern"])
+  , (8, ["dense", "7", "pattern"])
+  , (9, ["hor", "pattern"])
+  , (10, ["ver", "pattern"])
+  , (11, ["cross", "pattern"])
+  , (12, ["b", "diag", "pattern"])
+  , (13, ["f", "diag", "pattern"])
+  , (14, ["diag", "cross", "pattern"])
+  , (15, ["linear", "gradient", "pattern"])
+  , (16, ["radial", "gradient", "pattern"])
+  , (17, ["conical", "gradient", "pattern"])
+  , (24, ["texture", "pattern"])
   ]
 
 e_CaseSensitivity =

@@ -28,14 +28,20 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
+  mkConstMethod,
   mkCtor,
+  mkMethod,
+  mkMethod',
+  mkProp,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (objT)
+import Foreign.Hoppy.Generator.Types (boolT, constT, enumT, objT, refT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_BrushStyle, e_GlobalColor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QColor (c_QColor)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QTransform (c_QTransform)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -54,5 +60,14 @@ c_QBrush =
   makeClass (ident "QBrush") Nothing [] $
   [ mkCtor "new" []
   , mkCtor "newWithColor" [objT c_QColor]
+  , mkProp "color" $ objT c_QColor
+    -- TODO mkConstMethod "gradient" [] $ ptrT $ constT $ objT c_QGradient
+  , mkConstMethod "isOpaque" [] boolT
+    -- TODO mkProp "matrix" $ objT c_QMatrix
+  , mkMethod' "setColor" "setGlobalColor" [enumT e_GlobalColor] voidT
+  , mkProp "style" $ enumT e_BrushStyle
+  , mkMethod "swap" [refT $ objT c_QBrush] voidT
+    -- TODO mkProp "texture" $ objT c_QPixmap
+    -- TODO mkProp "textureImage" $ objT c_QImage
+  , mkProp "transform" $ objT c_QTransform
   ]
-
