@@ -51,7 +51,6 @@ executable qtah-generator
   main-is: Main.hs
   other-modules:
       Graphics.UI.Qtah.Generator.Common
-    , Graphics.UI.Qtah.Generator.Flag
     , Graphics.UI.Qtah.Generator.Flags
     , Graphics.UI.Qtah.Generator.Interface.Core
     , Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel

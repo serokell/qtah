@@ -35,7 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkStaticMethod',
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, objT, ptrT, voidT)
-import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QDir (bs_Filters, c_QDir)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)

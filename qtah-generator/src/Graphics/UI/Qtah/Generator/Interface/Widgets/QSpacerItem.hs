@@ -32,7 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   )
 import Foreign.Hoppy.Generator.Types (enumT, intT, objT, voidT)
-import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem (c_QLayoutItem)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QSizePolicy (c_QSizePolicy, e_Policy)

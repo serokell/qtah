@@ -41,7 +41,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   classAddFeatures,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, voidT)
-import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Orientations)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)

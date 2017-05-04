@@ -39,7 +39,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkStaticProp,
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
-import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (keypadNavigation, qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication (c_QCoreApplication)
 import Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQWidget)

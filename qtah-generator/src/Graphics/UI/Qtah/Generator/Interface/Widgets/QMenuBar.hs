@@ -35,7 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   )
 import Foreign.Hoppy.Generator.Types (enumT, objT, ptrT, voidT)
-import Graphics.UI.Qtah.Generator.Flag (collect, just, test)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (wsWince)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
