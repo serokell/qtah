@@ -92,10 +92,12 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QImage
     , Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainter
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPen

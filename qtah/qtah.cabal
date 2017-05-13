@@ -62,6 +62,7 @@ library
     , Graphics.UI.Qtah.Core.QVector.Int
     , Graphics.UI.Qtah.Core.QVector.QPoint
     , Graphics.UI.Qtah.Core.QVector.QPointF
+    , Graphics.UI.Qtah.Core.QVector.QRgb
     , Graphics.UI.Qtah.Core.Types
     , Graphics.UI.Qtah.Event
     , Graphics.UI.Qtah.Gui.HColor
@@ -76,10 +77,12 @@ library
     , Graphics.UI.Qtah.Gui.QFocusEvent
     , Graphics.UI.Qtah.Gui.QHideEvent
     , Graphics.UI.Qtah.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Gui.QImage
     , Graphics.UI.Qtah.Gui.QInputEvent
     , Graphics.UI.Qtah.Gui.QIntValidator
     , Graphics.UI.Qtah.Gui.QKeyEvent
     , Graphics.UI.Qtah.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Gui.QPaintDevice
     , Graphics.UI.Qtah.Gui.QPainter
     , Graphics.UI.Qtah.Gui.QPainterPath
     , Graphics.UI.Qtah.Gui.QPen
@@ -186,6 +189,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QVector.Int
     , Graphics.UI.Qtah.Generated.Core.QVector.QPoint
     , Graphics.UI.Qtah.Generated.Core.QVector.QPointF
+    , Graphics.UI.Qtah.Generated.Core.QVector.QRgb
     , Graphics.UI.Qtah.Generated.Core.Types
     , Graphics.UI.Qtah.Generated.Gui.QActionEvent
     , Graphics.UI.Qtah.Generated.Gui.QBrush
@@ -198,10 +202,12 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QFocusEvent
     , Graphics.UI.Qtah.Generated.Gui.QHideEvent
     , Graphics.UI.Qtah.Generated.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Generated.Gui.QImage
     , Graphics.UI.Qtah.Generated.Gui.QInputEvent
     , Graphics.UI.Qtah.Generated.Gui.QIntValidator
     , Graphics.UI.Qtah.Generated.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generated.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generated.Gui.QPaintDevice
     , Graphics.UI.Qtah.Generated.Gui.QPainter
     , Graphics.UI.Qtah.Generated.Gui.QPainterPath
     , Graphics.UI.Qtah.Generated.Gui.QPen

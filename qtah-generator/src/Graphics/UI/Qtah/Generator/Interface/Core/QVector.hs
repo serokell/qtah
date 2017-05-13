@@ -31,6 +31,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QVector (
   c_QVectorInt,
   c_QVectorQPoint,
   c_QVectorQPointF,
+  c_QVectorQRgb,
   ) where
 
 import Control.Monad (forM_, when)
@@ -82,6 +83,7 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPointF (c_QPointF)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QColor (qrgb)
 import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), QtModule, makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -258,6 +260,7 @@ allModules =
   [ qmod_Int
   , qmod_QPoint
   , qmod_QPointF
+  , qmod_QRgb
   ]
 
 qmod_Int :: QtModule
@@ -286,3 +289,12 @@ contents_QPointF = instantiate "QVectorQPointF" (objT c_QPointF) mempty
 
 c_QVectorQPointF :: Class
 c_QVectorQPointF = c_QVector contents_QPointF
+
+qmod_QRgb :: QtModule
+qmod_QRgb = createModule "QRgb" contents_QRgb
+
+contents_QRgb :: Contents
+contents_QRgb = instantiate "QVectorQRgb" qrgb mempty
+
+c_QVectorQRgb :: Class
+c_QVectorQRgb = c_QVector contents_QRgb

@@ -28,10 +28,12 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent as QExpos
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent as QFocusEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent as QHideEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent as QHoverEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QImage as QImage
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent as QInputEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator as QIntValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent as QKeyEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent as QMouseEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice as QPaintDevice
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainter as QPainter
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath as QPainterPath
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPen as QPen
@@ -59,10 +61,12 @@ modules =
   , QExposeEvent.aModule
   , QHideEvent.aModule
   , QHoverEvent.aModule
+  , QImage.aModule
   , QInputEvent.aModule
   , QIntValidator.aModule
   , QKeyEvent.aModule
   , QMouseEvent.aModule
+  , QPaintDevice.aModule
   , QPainter.aModule
   , QPainterPath.aModule
   , QPen.aModule

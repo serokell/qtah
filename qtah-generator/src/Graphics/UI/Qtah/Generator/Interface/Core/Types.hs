@@ -39,6 +39,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_KeyboardModifier,
   bs_KeyboardModifiers,
   e_LayoutDirection,
+  e_MaskMode,
   e_MouseButton,
   bs_MouseButtons,
   e_MouseEventFlag,
@@ -54,6 +55,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_TextFormat,
   e_TextInteractionFlag,
   bs_TextInteractionFlags,
+  e_TransformationMode,
   e_WindowModality,
   e_WindowState,
   bs_WindowStates,
@@ -111,6 +113,7 @@ exports =
   , just $ ExportEnum e_KeyboardModifier
   , just $ ExportBitspace bs_KeyboardModifiers
   , just $ ExportEnum e_LayoutDirection
+  , just $ ExportEnum e_MaskMode
   , just $ ExportEnum e_MouseButton
   , just $ ExportBitspace bs_MouseButtons
   , test (qtVersion >= e_MouseEventFlag_version) $ ExportEnum e_MouseEventFlag
@@ -126,6 +129,7 @@ exports =
   , just $ ExportEnum e_TextFormat
   , just $ ExportEnum e_TextInteractionFlag
   , just $ ExportBitspace bs_TextInteractionFlags
+  , just $ ExportEnum e_TransformationMode
   , just $ ExportEnum e_WindowModality
   , just $ ExportEnum e_WindowState
   , just $ ExportBitspace bs_WindowStates
@@ -348,6 +352,12 @@ e_LayoutDirection =
   , (2, ["layout", "direction", "auto"])
   ]
 
+e_MaskMode =
+  makeQtEnum (ident1 "Qt" "MaskMode") qtInclude
+  [ (0, ["mask", "in", "color"])
+  , (1, ["mask", "out", "color"])
+  ]
+
 (e_MouseButton, bs_MouseButtons) =
   makeQtEnumBitspace (ident1 "Qt" "MouseButton") "MouseButtons" qtInclude
   [ (0x00000000, ["no", "button"])
@@ -447,6 +457,12 @@ e_TextFormat =
      , (textEditorInteraction, ["text", "editor", "interaction"])
      , (textBrowserInteraction, ["text", "browser", "interaction"])
      ]
+
+e_TransformationMode =
+  makeQtEnum (ident1 "Qt" "TransformationMode") qtInclude
+  [ (0, ["fast", "transformation"])
+  , (1, ["smooth", "transformation"])
+  ]
 
 e_WindowModality =
   makeQtEnum (ident1 "Qt" "WindowModality") qtInclude

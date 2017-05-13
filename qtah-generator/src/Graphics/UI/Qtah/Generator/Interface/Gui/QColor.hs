@@ -20,6 +20,7 @@
 module Graphics.UI.Qtah.Generator.Interface.Gui.QColor (
   aModule,
   c_QColor,
+  qrgb,
   ) where
 
 import Control.Monad (forM_)
@@ -39,7 +40,8 @@ import Foreign.Hoppy.Generator.Spec (
     classHaskellConversionToCppFn,
     classHaskellConversionType
   ),
-  Export (ExportEnum, ExportClass),
+  Export (ExportEnum, ExportFn, ExportClass),
+  Purity (Pure),
   addReqIncludes,
   classSetEntityPrefix,
   classSetHaskellConversion,
@@ -49,6 +51,7 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   makeClass,
+  makeFn,
   mkConstMethod,
   mkConstMethod',
   mkCtor,
@@ -56,12 +59,13 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkProp,
   mkStaticMethod,
+  toExtName,
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, uintT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -85,9 +89,18 @@ aModule =
   [ just $ QtExport $ ExportClass c_QColor
   , test (qtVersion >= [5, 2]) $ QtExport $ ExportEnum e_NameFormat
   , just $ QtExport $ ExportEnum e_Spec
+  , just $ QtExport $ ExportFn f_qAlpha
+  , just $ QtExport $ ExportFn f_qBlue
+  , just $ QtExport $ ExportFn f_qGray
+  , just $ QtExport $ ExportFn f_qGrayFromRgb
+  , just $ QtExport $ ExportFn f_qGreen
+  , test (qtVersion >= [5, 3]) $ QtExport $ ExportFn f_qPremultiply
+  , just $ QtExport $ ExportFn f_qRed
+  , just $ QtExport $ ExportFn f_qRgb
+  , just $ QtExport $ ExportFn f_qRgba
+  , test (qtVersion >= [5, 3]) $ QtExport $ ExportFn f_qUnpremultiply
   ]
 
--- TODO Everything using QRgb.
 c_QColor =
   addReqIncludes [includeStd "QColor"] $
   classSetHaskellConversion conversion $
@@ -96,6 +109,7 @@ c_QColor =
   makeClass (ident "QColor") Nothing [] $
   collect
   [ just $ mkCtor "new" []
+  , just $ mkCtor "newQRgb" [qrgb]
   , just $ mkCtor "newRgb" [intT, intT, intT]
   , just $ mkCtor "newRgba" [intT, intT, intT, intT]
   , just $ mkCtor "newNamedColor" [objT c_QString]
@@ -137,6 +151,8 @@ c_QColor =
     mkConstMethod' "name" "nameWithFormat" [enumT e_NameFormat] $ objT c_QString
   , just $ mkProp "red" intT
   , just $ mkProp "redF" qreal
+  , just $ mkConstMethod "rgb" [] qrgb
+  , just $ mkConstMethod "rgba" [] qrgb
   , just $ mkConstMethod "saturation" [] intT
   , just $ mkConstMethod "saturationF" [] qreal
   , just $ mkMethod' "setCmyk" "setCmyk" [intT, intT, intT, intT] voidT
@@ -152,6 +168,8 @@ c_QColor =
   , just $ mkMethod' "setHsvF" "setHsvF" [qreal, qreal, qreal] voidT
   , just $ mkMethod' "setHsvF" "setHsvaF" [qreal, qreal, qreal, qreal] voidT
   , just $ mkMethod "setNamedColor" [objT c_QString] voidT
+  , just $ mkMethod' "setRgb" "setQRgb" [qrgb] voidT
+  , just $ mkMethod' "setRgb" "setQRgba" [qrgb] voidT
   , just $ mkMethod' "setRgb" "setRgb" [intT, intT, intT] voidT
   , just $ mkMethod' "setRgb" "setRgba" [intT, intT, intT, intT] voidT
   , just $ mkMethod' "setRgbF" "setRgbF" [qreal, qreal, qreal] voidT
@@ -232,3 +250,31 @@ e_Spec =
   , (3, ["cmyk"])
   , (4, ["hsl"])
   ]
+
+-- | This is a typedef QRgb that holds a AARRGGBB value and is
+-- "equivalent to an unsigned int."
+qrgb = uintT
+
+-- TODO Qrgba64 overloads (and methods above).
+
+f_qAlpha = makeFn (ident "qAlpha") Nothing Pure [qrgb] intT
+
+f_qBlue = makeFn (ident "qBlue") Nothing Pure [qrgb] intT
+
+f_qGray = makeFn (ident "qGray") Nothing Pure [qrgb] intT
+
+f_qGrayFromRgb =
+  makeFn (ident "qGray") (Just $ toExtName "qGrayFromRgb") Pure
+  [intT, intT, intT] intT
+
+f_qGreen = makeFn (ident "qGreen") Nothing Pure [qrgb] intT
+
+f_qPremultiply = makeFn (ident "qPremultiply") Nothing Pure [qrgb] qrgb
+
+f_qRed = makeFn (ident "qRed") Nothing Pure [qrgb] intT
+
+f_qRgb = makeFn (ident "qRgb") Nothing Pure [intT, intT, intT] qrgb
+
+f_qRgba = makeFn (ident "qRgba") Nothing Pure [intT, intT, intT, intT] qrgb
+
+f_qUnpremultiply = makeFn (ident "qUnpremultiply") Nothing Pure [qrgb] qrgb

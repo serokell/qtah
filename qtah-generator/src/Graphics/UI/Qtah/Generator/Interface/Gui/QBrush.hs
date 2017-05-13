@@ -38,7 +38,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (boolT, constT, enumT, objT, refT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, refT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_BrushStyle, e_GlobalColor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QColor (c_QColor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QTransform (c_QTransform)
