@@ -21,7 +21,7 @@
 
 set -euo pipefail
 if [[ $(uname) = Darwin ]] && which greadlink >/dev/null 2>&1; then
-    alias readlink=greadlink
+    readlink() { greadlink "$@"; }
 fi
 projectDir=$(readlink -f "$0")
 projectDir=$(dirname "$projectDir")

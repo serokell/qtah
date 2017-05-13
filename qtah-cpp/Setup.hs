@@ -215,7 +215,7 @@ doClean cleanFlags = do
     filter (\file ->
               "b_" `isPrefixOf` file ||
               "moc_" `isPrefixOf` file ||
-              "libqtah.so" `isPrefixOf` file ||
+              "libqtah" `isPrefixOf` file ||
               ".o" `isSuffixOf` file ||
               file `elem` ["Makefile",
                            "callback.cpp", "callback.hpp",
