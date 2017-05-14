@@ -97,17 +97,22 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDeviceWindow
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainter
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPen
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow
     , Graphics.UI.Qtah.Generator.Interface.Gui.QRegion
     , Graphics.UI.Qtah.Generator.Interface.Gui.QShowEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QSurface
     , Graphics.UI.Qtah.Generator.Interface.Gui.QTransform
     , Graphics.UI.Qtah.Generator.Interface.Gui.QValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QWindow
     , Graphics.UI.Qtah.Generator.Interface.Imports
     , Graphics.UI.Qtah.Generator.Interface.Internal
     , Graphics.UI.Qtah.Generator.Interface.Internal.Callback

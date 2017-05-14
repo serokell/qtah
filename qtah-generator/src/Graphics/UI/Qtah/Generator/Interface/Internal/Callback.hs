@@ -27,6 +27,8 @@ import Foreign.Hoppy.Generator.Spec (
   toExtName,
   )
 import Foreign.Hoppy.Generator.Types (boolT, doubleT, enumT, intT, objT, ptrT, toGcT, voidT)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
@@ -34,7 +36,15 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVector (c_QVectorInt)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (
+  e_ScreenOrientation,
+  e_ScreenOrientation_minVersion,
+  e_WindowModality,
+  e_WindowState,
+  qreal,
+  )
 import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard as QClipboard
+import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWindow as QWindow
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
   (c_QAbstractButton)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (e_SliderAction)
@@ -49,28 +59,33 @@ aModule =
   AHoppyModule $
   moduleModify' (makeModule "callback" "b_callback.hpp" "b_callback.cpp") $ do
     moduleAddHaskellName ["Internal", "Callback"]
-    moduleAddExports
-      [ ExportCallback cb_BoolVoid
-      , ExportCallback cb_DoubleVoid
-      , ExportCallback cb_IntVoid
-      , ExportCallback cb_IntBoolVoid
-      , ExportCallback cb_IntIntVoid
-      , ExportCallback cb_PtrQAbstractButtonVoid
-      , ExportCallback cb_PtrQAbstractButtonBoolVoid
-      , ExportCallback cb_PtrQActionVoid
-      , ExportCallback cb_PtrQGraphicsItemPtrQEventBool
-      , ExportCallback cb_PtrQObjectPtrQEventBool
-      , ExportCallback cb_PtrQObjectVoid
-      , ExportCallback cb_PtrQWidgetPtrQWidgetVoid
-      , ExportCallback cb_QAbstractSliderActionVoid
-      , ExportCallback cb_QClipboardModeVoid
-      , ExportCallback cb_QModelIndexIntIntVoid
-      , ExportCallback cb_QModelIndexIntIntQModelIndexIntVoid
-      , ExportCallback cb_QModelIndexQModelIndexQVectorIntVoid
-      , ExportCallback cb_QPointVoid
-      , ExportCallback cb_QSizeVoid
-      , ExportCallback cb_QStringVoid
-      , ExportCallback cb_Void
+    moduleAddExports $ collect
+      [ just $ ExportCallback cb_BoolVoid
+      , just $ ExportCallback cb_DoubleVoid
+      , just $ ExportCallback cb_IntVoid
+      , just $ ExportCallback cb_IntBoolVoid
+      , just $ ExportCallback cb_IntIntVoid
+      , just $ ExportCallback cb_PtrQAbstractButtonVoid
+      , just $ ExportCallback cb_PtrQAbstractButtonBoolVoid
+      , just $ ExportCallback cb_PtrQActionVoid
+      , just $ ExportCallback cb_PtrQGraphicsItemPtrQEventBool
+      , just $ ExportCallback cb_PtrQObjectPtrQEventBool
+      , just $ ExportCallback cb_PtrQObjectVoid
+      , just $ ExportCallback cb_PtrQWidgetPtrQWidgetVoid
+      , test (qtVersion >= e_ScreenOrientation_minVersion) $ ExportCallback cb_ScreenOrientationVoid
+      , just $ ExportCallback cb_QAbstractSliderActionVoid
+      , just $ ExportCallback cb_QClipboardModeVoid
+      , just $ ExportCallback cb_QModelIndexIntIntVoid
+      , just $ ExportCallback cb_QModelIndexIntIntQModelIndexIntVoid
+      , just $ ExportCallback cb_QModelIndexQModelIndexQVectorIntVoid
+      , test (qtVersion >= QWindow.minVersion) $ ExportCallback cb_QWindowVisibilityVoid
+      , just $ ExportCallback cb_QPointVoid
+      , just $ ExportCallback cb_QrealVoid
+      , just $ ExportCallback cb_QSizeVoid
+      , just $ ExportCallback cb_QStringVoid
+      , just $ ExportCallback cb_WindowModalityVoid
+      , just $ ExportCallback cb_WindowStateVoid
+      , just $ ExportCallback cb_Void
       ]
 
 cb_BoolVoid =
@@ -121,6 +136,10 @@ cb_PtrQWidgetPtrQWidgetVoid =
   makeCallback (toExtName "CallbackPtrQWidgetPtrQWidgetVoid")
   [ptrT $ objT c_QWidget, ptrT $ objT c_QWidget] voidT
 
+cb_ScreenOrientationVoid =
+  makeCallback (toExtName "CallbackScreenOrientationVoid")
+  [enumT e_ScreenOrientation] voidT
+
 cb_QAbstractSliderActionVoid =
   makeCallback (toExtName "CallbackQAbstractSliderActionVoid")
   [enumT e_SliderAction] voidT
@@ -141,9 +160,17 @@ cb_QModelIndexQModelIndexQVectorIntVoid =
   makeCallback (toExtName "CallbackQModelIndexQModelIndexQVectorIntVoid")
   [objT c_QModelIndex, objT c_QModelIndex, toGcT $ objT c_QVectorInt] voidT
 
+cb_QWindowVisibilityVoid =
+  makeCallback (toExtName "CallbackQWindowVisibilityVoid")
+  [enumT QWindow.e_Visibility] voidT
+
 cb_QPointVoid =
   makeCallback (toExtName "CallbackQPointVoid")
   [objT c_QPoint] voidT
+
+cb_QrealVoid =
+  makeCallback (toExtName "CallbackQrealVoid")
+  [qreal] voidT
 
 cb_QSizeVoid =
   makeCallback (toExtName "CallbackQSizeVoid")
@@ -152,6 +179,14 @@ cb_QSizeVoid =
 cb_QStringVoid =
   makeCallback (toExtName "CallbackQStringVoid")
   [objT c_QString] voidT
+
+cb_WindowModalityVoid =
+  makeCallback (toExtName "CallbackWindowModalityVoid")
+  [enumT e_WindowModality] voidT
+
+cb_WindowStateVoid =
+  makeCallback (toExtName "CallbackWindowStateVoid")
+  [enumT e_WindowState] voidT
 
 cb_Void =
   makeCallback (toExtName "CallbackVoid")

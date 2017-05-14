@@ -19,6 +19,7 @@
 module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   aModule,
   qreal,
+  gluint,
   e_AlignmentFlag,
   bs_Alignment,
   e_AspectRatioMode,
@@ -43,13 +44,19 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_MouseButton,
   bs_MouseButtons,
   e_MouseEventFlag,
+  e_MouseEventFlag_minVersion,
   bs_MouseEventFlags,
   e_MouseEventSource,
+  e_MouseEventSource_minVersion,
   e_NavigationMode,
   e_Orientation,
   bs_Orientations,
+  e_ScreenOrientation,
+  e_ScreenOrientation_minVersion,
+  bs_ScreenOrientations,
   e_ScrollBarPolicy,
   e_ScrollPhase,
+  e_ScrollPhase_minVersion,
   e_SortOrder,
   e_TextElideMode,
   e_TextFormat,
@@ -61,9 +68,6 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_WindowStates,
   e_WindowType,
   bs_WindowFlags,
-  e_MouseEventFlag_version,
-  e_MouseEventSource_version,
-  e_ScrollPhase_version
   ) where
 
 import Data.Bits ((.|.))
@@ -77,7 +81,7 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeFn,
   )
-import Foreign.Hoppy.Generator.Types (doubleT, floatT, objT)
+import Foreign.Hoppy.Generator.Types (doubleT, floatT, objT, word32T)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qrealFloat, qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -116,14 +120,16 @@ exports =
   , just $ ExportEnum e_MaskMode
   , just $ ExportEnum e_MouseButton
   , just $ ExportBitspace bs_MouseButtons
-  , test (qtVersion >= e_MouseEventFlag_version) $ ExportEnum e_MouseEventFlag
-  , test (qtVersion >= e_MouseEventFlag_version) $ ExportBitspace bs_MouseEventFlags
-  , test (qtVersion >= e_MouseEventSource_version) $ ExportEnum e_MouseEventSource
+  , test (qtVersion >= e_MouseEventFlag_minVersion) $ ExportEnum e_MouseEventFlag
+  , test (qtVersion >= e_MouseEventFlag_minVersion) $ ExportBitspace bs_MouseEventFlags
+  , test (qtVersion >= e_MouseEventSource_minVersion) $ ExportEnum e_MouseEventSource
   , just $ ExportEnum e_NavigationMode
   , just $ ExportEnum e_Orientation
   , just $ ExportBitspace bs_Orientations
+  , test (qtVersion >= e_ScreenOrientation_minVersion) $ ExportEnum e_ScreenOrientation
+  , test (qtVersion >= e_ScreenOrientation_minVersion) $ ExportBitspace bs_ScreenOrientations
   , just $ ExportEnum e_ScrollBarPolicy
-  , test (qtVersion >= e_ScrollPhase_version) $ ExportEnum e_ScrollPhase
+  , test (qtVersion >= e_ScrollPhase_minVersion) $ ExportEnum e_ScrollPhase
   , just $ ExportEnum e_SortOrder
   , just $ ExportEnum e_TextElideMode
   , just $ ExportEnum e_TextFormat
@@ -143,6 +149,9 @@ qtInclude = [includeStd "Qt"]
 
 qreal :: Type
 qreal = if qrealFloat then floatT else doubleT
+
+gluint :: Type
+gluint = word32T
 
 (e_AlignmentFlag, bs_Alignment) =
   makeQtEnumBitspace (ident1 "Qt" "AlignmentFlag") "Alignment" qtInclude
@@ -373,7 +382,7 @@ e_MaskMode =
   [ (0x01, ["mouse", "event", "created", "double", "click"])
   ]
 
-e_MouseEventFlag_version = [5, 3]
+e_MouseEventFlag_minVersion = [5, 3]
 
 e_MouseEventSource =
   makeQtEnum (ident1 "Qt" "MouseEventSource") qtInclude
@@ -382,7 +391,7 @@ e_MouseEventSource =
   , (2, ["mouse", "event", "synthesized", "by", "qt"])
   ]
 
-e_MouseEventSource_version = [5, 3]
+e_MouseEventSource_minVersion = [5, 3]
 
 e_NavigationMode =
   makeQtEnum (ident1 "Qt" "NavigationMode") qtInclude
@@ -399,6 +408,17 @@ e_NavigationMode =
   , (2, ["vertical"])
   ]
 
+(e_ScreenOrientation, bs_ScreenOrientations) =
+  makeQtEnumBitspace (ident1 "Qt" "ScreenOrientation") "ScreenOrientations" qtInclude
+  [ (0x0, ["primary", "orientation"])
+  , (0x1, ["portrait", "orientation"])
+  , (0x2, ["landscape", "orientation"])
+  , (0x4, ["inverted", "portrait", "orientation"])
+  , (0x8, ["inverted", "landscape", "orientation"])
+  ]
+
+e_ScreenOrientation_minVersion = [5, 0]
+
 e_ScrollBarPolicy =
   makeQtEnum (ident1 "Qt" "ScrollBarPolicy") qtInclude
   [ (0, ["scroll", "bar", "as", "needed"])
@@ -413,7 +433,7 @@ e_ScrollPhase =
   , (3, ["scroll", "end"])
   ]
 
-e_ScrollPhase_version = [5, 2]
+e_ScrollPhase_minVersion = [5, 2]
 
 e_SortOrder =
   makeQtEnum (ident1 "Qt" "SortOrder") qtInclude

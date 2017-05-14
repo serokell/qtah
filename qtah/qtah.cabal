@@ -82,17 +82,22 @@ library
     , Graphics.UI.Qtah.Gui.QIntValidator
     , Graphics.UI.Qtah.Gui.QKeyEvent
     , Graphics.UI.Qtah.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Gui.QPaintDevice
+    , Graphics.UI.Qtah.Gui.QPaintDeviceWindow
     , Graphics.UI.Qtah.Gui.QPainter
     , Graphics.UI.Qtah.Gui.QPainterPath
     , Graphics.UI.Qtah.Gui.QPen
     , Graphics.UI.Qtah.Gui.QPolygon
     , Graphics.UI.Qtah.Gui.QPolygonF
+    , Graphics.UI.Qtah.Gui.QRasterWindow
     , Graphics.UI.Qtah.Gui.QRegion
     , Graphics.UI.Qtah.Gui.QShowEvent
+    , Graphics.UI.Qtah.Gui.QSurface
     , Graphics.UI.Qtah.Gui.QTransform
     , Graphics.UI.Qtah.Gui.QValidator
     , Graphics.UI.Qtah.Gui.QWheelEvent
+    , Graphics.UI.Qtah.Gui.QWindow
     , Graphics.UI.Qtah.SceneEvent
     , Graphics.UI.Qtah.Signal
     -- TODO This should not be exposed directly, but there is no nice interface
@@ -207,17 +212,22 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QIntValidator
     , Graphics.UI.Qtah.Generated.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generated.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generated.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Generated.Gui.QPaintDevice
+    , Graphics.UI.Qtah.Generated.Gui.QPaintDeviceWindow
     , Graphics.UI.Qtah.Generated.Gui.QPainter
     , Graphics.UI.Qtah.Generated.Gui.QPainterPath
     , Graphics.UI.Qtah.Generated.Gui.QPen
     , Graphics.UI.Qtah.Generated.Gui.QPolygon
     , Graphics.UI.Qtah.Generated.Gui.QPolygonF
+    , Graphics.UI.Qtah.Generated.Gui.QRasterWindow
     , Graphics.UI.Qtah.Generated.Gui.QRegion
     , Graphics.UI.Qtah.Generated.Gui.QShowEvent
+    , Graphics.UI.Qtah.Generated.Gui.QSurface
     , Graphics.UI.Qtah.Generated.Gui.QTransform
     , Graphics.UI.Qtah.Generated.Gui.QValidator
     , Graphics.UI.Qtah.Generated.Gui.QWheelEvent
+    , Graphics.UI.Qtah.Generated.Gui.QWindow
     , Graphics.UI.Qtah.Generated.Internal.EventListener
     , Graphics.UI.Qtah.Generated.Internal.SceneEventListener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton

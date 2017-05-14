@@ -79,14 +79,19 @@ forEachListener() {
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
+    $fn ScreenOrientation "Qt::ScreenOrientation" 0x050000 '[5, 0]'
     $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
     $fn QClipboardMode "QClipboard::Mode"
     $fn QModelIndexIntInt "QModelIndex|int|int"
     $fn QModelIndexIntIntQModelIndexInt "QModelIndex|int|int|QModelIndex|int"
     $fn QModelIndexQModelIndexQVectorInt "QModelIndex|QModelIndex|QVector<int>"
     $fn QPoint "QPoint"
+    $fn Qreal "qreal"
     $fn QSize "QSize"
     $fn QString "QString"
+    $fn QWindowVisibility "QWindow::Visibility" 0x050000 '[5, 0]'
+    $fn WindowModality "Qt::WindowModality"
+    $fn WindowState "Qt::WindowState"
     $fn "" ""
 }
 
@@ -106,6 +111,8 @@ if [[ -n $cppDir ]]; then
     sayHpp '#define QTAH_LISTENERS_HPP'
     sayHpp
     sayHpp '#include <string>'
+    sayHpp '#include <Qt>'
+    sayHpp '#include <QtGlobal>'
     sayHpp '#include <QAbstractButton>'
     sayHpp '#include <QAbstractSlider>'
     sayHpp '#include <QAction>'
@@ -116,6 +123,9 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QSize>'
     sayHpp '#include <QVector>'
     sayHpp '#include <QWidget>'
+    sayHpp '#if QT_VERSION >= 0x050000'
+    sayHpp '#include <QWindow>'
+    sayHpp '#endif'
     sayHpp '#include "b_callback.hpp"'
 
     sayCpp '////////// GENERATED FILE, EDITS WILL BE LOST //////////'
@@ -125,7 +135,7 @@ if [[ -n $cppDir ]]; then
     sayCpp '#include <iostream>'
 
     writeCpp() {
-        local -r name="${1?}" params="${2?}"
+        local -r name="${1?}" params="${2?}" minVersion="${3-}"
         local -r className="Listener${name}"
         local -r callbackClassName="Callback${name}Void"
         local paramList=""
@@ -144,6 +154,10 @@ if [[ -n $cppDir ]]; then
             done < <(tr '|' '\n' <<<"$params")
         fi
 
+        if [[ -n $minVersion ]]; then
+            sayHpp
+            sayHpp "#if QT_VERSION >= ${minVersion}"
+        fi
         sayHpp
         sayHpp "class ${className} : public QObject {"
         sayHpp "    Q_OBJECT"
@@ -160,7 +174,15 @@ if [[ -n $cppDir ]]; then
         sayHpp "    callback f_;"
         sayHpp "    bool connected_;"
         sayHpp "};"
+        if [[ -n $minVersion ]]; then
+            sayHpp
+            sayHpp "#endif"
+        fi
 
+        if [[ -n $minVersion ]]; then
+            sayCpp
+            sayCpp "#if QT_VERSION >= ${minVersion}"
+        fi
         sayCpp
         sayCpp "${className}::${className}(${className}::callback f, QObject* parent) :"
         sayCpp "    QObject(parent), f_(f), connected_(false) {}"
@@ -180,6 +202,10 @@ if [[ -n $cppDir ]]; then
         sayCpp "void ${className}::invoke(${paramList}) {"
         sayCpp "    f_(${paramNameList});"
         sayCpp "}"
+        if [[ -n $minVersion ]]; then
+            sayCpp
+            sayCpp "#endif"
+        fi
     }
 
     forEachListener writeCpp
@@ -202,6 +228,8 @@ if [[ -n $hsDir ]]; then
     say
     say 'module Graphics.UI.Qtah.Generator.Interface.Internal.Listener where'
     say
+    say 'import qualified Foreign.Hoppy.Generator.Version as V'
+    say 'import qualified Graphics.UI.Qtah.Generator.Flags as F'
     say 'import qualified Foreign.Hoppy.Generator.Spec as S'
     say 'import qualified Foreign.Hoppy.Generator.Types as S'
     say 'import qualified Foreign.Hoppy.Generator.Std.String as String'
@@ -236,14 +264,19 @@ if [[ -n $hsDir ]]; then
     say "  S.addReqIncludes [S.includeLocal \"listener.hpp\"] \$"
     say "  S.moduleModify' (S.makeModule \"listener\" \"b_listener.hpp\" \"b_listener.cpp\") \$ do"
     say "    S.moduleAddHaskellName [\"Internal\", \"Listener\"]"
-    say "    S.moduleAddExports"
+    say "    S.moduleAddExports \$ V.collect"
     cont="["
     writeHs() {
         local -r name="${1?}"
+        local -r minVersion="${4-}"
         local -r className="Listener${name}"
         local -r classVar="c_${className}"
 
-        say "      ${cont} S.ExportClass ${classVar}"
+        if [[ -n $minVersion ]]; then
+            say "      ${cont} V.test (F.qtVersion >= ${minVersion}) \$ S.ExportClass ${classVar}"
+        else
+            say "      ${cont} V.just \$ S.ExportClass ${classVar}"
+        fi
         if [[ $cont = '[' ]]; then cont=','; fi
     }
     forEachListener writeHs

@@ -40,8 +40,8 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_MouseEventFlags,
   bs_KeyboardModifiers,
   e_MouseEventSource,
-  e_MouseEventFlag_version,
-  e_MouseEventSource_version,
+  e_MouseEventFlag_minVersion,
+  e_MouseEventSource_minVersion,
   )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsSceneEvent (c_QGraphicsSceneEvent)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -65,7 +65,7 @@ c_QGraphicsSceneMouseEvent =
   , just $ mkConstMethod "buttonDownScenePos" [enumT e_MouseButton] $ objT c_QPointF
   , just $ mkConstMethod "buttonDownScreenPos" [enumT e_MouseButton] $ objT c_QPoint
   , just $ mkConstMethod "buttons" [] $ bitspaceT bs_MouseButtons
-  , test (qtVersion >= e_MouseEventFlag_version) $ mkConstMethod "flags" [] $
+  , test (qtVersion >= e_MouseEventFlag_minVersion) $ mkConstMethod "flags" [] $
       bitspaceT bs_MouseEventFlags
   , just $ mkConstMethod "lastPos" [] $ objT c_QPointF
   , just $ mkConstMethod "lastScenePos" [] $ objT c_QPointF
@@ -74,6 +74,6 @@ c_QGraphicsSceneMouseEvent =
   , just $ mkConstMethod "pos" [] $ objT c_QPointF
   , just $ mkConstMethod "scenePos" [] $ objT c_QPointF
   , just $ mkConstMethod "screenPos" [] $ objT c_QPoint
-  , test (qtVersion >= e_MouseEventSource_version) $ mkConstMethod "source" [] $
+  , test (qtVersion >= e_MouseEventSource_minVersion) $ mkConstMethod "source" [] $
       enumT e_MouseEventSource
   ]
