@@ -56,6 +56,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMainWindow as QMa
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar as QMenuBar
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMessageBox as QMessageBox
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QOpenGLWidget as QOpenGLWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QProgressBar as QProgressBar
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QPushButton as QPushButton
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QRadioButton as QRadioButton
@@ -119,6 +120,7 @@ modules =
   , QMenu.aModule
   , QMenuBar.aModule
   , QMessageBox.aModule
+  , QOpenGLWidget.aModule
   , QProgressBar.aModule
   , QPushButton.aModule
   , QRadioButton.aModule

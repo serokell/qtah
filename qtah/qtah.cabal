@@ -142,6 +142,7 @@ library
     , Graphics.UI.Qtah.Widgets.QMenu
     , Graphics.UI.Qtah.Widgets.QMenuBar
     , Graphics.UI.Qtah.Widgets.QMessageBox
+    , Graphics.UI.Qtah.Widgets.QOpenGLWidget
     , Graphics.UI.Qtah.Widgets.QProgressBar
     , Graphics.UI.Qtah.Widgets.QPushButton
     , Graphics.UI.Qtah.Widgets.QRadioButton
@@ -269,6 +270,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QMenu
     , Graphics.UI.Qtah.Generated.Widgets.QMenuBar
     , Graphics.UI.Qtah.Generated.Widgets.QMessageBox
+    , Graphics.UI.Qtah.Generated.Widgets.QOpenGLWidget
     , Graphics.UI.Qtah.Generated.Widgets.QProgressBar
     , Graphics.UI.Qtah.Generated.Widgets.QPushButton
     , Graphics.UI.Qtah.Generated.Widgets.QRadioButton

@@ -159,6 +159,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QMessageBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QOpenGLWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QProgressBar
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QPushButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QRadioButton
