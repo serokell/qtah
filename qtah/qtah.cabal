@@ -91,6 +91,7 @@ library
     , Graphics.UI.Qtah.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Gui.QPaintDevice
     , Graphics.UI.Qtah.Gui.QPaintDeviceWindow
+    , Graphics.UI.Qtah.Gui.QPaintEvent
     , Graphics.UI.Qtah.Gui.QPainter
     , Graphics.UI.Qtah.Gui.QPainterPath
     , Graphics.UI.Qtah.Gui.QPen
@@ -229,6 +230,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Generated.Gui.QPaintDevice
     , Graphics.UI.Qtah.Generated.Gui.QPaintDeviceWindow
+    , Graphics.UI.Qtah.Generated.Gui.QPaintEvent
     , Graphics.UI.Qtah.Generated.Gui.QPainter
     , Graphics.UI.Qtah.Generated.Gui.QPainterPath
     , Graphics.UI.Qtah.Generated.Gui.QPen

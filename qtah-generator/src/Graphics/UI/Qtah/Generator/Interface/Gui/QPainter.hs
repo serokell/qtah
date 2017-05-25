@@ -32,10 +32,15 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkCtor,
   mkMethod,
+  mkMethod',
   )
-import Foreign.Hoppy.Generator.Types (voidT, enumT)
+import Foreign.Hoppy.Generator.Types (bitspaceT, enumT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just)
 -- import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_ImageConversionFlags, e_GlobalColor)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QImage (c_QImage)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice (c_QPaintDevice)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -55,6 +60,11 @@ c_QPainter =
   makeClass (ident "QPainter") Nothing [] $
   collect
   [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithDevice" [ptrT $ objT c_QPaintDevice]
+  , just $ mkMethod' "drawImage" "drawImageAtRaw" [intT, intT, objT c_QImage] voidT
+  , just $ mkMethod' "drawImage" "drawImageAtRawAll"
+    [intT, intT, objT c_QImage, intT, intT, intT, intT, bitspaceT bs_ImageConversionFlags] voidT
+  , just $ mkMethod' "fillRect" "fillRectWithGlobalColor" [objT c_QRect, enumT e_GlobalColor] voidT
   , just $ mkMethod "setRenderHint" [enumT e_RenderHint] voidT
   ]
 

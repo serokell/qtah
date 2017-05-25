@@ -36,6 +36,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent as QMouseE
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QOpenGLWindow as QOpenGLWindow
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice as QPaintDevice
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDeviceWindow as QPaintDeviceWindow
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintEvent as QPaintEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainter as QPainter
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath as QPainterPath
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPen as QPen
@@ -74,6 +75,7 @@ modules =
   , QOpenGLWindow.aModule
   , QPaintDevice.aModule
   , QPaintDeviceWindow.aModule
+  , QPaintEvent.aModule
   , QPainter.aModule
   , QPainterPath.aModule
   , QPen.aModule

@@ -34,11 +34,14 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_FillRule,
   e_FocusReason,
   e_GlobalColor,
+  e_ImageConversionFlag,
+  bs_ImageConversionFlags,
   e_InputMethodHint,
   bs_InputMethodHints,
   e_ItemDataRole,
   e_ItemFlag,
   bs_ItemFlags,
+  e_Key,
   e_KeyboardModifier,
   bs_KeyboardModifiers,
   e_LayoutDirection,
@@ -113,11 +116,14 @@ exports =
   , just $ ExportEnum e_FillRule
   , just $ ExportEnum e_FocusReason
   , just $ ExportEnum e_GlobalColor
+  , just $ ExportEnum e_ImageConversionFlag
+  , just $ ExportBitspace bs_ImageConversionFlags
   , just $ ExportEnum e_InputMethodHint
   , just $ ExportBitspace bs_InputMethodHints
   , just $ ExportEnum e_ItemDataRole
   , just $ ExportEnum e_ItemFlag
   , just $ ExportBitspace bs_ItemFlags
+  , just $ ExportEnum e_Key
   , just $ ExportEnum e_KeyboardModifier
   , just $ ExportBitspace bs_KeyboardModifiers
   , just $ ExportEnum e_LayoutDirection
@@ -288,6 +294,26 @@ e_GlobalColor =
   , (1, ["color1"])
   ]
 
+(e_ImageConversionFlag, bs_ImageConversionFlags) =
+  makeQtEnumBitspace (ident1 "Qt" "ImageConversionFlag") "ImageConversionFlags" qtInclude
+  -- TODO Lots of synonyms for 0x0.  Hoppy doesn't support these.
+  [ (0x0, ["auto"])  -- Not real, this is because Hoppy doesn't support duplicate enum values.
+    -- Color/mono preference:
+  , (0x3, ["color", "only"])
+  , (0x2, ["mono", "only"])
+    -- Dithering mode preference for RGB channels:
+  , (0x10, ["ordered", "dither"])
+  , (0x20, ["threshold", "dither"])
+    -- Dithering mode preference for alpha channel:
+  , (0x4, ["ordered", "alpha", "dither"])
+  , (0x8, ["diffuse", "alpha", "dither"])
+    -- Color matching versus dithering preference:
+  , (0x40, ["prefer", "dither"])
+  , (0x80, ["avoid", "dither"])
+  , (0x100, ["no", "opaque", "detection"])
+  , (0x200, ["no", "format", "conversion"])
+  ]
+
 (e_InputMethodHint, bs_InputMethodHints) =
   makeQtEnumBitspace (ident1 "Qt" "InputMethodHint") "InputMethodHints" qtInclude
   [ (0x0, ["imh", "none"])
@@ -355,6 +381,151 @@ e_ItemDataRole =
   , just (64, ["item", "is", "auto", "tristate"])
   , just (128, ["item", "never", "has", "children"])
   , test (qtVersion >= [5, 5]) (256, ["item", "is", "user", "tristate"])
+  ]
+
+e_Key =
+  makeQtEnum (ident1 "Qt" "Key") qtInclude
+  [ (0x01000000, ["key", "escape"])
+  , (0x01000001, ["key", "tab"])
+  , (0x01000002, ["key", "backtab"])
+  , (0x01000003, ["key", "backspace"])
+  , (0x01000004, ["key", "return"])
+  , (0x01000005, ["key", "enter"])
+  , (0x01000006, ["key", "insert"])
+  , (0x01000007, ["key", "delete"])
+  , (0x01000008, ["key", "pause"])
+  , (0x01000009, ["key", "print"])
+  , (0x0100000a, ["key", "sys", "req"])
+  , (0x0100000b, ["key", "clear"])
+  , (0x01000010, ["key", "home"])
+  , (0x01000011, ["key", "end"])
+  , (0x01000012, ["key", "left"])
+  , (0x01000013, ["key", "up"])
+  , (0x01000014, ["key", "right"])
+  , (0x01000015, ["key", "down"])
+  , (0x01000016, ["key", "page", "up"])
+  , (0x01000017, ["key", "page", "down"])
+  , (0x01000020, ["key", "shift"])
+  , (0x01000021, ["key", "control"])
+  , (0x01000022, ["key", "meta"])
+  , (0x01000023, ["key", "alt"])
+  , (0x01001103, ["key", "alt", "gr"])
+  , (0x01000024, ["key", "caps", "lock"])
+  , (0x01000025, ["key", "num", "lock"])
+  , (0x01000026, ["key", "scroll", "lock"])
+  , (0x01000030, ["key", "f1"])
+  , (0x01000031, ["key", "f2"])
+  , (0x01000032, ["key", "f3"])
+  , (0x01000033, ["key", "f4"])
+  , (0x01000034, ["key", "f5"])
+  , (0x01000035, ["key", "f6"])
+  , (0x01000036, ["key", "f7"])
+  , (0x01000037, ["key", "f8"])
+  , (0x01000038, ["key", "f9"])
+  , (0x01000039, ["key", "f10"])
+  , (0x0100003a, ["key", "f11"])
+  , (0x0100003b, ["key", "f12"])
+  , (0x0100003c, ["key", "f13"])
+  , (0x0100003d, ["key", "f14"])
+  , (0x0100003e, ["key", "f15"])
+  , (0x0100003f, ["key", "f16"])
+  , (0x01000040, ["key", "f17"])
+  , (0x01000041, ["key", "f18"])
+  , (0x01000042, ["key", "f19"])
+  , (0x01000043, ["key", "f20"])
+  , (0x01000044, ["key", "f21"])
+  , (0x01000045, ["key", "f22"])
+  , (0x01000046, ["key", "f23"])
+  , (0x01000047, ["key", "f24"])
+  , (0x01000048, ["key", "f25"])
+  , (0x01000049, ["key", "f26"])
+  , (0x0100004a, ["key", "f27"])
+  , (0x0100004b, ["key", "f28"])
+  , (0x0100004c, ["key", "f29"])
+  , (0x0100004d, ["key", "f30"])
+  , (0x0100004e, ["key", "f31"])
+  , (0x0100004f, ["key", "f32"])
+  , (0x01000050, ["key", "f33"])
+  , (0x01000051, ["key", "f34"])
+  , (0x01000052, ["key", "f35"])
+  , (0x01000053, ["key", "super", "l"])
+  , (0x01000054, ["key", "super", "r"])
+  , (0x01000055, ["key", "menu"])
+  , (0x01000056, ["key", "hyper", "l"])
+  , (0x01000057, ["key", "hyper", "r"])
+  , (0x01000058, ["key", "help"])
+  , (0x01000059, ["key", "direction", "l"])
+  , (0x01000060, ["key", "direction", "r"])
+  , (0x00000020, ["key", "space"])  -- Aka Key_Any.
+  , (0x00000021, ["key", "exclam"])
+  , (0x00000022, ["key", "quote", "dbl"])
+  , (0x00000023, ["key", "number", "sign"])
+  , (0x00000024, ["key", "dollar"])
+  , (0x00000025, ["key", "percent"])
+  , (0x00000026, ["key", "ampersand"])
+  , (0x00000027, ["key", "apostrophe"])
+  , (0x00000028, ["key", "paren", "left"])
+  , (0x00000029, ["key", "paren", "right"])
+  , (0x0000002a, ["key", "asterisk"])
+  , (0x0000002b, ["key", "plus"])
+  , (0x0000002c, ["key", "comma"])
+  , (0x0000002d, ["key", "minus"])
+  , (0x0000002e, ["key", "period"])
+  , (0x0000002f, ["key", "slash"])
+  , (0x00000030, ["key", "0"])
+  , (0x00000031, ["key", "1"])
+  , (0x00000032, ["key", "2"])
+  , (0x00000033, ["key", "3"])
+  , (0x00000034, ["key", "4"])
+  , (0x00000035, ["key", "5"])
+  , (0x00000036, ["key", "6"])
+  , (0x00000037, ["key", "7"])
+  , (0x00000038, ["key", "8"])
+  , (0x00000039, ["key", "9"])
+  , (0x0000003a, ["key", "colon"])
+  , (0x0000003b, ["key", "semicolon"])
+  , (0x0000003c, ["key", "less"])
+  , (0x0000003d, ["key", "equal"])
+  , (0x0000003e, ["key", "greater"])
+  , (0x0000003f, ["key", "question"])
+  , (0x00000040, ["key", "at"])
+  , (0x00000041, ["key", "a"])
+  , (0x00000042, ["key", "b"])
+  , (0x00000043, ["key", "c"])
+  , (0x00000044, ["key", "d"])
+  , (0x00000045, ["key", "e"])
+  , (0x00000046, ["key", "f"])
+  , (0x00000047, ["key", "g"])
+  , (0x00000048, ["key", "h"])
+  , (0x00000049, ["key", "i"])
+  , (0x0000004a, ["key", "j"])
+  , (0x0000004b, ["key", "k"])
+  , (0x0000004c, ["key", "l"])
+  , (0x0000004d, ["key", "m"])
+  , (0x0000004e, ["key", "n"])
+  , (0x0000004f, ["key", "o"])
+  , (0x00000050, ["key", "p"])
+  , (0x00000051, ["key", "q"])
+  , (0x00000052, ["key", "r"])
+  , (0x00000053, ["key", "s"])
+  , (0x00000054, ["key", "t"])
+  , (0x00000055, ["key", "u"])
+  , (0x00000056, ["key", "v"])
+  , (0x00000057, ["key", "w"])
+  , (0x00000058, ["key", "x"])
+  , (0x00000059, ["key", "y"])
+  , (0x0000005a, ["key", "z"])
+  , (0x0000005b, ["key", "bracket", "left"])
+  , (0x0000005c, ["key", "backslash"])
+  , (0x0000005d, ["key", "bracket", "right"])
+  , (0x0000005e, ["key", "ascii", "circum"])
+  , (0x0000005f, ["key", "underscore"])
+  , (0x00000060, ["key", "quote", "left"])
+  , (0x0000007b, ["key", "brace", "left"])
+  , (0x0000007c, ["key", "bar"])
+  , (0x0000007d, ["key", "brace", "right"])
+  , (0x0000007e, ["key", "ascii", "tilde"])
+    -- TODO Additional Qt::Key_* constants.
   ]
 
 (e_KeyboardModifier, bs_KeyboardModifiers) =

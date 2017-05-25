@@ -104,6 +104,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDeviceWindow
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPaintEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainter
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPen
