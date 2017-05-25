@@ -1,6 +1,6 @@
 -- This file is part of Qtah.
 --
--- Copyright 2015-2017 Bryan Gardiner <bog@khumba.net>
+-- Copyright 2017 Bryan Gardiner <bog@khumba.net>
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU Lesser General Public License as published by
@@ -15,14 +15,10 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
--- | Bindings for @QList@.
-module Graphics.UI.Qtah.Generator.Interface.Core.QList (
-  c_QListQModelIndex,
-  c_QListQObject,
+module Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel (
+  bs_SelectionFlags,
   ) where
 
-import Foreign.Hoppy.Generator.Spec (Class)
+import Foreign.Hoppy.Generator.Spec (Bitspace)
 
-c_QListQModelIndex :: Class
-
-c_QListQObject :: Class
+bs_SelectionFlags :: Bitspace

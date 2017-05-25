@@ -61,11 +61,15 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication
     , Graphics.UI.Qtah.Generator.Interface.Core.QDir
     , Graphics.UI.Qtah.Generator.Interface.Core.QEvent
+    , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelection
+    , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel
+    , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange
     , Graphics.UI.Qtah.Generator.Interface.Core.QList
     , Graphics.UI.Qtah.Generator.Interface.Core.QMargins
     , Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF
     , Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex
     , Graphics.UI.Qtah.Generator.Interface.Core.QObject
+    , Graphics.UI.Qtah.Generator.Interface.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Generator.Interface.Core.QPoint
     , Graphics.UI.Qtah.Generator.Interface.Core.QPointF
     , Graphics.UI.Qtah.Generator.Interface.Core.QRect
@@ -122,6 +126,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSpinBox

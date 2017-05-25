@@ -37,8 +37,13 @@ library
     , Graphics.UI.Qtah.Core.QCoreApplication
     , Graphics.UI.Qtah.Core.QDir
     , Graphics.UI.Qtah.Core.QEvent
+    , Graphics.UI.Qtah.Core.QItemSelection
+    , Graphics.UI.Qtah.Core.QItemSelectionModel
+    , Graphics.UI.Qtah.Core.QItemSelectionRange
     , Graphics.UI.Qtah.Core.QList.Int
     , Graphics.UI.Qtah.Core.QList.QAbstractButton
+    , Graphics.UI.Qtah.Core.QList.QItemSelectionRange
+    , Graphics.UI.Qtah.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Core.QList.QObject
     , Graphics.UI.Qtah.Core.QList.QString
     , Graphics.UI.Qtah.Core.QList.QVariant
@@ -47,6 +52,7 @@ library
     , Graphics.UI.Qtah.Core.QMarginsF
     , Graphics.UI.Qtah.Core.QModelIndex
     , Graphics.UI.Qtah.Core.QObject
+    , Graphics.UI.Qtah.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Core.QPoint
     , Graphics.UI.Qtah.Core.QPointF
     , Graphics.UI.Qtah.Core.QRect
@@ -105,6 +111,7 @@ library
     , Graphics.UI.Qtah.Std
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Widgets.QAbstractSlider
     , Graphics.UI.Qtah.Widgets.QAbstractSpinBox
@@ -170,8 +177,13 @@ library
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
     , Graphics.UI.Qtah.Generated.Core.QDir
     , Graphics.UI.Qtah.Generated.Core.QEvent
+    , Graphics.UI.Qtah.Generated.Core.QItemSelection
+    , Graphics.UI.Qtah.Generated.Core.QItemSelectionModel
+    , Graphics.UI.Qtah.Generated.Core.QItemSelectionRange
     , Graphics.UI.Qtah.Generated.Core.QList.Int
     , Graphics.UI.Qtah.Generated.Core.QList.QAbstractButton
+    , Graphics.UI.Qtah.Generated.Core.QList.QItemSelectionRange
+    , Graphics.UI.Qtah.Generated.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QList.QObject
     , Graphics.UI.Qtah.Generated.Core.QList.QString
     , Graphics.UI.Qtah.Generated.Core.QList.QVariant
@@ -180,6 +192,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
     , Graphics.UI.Qtah.Generated.Core.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QObject
+    , Graphics.UI.Qtah.Generated.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Generated.Core.QPoint
     , Graphics.UI.Qtah.Generated.Core.QPointF
     , Graphics.UI.Qtah.Generated.Core.QRect
@@ -233,6 +246,7 @@ library
     , Graphics.UI.Qtah.Generated.Internal.SceneEventListener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Generated.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractSlider
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractSpinBox

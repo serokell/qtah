@@ -28,6 +28,8 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_CheckState,
   e_Corner,
   e_CursorMoveStyle,
+  e_DropAction,
+  bs_DropActions,
   e_EventPriority,
   e_FillRule,
   e_FocusReason,
@@ -105,6 +107,8 @@ exports =
   , just $ ExportEnum e_CheckState
   , just $ ExportEnum e_Corner
   , just $ ExportEnum e_CursorMoveStyle
+  , just $ ExportEnum e_DropAction
+  , just $ ExportBitspace bs_DropActions
   , just $ ExportEnum e_EventPriority
   , just $ ExportEnum e_FillRule
   , just $ ExportEnum e_FocusReason
@@ -223,6 +227,16 @@ e_CursorMoveStyle =
   makeQtEnum (ident1 "Qt" "CursorMoveStyle") qtInclude
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
+  ]
+
+(e_DropAction, bs_DropActions) =
+  makeQtEnumBitspace (ident1 "Qt" "DropAction") "DropActions" qtInclude
+  [ (0x0, ["ignore", "action"])
+  , (0x1, ["copy", "action"])
+  , (0x2, ["move", "action"])
+  , (0x4, ["link", "action"])
+  , (0xff, ["action", "mask"])
+  , (0x8002, ["target", "move", "action"])
   ]
 
 e_EventPriority =

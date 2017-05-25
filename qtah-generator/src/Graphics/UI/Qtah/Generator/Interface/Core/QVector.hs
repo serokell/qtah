@@ -23,9 +23,6 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QVector (
   Options (..),
   defaultOptions,
   Contents (..),
-  instantiate,
-  instantiate',
-  toExports,
   -- * Instantiations
   allModules,
   c_QVectorInt,

@@ -23,13 +23,13 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   Options (..),
   defaultOptions,
   Contents (..),
-  instantiate,
-  instantiate',
-  toExports,
+  inheritHasContents,
   -- * Instantiations
   allModules,
   c_QListInt,
   c_QListQAbstractButton,
+  c_QListQItemSelectionRange,
+  c_QListQModelIndex,
   c_QListQObject,
   c_QListQString,
   c_QListQVariant,
@@ -41,6 +41,7 @@ import Control.Monad (forM_, when)
 import Data.Monoid (mconcat, mempty)
 #endif
 import Foreign.Hoppy.Generator.Language.Haskell (
+  Generator,
   HsTypeSide (HsHsSide),
   addImports,
   cppTypeToHsTypeAndUse,
@@ -49,6 +50,7 @@ import Foreign.Hoppy.Generator.Language.Haskell (
   prettyPrint,
   sayLn,
   saysLn,
+  toHsCastMethodName,
   toHsClassEntityName',
   toHsDataTypeName,
   )
@@ -89,12 +91,16 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
 import Foreign.Hoppy.Generator.Types (boolT, constT, intT, objT, ptrT, refT, toGcT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange (c_QItemSelectionRange)
+import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Imports
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (
+  c_QAbstractButton,
+  )
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), QtModule, makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 import Language.Haskell.Syntax (
@@ -258,6 +264,22 @@ instantiate' listName t tReqs opts =
      { c_QList = list
      }
 
+-- | Used in an addendum for a class that inherits from QList, this generates a
+-- HasContents instance that uses the HasContents instance on the parent list
+-- class.
+inheritHasContents :: Class -> Class -> Type -> Generator ()
+inheritHasContents cls listClass t =
+  forM_ [Const, Nonconst] $ \cst -> do
+    hsDataTypeName <- toHsDataTypeName cst cls
+    hsValueType <- cppTypeToHsTypeAndUse HsHsSide $ case cst of
+      Const -> constT t
+      Nonconst -> t
+    castToListFn <- toHsCastMethodName cst listClass
+    addImports importForRuntime
+    saysLn ["instance QtahFHR.HasContents ", hsDataTypeName,
+            " (", prettyPrint hsValueType, ") where"]
+    indent $ saysLn ["toContents = QtahFHR.toContents . ", castToListFn]
+
 -- | Converts an instantiation into a list of exports to be included in a
 -- module.
 toExports :: Contents -> [QtExport]
@@ -271,6 +293,8 @@ allModules =
   map AQtModule
   [ qmod_Int
   , qmod_QAbstractButton
+  , qmod_QItemSelectionRange
+  , qmod_QModelIndex
   , qmod_QObject
   , qmod_QString
   , qmod_QVariant
@@ -295,6 +319,25 @@ contents_QAbstractButton = instantiate "QListQAbstractButton" (ptrT $ objT c_QAb
 
 c_QListQAbstractButton :: Class
 c_QListQAbstractButton = c_QList contents_QAbstractButton
+
+qmod_QItemSelectionRange :: QtModule
+qmod_QItemSelectionRange = createModule "QItemSelectionRange" contents_QItemSelectionRange
+
+contents_QItemSelectionRange :: Contents
+contents_QItemSelectionRange =
+  instantiate "QListQItemSelectionRange" (objT c_QItemSelectionRange) mempty
+
+c_QListQItemSelectionRange :: Class
+c_QListQItemSelectionRange = c_QList contents_QItemSelectionRange
+
+qmod_QModelIndex :: QtModule
+qmod_QModelIndex = createModule "QModelIndex" contents_QModelIndex
+
+contents_QModelIndex :: Contents
+contents_QModelIndex = instantiate "QListQModelIndex" (objT c_QModelIndex) mempty
+
+c_QListQModelIndex :: Class
+c_QListQModelIndex = c_QList contents_QModelIndex
 
 qmod_QObject :: QtModule
 qmod_QObject = createModule "QObject" contents_QObject

@@ -53,7 +53,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_Orientation,
   e_SortOrder,
   )
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
   c_ListenerQModelIndexIntInt,
   c_ListenerQModelIndexIntIntQModelIndexInt,

@@ -25,11 +25,15 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent as QChild
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication as QCoreApplication
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QDir as QDir
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QEvent as QEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QItemSelection as QItemSelection
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel as QItemSelectionModel
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange as QItemSelectionRange
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QList as QList
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF as QMarginsF
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex as QModelIndex
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QObject as QObject
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPersistentModelIndex as QPersistentModelIndex
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPoint as QPoint
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPointF as QPointF
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QRect as QRect
@@ -59,10 +63,14 @@ modules =
     , QCoreApplication.aModule
     , QDir.aModule
     , QEvent.aModule
+    , QItemSelection.aModule
+    , QItemSelectionModel.aModule
+    , QItemSelectionRange.aModule
     , QMargins.aModule
     , QMarginsF.aModule
     , QModelIndex.aModule
     , QObject.aModule
+    , QPersistentModelIndex.aModule
     , QPoint.aModule
     , QPointF.aModule
     , QRect.aModule
