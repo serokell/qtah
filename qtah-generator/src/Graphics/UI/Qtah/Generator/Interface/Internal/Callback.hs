@@ -57,6 +57,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   qreal,
   )
 import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard as QClipboard
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintEvent (c_QPaintEvent)
 import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWindow as QWindow
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
   (c_QAbstractButton)
@@ -85,6 +86,7 @@ aModule =
       , just $ ExportCallback cb_PtrQGraphicsItemPtrQEventBool
       , just $ ExportCallback cb_PtrQObjectPtrQEventBool
       , just $ ExportCallback cb_PtrQObjectVoid
+      , just $ ExportCallback cb_PtrQPaintEventVoid
       , just $ ExportCallback cb_PtrQWidgetPtrQWidgetVoid
       , just $ ExportCallback cb_QAbstractSliderActionVoid
       , just $ ExportCallback cb_QClipboardModeVoid
@@ -152,6 +154,10 @@ cb_PtrQObjectPtrQEventBool =
 cb_PtrQObjectVoid =
   makeCallback (toExtName "CallbackPtrQObjectVoid")
   [ptrT $ objT c_QObject] voidT
+
+cb_PtrQPaintEventVoid =
+  makeCallback (toExtName "CallbackPtrQPaintEventVoid")
+  [ptrT $ objT c_QPaintEvent] voidT
 
 cb_PtrQWidgetPtrQWidgetVoid =
   makeCallback (toExtName "CallbackPtrQWidgetPtrQWidgetVoid")

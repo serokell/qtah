@@ -50,6 +50,8 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QTransform as QTransfo
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QValidator as QValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWheelEvent as QWheelEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWindow as QWindow
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QtahOpenGLWindow as QtahOpenGLWindow
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QtahRasterWindow as QtahRasterWindow
 import Graphics.UI.Qtah.Generator.Module (AModule)
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -89,4 +91,6 @@ modules =
   , QValidator.aModule
   , QWheelEvent.aModule
   , QWindow.aModule
+  , QtahOpenGLWindow.aModule
+  , QtahRasterWindow.aModule
   ]

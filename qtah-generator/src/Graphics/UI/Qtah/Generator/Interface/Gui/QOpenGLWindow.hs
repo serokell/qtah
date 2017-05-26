@@ -16,8 +16,10 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Generator.Interface.Gui.QOpenGLWindow (
+  minVersion,
   aModule,
   c_QOpenGLWindow,
+  e_UpdateBehavior,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (

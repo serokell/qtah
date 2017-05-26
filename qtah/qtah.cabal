@@ -105,6 +105,8 @@ library
     , Graphics.UI.Qtah.Gui.QValidator
     , Graphics.UI.Qtah.Gui.QWheelEvent
     , Graphics.UI.Qtah.Gui.QWindow
+    , Graphics.UI.Qtah.Gui.QtahOpenGLWindow
+    , Graphics.UI.Qtah.Gui.QtahRasterWindow
     , Graphics.UI.Qtah.SceneEvent
     , Graphics.UI.Qtah.Signal
     -- TODO This should not be exposed directly, but there is no nice interface
@@ -244,6 +246,8 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QValidator
     , Graphics.UI.Qtah.Generated.Gui.QWheelEvent
     , Graphics.UI.Qtah.Generated.Gui.QWindow
+    , Graphics.UI.Qtah.Generated.Gui.QtahOpenGLWindow
+    , Graphics.UI.Qtah.Generated.Gui.QtahRasterWindow
     , Graphics.UI.Qtah.Generated.Internal.EventListener
     , Graphics.UI.Qtah.Generated.Internal.SceneEventListener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton

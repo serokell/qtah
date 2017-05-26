@@ -15,40 +15,40 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow (
-  minVersion,
+module Graphics.UI.Qtah.Generator.Interface.Gui.QtahRasterWindow (
   aModule,
-  c_QRasterWindow,
+  c_QtahRasterWindow,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
-  ident,
-  includeStd,
+  ident2,
+  includeLocal,
   makeClass,
   mkCtor,
+  mkMethod,
   )
-import Foreign.Hoppy.Generator.Types (objT, ptrT)
-import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDeviceWindow (c_QPaintDeviceWindow)
+import Foreign.Hoppy.Generator.Types (callbackT, objT, ptrT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow (c_QRasterWindow, minVersion)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QWindow (c_QWindow)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Callback (cb_PtrQPaintEventVoid)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModuleWithMinVersion)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
-minVersion = [5, 4]
-
 aModule =
   AQtModule $
-  makeQtModuleWithMinVersion ["Gui", "QRasterWindow"] minVersion $
-  [ QtExport $ ExportClass c_QRasterWindow ]
+  makeQtModuleWithMinVersion ["Gui", "QtahRasterWindow"] minVersion $
+  [ QtExport $ ExportClass c_QtahRasterWindow ]
 
-c_QRasterWindow =
-  addReqIncludes [includeStd "QRasterWindow"] $
+c_QtahRasterWindow =
+  addReqIncludes [includeLocal "qtahrasterwindow.hpp"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QRasterWindow") Nothing [c_QPaintDeviceWindow]
+  makeClass (ident2 "qtah" "qtahrasterwindow" "QtahRasterWindow") Nothing [c_QRasterWindow]
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWindow]
+  , mkMethod "onPaintEvent" [callbackT cb_PtrQPaintEventVoid] voidT
   ]

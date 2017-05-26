@@ -45,7 +45,7 @@ packages:
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
-- hoppy-generator-0.3.2
+- hoppy-generator-0.3.3
 - hoppy-runtime-0.3.0
 - hoppy-std-0.3.0
 
