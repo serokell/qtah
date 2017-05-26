@@ -94,6 +94,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QFont
     , Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QImage
@@ -163,6 +164,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QLineEdit
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QListView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QMainWindow
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar

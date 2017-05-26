@@ -24,7 +24,6 @@ import Control.Monad (forM_, unless, when)
 import Data.Bits ((.|.))
 import Data.Functor (void)
 import Data.IORef (IORef, newIORef, readIORef, writeIORef)
-import Foreign.Hoppy.Runtime (withScopedPtr)
 import qualified Graphics.UI.Qtah.Core.QCoreApplication as QCoreApplication
 import Graphics.UI.Qtah.Event
 import Graphics.UI.Qtah.Gui.QCloseEvent (QCloseEvent)
@@ -32,7 +31,6 @@ import Graphics.UI.Qtah.Signal (connect_)
 import qualified Graphics.UI.Qtah.Core.QEvent as QEvent
 import qualified Graphics.UI.Qtah.Widgets.QAction as QAction
 import Graphics.UI.Qtah.Widgets.QAction (triggeredSignal)
-import qualified Graphics.UI.Qtah.Widgets.QApplication as QApplication
 import qualified Graphics.UI.Qtah.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Widgets.QMainWindow as QMainWindow
 import Graphics.UI.Qtah.Widgets.QMainWindow (QMainWindow)
@@ -48,7 +46,6 @@ import Graphics.UI.Qtah.Widgets.QTextEdit (
   undoAvailableSignal,
   )
 import qualified Graphics.UI.Qtah.Widgets.QWidget as QWidget
-import System.Environment (getArgs)
 import System.FilePath (takeFileName)
 
 data Notepad = Notepad
@@ -59,10 +56,9 @@ data Notepad = Notepad
   }
 
 run :: IO ()
-run = withScopedPtr (getArgs >>= QApplication.new) $ \_ -> do
+run = do
   mainWindow <- makeMainWindow
   QWidget.show mainWindow
-  QCoreApplication.exec
 
 makeMainWindow :: IO QMainWindow
 makeMainWindow = do
@@ -78,7 +74,8 @@ makeMainWindow = do
   menuFileSave <- QMenu.addNewAction menuFile "&Save"
   menuFileSaveAs <- QMenu.addNewAction menuFile "Sa&ve as..."
   _ <- QMenu.addSeparator menuFile
-  menuFileQuit <- QMenu.addNewAction menuFile "&Quit"
+  menuFileClose <- QMenu.addNewAction menuFile "&Close"
+  menuFileQuit <- QMenu.addNewAction menuFile "&Quit Examples"
 
   menuEdit <- QMenuBar.addNewMenu menu "&Edit"
   menuEditUndo <- QMenu.addNewAction menuEdit "&Undo"
@@ -115,7 +112,10 @@ makeMainWindow = do
   connect_ menuFileOpen triggeredSignal $ \_ -> fileOpen me
   connect_ menuFileSave triggeredSignal $ \_ -> void $ fileSave me
   connect_ menuFileSaveAs triggeredSignal $ \_ -> void $ fileSaveAs me
-  connect_ menuFileQuit triggeredSignal $ \_ -> QWidget.close window
+  connect_ menuFileClose triggeredSignal $ \_ -> void $ QWidget.close window
+  connect_ menuFileQuit triggeredSignal $ \_ -> do
+    closed <- QWidget.close window
+    when closed QCoreApplication.quit
 
   connect_ menuEditUndo triggeredSignal $ \_ -> QTextEdit.undo text
   connect_ menuEditRedo triggeredSignal $ \_ -> QTextEdit.redo text

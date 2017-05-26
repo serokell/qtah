@@ -52,6 +52,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_WindowType,
   qreal,
   )
+import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQPoint)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout (c_QLayout)
@@ -90,7 +91,7 @@ c_QWidget =
     -- TODO childrenRegion
   , just $ mkMethod "clearFocus" [] voidT
   , just $ mkMethod "clearMask" [] voidT
-  , just $ mkMethod "close" [] voidT
+  , just $ mkMethod "close" [] boolT
   , just $ mkConstMethod "contentsMargins" [] $ objT c_QMargins
   , just $ mkConstMethod "contentsRect" [] $ objT c_QRect
     -- TODO contextMenuPolicy
@@ -101,6 +102,7 @@ c_QWidget =
     -- TODO focusPolicy
   , just $ mkConstMethod "focusProxy" [] $ ptrT $ objT c_QWidget
   , just $ mkConstMethod "focusWidget" [] $ ptrT $ objT c_QWidget
+  , just $ mkProp "font" $ objT c_QFont
     -- TODO font
     -- TODO fontInfo
     -- TODO fontMetrics

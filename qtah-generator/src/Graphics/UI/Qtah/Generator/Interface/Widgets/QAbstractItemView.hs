@@ -46,7 +46,6 @@ import Foreign.Hoppy.Generator.Types (
 import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (c_QAbstractItemModel)
 import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel (c_QItemSelectionModel)
 import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
-import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
@@ -60,6 +59,7 @@ import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_ListenerQModelIndex,
   c_ListenerQSize,
   )
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -83,7 +83,7 @@ aModule =
 c_QAbstractItemView =
   addReqIncludes [includeStd "QAbstractItemView"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QAbstractItemView") Nothing [c_QObject] $
+  makeClass (ident "QAbstractItemView") Nothing [c_QAbstractScrollArea] $
   [ mkProp "alternatingRowColors" boolT
   , mkBoolHasProp "autoScroll"
   , mkProp "autoScrollMargin" intT

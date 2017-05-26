@@ -81,6 +81,7 @@ library
     , Graphics.UI.Qtah.Gui.QEnterEvent
     , Graphics.UI.Qtah.Gui.QExposeEvent
     , Graphics.UI.Qtah.Gui.QFocusEvent
+    , Graphics.UI.Qtah.Gui.QFont
     , Graphics.UI.Qtah.Gui.QHideEvent
     , Graphics.UI.Qtah.Gui.QHoverEvent
     , Graphics.UI.Qtah.Gui.QImage
@@ -148,6 +149,7 @@ library
     , Graphics.UI.Qtah.Widgets.QLayout
     , Graphics.UI.Qtah.Widgets.QLayoutItem
     , Graphics.UI.Qtah.Widgets.QLineEdit
+    , Graphics.UI.Qtah.Widgets.QListView
     , Graphics.UI.Qtah.Widgets.QMainWindow
     , Graphics.UI.Qtah.Widgets.QMenu
     , Graphics.UI.Qtah.Widgets.QMenuBar
@@ -222,6 +224,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generated.Gui.QExposeEvent
     , Graphics.UI.Qtah.Generated.Gui.QFocusEvent
+    , Graphics.UI.Qtah.Generated.Gui.QFont
     , Graphics.UI.Qtah.Generated.Gui.QHideEvent
     , Graphics.UI.Qtah.Generated.Gui.QHoverEvent
     , Graphics.UI.Qtah.Generated.Gui.QImage
@@ -286,6 +289,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QLayout
     , Graphics.UI.Qtah.Generated.Widgets.QLayoutItem
     , Graphics.UI.Qtah.Generated.Widgets.QLineEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QListView
     , Graphics.UI.Qtah.Generated.Widgets.QMainWindow
     , Graphics.UI.Qtah.Generated.Widgets.QMenu
     , Graphics.UI.Qtah.Generated.Widgets.QMenuBar

@@ -26,6 +26,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QDoubleValidator as QD
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent as QEnterEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent as QExposeEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent as QFocusEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFont as QFont
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent as QHideEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent as QHoverEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QImage as QImage
@@ -65,8 +66,9 @@ modules =
   , QColor.aModule
   , QDoubleValidator.aModule
   , QEnterEvent.aModule
-  , QFocusEvent.aModule
   , QExposeEvent.aModule
+  , QFocusEvent.aModule
+  , QFont.aModule
   , QHideEvent.aModule
   , QHoverEvent.aModule
   , QImage.aModule

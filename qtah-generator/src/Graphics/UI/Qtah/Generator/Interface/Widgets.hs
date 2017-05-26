@@ -53,6 +53,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLabel as QLabel
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout as QLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLayoutItem as QLayoutItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QLineEdit as QLineEdit
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QListView as QListView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMainWindow as QMainWindow
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu as QMenu
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar as QMenuBar
@@ -118,6 +119,7 @@ modules =
   , QLayout.aModule
   , QLayoutItem.aModule
   , QLineEdit.aModule
+  , QListView.aModule
   , QMainWindow.aModule
   , QMenu.aModule
   , QMenuBar.aModule
