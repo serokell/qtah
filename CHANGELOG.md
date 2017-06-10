@@ -2,7 +2,22 @@
 
 ## Unreleased
 
+## (2017-06-10) *-0.3.0
+
+37 new classes and 10 new enums in this release!
+
 - Added support for the Qt graphics view framework thanks to @effectfully.
+
+- Began adding model-view classes.
+
+- Qtah now builds on OS X, with help from @biglambda.
+
+- Discovered that "ghc-options: -dynamic" can be used for executables and tests
+  linking to Qtah in lieu of having to pass Cabal "--enable-executable-dynamic"
+  on the command line (thanks again @effectfully).
+
+- qtah-cpp now uses all available CPUs to build by default, as "cabal build"
+  does (this requires Cabal >=1.20).
 
 - Dependency bump to support directory-1.3 in GHC 8.0.2, and HUnit-1.6.
 

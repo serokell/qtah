@@ -1,5 +1,5 @@
 name: qtah-cpp
-version: 0.2.0
+version: 0.3.0
 synopsis: Qt bindings for Haskell - C++ library
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
@@ -46,5 +46,5 @@ library
   build-depends:
       base >=4 && <5
     , process >=1.2 && <1.5
-    , qtah-generator >=0.2 && <0.3
+    , qtah-generator >=0.3 && <0.4
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
