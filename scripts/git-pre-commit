@@ -2,7 +2,7 @@
 
 # This file is part of Qtah.
 #
-# Copyright 2015-2017 Bryan Gardiner <bog@khumba.net>
+# Copyright 2015-2017 The Qtah Authors.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -83,12 +83,14 @@ legalResult=0
 while read file; do
     set +e
     case "$file" in
+        *AUTHORS*)
+            # The author list doesn't need copyright/license notices.
+            true;;
         *README*)
             # Readmes contain a copyright statement with email addresses, plus a
             # license statement.  This is the same as the general case, except
             # readmes can contain this notice anywhere in the file.
-            grep -q 'Copyright 2' "$file" && \
-                ! grep -q 'Copyright 2[^<]*$' "$file" && \
+            grep -q 'Copyright 2.*The Qtah Authors\.$' "$file" && \
                 grep -qF 'GNU Lesser General Public License' "$file" && \
                 grep -qF 'either version 3 of the License, or' "$file" && \
                 grep -qF '(at your option) any later version.' "$file";;
@@ -103,12 +105,12 @@ while read file; do
         *.cabal)
             # Cabal files include a brief copyright statement and specify the
             # license.
-            grep -iq '^copyright:.*[a-z]' "$file" && grep -q '^license: LGPL-3$' "$file";;
+            grep -q '^copyright:.*2.*The Qtah Authors\.$' "$file" && \
+                grep -q '^license: LGPL-3$' "$file";;
         *default.nix)
             # Nix derivations should have their license set correctly.  This
             # includes the general header license check.
-            head -10 "$file" | grep -q Copyright && \
-                (! head -20 "$file" | grep -q 'Copyright[^<]\+$') && \
+            head -10 "$file" | grep -q 'Copyright 2.*The Qtah Authors\.$' && \
                 head -20 "$file" | grep -qF 'GNU Lesser General Public License' && \
                 head -20 "$file" | grep -qF 'either version 3 of the License, or' && \
                 head -20 "$file" | grep -qF '(at your option) any later version.' && \
@@ -116,8 +118,7 @@ while read file; do
         *)
             # Other source files must include copyright statements with email
             # addresses, plus a license statement.
-            head -10 "$file" | grep -q Copyright && \
-                (! head -20 "$file" | grep -q 'Copyright[^<]\+$') && \
+            head -10 "$file" | grep -q 'Copyright 2.*The Qtah Authors\.$' && \
                 head -20 "$file" | grep -qF 'GNU Lesser General Public License' && \
                 head -20 "$file" | grep -qF 'either version 3 of the License, or' && \
                 head -20 "$file" | grep -qF '(at your option) any later version.';;
@@ -151,7 +152,7 @@ while read file; do
         fi
         echo "$file"
     fi
-done < <(git --no-pager diff --name-only --cached . | grep -ve CHANGELOG -e LICENSE)
+done < <(git --no-pager diff --name-only --cached . | grep -ve AUTHORS -e CHANGELOG -e LICENSE)
 
 if [[ $whitespaceResult -ne 0 ]] || \
     [[ $tabsResult -ne 0 ]] || \
