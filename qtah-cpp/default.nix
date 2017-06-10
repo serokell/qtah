@@ -29,9 +29,9 @@ mkDerivation ({
   description = "Qt bindings for Haskell - C++ library";
   license = stdenv.lib.licenses.lgpl3Plus;
 
+  # TODO Does this make it to BuildFlags.buildNumJobs?
   preConfigure =
     if forceParallelBuilding then ''
       configureFlags+=" --ghc-option=-j$NIX_BUILD_CORES"
-      export QTAH_BUILD_JOBS="$NIX_BUILD_CORES"
     '' else null;
 } // lib.filterAttrs (k: v: v != null) { inherit enableSplitObjs; })

@@ -46,6 +46,7 @@ import Distribution.Simple.Setup (
   CleanFlags,
   ConfigFlags,
   CopyDest (CopyTo, NoCopyDest),
+  buildNumJobs,
   buildVerbosity,
   cleanVerbosity,
   configConfigurationsFlags,
@@ -72,7 +73,6 @@ import Distribution.Simple.Utils (
   info,
   installOrdinaryFile,
   notice,
-  warn,
   )
 import Distribution.Verbosity (Verbosity, normal)
 import System.Directory (
@@ -165,22 +165,11 @@ doBuild localBuildInfo buildFlags = do
       verbosity = fromFlagOrDefault normal $ buildVerbosity buildFlags
 
   -- Determine how many parallel build jobs to use.
-  --
-  -- TODO Eventually require Cabal >=1.20 and use BuildFlags.numBuildJobs
-  -- instead.
-  numJobsStr <- lookupEnv "QTAH_BUILD_JOBS"
-  (makeArgs, jobMsg) <- case numJobsStr of
-    Nothing -> return ([], "")
-    Just "" -> return ([], "")
-    Just s ->
-      if all isDigit s
-      then do let n = read s :: Int
-              return (["-j" ++ show n],
-                      concat [" with ", show n, if n == 1 then " job" else " jobs"])
-      else do warn verbosity $ concat
-                [packageName, ": Unknown QTAH_BUILD_JOBS=", show s,
-                 ", expected a positive integer."]
-              return ([], "")
+  let (makeArgs, jobMsg) = case flagToMaybe $ buildNumJobs buildFlags of
+        Nothing -> ([], "")
+        Just Nothing -> (["-j"], " with unlimited jobs")
+        Just (Just n) -> (["-j" ++ show n],
+                          " with " ++ show n ++ if n == 1 then " job" else " jobs")
 
   notice verbosity $ concat ["Building the Qtah C++ library", jobMsg, "..."]
   runDbProgram verbosity makeProgram programDb $ "-C" : cppSourceDir : makeArgs

@@ -38,7 +38,7 @@ control this script's operation:
 
   QTAH_BUILD_JOBS:
     This may be a positive integer, to control how many build jobs are run in
-    parallel.  Passed as --jobs to cabal build and used directly by qtah-cpp.
+    parallel.  Passed as --jobs to cabal build.
 
   QTAH_QT_FLAGS:
     This value is passed as --flags to the qtah-cpp and qtah packages, and can
@@ -105,6 +105,6 @@ if [[ $commands = *\ examples\ * ]] || [[ $commands = *\ sdist\ * ]]; then
     msg "Building qtah-examples."
     goToPkg qtah-examples
     run cabal configure
-    run cabal build
+    run cabal build ${QTAH_BUILD_JOBS:+--jobs="$QTAH_BUILD_JOBS"}
     sdist
 fi

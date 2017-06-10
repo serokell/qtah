@@ -48,8 +48,8 @@ To build and install locally, run `install.sh`, optionally specifying the
 version of Qt you want to build against.  There are a few ways to specify this;
 here is one way:
 
-    Build and install for Qt 5 with four parallel jobs:
-    $ QTAH_QT_FLAGS=qt5 QTAH_BUILD_JOBS=4 ./install.sh
+    Build and install for Qt 5:
+    $ QTAH_QT_FLAGS=qt5 ./install.sh
 
 The `install.sh` script is just a thin wrapper around running `cabal configure`,
 `build`, `install` on each of the packages in turn.  For more information about

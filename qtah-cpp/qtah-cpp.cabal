@@ -9,7 +9,8 @@ maintainer: Bryan Gardiner <bog@khumba.net>
 copyright: Copyright 2015-2017 Bryan Gardiner
 category: Graphics
 build-type: Custom
-cabal-version: >=1.10
+-- Cabal 1.20 is needed for BuildFlags.buildNumJobs.
+cabal-version: >=1.20
 description:
   Qtah is a set of Qt bindings for Haskell.  This package contains the C++ side
   of the bindings.

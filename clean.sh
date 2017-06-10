@@ -41,7 +41,7 @@ if [[ ${1:-} = --help ]]; then
     exit 0
 fi
 
-for pkg in qtah-generator qtah qtah-cpp qtah-examples; do
+for pkg in qtah-generator qtah-cpp qtah qtah-examples; do
     for variant in "" -qt4 -qt5; do
         p=${pkg}${variant}
         if [[ -d ${projectDir}/${pkg}${variant} ]]; then
