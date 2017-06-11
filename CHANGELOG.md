@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## (2017-06-10) *-0.3.0
+## (2017-06-10) *-0.3.0, qtah-cpp-0.3.1
 
 37 new classes and 10 new enums in this release!
 
