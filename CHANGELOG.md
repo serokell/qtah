@@ -12,6 +12,9 @@
 
 - Qtah now builds on OS X, with help from @biglambda.
 
+- qtah-examples now presents a launcher, so that we can have more than one
+  example program.
+
 - Discovered that "ghc-options: -dynamic" can be used for executables and tests
   linking to Qtah in lieu of having to pass Cabal "--enable-executable-dynamic"
   on the command line (thanks again @effectfully).
@@ -20,6 +23,8 @@
   does (this requires Cabal >=1.20).
 
 - Dependency bump to support directory-1.3 in GHC 8.0.2, and HUnit-1.6.
+
+- Support for Qt <4.8 has been dropped, since even Qt 4.8 is quite old now.
 
 ## (2017-01-14) qtah-examples-0.2.1
 
