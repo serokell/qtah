@@ -59,9 +59,9 @@ the version of Qt that Qtah is built against, you must first clean the existing
 build outputs (`clean.sh`) before running the build script again.
 
 Packages that use Qtah should only depend on a `qtah-qtX` package (or just
-`qtah` if building locally).  Executables that use Qtah need to be linked
-dynamically, so put `ghc-options: -dynamic` in your Cabal file.  This includes
-unit tests.
+`qtah` if building against Qtah git; see "Release versions" below).  Executables
+that use Qtah need to be linked dynamically, so put `ghc-options: -dynamic` in
+your Cabal file.  This includes unit tests.
 
 There is a demo program in `/qtah-examples` that can be built and run after
 installing Qtah:
@@ -71,8 +71,9 @@ installing Qtah:
 
 ### Dependencies
 
-- Qt 4.x or 5.x with development files
+- Qt 4.8 or 5.x with development files
 - make and a C++ compiler
+- bash 4.1 or newer
 - GHC 7.8-8.0
 - haskell-src
 - hoppy-generator

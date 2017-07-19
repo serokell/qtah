@@ -17,6 +17,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+if (( BASH_VERSINFO[0] < 4 || ( BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] < 1 ) )); then
+    echo "qtah-listener-gen: Error, this script depends on features in bash 4.1 and newer." >&2
+    echo "qtah-listener-gen: You are currently running version $BASH_VERSION, please upgrade." >&2
+    echo "qtah-listener-gen: Aborting." >&2
+    exit 1
+fi
+
 set -euo pipefail
 
 msg() {

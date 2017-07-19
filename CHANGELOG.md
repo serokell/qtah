@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- qtah-listener-gen now checks that bash 4.1 or newer is available, as it
+  requires features introduced in that version, and OS X doesn't ship a bash
+  anywhere near that new (issue #19).
+
 ## (2017-06-10) *-0.3.0, qtah-cpp-0.3.1
 
 37 new classes and 10 new enums in this release!
