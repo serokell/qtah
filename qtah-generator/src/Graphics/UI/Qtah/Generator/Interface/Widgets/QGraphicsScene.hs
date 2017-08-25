@@ -36,6 +36,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkConstMethod,
   mkConstMethod',
+  mkProp,
   )
 import Foreign.Hoppy.Generator.Types (voidT, objT, ptrT, intT, boolT, enumT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -49,6 +50,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QRectF (c_QRectF)
 -- import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types hiding (aModule)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QBrush (c_QBrush)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath (c_QPainterPath)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPen (c_QPen)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF (c_QPolygonF)
@@ -140,7 +142,7 @@ c_QGraphicsScene =
   -- TODO mkMethod "createItemGroup" [objT c_QList<QGraphicsItem] $ ptrT $ objT c_QGraphicsItemGroup
   -- TODO mkMethod "destroyItemGroup" [ptrT $ objT c_QGraphicsItemGroup] voidT
   , just $ mkConstMethod "focusItem" [] $ ptrT $ objT c_QGraphicsItem
-  -- TODO mkConstMethod "font" [] $ objT c_QFont
+  , just $ mkProp "font" $ objT c_QFont
   , just $ mkConstMethod "foregroundBrush" [] $ objT c_QBrush
   , just $ mkConstMethod "hasFocus" [] boolT
   , just $ mkConstMethod "height" [] qreal
@@ -206,7 +208,6 @@ c_QGraphicsScene =
   , just $ mkMethod "setFocusItem" [ptrT $ objT c_QGraphicsItem] voidT
   , just $ mkMethod' "setFocusItem" "setFocusItemAll"
       [ptrT $ objT c_QGraphicsItem, enumT e_FocusReason] voidT
-  -- TODO mkMethod "setFont" [objT c_QFont] voidT
   , just $ mkMethod "setForegroundBrush" [objT c_QBrush] voidT
   -- TODO mkMethod "setItemIndexMethod" [objT c_ItemIndexMethod] voidT
   , test (qtVersion >= [5, 4]) $ mkMethod "setMinimumRenderSize" [qreal] voidT

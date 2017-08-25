@@ -57,6 +57,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   qreal,
   )
 import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard as QClipboard
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintEvent (c_QPaintEvent)
 import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWindow as QWindow
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
@@ -100,6 +101,7 @@ aModule =
       , just $ ExportCallback cb_QrealVoid
       , just $ ExportCallback cb_QSizeVoid
       , just $ ExportCallback cb_QStringVoid
+      , just $ ExportCallback cb_RefConstQIconVoid
       , just $ ExportCallback cb_RefConstQItemSelectionRefConstQItemSelectionVoid
       , test (qtVersion >= e_ScreenOrientation_minVersion) $ ExportCallback cb_ScreenOrientationVoid
       , just $ ExportCallback cb_WindowModalityVoid
@@ -210,6 +212,10 @@ cb_QSizeVoid =
 cb_QStringVoid =
   makeCallback (toExtName "CallbackQStringVoid")
   [objT c_QString] voidT
+
+cb_RefConstQIconVoid =
+  makeCallback (toExtName "CallbackRefConstQIconVoid")
+  [refT $ constT $ objT c_QIcon] voidT
 
 cb_RefConstQItemSelectionRefConstQItemSelectionVoid =
   makeCallback (toExtName "CallbackRefConstQItemSelectionRefConstQItemSelectionVoid")

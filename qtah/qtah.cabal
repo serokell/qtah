@@ -45,6 +45,7 @@ library
     , Graphics.UI.Qtah.Core.QList.QItemSelectionRange
     , Graphics.UI.Qtah.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Core.QList.QObject
+    , Graphics.UI.Qtah.Core.QList.QSize
     , Graphics.UI.Qtah.Core.QList.QString
     , Graphics.UI.Qtah.Core.QList.QVariant
     , Graphics.UI.Qtah.Core.QList.QWidget
@@ -84,6 +85,7 @@ library
     , Graphics.UI.Qtah.Gui.QFont
     , Graphics.UI.Qtah.Gui.QHideEvent
     , Graphics.UI.Qtah.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Gui.QIcon
     , Graphics.UI.Qtah.Gui.QImage
     , Graphics.UI.Qtah.Gui.QInputEvent
     , Graphics.UI.Qtah.Gui.QIntValidator
@@ -190,6 +192,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QItemSelectionRange
     , Graphics.UI.Qtah.Generated.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QList.QObject
+    , Graphics.UI.Qtah.Generated.Core.QList.QSize
     , Graphics.UI.Qtah.Generated.Core.QList.QString
     , Graphics.UI.Qtah.Generated.Core.QList.QVariant
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
@@ -227,6 +230,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QFont
     , Graphics.UI.Qtah.Generated.Gui.QHideEvent
     , Graphics.UI.Qtah.Generated.Gui.QHoverEvent
+    , Graphics.UI.Qtah.Generated.Gui.QIcon
     , Graphics.UI.Qtah.Generated.Gui.QImage
     , Graphics.UI.Qtah.Generated.Gui.QInputEvent
     , Graphics.UI.Qtah.Generated.Gui.QIntValidator

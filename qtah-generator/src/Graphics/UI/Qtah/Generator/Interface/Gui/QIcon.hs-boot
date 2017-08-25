@@ -15,17 +15,8 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Gui.QWindow (
-  minVersion,
-  c_QWindow,
-  e_Visibility,
-  ) where
+module Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon) where
 
-import Foreign.Hoppy.Generator.Spec (Class, CppEnum)
-import Graphics.UI.Qtah.Generator.Flags (Version)
+import Foreign.Hoppy.Generator.Spec (Class)
 
-minVersion :: Version
-
-c_QWindow :: Class
-
-e_Visibility :: CppEnum
+c_QIcon :: Class

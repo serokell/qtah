@@ -31,6 +31,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   c_QListQItemSelectionRange,
   c_QListQModelIndex,
   c_QListQObject,
+  c_QListQSize,
   c_QListQString,
   c_QListQVariant,
   c_QListQWidget,
@@ -94,6 +95,7 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange (c_QItemSelectionRange)
 import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Imports
@@ -296,6 +298,7 @@ allModules =
   , qmod_QItemSelectionRange
   , qmod_QModelIndex
   , qmod_QObject
+  , qmod_QSize
   , qmod_QString
   , qmod_QVariant
   , qmod_QWidget
@@ -347,6 +350,15 @@ contents_QObject = instantiate "QListQObject" (ptrT $ objT c_QObject) mempty
 
 c_QListQObject :: Class
 c_QListQObject = c_QList contents_QObject
+
+qmod_QSize :: QtModule
+qmod_QSize = createModule "QSize" contents_QSize
+
+contents_QSize :: Contents
+contents_QSize = instantiate "QListQSize" (objT c_QSize) mempty
+
+c_QListQSize :: Class
+c_QListQSize = c_QList contents_QSize
 
 qmod_QString :: QtModule
 qmod_QString = createModule "QString" contents_QString

@@ -31,6 +31,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkConstMethod,
   mkCtor,
   mkMethod,
+  mkMethod',
   mkProp,
   )
 import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
@@ -39,6 +40,7 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Corner, e_TextElideMode)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerInt)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -62,8 +64,9 @@ c_QTabWidget =
   collect
   [ just $ mkCtor "new" []
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , just $ mkMethod "addTab" [ptrT $ objT c_QWidget, objT c_QString] intT
-    -- TODO addTabWithIcon
+  , just $ mkMethod' "addTab" "addTab" [ptrT $ objT c_QWidget, objT c_QString] intT
+  , just $ mkMethod' "addTab" "addTabWithIcon" [ptrT $ objT c_QWidget, objT c_QIcon, objT c_QString]
+    intT
   , just $ mkMethod "clear" [] voidT
   , just $ mkConstMethod "cornerWidget" [enumT e_Corner] $ ptrT $ objT c_QWidget
   , just $ mkConstMethod "count" [] intT
@@ -73,20 +76,21 @@ c_QTabWidget =
   , test (qtVersion >= [4, 2]) $ mkProp "elideMode" $ enumT e_TextElideMode
   , test (qtVersion >= [4, 2]) $ mkProp "iconSize" $ objT c_QSize
   , just $ mkConstMethod "indexOf" [ptrT $ objT c_QWidget] intT
-  , just $ mkMethod "insertTab" [intT, ptrT $ objT c_QWidget, objT c_QString] intT
-    -- TODO insertTabWithIcon
+  , just $ mkMethod' "insertTab" "insertTab" [intT, ptrT $ objT c_QWidget, objT c_QString] intT
+  , just $ mkMethod' "insertTab" "insertTabWithIcon"
+    [intT, ptrT $ objT c_QWidget, objT c_QIcon, objT c_QString] intT
   , just $ mkConstMethod "isTabEnabled" [intT] boolT
   , test (qtVersion >= [4, 5]) $ mkBoolIsProp "movable"
   , just $ mkMethod "removeTab" [intT] voidT
   , just $ mkMethod "setCornerWidget" [ptrT $ objT c_QWidget, enumT e_Corner] voidT
   , just $ mkMethod "setTabEnabled" [intT, boolT] voidT
-    -- TODO setTabIcon
+  , just $ mkMethod "setTabIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setTabText" [intT, objT c_QString] voidT
   , just $ mkMethod "setTabToolTip" [intT, objT c_QString] voidT
   , test (qtVersion >= [4, 1]) $ mkMethod "setTabWhatsThis" [intT, objT c_QString] voidT
     -- TODO tabBar
   , test (qtVersion >= [5, 4]) $ mkProp "tabBarAutoHide" boolT
-    -- TODO tabIcon
+  , just $ mkConstMethod "tabIcon" [intT] $ objT c_QIcon
   , just $ mkProp "tabPosition" $ enumT e_TabPosition
   , just $ mkProp "tabShape" $ enumT e_TabShape
   , just $ mkConstMethod "tabText" [intT] $ objT c_QString

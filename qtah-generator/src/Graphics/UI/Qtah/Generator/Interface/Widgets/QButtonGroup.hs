@@ -17,6 +17,7 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup (
   aModule,
+  c_QButtonGroup,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -43,7 +44,9 @@ import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_ListenerPtrQAbstractButton,
   c_ListenerPtrQAbstractButtonBool,
   )
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (
+  c_QAbstractButton,
+  )
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 

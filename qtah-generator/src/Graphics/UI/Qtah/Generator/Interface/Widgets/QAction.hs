@@ -39,6 +39,8 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener, c_ListenerBool)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QActionGroup (c_QActionGroup)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
@@ -65,9 +67,13 @@ c_QAction =
   classSetEntityPrefix "" $
   makeClass (ident "QAction") Nothing [c_QObject] $
   collect
-  [ just $ mkCtor "new" [ptrT $ objT c_QObject]
-  , just $ mkCtor "newWithText" [objT c_QString, ptrT $ objT c_QObject]
-    -- TODO newWithIconAndText
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  , just $ mkCtor "newWithText" [objT c_QString]
+  , just $ mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QObject]
+  , just $ mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
+  , just $ mkCtor "newWithIconAndTextAndParent"
+    [objT c_QIcon, objT c_QString, ptrT $ objT c_QObject]
   , just $ mkProp "actionGroup" $ ptrT $ objT c_QActionGroup
   , just $ mkMethod "activate" [enumT e_ActionEvent] voidT
     -- TODO associatedGraphicsWidgets
@@ -77,9 +83,9 @@ c_QAction =
   , just $ mkBoolIsProp "checked"
     -- TODO data
   , just $ mkBoolIsProp "enabled"
-    -- TODO font
+  , just $ mkProp "font" $ objT c_QFont
   , just $ mkMethod "hover" [] voidT
-    -- TODO icon
+  , just $ mkProp "icon" $ objT c_QIcon
   , just $ mkProp "iconText" $ objT c_QString
   , just $ mkBoolIsProp "iconVisibleInMenu"
   , just $ mkProp "menu" $ ptrT $ objT c_QMenu

@@ -55,6 +55,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_WindowType,
   qreal,
   )
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QRegion (c_QRegion)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QSurface (c_QSurface, e_SurfaceType)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
@@ -110,7 +111,7 @@ c_QWindow =
   , just $ mkProp "geometry" $ objT c_QRect
   , just $ mkProp "height" intT
   , just $ mkMethod "hide" [] voidT
-    -- TODO mkProp "icon" $ objT c_QIcon
+  , just $ mkProp "icon" $ objT c_QIcon
   , test (qtVersion >= [5, 1]) $ mkConstMethod "isActive" [] boolT
   , just $ mkConstMethod "isAncestorOf" [ptrT $ objT c_QWindow, enumT e_AncestorMode] boolT
   , just $ mkConstMethod "isExposed" [] boolT

@@ -28,13 +28,16 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkBoolIsProp,
+  mkConstMethod,
   mkMethod,
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, intT, objT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener, c_ListenerBool)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup (c_QButtonGroup)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -62,8 +65,8 @@ c_QAbstractButton =
   , mkBoolIsProp "checked"
   , mkMethod "click" [] voidT
   , mkBoolIsProp "down"
-    -- TODO group
-    -- TODO icon
+  , mkConstMethod "group" [] $ ptrT $ objT c_QButtonGroup
+  , mkProp "icon" $ objT c_QIcon
   , mkProp "iconSize" $ objT c_QSize
     -- TODO shortcut
   , mkProp "text" $ objT c_QString

@@ -34,6 +34,7 @@ import Foreign.Hoppy.Generator.Spec (
   )
 import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
@@ -56,6 +57,8 @@ c_QPushButton =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithText" [objT c_QString]
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
+  , mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
+  , mkCtor "newWithIconAndTextAndParent" [objT c_QIcon, objT c_QString, ptrT $ objT c_QWidget]
     -- TODO Ctors with QIcon.
   , mkProp "autoDefault" boolT
   , mkBoolIsProp "default"

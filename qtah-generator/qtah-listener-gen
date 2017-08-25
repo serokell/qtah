@@ -87,6 +87,7 @@ forEachListener() {
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
+    $fn RefConstQIcon "const QIcon&"
     $fn RefConstQItemSelectionRefConstQItemSelection "const QItemSelection&|const QItemSelection&"
     $fn ScreenOrientation "Qt::ScreenOrientation" 0x050000 '[5, 0]'
     $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
@@ -128,6 +129,8 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QAbstractSlider>'
     sayHpp '#include <QAction>'
     sayHpp '#include <QClipboard>'
+    sayHpp '#include <QIcon>'
+    sayHpp '#include <QItemSelection>'
     sayHpp '#include <QModelIndex>'
     sayHpp '#include <QObject>'
     sayHpp '#include <QPoint>'

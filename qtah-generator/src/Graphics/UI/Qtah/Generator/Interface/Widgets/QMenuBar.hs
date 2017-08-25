@@ -41,6 +41,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Corner)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerPtrQAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
@@ -66,10 +67,10 @@ c_QMenuBar =
   , just $ mkProp "activeAction" $ ptrT $ objT c_QAction
   , just $ mkMethod' "addAction" "addAction" [ptrT $ objT c_QAction] voidT
   , just $ mkMethod' "addAction" "addNewAction" [objT c_QString] $ ptrT $ objT c_QAction
-    -- TODO addNewActionWithIcon and connecting forms
   , just $ mkMethod' "addMenu" "addMenu" [ptrT $ objT c_QMenu] $ ptrT $ objT c_QAction
   , just $ mkMethod' "addMenu" "addNewMenu" [objT c_QString] $ ptrT $ objT c_QMenu
-    -- TODO addNewMenuWithIcon
+  , just $ mkMethod' "addMenu" "addNewMenuWithIcon" [objT c_QIcon, objT c_QString] $
+    ptrT $ objT c_QMenu
   , just $ mkMethod "addSeparator" [] $ ptrT $ objT c_QAction
   , just $ mkMethod "clear" [] voidT
   , just $ mkConstMethod "cornerWidget" [enumT e_Corner] $ ptrT $ objT c_QWidget

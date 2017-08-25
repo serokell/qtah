@@ -29,6 +29,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent as QFocusE
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFont as QFont
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent as QHideEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent as QHoverEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QIcon as QIcon
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QImage as QImage
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent as QInputEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator as QIntValidator
@@ -71,6 +72,7 @@ modules =
   , QFont.aModule
   , QHideEvent.aModule
   , QHoverEvent.aModule
+  , QIcon.aModule
   , QImage.aModule
   , QInputEvent.aModule
   , QIntValidator.aModule

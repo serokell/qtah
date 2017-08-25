@@ -35,5 +35,13 @@ QApplication* create(const QStringList& args) {
     return new QApplication(*argc, argv);
 }
 
+QFont fontWithClass(const QString& className) {
+    return QApplication::font(className.toStdString().c_str());
+}
+
+void setFontWithClass(const QFont& font, const QString& className) {
+    QApplication::setFont(font, className.toStdString().c_str());
+}
+
 }  // namespace qapplication
 }  // namespace qtah

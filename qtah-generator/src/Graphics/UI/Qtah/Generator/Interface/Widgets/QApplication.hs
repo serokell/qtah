@@ -49,6 +49,8 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_LayoutDirection, e_NavigationMode)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard (c_QClipboard)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
   c_ListenerPtrQWidgetPtrQWidget,
@@ -95,7 +97,10 @@ c_QApplication =
   , just $ mkStaticProp "desktopSettingsAware" boolT
   , just $ mkStaticProp "doubleClickInterval" intT
   , just $ mkStaticMethod "focusWidget" [] $ ptrT $ objT c_QWidget
-    -- TODO font
+  , just $ mkStaticMethod' "font" "font" [] $ objT c_QFont
+  , just $ mkStaticMethod' "font" "fontWithWidget" [ptrT $ objT c_QWidget] $ objT c_QFont
+  , just $ makeFnMethod (ident2 "qtah" "qapplication" "fontWithClass") "fontWithClass"
+    MStatic Nonpure [objT c_QString] $ objT c_QFont
     -- TODO fontMetrics
   , just $ mkStaticProp "globalStrut" $ objT c_QSize
     -- TODO inputContext
@@ -124,6 +129,9 @@ c_QApplication =
   , just $ mkConstMethod "sessionId" [] $ objT c_QString
   , just $ mkConstMethod "sessionKey" [] $ objT c_QString
     -- TODO setEffectEnabled
+  , just $ mkStaticMethod' "setFont" "setFont" [objT c_QFont] voidT
+  , just $ makeFnMethod (ident2 "qtah" "qapplication" "setFontWithClass") "setFontWithClass"
+    MStatic Nonpure [objT c_QFont, objT c_QString] voidT
     -- TODO setFont
     -- TODO setGraphicsSystem (<5)
     -- TODO setInputContext
@@ -149,7 +157,7 @@ c_QApplication =
   , just $ mkStaticProp "wheelScrollLines" intT
   , just $ mkStaticMethod' "widgetAt" "widgetAtPoint" [objT c_QPoint] $ ptrT $ objT c_QWidget
   , just $ mkStaticMethod' "widgetAt" "widgetAtRaw" [intT, intT] $ ptrT $ objT c_QWidget
-    -- TODO windowIcon
+  , just $ mkProp "windowIcon" $ objT c_QIcon
     -- TODO x11EventFilter
     -- TODO x11ProcessEvent
   ]

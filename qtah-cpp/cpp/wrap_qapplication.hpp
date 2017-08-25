@@ -19,12 +19,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QApplication>
+#include <QFont>
+#include <QString>
 #include <QStringList>
 
 namespace qtah {
 namespace qapplication {
 
 QApplication* create(const QStringList&);
+
+QFont fontWithClass(const QString& className);
+
+void setFontWithClass(const QFont&, const QString&);
 
 }  // namespace qapplication
 }  // namespace qtah

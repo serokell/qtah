@@ -53,7 +53,12 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   qreal,
   )
 import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQPoint)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_ListenerQPoint,
+  c_ListenerQString,
+  c_ListenerRefConstQIcon,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout (c_QLayout)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -103,7 +108,6 @@ c_QWidget =
   , just $ mkConstMethod "focusProxy" [] $ ptrT $ objT c_QWidget
   , just $ mkConstMethod "focusWidget" [] $ ptrT $ objT c_QWidget
   , just $ mkProp "font" $ objT c_QFont
-    -- TODO font
     -- TODO fontInfo
     -- TODO fontMetrics
     -- TODO foregroundRole
@@ -211,7 +215,6 @@ c_QWidget =
     -- TODO setFocus(Qt::FocusReason)
     -- TODO setFocusPolicy
   , just $ mkMethod "setFocusProxy" [ptrT $ objT c_QWidget] voidT
-    -- TODO setFont
     -- TODO setForegroundRole
   , just $ mkMethod' "setGeometry" "setGeometryRaw" [intT, intT, intT, intT] voidT
   , just $ mkMethod' "setGeometry" "setGeometryRect" [objT c_QRect] voidT
@@ -252,7 +255,6 @@ c_QWidget =
   , just $ mkMethod "setVisible" [boolT] voidT
   , just $ mkMethod "setWhatsThis" [objT c_QString] voidT
   , just $ mkMethod "setWindowFilePath" [objT c_QString] voidT
-    -- TODO setWindowIcon
   , just $ mkMethod "setWindowIconText" [objT c_QString] voidT
   , just $ mkMethod "setWindowModified" [boolT] voidT
   , just $ mkMethod "setWindowRole" [objT c_QString] voidT
@@ -289,8 +291,9 @@ c_QWidget =
   , just $ mkConstMethod "window" [] $ ptrT $ objT c_QWidget
   , just $ mkConstMethod "windowFilePath" [] $ objT c_QString
   , just $ mkProp "windowFlags" $ bitspaceT bs_WindowFlags
-    -- TODO windowIcon
-  , just $ mkConstMethod "windowIconText" [] $ objT c_QString
+  , just $ mkProp "windowIcon" $ objT c_QIcon
+  , -- DEPRECATED by 5.7.
+    just $ mkConstMethod "windowIconText" [] $ objT c_QString
   , just $ mkProp "windowModality" $ enumT e_WindowModality
   , just $ mkProp "windowOpacity" qreal
   , just $ mkConstMethod "windowRole" [] $ objT c_QString
@@ -306,8 +309,9 @@ c_QWidget =
   ]
 
 signals =
-  [ makeSignal c_QWidget "customContextMenuRequested" c_ListenerQPoint
-    -- TODO windowIconChanged (>=5.0?)
-    -- TODO windowIconTextChanged (>=5.0?)
-    -- TODO windowTitleChanged (>=5.0?)
+  collect
+  [ just $ makeSignal c_QWidget "customContextMenuRequested" c_ListenerQPoint
+  , test (qtVersion >= [5, 0]) $ makeSignal c_QWidget "windowIconChanged" c_ListenerRefConstQIcon
+    -- TODO windowIconTextChanged (>=5.0?  Deprecated by 5.7.)
+  , test (qtVersion >= [5, 0]) $ makeSignal c_QWidget "windowTitleChangd" c_ListenerQString
   ]
