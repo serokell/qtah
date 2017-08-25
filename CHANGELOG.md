@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- [API change] Changed QAction's constructors so that "new" and "newWithText"
+  don't require parent parameters, and have "WithParent" forms instead, like
+  normal.
+
 - qtah-listener-gen now checks that bash 4.1 or newer is available, as it
   requires features introduced in that version, and OS X doesn't ship a bash
   anywhere near that new (issue #19).

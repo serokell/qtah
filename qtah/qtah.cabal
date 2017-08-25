@@ -1,5 +1,5 @@
 name: qtah
-version: 0.3.0
+version: 0.4.0
 synopsis: Qt bindings for Haskell
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
@@ -329,8 +329,8 @@ library
     , binary >=0.7 && <0.9
     , bytestring >=0.10 && <0.11
     , hoppy-runtime >=0.3 && <0.4
-    , qtah-cpp >=0.3 && <0.4
-    , qtah-generator >=0.3 && <0.4
+    , qtah-cpp >=0.4 && <0.5
+    , qtah-generator >=0.4 && <0.5
   hs-source-dirs: src
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
