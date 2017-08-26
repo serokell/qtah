@@ -67,11 +67,11 @@ c_QAction =
   classSetEntityPrefix "" $
   makeClass (ident "QAction") Nothing [c_QObject] $
   collect
-  [ just $ mkCtor "new" []
+  [ test (qtVersion >= [5, 0]) $ mkCtor "new" []
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
-  , just $ mkCtor "newWithText" [objT c_QString]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newWithText" [objT c_QString]
   , just $ mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QObject]
-  , just $ mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
+  , test (qtVersion >= [5, 0]) $ mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
   , just $ mkCtor "newWithIconAndTextAndParent"
     [objT c_QIcon, objT c_QString, ptrT $ objT c_QObject]
   , just $ mkProp "actionGroup" $ ptrT $ objT c_QActionGroup
