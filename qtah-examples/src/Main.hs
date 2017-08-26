@@ -139,7 +139,7 @@ newChooserWindow = do
   connect_ selectionModel QItemSelectionModel.currentChangedSignal $ \index _ ->
     exampleSelected ui index
 
-  connect_ listView QAbstractItemView.activatedSignal $ \_ -> runSelectedExample ui
+  connect_ listView QAbstractItemView.doubleClickedSignal $ \_ -> runSelectedExample ui
 
   connect_ runButton QAbstractButton.clickedSignal $ \_ -> runSelectedExample ui
 
