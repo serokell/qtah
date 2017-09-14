@@ -110,6 +110,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainter
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPen
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon
     , Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF
     , Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow

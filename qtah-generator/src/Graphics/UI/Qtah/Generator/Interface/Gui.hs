@@ -42,6 +42,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintEvent as QPaintE
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainter as QPainter
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath as QPainterPath
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPen as QPen
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap as QPixmap
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon as QPolygon
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF as QPolygonF
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow as QRasterWindow
@@ -85,6 +86,7 @@ modules =
   , QPainter.aModule
   , QPainterPath.aModule
   , QPen.aModule
+  , QPixmap.aModule
   , QPolygon.aModule
   , QPolygonF.aModule
   , QRasterWindow.aModule

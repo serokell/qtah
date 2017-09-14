@@ -98,6 +98,7 @@ library
     , Graphics.UI.Qtah.Gui.QPainter
     , Graphics.UI.Qtah.Gui.QPainterPath
     , Graphics.UI.Qtah.Gui.QPen
+    , Graphics.UI.Qtah.Gui.QPixmap
     , Graphics.UI.Qtah.Gui.QPolygon
     , Graphics.UI.Qtah.Gui.QPolygonF
     , Graphics.UI.Qtah.Gui.QRasterWindow
@@ -243,6 +244,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QPainter
     , Graphics.UI.Qtah.Generated.Gui.QPainterPath
     , Graphics.UI.Qtah.Generated.Gui.QPen
+    , Graphics.UI.Qtah.Generated.Gui.QPixmap
     , Graphics.UI.Qtah.Generated.Gui.QPolygon
     , Graphics.UI.Qtah.Generated.Gui.QPolygonF
     , Graphics.UI.Qtah.Generated.Gui.QRasterWindow
