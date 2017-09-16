@@ -101,6 +101,7 @@ forEachListener() {
     $fn Qreal "qreal"
     $fn QSize "QSize"
     $fn QString "QString"
+    $fn QSystemTrayIconActivationReason "QSystemTrayIcon::ActivationReason"
     $fn QWindowVisibility "QWindow::Visibility" 0x050000 '[5, 0]'
     $fn WindowModality "Qt::WindowModality"
     $fn WindowState "Qt::WindowState"
@@ -135,6 +136,7 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QObject>'
     sayHpp '#include <QPoint>'
     sayHpp '#include <QSize>'
+    sayHpp '#include <QSystemTrayIcon>'
     sayHpp '#include <QVector>'
     sayHpp '#include <QWidget>'
     sayHpp '#if QT_VERSION >= 0x050000'

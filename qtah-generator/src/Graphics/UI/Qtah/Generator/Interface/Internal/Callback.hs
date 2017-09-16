@@ -63,8 +63,11 @@ import {-# SOURCE #-} qualified Graphics.UI.Qtah.Generator.Interface.Gui.QWindow
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
   (c_QAbstractButton)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (e_SliderAction)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsItem)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon (
+  e_ActivationReason,
+  )
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AHoppyModule))
 
@@ -101,6 +104,7 @@ aModule =
       , just $ ExportCallback cb_QrealVoid
       , just $ ExportCallback cb_QSizeVoid
       , just $ ExportCallback cb_QStringVoid
+      , just $ ExportCallback cb_QSystemTrayIconActivationReasonVoid
       , just $ ExportCallback cb_RefConstQIconVoid
       , just $ ExportCallback cb_RefConstQItemSelectionRefConstQItemSelectionVoid
       , test (qtVersion >= e_ScreenOrientation_minVersion) $ ExportCallback cb_ScreenOrientationVoid
@@ -212,6 +216,10 @@ cb_QSizeVoid =
 cb_QStringVoid =
   makeCallback (toExtName "CallbackQStringVoid")
   [objT c_QString] voidT
+
+cb_QSystemTrayIconActivationReasonVoid =
+  makeCallback (toExtName "CallbackQSystemTrayIconActivationReasonVoid")
+  [enumT e_ActivationReason] voidT
 
 cb_RefConstQIconVoid =
   makeCallback (toExtName "CallbackRefConstQIconVoid")

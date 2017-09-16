@@ -186,6 +186,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout

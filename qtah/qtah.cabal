@@ -172,6 +172,7 @@ library
     , Graphics.UI.Qtah.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Widgets.QStackedWidget
     , Graphics.UI.Qtah.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Widgets.QTabWidget
     , Graphics.UI.Qtah.Widgets.QTextEdit
     , Graphics.UI.Qtah.Widgets.QVBoxLayout
@@ -315,6 +316,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generated.Widgets.QStackedWidget
     , Graphics.UI.Qtah.Generated.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Generated.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generated.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
