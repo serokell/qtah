@@ -33,9 +33,20 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, doubleT, enumT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (
+  bitspaceT,
+  boolT,
+  constT,
+  doubleT,
+  enumT,
+  intT,
+  objT,
+  ptrT,
+  voidT,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment, e_TextFormat)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQString)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
@@ -68,12 +79,14 @@ c_QLabel =
     -- TODO movie
   , mkProp "openExternalLinks" boolT
     -- TODO picture
-    -- TODO pixmap
+  , mkConstMethod "pixmap" [] $ ptrT $ constT $ objT c_QPixmap
   , mkBoolHasProp "scaledContents"
   , mkConstMethod "selectedText" [] $ objT c_QString
   , mkConstMethod "selectionStart" [] intT
+    -- TODO mkProp "movie" $ ptrT $ objT c_QMovie
   , mkMethod' "setNum" "setInt" [intT] voidT
   , mkMethod' "setNum" "setDouble" [doubleT] voidT
+  , mkMethod "setPixmap" [objT c_QPixmap] voidT
   , mkMethod "setSelection" [intT, intT] voidT
   , mkProp "text" $ objT c_QString
   , mkProp "textFormat" $ enumT e_TextFormat

@@ -41,6 +41,8 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
 import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, refT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_BrushStyle, e_GlobalColor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QColor (c_QColor)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QImage (c_QImage)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QTransform (c_QTransform)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -67,7 +69,7 @@ c_QBrush =
   , mkMethod' "setColor" "setGlobalColor" [enumT e_GlobalColor] voidT
   , mkProp "style" $ enumT e_BrushStyle
   , mkMethod "swap" [refT $ objT c_QBrush] voidT
-    -- TODO mkProp "texture" $ objT c_QPixmap
-    -- TODO mkProp "textureImage" $ objT c_QImage
+  , mkProp "texture" $ objT c_QPixmap
+  , mkProp "textureImage" $ objT c_QImage
   , mkProp "transform" $ objT c_QTransform
   ]

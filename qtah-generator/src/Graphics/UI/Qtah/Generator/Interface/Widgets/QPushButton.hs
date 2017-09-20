@@ -59,7 +59,6 @@ c_QPushButton =
   , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   , mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
   , mkCtor "newWithIconAndTextAndParent" [objT c_QIcon, objT c_QString, ptrT $ objT c_QWidget]
-    -- TODO Ctors with QIcon.
   , mkProp "autoDefault" boolT
   , mkBoolIsProp "default"
   , mkBoolIsProp "flat"

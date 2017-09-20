@@ -46,6 +46,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_WindowModality,
   )
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerPtrQAbstractButton)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton (c_QAbstractButton)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QCheckBox (c_QCheckBox)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog (c_QDialog)
@@ -99,7 +100,7 @@ c_QMessageBox =
   , test (qtVersion >= [4, 2]) $ mkProp "detailedText" $ objT c_QString
   , test (qtVersion >= [4, 2]) $ mkConstMethod "escapeButton" [] $ ptrT $ objT c_QAbstractButton
   , just $ mkProp "icon" $ enumT e_Icon
-    -- TODO iconPixmap
+  , just $ mkProp "iconPixmap" $ objT c_QPixmap
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "information" "information"
     [ptrT $ objT c_QWidget, objT c_QString, objT c_QString] $ enumT e_StandardButton
   , test (qtVersion >= [4, 2]) $ mkStaticMethod' "information" "informationWithButtons"

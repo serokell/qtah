@@ -61,6 +61,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPainter (c_QPainter)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Gui.QWindow (c_QWindow)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -85,7 +86,7 @@ c_QIcon =
   [ just $ mkCtor "new" []
     -- TODO QIcon(QIconEngine*)
   , just $ mkCtor "newWithFile" [objT c_QString]
-    -- TODO QIcon(const QPixmap&)
+  , just $ mkCtor "newWithPixmap" [objT c_QPixmap]
   , just $ mkConstMethod' "actualSize" "actualSize" [objT c_QSize] $ objT c_QSize
   , just $ mkConstMethod' "actualSize" "actualSizeAll"
     [objT c_QSize, enumT e_Mode, enumT e_State] $ objT c_QSize
@@ -97,7 +98,8 @@ c_QIcon =
   , just $ mkMethod' "addFile" "addFileAll"
     [objT c_QString, objT c_QSize, enumT e_Mode, enumT e_State]
     voidT
-    -- TODO void addPixmap(const QPixmap&, Mode =, State =)
+  , just $ mkMethod' "addPixmap" "addPixmap" [objT c_QPixmap] voidT
+  , just $ mkMethod' "addPixmap" "addPixmapAll" [objT c_QPixmap, enumT e_Mode, enumT e_State] voidT
   , just $ mkConstMethod' "availableSizes" "availableSizes" [] $ objT c_QListQSize
   , just $ mkConstMethod' "availableSizes" "availableSizesAll" [enumT e_Mode, enumT e_State] $
     objT c_QListQSize
@@ -120,9 +122,15 @@ c_QIcon =
     [ptrT $ objT c_QPainter, intT, intT, intT, intT, bitspaceT bs_Alignment, enumT e_Mode,
      enumT e_State]
     voidT
-    -- TODO QPixmap pixmap(const QSize&, Mode =, State =) const
-    -- TODO QPixmap pixmap(int, int, Mode =, State =) const
-    -- TODO QPixmap pixmap (int, Mode =, State =) const
+  , test (qtVersion >= [5, 1]) $ mkConstMethod' "pixmap" "pixmapExtent" [intT] $ objT c_QPixmap
+  , test (qtVersion >= [5, 1]) $ mkConstMethod' "pixmap" "pixmapExtentAll"
+    [intT, enumT e_Mode, enumT e_State] $ objT c_QPixmap
+  , just $ mkConstMethod' "pixmap" "pixmapRaw" [intT, intT] $ objT c_QPixmap
+  , just $ mkConstMethod' "pixmap" "pixmapRawAll" [intT, intT, enumT e_Mode, enumT e_State] $
+    objT c_QPixmap
+  , just $ mkConstMethod' "pixmap" "pixmapSize" [objT c_QSize] $ objT c_QPixmap
+  , just $ mkConstMethod' "pixmap" "pixmapSizeAll" [objT c_QSize, enumT e_Mode, enumT e_State] $
+    objT c_QPixmap
   , test (qtVersion >= [5, 6]) $ mkMethod "setIsMask" [boolT] voidT
   , just $ mkStaticMethod "setThemeName" [objT c_QString] voidT
   , just $ mkStaticMethod "setThemeSearchPaths" [objT c_QStringList] voidT

@@ -44,6 +44,8 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_FillRule)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPolygon (c_QPolygon)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -65,7 +67,8 @@ c_QRegion =
   collect
   [ just $ mkCtor "new" []
   , just $ mkCtor "newFromPoints" [intT, intT, intT, intT, enumT e_RegionType]
-    -- TODO newFromPolygon (needs QPolygon)
+  , just $ mkCtor "newFromPolygon" [objT c_QPolygon]
+  , just $ mkCtor "newFromPolygonAll" [objT c_QPolygon, enumT e_FillRule]
     -- TODO newFromBitmap (needs QBitmap)
   , just $ mkCtor "newFromRect" [objT c_QRect, enumT e_RegionType]
   , just $ mkConstMethod "boundingRect" [] $ objT c_QRect

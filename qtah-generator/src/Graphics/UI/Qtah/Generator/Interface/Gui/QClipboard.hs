@@ -39,6 +39,8 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QImage (c_QImage)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
   c_ListenerQClipboardMode,
@@ -63,15 +65,19 @@ c_QClipboard =
   collect
   [ just $ mkMethod' "clear" "clear" [] voidT
   , just $ mkMethod' "clear" "clearWithMode" [enumT e_Mode] voidT
-    -- TODO image
+  , just $ mkConstMethod' "image" "image" [] $ objT c_QImage
+  , just $ mkConstMethod' "image" "imageAll" [enumT e_Mode] $ objT c_QImage
     -- TODO mimeData
   , just $ mkConstMethod "ownsClipboard" [] boolT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "ownsFindBuffer" [] boolT
   , just $ mkConstMethod "ownsSelection" [] boolT
-    -- TODO pixmap
-    -- TODO setImage
+  , just $ mkConstMethod' "pixmap" "pixmap" [] $ objT c_QPixmap
+  , just $ mkConstMethod' "pixmap" "pixmapAll" [enumT e_Mode] $ objT c_QPixmap
+  , just $ mkMethod' "setImage" "setImage" [objT c_QImage] voidT
+  , just $ mkMethod' "setImage" "setImageAll" [objT c_QImage, enumT e_Mode] voidT
     -- TODO setMimeData
-    -- TODO setPixmap
+  , just $ mkMethod' "setPixmap" "setPixmap" [objT c_QPixmap] voidT
+  , just $ mkMethod' "setPixmap" "setPixmapAll" [objT c_QPixmap, enumT e_Mode] voidT
   , just $ mkMethod' "setText" "setText" [objT c_QString] voidT
   , just $ mkMethod' "setText" "setTextWithMode" [objT c_QString, enumT e_Mode] voidT
   , just $ mkConstMethod "supportsFindBuffer" [] boolT
