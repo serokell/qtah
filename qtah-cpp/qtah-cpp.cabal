@@ -52,3 +52,11 @@ library
     , process >=1.2 && <1.5
     , qtah-generator >=0.4 && <0.5
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
+
+custom-setup
+  setup-depends:
+      base
+    , Cabal
+    , directory
+    , filepath
+    , process
