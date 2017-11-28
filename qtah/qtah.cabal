@@ -175,6 +175,8 @@ library
     , Graphics.UI.Qtah.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Widgets.QTabWidget
     , Graphics.UI.Qtah.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Widgets.QTreeView
+    , Graphics.UI.Qtah.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Widgets.QWidget
   other-modules:
@@ -319,6 +321,8 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generated.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QTreeView
+    , Graphics.UI.Qtah.Generated.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generated.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QWidget
     , Graphics.UI.Qtah.Internal.Callback
