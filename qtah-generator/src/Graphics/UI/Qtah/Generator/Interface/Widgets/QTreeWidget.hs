@@ -20,30 +20,16 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Export (ExportClass, ExportEnum),
+  Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
-  ident1,
   includeStd,
   makeClass,
-  mkBoolIsProp,
-  mkConstMethod,
   mkCtor,
-  mkMethod,
-  mkMethod',
-  mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
-import Foreign.Hoppy.Generator.Version (collect, just, test)
-import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_Corner, e_TextElideMode)
-import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerInt)
+import Foreign.Hoppy.Generator.Version (collect, just)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (c_QTreeView)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -65,5 +51,5 @@ c_QTreeWidget =
   ]
 
 signals =
-  [ makeSignal c_QTreeWidget "currentChanged" c_ListenerInt
+  [ -- TODO
   ]
