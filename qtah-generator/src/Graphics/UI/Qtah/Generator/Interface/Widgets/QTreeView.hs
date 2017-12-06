@@ -28,6 +28,7 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkCtor,
+  mkBoolIsProp,
   )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView (c_QAbstractItemView)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -45,5 +46,5 @@ c_QTreeView =
   classSetEntityPrefix "" $
   makeClass (ident "QTreeView") Nothing [c_QAbstractItemView]
   [ mkCtor "new" []
-    -- TODO
+  , mkBoolIsProp "headerHidden"
   ]
