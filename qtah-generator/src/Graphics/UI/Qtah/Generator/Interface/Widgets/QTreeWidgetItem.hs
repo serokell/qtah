@@ -27,6 +27,8 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
+  mkConstMethod,
+  mkConstMethod',
   mkCtor,
   mkMethod,
   )
@@ -53,8 +55,10 @@ c_QTreeWidgetItem =
   makeClass (ident "QTreeWidgetItem") Nothing [] $
   collect
   [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithType" [intT]
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
+  , just $ mkConstMethod' "type" "getType" [] intT
   ]
 
 signals =
