@@ -92,6 +92,7 @@ c_QTreeWidgetItem =
   , just $ mkCtor "newWithParentItemAndType" [ptrT $ objT c_QTreeWidgetItem, intT]
   , just $ mkCtor "newWithParentItemAndStrings" [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList]
   , just $ mkCtor "newWithParentItemAndStringsAndType" [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
+  , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
   , just $ mkConstMethod' "type" "getType" [] intT
