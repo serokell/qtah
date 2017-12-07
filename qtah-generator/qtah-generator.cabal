@@ -191,7 +191,6 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget
-    , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidgetItem
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget
     , Graphics.UI.Qtah.Generator.Module
