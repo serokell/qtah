@@ -30,10 +30,10 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   )
-import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT, refT, constT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (c_QTreeView)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -52,6 +52,7 @@ c_QTreeWidgetItem =
   makeClass (ident "QTreeWidgetItem") Nothing [] $
   collect
   [ just $ mkCtor "new" []
+  , just $ mkMethod "setIcon" [intT, refT $ constT $ objT c_QIcon] voidT
   ]
 
 signals =
