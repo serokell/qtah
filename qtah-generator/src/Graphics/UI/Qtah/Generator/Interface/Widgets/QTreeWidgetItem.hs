@@ -36,6 +36,7 @@ import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT, ref
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -56,6 +57,8 @@ c_QTreeWidgetItem =
   collect
   [ just $ mkCtor "new" []
   , just $ mkCtor "newWithType" [intT]
+  , just $ mkCtor "newWithStrings" [objT c_QStringList]
+  , just $ mkCtor "newWithStringsAndType" [objT c_QStringList, intT]
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
   , just $ mkConstMethod' "type" "getType" [] intT
