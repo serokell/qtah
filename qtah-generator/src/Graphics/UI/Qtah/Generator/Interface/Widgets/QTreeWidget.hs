@@ -53,7 +53,7 @@ c_QTreeWidget =
   collect
   [ just $ mkCtor "new" []
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , test (qtVersion >= [4, 5]) $
+  , test (qtVersion >= [4, 1]) $
       mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   ]
 
