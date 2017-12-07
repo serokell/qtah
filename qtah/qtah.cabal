@@ -359,3 +359,10 @@ test-suite test-qtah
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind -dynamic
   default-language: Haskell2010
   extra-libraries: qtah
+
+custom-setup
+  setup-depends:
+      base
+    , Cabal
+    , directory
+    , filepath
