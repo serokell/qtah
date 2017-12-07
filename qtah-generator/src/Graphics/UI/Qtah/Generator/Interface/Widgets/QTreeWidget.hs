@@ -20,12 +20,14 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
+  Class,
   Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
+  mkConstMethod,
   mkCtor,
   mkMethod,
   )
@@ -40,12 +42,14 @@ import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+aModule :: AModule
 aModule =
   AQtModule $
   makeQtModule ["Widgets", "QTreeWidget"] $
   QtExport (ExportClass c_QTreeWidget) :
   map QtExportSignal signals
 
+c_QTreeWidget :: Class
 c_QTreeWidget =
   addReqIncludes [includeStd "QTreeWidget"] $
   classSetEntityPrefix "" $
@@ -55,6 +59,7 @@ c_QTreeWidget =
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , test (qtVersion >= [4, 1]) $
       mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
+  , just $ mkConstMethod "currentItem" [] (ptrT $ objT c_QTreeWidgetItem)
   ]
 
 signals =
