@@ -78,6 +78,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget as QTab
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView as QTreeView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget as QTreeWidget
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidgetItem as QTreeWidgetItem
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout as QVBoxLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget as QWidget
 import Graphics.UI.Qtah.Generator.Module (AModule)
@@ -147,6 +148,7 @@ modules =
   , QTextEdit.aModule
   , QTreeView.aModule
   , QTreeWidget.aModule
+  , QTreeWidgetItem.aModule
   , QVBoxLayout.aModule
   , QWidget.aModule
   ]

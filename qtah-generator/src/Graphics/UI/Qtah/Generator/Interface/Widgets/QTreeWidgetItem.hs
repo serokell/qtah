@@ -15,8 +15,9 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidgetItem (
   aModule,
+  c_QTreeWidgetItem,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -33,7 +34,6 @@ import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (c_QTreeView)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidgetItem (c_QTreeWidgetItem)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -42,19 +42,16 @@ import Graphics.UI.Qtah.Generator.Types
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QTreeWidget"] $
-  QtExport (ExportClass c_QTreeWidget) :
+  makeQtModule ["Widgets", "QTreeWidgetItem"] $
+  QtExport (ExportClass c_QTreeWidgetItem) :
   map QtExportSignal signals
 
-c_QTreeWidget =
-  addReqIncludes [includeStd "QTreeWidget"] $
+c_QTreeWidgetItem =
+  addReqIncludes [includeStd "QTreeWidgetItem"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QTreeWidget") Nothing [c_QTreeView] $
+  makeClass (ident "QTreeWidgetItem") Nothing [] $
   collect
   [ just $ mkCtor "new" []
-  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , test (qtVersion >= [4, 5]) $
-      mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   ]
 
 signals =
