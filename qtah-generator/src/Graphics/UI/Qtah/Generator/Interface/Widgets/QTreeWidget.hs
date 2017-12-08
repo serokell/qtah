@@ -72,6 +72,7 @@ c_QTreeWidget =
       mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   , just $ mkConstMethod "currentItem" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setCurrentItem" [ptrT $ objT c_QTreeWidgetItem] voidT
+    -- TODO
   ]
 
 c_QTreeWidgetItem :: Class
@@ -87,15 +88,18 @@ c_QTreeWidgetItem =
   , just $ mkCtor "newWithParentTree" [ptrT $ objT c_QTreeWidget]
   , just $ mkCtor "newWithParentTreeAndType" [ptrT $ objT c_QTreeWidget, intT]
   , just $ mkCtor "newWithParentTreeAndStrings" [ptrT $ objT c_QTreeWidget, objT c_QStringList]
-  , just $ mkCtor "newWithParentTreeAndStringsAndType" [ptrT $ objT c_QTreeWidget, objT c_QStringList, intT]
+  , just $ mkCtor "newWithParentTreeAndStringsAndType"
+    [ptrT $ objT c_QTreeWidget, objT c_QStringList, intT]
   , just $ mkCtor "newWithParentItem" [ptrT $ objT c_QTreeWidgetItem]
   , just $ mkCtor "newWithParentItemAndType" [ptrT $ objT c_QTreeWidgetItem, intT]
   , just $ mkCtor "newWithParentItemAndStrings" [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList]
-  , just $ mkCtor "newWithParentItemAndStringsAndType" [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
+  , just $ mkCtor "newWithParentItemAndStringsAndType"
+    [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
   , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
   , just $ mkConstMethod' "type" "getType" [] intT
+    -- TODO
   ]
 
 signals :: [Signal]
