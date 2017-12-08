@@ -54,6 +54,10 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   )
 import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice (c_QPaintDevice)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPainter (c_QPainter)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QRegion (c_QRegion)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_ListenerQPoint,
   c_ListenerQString,
@@ -114,6 +118,9 @@ c_QWidget =
   , just $ mkConstMethod "frameGeometry" [] $ objT c_QRect
   , just $ mkConstMethod "frameSize" [] $ objT c_QSize
   , just $ mkConstMethod "geometry" [] $ objT c_QRect
+  , test (qtVersion >= [5, 0]) $ mkMethod "grab" [] $ objT c_QPixmap
+  , test (qtVersion >= [5, 0]) $
+    mkMethod' "grab" "grabWithRectangle" [objT c_QRect] $ objT c_QPixmap
     -- TODO grabGesture
   , just $ mkMethod "grabKeyboard" [] voidT
   , just $ mkMethod "grabMouse" [] voidT
@@ -182,7 +189,23 @@ c_QWidget =
   , just $ mkMethod "releaseMouse" [] voidT
     -- TODO releaseShortcut
   , just $ mkMethod "removeAction" [ptrT $ objT c_QAction] voidT
-    -- TODO render
+  , test (qtVersion >= [4, 3]) $
+    mkMethod' "render" "renderWithTarget" [ptrT $ objT c_QPaintDevice] voidT
+  , test (qtVersion >= [4, 3]) $
+    mkMethod' "render" "renderWithTargetAndTargetOffset"
+      [ptrT $ objT c_QPaintDevice, objT c_QPoint] voidT
+  , test (qtVersion >= [4, 3]) $
+    mkMethod' "render" "renderWithTargetAndTargetOffsetAndSourceRegion"
+      [ptrT $ objT c_QPaintDevice, objT c_QPoint, objT c_QRegion] voidT
+    -- TODO [4.3] void render(QPaintDevice *target, const QPoint &targetOffset, const QRegion &sourceRegion, RenderFlags renderFlags)
+  , just $ mkMethod' "render" "renderWithPainter" [ptrT $ objT c_QPainter] voidT
+  , just $
+    mkMethod' "render" "renderWithPainterAndTargetOffset"
+      [ptrT $ objT c_QPainter, objT c_QPoint] voidT
+  , just $
+    mkMethod' "render" "renderWithPainterAndTargetOffsetAndSourceRegion"
+      [ptrT $ objT c_QPainter, objT c_QPoint, objT c_QRegion] voidT
+    -- TODO void render(QPainter *painter, const QPoint &targetOffset, const QRegion &sourceRegion, RenderFlags renderFlags)
   , just $ mkMethod' "repaint" "repaint" [] voidT
   , just $ mkMethod' "repaint" "repaintRaw" [intT, intT, intT, intT] voidT
   , just $ mkMethod' "repaint" "repaintRect" [objT c_QRect] voidT
