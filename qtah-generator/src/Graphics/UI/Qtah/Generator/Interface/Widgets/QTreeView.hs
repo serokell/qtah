@@ -38,9 +38,9 @@ import Graphics.UI.Qtah.Generator.Types
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QTreeView"]
+  makeQtModule ["Widgets", "QTreeView"] $
   QtExport (ExportClass c_QTreeView) :
-  map QtExportSignal itemSignals
+  map QtExportSignal signals
 
 c_QTreeView =
   addReqIncludes [includeStd "QTreeView"] $
