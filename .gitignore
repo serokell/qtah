@@ -26,6 +26,7 @@
 /qtah-cpp/cpp/listener.cpp
 /qtah-cpp/cpp/listener.hpp
 /qtah-cpp/cpp/*.o
+/qtah-cpp/cpp/libqtah.*dylib
 /qtah-cpp/cpp/libqtah.so*
 /qtah-cpp/dist
 

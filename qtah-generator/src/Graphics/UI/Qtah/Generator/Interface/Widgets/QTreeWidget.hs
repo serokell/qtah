@@ -17,39 +17,97 @@
 
 module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (
   aModule,
+  itemModule,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
+  Class,
   Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
+  mkConstMethod,
+  mkConstMethod',
   mkCtor,
+  mkMethod,
   )
-import Foreign.Hoppy.Generator.Version (collect, just)
+import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (c_QTreeView)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+aModule :: AModule
 aModule =
   AQtModule $
   makeQtModule ["Widgets", "QTreeWidget"] $
   QtExport (ExportClass c_QTreeWidget) :
   map QtExportSignal signals
 
+itemModule :: AModule
+itemModule =
+  AQtModule $
+  makeQtModule ["Widgets", "QTreeWidgetItem"] $
+  QtExport (ExportClass c_QTreeWidgetItem) :
+  map QtExportSignal itemSignals
+
+c_QTreeWidget :: Class
 c_QTreeWidget =
   addReqIncludes [includeStd "QTreeWidget"] $
   classSetEntityPrefix "" $
   makeClass (ident "QTreeWidget") Nothing [c_QTreeView] $
   collect
   [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , test (qtVersion >= [4, 1]) $
+      mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
+  , just $ mkConstMethod "currentItem" [] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkMethod "setCurrentItem" [ptrT $ objT c_QTreeWidgetItem] voidT
     -- TODO
   ]
 
+c_QTreeWidgetItem :: Class
+c_QTreeWidgetItem =
+  addReqIncludes [includeStd "QTreeWidgetItem"] $
+  classSetEntityPrefix "" $
+  makeClass (ident "QTreeWidgetItem") Nothing [] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithType" [intT]
+  , just $ mkCtor "newWithStrings" [objT c_QStringList]
+  , just $ mkCtor "newWithStringsAndType" [objT c_QStringList, intT]
+  , just $ mkCtor "newWithParentTree" [ptrT $ objT c_QTreeWidget]
+  , just $ mkCtor "newWithParentTreeAndType" [ptrT $ objT c_QTreeWidget, intT]
+  , just $ mkCtor "newWithParentTreeAndStrings" [ptrT $ objT c_QTreeWidget, objT c_QStringList]
+  , just $ mkCtor "newWithParentTreeAndStringsAndType"
+    [ptrT $ objT c_QTreeWidget, objT c_QStringList, intT]
+  , just $ mkCtor "newWithParentItem" [ptrT $ objT c_QTreeWidgetItem]
+  , just $ mkCtor "newWithParentItemAndType" [ptrT $ objT c_QTreeWidgetItem, intT]
+  , just $ mkCtor "newWithParentItemAndStrings" [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList]
+  , just $ mkCtor "newWithParentItemAndStringsAndType"
+    [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
+  , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
+  , just $ mkMethod "setText" [intT, objT c_QString] voidT
+  , just $ mkConstMethod' "type" "getType" [] intT
+    -- TODO
+  ]
+
+signals :: [Signal]
 signals =
-  [ -- TODO
+  [
+  ]
+
+itemSignals :: [Signal]
+itemSignals =
+  [
   ]

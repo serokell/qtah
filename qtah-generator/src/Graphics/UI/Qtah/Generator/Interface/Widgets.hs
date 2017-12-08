@@ -147,6 +147,7 @@ modules =
   , QTextEdit.aModule
   , QTreeView.aModule
   , QTreeWidget.aModule
+  , QTreeWidget.itemModule
   , QVBoxLayout.aModule
   , QWidget.aModule
   ]
