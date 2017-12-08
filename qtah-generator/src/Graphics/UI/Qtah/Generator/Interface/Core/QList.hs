@@ -24,6 +24,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   defaultOptions,
   Contents (..),
   inheritHasContents,
+  instantiate,
   -- * Instantiations
   allModules,
   c_QListInt,
@@ -111,8 +112,10 @@ import Language.Haskell.Syntax (
   HsType (HsTyApp, HsTyCon),
   )
 
+{-# ANN module "HLint: ignore Use camelCase" #-}
+
 -- | Options for instantiating the list classes.
-data Options = Options
+newtype Options = Options
   { optListClassFeatures :: [ClassFeature]
     -- ^ Additional features to add to the @QList@ class.  Lists are always
     -- 'Assignable' and 'Copyable', but you may want to add 'Equatable' if your
@@ -124,7 +127,7 @@ defaultOptions :: Options
 defaultOptions = Options []
 
 -- | A set of instantiated classes.
-data Contents = Contents
+newtype Contents = Contents
   { c_QList :: Class  -- ^ @QList\<T>@
   }
 
@@ -253,7 +256,7 @@ instantiate' listName t tReqs opts =
         ClassHaskellConversion
         { classHaskellConversionType = Just $ do
           hsType <- cppTypeToHsTypeAndUse HsHsSide t
-          return $ HsTyApp (HsTyCon $ Special $ HsListCon) hsType
+          return $ HsTyApp (HsTyCon $ Special HsListCon) hsType
         , classHaskellConversionToCppFn = Just $ do
           addImports importForRuntime
           sayLn "QtahFHR.fromContents"
@@ -285,7 +288,7 @@ inheritHasContents cls listClass t =
 -- | Converts an instantiation into a list of exports to be included in a
 -- module.
 toExports :: Contents -> [QtExport]
-toExports m = map (QtExport . ExportClass . ($ m)) [c_QList]
+toExports m = [QtExport . ExportClass $ c_QList m]
 
 createModule :: String -> Contents -> QtModule
 createModule name contents = makeQtModule ["Core", "QList", name] $ toExports contents

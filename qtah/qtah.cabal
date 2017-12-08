@@ -46,6 +46,7 @@ library
     , Graphics.UI.Qtah.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Core.QList.QObject
     , Graphics.UI.Qtah.Core.QList.QSize
+    , Graphics.UI.Qtah.Core.QList.QStandardItem
     , Graphics.UI.Qtah.Core.QList.QString
     , Graphics.UI.Qtah.Core.QList.QVariant
     , Graphics.UI.Qtah.Core.QList.QWidget
@@ -104,6 +105,8 @@ library
     , Graphics.UI.Qtah.Gui.QRasterWindow
     , Graphics.UI.Qtah.Gui.QRegion
     , Graphics.UI.Qtah.Gui.QShowEvent
+    , Graphics.UI.Qtah.Gui.QStandardItem
+    , Graphics.UI.Qtah.Gui.QStandardItemModel
     , Graphics.UI.Qtah.Gui.QSurface
     , Graphics.UI.Qtah.Gui.QTransform
     , Graphics.UI.Qtah.Gui.QValidator
@@ -175,6 +178,7 @@ library
     , Graphics.UI.Qtah.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Widgets.QTabWidget
     , Graphics.UI.Qtah.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Widgets.QToolBar
     , Graphics.UI.Qtah.Widgets.QTreeView
     , Graphics.UI.Qtah.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Widgets.QTreeWidgetItem
@@ -198,6 +202,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QList.QObject
     , Graphics.UI.Qtah.Generated.Core.QList.QSize
+    , Graphics.UI.Qtah.Generated.Core.QList.QStandardItem
     , Graphics.UI.Qtah.Generated.Core.QList.QString
     , Graphics.UI.Qtah.Generated.Core.QList.QVariant
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
@@ -254,6 +259,8 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QRasterWindow
     , Graphics.UI.Qtah.Generated.Gui.QRegion
     , Graphics.UI.Qtah.Generated.Gui.QShowEvent
+    , Graphics.UI.Qtah.Generated.Gui.QStandardItem
+    , Graphics.UI.Qtah.Generated.Gui.QStandardItemModel
     , Graphics.UI.Qtah.Generated.Gui.QSurface
     , Graphics.UI.Qtah.Generated.Gui.QTransform
     , Graphics.UI.Qtah.Generated.Gui.QValidator
@@ -322,6 +329,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generated.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QToolBar
     , Graphics.UI.Qtah.Generated.Widgets.QTreeView
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidgetItem
