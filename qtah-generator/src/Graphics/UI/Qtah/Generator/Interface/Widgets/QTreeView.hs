@@ -39,7 +39,8 @@ import Graphics.UI.Qtah.Generator.Types
 aModule =
   AQtModule $
   makeQtModule ["Widgets", "QTreeView"]
-  [ QtExport $ ExportClass c_QTreeView ]
+  QtExport (ExportClass c_QTreeView) :
+  map QtExportSignal itemSignals
 
 c_QTreeView =
   addReqIncludes [includeStd "QTreeView"] $
@@ -47,4 +48,10 @@ c_QTreeView =
   makeClass (ident "QTreeView") Nothing [c_QAbstractItemView]
   [ mkCtor "new" []
   , mkBoolIsProp "headerHidden"
+  -- TODO add more methods
+  ]
+
+signals :: [Signal]
+signals =
+  [ -- TODO add signals
   ]

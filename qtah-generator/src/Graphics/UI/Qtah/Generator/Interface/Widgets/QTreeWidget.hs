@@ -72,7 +72,9 @@ c_QTreeWidget =
       mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   , just $ mkConstMethod "currentItem" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setCurrentItem" [ptrT $ objT c_QTreeWidgetItem] voidT
-    -- TODO
+  , just $ mkConstMethod "topLevelItem" [intT] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkConstMethod "topLevelItemCount" [] intT
+  -- TODO add more methods
   ]
 
 c_QTreeWidgetItem :: Class
@@ -95,19 +97,21 @@ c_QTreeWidgetItem =
   , just $ mkCtor "newWithParentItemAndStrings" [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList]
   , just $ mkCtor "newWithParentItemAndStringsAndType"
     [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
+  , just $ mkConstMethod "child" [intT] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkConstMethod "childCount" [] intT
   , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
   , just $ mkConstMethod' "type" "getType" [] intT
-    -- TODO
+  -- TODO add more methods
   ]
 
 signals :: [Signal]
 signals =
-  [
+  [ -- TODO add signals
   ]
 
 itemSignals :: [Signal]
 itemSignals =
-  [
+  [ -- TODO add signals
   ]
