@@ -120,7 +120,7 @@ c_QWidget =
   , just $ mkConstMethod "geometry" [] $ objT c_QRect
   , test (qtVersion >= [5, 0]) $ mkMethod "grab" [] $ objT c_QPixmap
   , test (qtVersion >= [5, 0]) $
-    mkMethod' "grab" "grabWithRectangle" [objT c_QRect] $ objT c_QPixmap
+    mkMethod' "grab" "grabWithRect" [objT c_QRect] $ objT c_QPixmap
     -- TODO grabGesture
   , just $ mkMethod "grabKeyboard" [] voidT
   , just $ mkMethod "grabMouse" [] voidT
@@ -192,18 +192,18 @@ c_QWidget =
   , test (qtVersion >= [4, 3]) $
     mkMethod' "render" "renderWithTarget" [ptrT $ objT c_QPaintDevice] voidT
   , test (qtVersion >= [4, 3]) $
-    mkMethod' "render" "renderWithTargetAndTargetOffset"
+    mkMethod' "render" "renderWithTargetAndOffset"
       [ptrT $ objT c_QPaintDevice, objT c_QPoint] voidT
   , test (qtVersion >= [4, 3]) $
-    mkMethod' "render" "renderWithTargetAndTargetOffsetAndSourceRegion"
+    mkMethod' "render" "renderWithTargetAndOffsetAndRegion"
       [ptrT $ objT c_QPaintDevice, objT c_QPoint, objT c_QRegion] voidT
     -- TODO [4.3] void render(QPaintDevice *target, const QPoint &targetOffset, const QRegion &sourceRegion, RenderFlags renderFlags)
   , just $ mkMethod' "render" "renderWithPainter" [ptrT $ objT c_QPainter] voidT
   , just $
-    mkMethod' "render" "renderWithPainterAndTargetOffset"
+    mkMethod' "render" "renderWithPainterAndOffset"
       [ptrT $ objT c_QPainter, objT c_QPoint] voidT
   , just $
-    mkMethod' "render" "renderWithPainterAndTargetOffsetAndSourceRegion"
+    mkMethod' "render" "renderWithPainterAndOffsetAndRegion"
       [ptrT $ objT c_QPainter, objT c_QPoint, objT c_QRegion] voidT
     -- TODO void render(QPainter *painter, const QPoint &targetOffset, const QRegion &sourceRegion, RenderFlags renderFlags)
   , just $ mkMethod' "repaint" "repaint" [] voidT
