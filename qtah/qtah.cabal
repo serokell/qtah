@@ -104,6 +104,8 @@ library
     , Graphics.UI.Qtah.Gui.QRasterWindow
     , Graphics.UI.Qtah.Gui.QRegion
     , Graphics.UI.Qtah.Gui.QShowEvent
+    , Graphics.UI.Qtah.Gui.QStandardItem
+    , Graphics.UI.Qtah.Gui.QStandardItemModel
     , Graphics.UI.Qtah.Gui.QSurface
     , Graphics.UI.Qtah.Gui.QTransform
     , Graphics.UI.Qtah.Gui.QValidator
@@ -254,6 +256,8 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QRasterWindow
     , Graphics.UI.Qtah.Generated.Gui.QRegion
     , Graphics.UI.Qtah.Generated.Gui.QShowEvent
+    , Graphics.UI.Qtah.Generated.Gui.QStandardItem
+    , Graphics.UI.Qtah.Generated.Gui.QStandardItemModel
     , Graphics.UI.Qtah.Generated.Gui.QSurface
     , Graphics.UI.Qtah.Generated.Gui.QTransform
     , Graphics.UI.Qtah.Generated.Gui.QValidator
