@@ -46,6 +46,7 @@ library
     , Graphics.UI.Qtah.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Core.QList.QObject
     , Graphics.UI.Qtah.Core.QList.QSize
+    , Graphics.UI.Qtah.Core.QList.QStandardItem
     , Graphics.UI.Qtah.Core.QList.QString
     , Graphics.UI.Qtah.Core.QList.QVariant
     , Graphics.UI.Qtah.Core.QList.QWidget
@@ -200,6 +201,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QList.QObject
     , Graphics.UI.Qtah.Generated.Core.QList.QSize
+    , Graphics.UI.Qtah.Generated.Core.QList.QStandardItem
     , Graphics.UI.Qtah.Generated.Core.QList.QString
     , Graphics.UI.Qtah.Generated.Core.QList.QVariant
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
