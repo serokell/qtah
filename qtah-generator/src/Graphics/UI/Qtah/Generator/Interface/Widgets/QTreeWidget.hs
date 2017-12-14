@@ -109,6 +109,7 @@ c_QTreeWidgetItem =
   , test (qtVersion >= [4, 2]) $ mkConstMethod "setHidden" [boolT] voidT
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
+  , just $ mkConstMethod "text" [intT] (objT c_QString)
   , just $ mkConstMethod' "type" "getType" [] intT
   -- TODO add more methods
   ]
