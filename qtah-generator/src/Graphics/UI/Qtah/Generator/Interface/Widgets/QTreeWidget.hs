@@ -71,7 +71,12 @@ c_QTreeWidget =
   , test (qtVersion >= [4, 1]) $
       mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   , just $ mkConstMethod "currentItem" [] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkConstMethod "headerItem" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setCurrentItem" [ptrT $ objT c_QTreeWidgetItem] voidT
+  , just $ mkMethod "setHeaderItem" [ptrT $ objT c_QTreeWidgetItem] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "setHeaderLabel" [objT c_QString] voidT
+  , just $ mkMethod "setHeaderLabels" [objT c_QStringList] voidT
   , just $ mkConstMethod "topLevelItem" [intT] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkConstMethod "topLevelItemCount" [] intT
   -- TODO add more methods
