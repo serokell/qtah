@@ -178,6 +178,7 @@ library
     , Graphics.UI.Qtah.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Widgets.QTabWidget
     , Graphics.UI.Qtah.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Widgets.QToolBar
     , Graphics.UI.Qtah.Widgets.QTreeView
     , Graphics.UI.Qtah.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Widgets.QTreeWidgetItem
@@ -328,6 +329,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generated.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QToolBar
     , Graphics.UI.Qtah.Generated.Widgets.QTreeView
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidgetItem
