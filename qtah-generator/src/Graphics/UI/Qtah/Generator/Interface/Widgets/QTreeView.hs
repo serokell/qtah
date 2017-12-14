@@ -29,7 +29,9 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkCtor,
   mkBoolIsProp,
+  mkMethod,
   )
+import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView (c_QAbstractItemView)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -48,6 +50,7 @@ c_QTreeView =
   makeClass (ident "QTreeView") Nothing [c_QAbstractItemView]
   [ mkCtor "new" []
   , mkBoolIsProp "headerHidden"
+  , mkMethod "resizeColumnToContents" [intT] voidT
   -- TODO add more methods
   ]
 
