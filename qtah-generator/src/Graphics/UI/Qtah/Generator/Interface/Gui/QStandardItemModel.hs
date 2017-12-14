@@ -30,14 +30,24 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
+  mkConstMethod,
+  mkCtor,
+  mkMethod,
   mkMethod',
   )
-import Foreign.Hoppy.Generator.Types (boolT, enumT, objT, refT, voidT, ptrT)
+import Foreign.Hoppy.Generator.Types (
+  boolT, enumT, objT, refT, voidT, ptrT, intT, bitspaceT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QList, Contents, instantiate)
-import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (c_QAbstractItemModel)
-import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule, QtModule, makeQtModuleWithMinVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (
+  c_QAbstractItemModel)
+import Graphics.UI.Qtah.Generator.Interface.Core.QList (
+  c_QList, Contents, instantiate)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
+import Graphics.UI.Qtah.Generator.Module (
+  AModule (AQtModule), makeQtModule, QtModule, makeQtModuleWithMinVersion)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -82,7 +92,15 @@ c_QStandardItem =
   classSetEntityPrefix "" $
   makeClass (ident "QStandardItem") Nothing [] $
   collect
-  [
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithText" [objT c_QString]
+  , just $ mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
+  , just $ mkCtor "newWithRows" [intT]
+  , just $ mkCtor "newWithRowsAndColumns" [intT, intT]
+  , just $ mkConstMethod "model" [] (ptrT $ objT c_QAbstractItemModel)
+  , just $ mkMethod "setText" [objT c_QString] voidT
+  , just $ mkMethod "setTextAlignment" [bitspaceT bs_Alignment] voidT
+  -- TODO other methods
   ]
 
 c_QListQStandardItem :: Class
