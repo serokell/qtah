@@ -104,6 +104,7 @@ c_QTreeWidgetItem =
     [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
   , just $ mkConstMethod "child" [intT] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkConstMethod "childCount" [] intT
+  , just $ mkConstMethod "columnCount" [] intT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "isHidden" [] boolT
   , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
   , test (qtVersion >= [4, 2]) $ mkConstMethod "setHidden" [boolT] voidT
