@@ -38,6 +38,7 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
+import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (c_QTreeView)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
@@ -105,8 +106,10 @@ c_QTreeWidgetItem =
   , just $ mkConstMethod "child" [intT] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkConstMethod "childCount" [] intT
   , just $ mkConstMethod "columnCount" [] intT
+  , just $ mkConstMethod' "data" "getData" [intT, intT] (objT c_QVariant)
   , test (qtVersion >= [4, 2]) $ mkConstMethod "isHidden" [] boolT
   , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkConstMethod "setData" [intT, intT, objT c_QVariant] voidT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "setHidden" [boolT] voidT
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
