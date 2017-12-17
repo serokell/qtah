@@ -57,6 +57,7 @@ c_QToolBar =
   , mkCtor "newWithTitle" [objT c_QString]
   , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
   , mkMethod "addWidget" [ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
+  , mkMethod "insertWidget" [ptrT $ objT c_QAction, ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
   -- TODO add methods
   ]
 
