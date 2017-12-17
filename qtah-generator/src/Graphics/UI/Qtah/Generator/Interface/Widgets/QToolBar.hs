@@ -28,9 +28,11 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
+  mkCtor,
   mkMethod,
   )
 import Foreign.Hoppy.Generator.Types (objT, ptrT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -50,7 +52,11 @@ c_QToolBar =
   addReqIncludes [includeStd "QToolBar"] $
   classSetEntityPrefix "" $
   makeClass (ident "QToolBar") Nothing [c_QWidget]
-  [ mkMethod "addWidget" [ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithTitle" [objT c_QString]
+  , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
+  , mkMethod "addWidget" [ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
   -- TODO add methods
   ]
 
