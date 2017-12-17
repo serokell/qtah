@@ -47,6 +47,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_WindowFlags,
   bs_WindowStates,
+  e_ContextMenuPolicy,
   e_LayoutDirection,
   e_WindowModality,
   e_WindowType,
@@ -103,7 +104,7 @@ c_QWidget =
   , just $ mkMethod "close" [] boolT
   , just $ mkConstMethod "contentsMargins" [] $ objT c_QMargins
   , just $ mkConstMethod "contentsRect" [] $ objT c_QRect
-    -- TODO contextMenuPolicy
+  , just $ mkProp "contextMenuPolicy" $ enumT e_ContextMenuPolicy
     -- TODO cursor
     -- TODO effectiveWinId
   , just $ mkConstMethod "ensurePolished" [] voidT

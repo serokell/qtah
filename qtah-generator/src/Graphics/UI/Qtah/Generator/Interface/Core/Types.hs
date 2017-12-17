@@ -26,6 +26,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_BrushStyle,
   e_CaseSensitivity,
   e_CheckState,
+  e_ContextMenuPolicy,
   e_Corner,
   e_CursorMoveStyle,
   e_DropAction,
@@ -77,6 +78,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
 
 import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
+  CppEnum,
   Export (ExportBitspace, ExportEnum, ExportFn),
   Include,
   Purity (Nonpure),
@@ -108,6 +110,7 @@ exports =
   , just $ ExportEnum e_BrushStyle
   , just $ ExportEnum e_CaseSensitivity
   , just $ ExportEnum e_CheckState
+  , just $ ExportEnum e_ContextMenuPolicy
   , just $ ExportEnum e_Corner
   , just $ ExportEnum e_CursorMoveStyle
   , just $ ExportEnum e_DropAction
@@ -219,6 +222,16 @@ e_CheckState =
   [ (0, ["unchecked"])
   , (1, ["partially", "checked"])
   , (2, ["checked"])
+  ]
+
+e_ContextMenuPolicy :: CppEnum
+e_ContextMenuPolicy =
+  makeQtEnum (ident1 "Qt" "ContextMenuPolicy") qtInclude
+  [ (0, ["no", "context", "menu"])
+  , (4, ["prevent", "context", "menu"])
+  , (1, ["default", "context", "menu"])
+  , (2, ["actions", "context", "menu"])
+  , (3, ["custom", "context", "menu"])
   ]
 
 e_Corner =
