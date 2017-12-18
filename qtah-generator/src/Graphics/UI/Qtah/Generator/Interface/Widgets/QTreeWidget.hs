@@ -45,6 +45,7 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (e_SortOrder)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_Listener,
@@ -94,6 +95,7 @@ c_QTreeWidget =
   , test (qtVersion >= [4, 2]) $
     mkMethod "setHeaderLabel" [objT c_QString] voidT
   , just $ mkMethod "setHeaderLabels" [objT c_QStringList] voidT
+  , just $ mkMethod "sortItems" [intT, enumT e_SortOrder] voidT
   , just $ mkConstMethod "topLevelItem" [intT] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkConstMethod "topLevelItemCount" [] intT
   -- TODO add more methods
