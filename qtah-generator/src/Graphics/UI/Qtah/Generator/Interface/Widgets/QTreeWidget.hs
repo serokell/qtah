@@ -22,10 +22,12 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (
 
 import Foreign.Hoppy.Generator.Spec (
   Class,
-  Export (ExportClass),
+  CppEnum,
+  Export (ExportClass, ExportEnum),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
+  ident1,
   includeStd,
   makeClass,
   mkConstMethod,
@@ -33,7 +35,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkCtor,
   mkMethod,
   )
-import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT, boolT)
+import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT, boolT, enumT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -58,7 +60,11 @@ itemModule :: AModule
 itemModule =
   AQtModule $
   makeQtModule ["Widgets", "QTreeWidgetItem"] $
-  QtExport (ExportClass c_QTreeWidgetItem) :
+  map
+    QtExport
+    [ ExportClass c_QTreeWidgetItem
+    , ExportEnum e_ChildIndicatorPolicy
+    ] ++
   map QtExportSignal itemSignals
 
 c_QTreeWidget :: Class
@@ -106,10 +112,12 @@ c_QTreeWidgetItem =
     [ptrT $ objT c_QTreeWidgetItem, objT c_QStringList, intT]
   , just $ mkConstMethod "child" [intT] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkConstMethod "childCount" [] intT
+  , just $ mkConstMethod "childIndicatorPolicy" [] (enumT e_ChildIndicatorPolicy)
   , just $ mkConstMethod "columnCount" [] intT
   , just $ mkConstMethod' "data" "getData" [intT, intT] (objT c_QVariant)
   , test (qtVersion >= [4, 2]) $ mkConstMethod "isHidden" [] boolT
   , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
+  , just $ mkMethod "setChildIndicatorPolicy" [enumT e_ChildIndicatorPolicy] voidT
   , just $ mkConstMethod "setData" [intT, intT, objT c_QVariant] voidT
   , test (qtVersion >= [4, 2]) $ mkConstMethod "setHidden" [boolT] voidT
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
@@ -128,3 +136,13 @@ itemSignals :: [Signal]
 itemSignals =
   [ -- TODO add signals
   ]
+
+e_ChildIndicatorPolicy :: CppEnum
+e_ChildIndicatorPolicy =
+  makeQtEnum
+    (ident1 "QTreeWidgetItem" "ChildIndicatorPolicy")
+    [includeStd "QTreeWidgetItem"]
+    [ (0, ["show", "indicator"])
+    , (1, ["dont", "show", "indicator"])
+    , (2, ["dont", "show", "indicator", "when", "childless"])
+    ]
