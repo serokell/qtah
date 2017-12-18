@@ -16,8 +16,12 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (
+  -- modules
   aModule,
   itemModule,
+  -- classes
+  c_QTreeWidget,
+  c_QTreeWidgetItem,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -42,6 +46,12 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_Listener,
+  c_ListenerPtrQTreeWidgetItem,
+  c_ListenerPtrQTreeWidgetItemInt,
+  c_ListenerPtrQTreeWidgetItemPtrQTreeWidgetItem,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (c_QTreeView)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -64,8 +74,7 @@ itemModule =
     QtExport
     [ ExportClass c_QTreeWidgetItem
     , ExportEnum e_ChildIndicatorPolicy
-    ] ++
-  map QtExportSignal itemSignals
+    ]
 
 c_QTreeWidget :: Class
 c_QTreeWidget =
@@ -129,12 +138,16 @@ c_QTreeWidgetItem =
 
 signals :: [Signal]
 signals =
-  [ -- TODO add signals
-  ]
-
-itemSignals :: [Signal]
-itemSignals =
-  [ -- TODO add signals
+  [ makeSignal c_QTreeWidget "currentItemChanged" c_ListenerPtrQTreeWidgetItemPtrQTreeWidgetItem
+  , makeSignal c_QTreeWidget "itemActivated" c_ListenerPtrQTreeWidgetItemInt
+  , makeSignal c_QTreeWidget "itemChanged" c_ListenerPtrQTreeWidgetItemInt
+  , makeSignal c_QTreeWidget "itemClicked" c_ListenerPtrQTreeWidgetItemInt
+  , makeSignal c_QTreeWidget "itemCollapsed" c_ListenerPtrQTreeWidgetItem
+  , makeSignal c_QTreeWidget "itemDoubleClicked" c_ListenerPtrQTreeWidgetItemInt
+  , makeSignal c_QTreeWidget "itemEntered" c_ListenerPtrQTreeWidgetItemInt
+  , makeSignal c_QTreeWidget "itemExpanded" c_ListenerPtrQTreeWidgetItem
+  , makeSignal c_QTreeWidget "itemPressed" c_ListenerPtrQTreeWidgetItemInt
+  , makeSignal c_QTreeWidget "itemSelectionChanged" c_Listener
   ]
 
 e_ChildIndicatorPolicy :: CppEnum

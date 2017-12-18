@@ -18,6 +18,7 @@
 module Graphics.UI.Qtah.Generator.Interface.Internal.Callback where
 
 import Foreign.Hoppy.Generator.Spec (
+  Callback,
   Export (ExportCallback),
   makeCallback,
   makeModule,
@@ -68,6 +69,7 @@ import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsIt
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon (
   e_ActivationReason,
   )
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget (c_QTreeWidgetItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AHoppyModule))
 
@@ -91,6 +93,9 @@ aModule =
       , just $ ExportCallback cb_PtrQObjectPtrQEventBool
       , just $ ExportCallback cb_PtrQObjectVoid
       , just $ ExportCallback cb_PtrQPaintEventVoid
+      , just $ ExportCallback cb_PtrQTreeWidgetItemVoid
+      , just $ ExportCallback cb_PtrQTreeWidgetItemIntVoid
+      , just $ ExportCallback cb_PtrQTreeWidgetItemPtrQTreeWidgetItemVoid
       , just $ ExportCallback cb_PtrQWidgetPtrQWidgetVoid
       , just $ ExportCallback cb_QAbstractSliderActionVoid
       , just $ ExportCallback cb_QClipboardModeVoid
@@ -164,6 +169,21 @@ cb_PtrQObjectVoid =
 cb_PtrQPaintEventVoid =
   makeCallback (toExtName "CallbackPtrQPaintEventVoid")
   [ptrT $ objT c_QPaintEvent] voidT
+
+cb_PtrQTreeWidgetItemVoid :: Callback
+cb_PtrQTreeWidgetItemVoid =
+  makeCallback (toExtName "CallbackPtrQTreeWidgetItemVoid")
+  [ptrT $ objT c_QTreeWidgetItem] voidT
+
+cb_PtrQTreeWidgetItemIntVoid :: Callback
+cb_PtrQTreeWidgetItemIntVoid =
+  makeCallback (toExtName "CallbackPtrQTreeWidgetItemIntVoid")
+  [ptrT $ objT c_QTreeWidgetItem, intT] voidT
+
+cb_PtrQTreeWidgetItemPtrQTreeWidgetItemVoid :: Callback
+cb_PtrQTreeWidgetItemPtrQTreeWidgetItemVoid =
+  makeCallback (toExtName "CallbackPtrQTreeWidgetItemPtrQTreeWidgetItemVoid")
+  [ptrT $ objT c_QTreeWidgetItem, ptrT $ objT c_QTreeWidgetItem] voidT
 
 cb_PtrQWidgetPtrQWidgetVoid =
   makeCallback (toExtName "CallbackPtrQWidgetPtrQWidgetVoid")
