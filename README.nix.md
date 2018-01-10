@@ -27,7 +27,7 @@ the risk of nondeterministic results (see
 
 This file is part of Qtah.
 
-Copyright 2015-2017 The Qtah Authors.
+Copyright 2015-2018 The Qtah Authors.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

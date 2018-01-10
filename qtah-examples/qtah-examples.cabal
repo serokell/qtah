@@ -6,7 +6,7 @@ license: LGPL-3
 license-files: LICENSE.GPL, LICENSE.LGPL
 author: Bryan Gardiner <bog@khumba.net>
 maintainer: Bryan Gardiner <bog@khumba.net>
-copyright: Copyright 2015-2017 The Qtah Authors.
+copyright: Copyright 2015-2018 The Qtah Authors.
 category: Graphics
 build-type: Simple
 cabal-version: >=1.10
