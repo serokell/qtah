@@ -15,9 +15,9 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView (
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar (
   aModule,
-  c_QTreeView,
+  c_QToolBar,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
@@ -29,13 +29,12 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkCtor,
-  mkBoolIsProp,
   mkMethod,
   )
-import Foreign.Hoppy.Generator.Types (intT, voidT)
-import Foreign.Hoppy.Generator.Version (collect, just, test)
-import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView (c_QAbstractItemView)
+import Foreign.Hoppy.Generator.Types (objT, ptrT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -44,21 +43,22 @@ import Graphics.UI.Qtah.Generator.Types
 aModule :: AModule
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QTreeView"] $
-  QtExport (ExportClass c_QTreeView) :
+  makeQtModule ["Widgets", "QToolBar"] $
+  QtExport (ExportClass c_QToolBar) :
   map QtExportSignal signals
 
-c_QTreeView :: Class
-c_QTreeView =
-  addReqIncludes [includeStd "QTreeView"] $
+c_QToolBar :: Class
+c_QToolBar =
+  addReqIncludes [includeStd "QToolBar"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QTreeView") Nothing [c_QAbstractItemView] $
-  collect
-  [ just $ mkCtor "new" []
-  , just $ mkBoolIsProp "headerHidden"
-  , just $ mkMethod "resizeColumnToContents" [intT] voidT
-  , test (qtVersion >= [4, 2]) $ mkBoolIsProp "sortingEnabled"
-  -- TODO add more methods
+  makeClass (ident "QToolBar") Nothing [c_QWidget]
+  [ mkCtor "new" []
+  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , mkCtor "newWithTitle" [objT c_QString]
+  , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
+  , mkMethod "addWidget" [ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
+  , mkMethod "insertWidget" [ptrT $ objT c_QAction, ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
+  -- TODO add methods
   ]
 
 signals :: [Signal]

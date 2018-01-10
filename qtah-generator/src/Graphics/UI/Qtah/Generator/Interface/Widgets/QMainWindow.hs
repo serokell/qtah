@@ -20,6 +20,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QMainWindow (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
+  Class,
   Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
@@ -29,26 +30,31 @@ import Foreign.Hoppy.Generator.Spec (
   mkBoolIsProp,
   mkCtor,
   mkMethod,
+  mkMethod',
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT)
+import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQSize)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar (c_QMenuBar)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar (c_QStatusBar)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar (c_QToolBar)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
+aModule :: AModule
 aModule =
   AQtModule $
   makeQtModule ["Widgets", "QMainWindow"] $
   QtExport (ExportClass c_QMainWindow) :
   map QtExportSignal signals
 
+c_QMainWindow :: Class
 c_QMainWindow =
   addReqIncludes [includeStd "QMainWindow"] $
   classSetEntityPrefix "" $
@@ -57,7 +63,10 @@ c_QMainWindow =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
     -- TODO addDockWidget
-    -- TODO addToolBar
+    -- TODO mkMethod' "addToolBar" "addToolBarWithArea" [e_ToolBarArea, ptrT $ objT c_QToolBar]
+    --      voidT
+  , mkMethod "addToolBar" [ptrT $ objT c_QToolBar] voidT
+  , mkMethod' "addToolBar" "addToolBarWithTitle" [objT c_QString] (ptrT $ objT c_QToolBar)
     -- TODO addToolBarBreak
   , mkBoolIsProp "animated"
   , mkProp "centralWidget" $ ptrT $ objT c_QWidget
@@ -90,6 +99,7 @@ c_QMainWindow =
   , mkProp "unifiedTitleAndToolBarOnMac" boolT
   ]
 
+signals :: [Signal]
 signals =
   [ makeSignal c_QMainWindow "iconSizeChanged" c_ListenerQSize
     -- TODO toolButtonStyleChanged

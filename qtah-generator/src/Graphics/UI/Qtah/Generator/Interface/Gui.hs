@@ -48,6 +48,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF as QPolygonF
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow as QRasterWindow
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QRegion as QRegion
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QShowEvent as QShowEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QStandardItemModel as QStandardItemModel
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QSurface as QSurface
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QTransform as QTransform
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QValidator as QValidator
@@ -92,6 +93,9 @@ modules =
   , QRasterWindow.aModule
   , QRegion.aModule
   , QShowEvent.aModule
+  , QStandardItemModel.aModule
+  , QStandardItemModel.itemModule
+  , QStandardItemModel.itemListModule
   , QSurface.aModule
   , QTransform.aModule
   , QValidator.aModule

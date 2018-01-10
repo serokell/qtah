@@ -86,6 +86,9 @@ forEachListener() {
     $fn PtrQAbstractItemModel "QAbstractItemModel*"
     $fn PtrQAction "QAction*"
     $fn PtrQObject "QObject*"
+    $fn PtrQTreeWidgetItem "QTreeWidgetItem*"
+    $fn PtrQTreeWidgetItemInt "QTreeWidgetItem*|int"
+    $fn PtrQTreeWidgetItemPtrQTreeWidgetItem "QTreeWidgetItem*|QTreeWidgetItem*"
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
     $fn RefConstQIcon "const QIcon&"
     $fn RefConstQItemSelectionRefConstQItemSelection "const QItemSelection&|const QItemSelection&"
@@ -137,6 +140,7 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QPoint>'
     sayHpp '#include <QSize>'
     sayHpp '#include <QSystemTrayIcon>'
+    sayHpp '#include <QTreeWidgetItem>'
     sayHpp '#include <QVector>'
     sayHpp '#include <QWidget>'
     sayHpp '#if QT_VERSION >= 0x050000'

@@ -37,6 +37,8 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   )
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, constT, enumT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
@@ -64,55 +66,57 @@ aModule =
 c_QLineEdit =
   addReqIncludes [includeStd "QLineEdit"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QLineEdit") Nothing [c_QWidget]
-  [ mkCtor "new" []
-  , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
-  , mkCtor "newWithText" [objT c_QString]
-  , mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
-  , mkProp "alignment" $ bitspaceT bs_Alignment
-  , mkMethod "backspace" [] voidT
-  , mkMethod "clear" [] voidT
+  makeClass (ident "QLineEdit") Nothing [c_QWidget] $
+  collect
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkCtor "newWithText" [objT c_QString]
+  , just $ mkCtor "newWithTextAndParent" [objT c_QString, ptrT $ objT c_QWidget]
+  , just $ mkProp "alignment" $ bitspaceT bs_Alignment
+  , just $ mkMethod "backspace" [] voidT
+  , just $ mkMethod "clear" [] voidT
+  , test (qtVersion >= [5, 2]) $ mkBoolIsProp "clearButtonEnabled"
     -- TODO completer
-  , mkConstMethod "copy" [] voidT
-  , mkMethod "createStandardContextMenu" [] $ ptrT $ objT c_QMenu
-  , mkMethod "cursorBackward" [boolT, intT] voidT
-  , mkMethod "cursorForward" [boolT, intT] voidT
-  , mkProp "cursorMoveStyle" $ enumT e_CursorMoveStyle
-  , mkProp "cursorPosition" intT
-  , mkMethod "cursorPositionAt" [objT c_QPoint] intT
-  , mkMethod "cursorWordBackward" [boolT] voidT
-  , mkMethod "cursorWordForward" [boolT] voidT
-  , mkMethod "cut" [] voidT
-  , mkMethod "del" [] voidT
-  , mkMethod "deselect" [] voidT
-  , mkConstMethod "displayText" [] $ objT c_QString
-  , mkProp "dragEnabled" boolT
-  , mkProp "echoMode" $ enumT e_EchoMode
-  , mkMethod "end" [boolT] voidT
-  , mkBoolHasProp "frame"
-  , mkConstMethod "hasAcceptableInput" [] boolT
-  , mkConstMethod "hasSelectedText" [] boolT
-  , mkMethod "home" [boolT] voidT
-  , mkProp "inputMask" $ objT c_QString
-  , mkMethod "insert" [objT c_QString] voidT
-  , mkConstMethod "isRedoAvailable" [] boolT
-  , mkConstMethod "isUndoAvailable" [] boolT
-  , mkProp "maxLength" intT
-  , mkBoolIsProp "modified"
-  , mkMethod "paste" [] voidT
-  , mkProp "placeholderText" $ objT c_QString
-  , mkBoolIsProp "readOnly"
-  , mkMethod "redo" [] voidT
-  , mkMethod "selectAll" [] voidT
-  , mkConstMethod "selectedText" [] $ objT c_QString
-  , mkConstMethod "selectionStart" [] intT
-  , mkMethod "setSelection" [intT, intT] voidT
-  , mkMethod' "setTextMargins" "setTextMargins" [objT c_QMargins] voidT
-  , mkMethod' "setTextMargins" "setTextMarginsRaw" [intT, intT, intT, intT] voidT
-  , mkProp "text" $ objT c_QString
-  , mkConstMethod "textMargins" [] $ objT c_QMargins
-  , mkMethod "undo" [] voidT
-  , mkProp "validator" $ ptrT $ constT $ objT c_QValidator
+  , just $ mkConstMethod "copy" [] voidT
+  , just $ mkMethod "createStandardContextMenu" [] $ ptrT $ objT c_QMenu
+  , just $ mkMethod "cursorBackward" [boolT, intT] voidT
+  , just $ mkMethod "cursorForward" [boolT, intT] voidT
+  , just $ mkProp "cursorMoveStyle" $ enumT e_CursorMoveStyle
+  , just $ mkProp "cursorPosition" intT
+  , just $ mkMethod "cursorPositionAt" [objT c_QPoint] intT
+  , just $ mkMethod "cursorWordBackward" [boolT] voidT
+  , just $ mkMethod "cursorWordForward" [boolT] voidT
+  , just $ mkMethod "cut" [] voidT
+  , just $ mkMethod "del" [] voidT
+  , just $ mkMethod "deselect" [] voidT
+  , just $ mkConstMethod "displayText" [] $ objT c_QString
+  , just $ mkProp "dragEnabled" boolT
+  , just $ mkProp "echoMode" $ enumT e_EchoMode
+  , just $ mkMethod "end" [boolT] voidT
+  , just $ mkBoolHasProp "frame"
+  , just $ mkConstMethod "hasAcceptableInput" [] boolT
+  , just $ mkConstMethod "hasSelectedText" [] boolT
+  , just $ mkMethod "home" [boolT] voidT
+  , just $ mkProp "inputMask" $ objT c_QString
+  , just $ mkMethod "insert" [objT c_QString] voidT
+  , just $ mkConstMethod "isRedoAvailable" [] boolT
+  , just $ mkConstMethod "isUndoAvailable" [] boolT
+  , just $ mkProp "maxLength" intT
+  , just $ mkBoolIsProp "modified"
+  , just $ mkMethod "paste" [] voidT
+  , just $ mkProp "placeholderText" $ objT c_QString
+  , just $ mkBoolIsProp "readOnly"
+  , just $ mkMethod "redo" [] voidT
+  , just $ mkMethod "selectAll" [] voidT
+  , just $ mkConstMethod "selectedText" [] $ objT c_QString
+  , just $ mkConstMethod "selectionStart" [] intT
+  , just $ mkMethod "setSelection" [intT, intT] voidT
+  , just $ mkMethod' "setTextMargins" "setTextMargins" [objT c_QMargins] voidT
+  , just $ mkMethod' "setTextMargins" "setTextMarginsRaw" [intT, intT, intT, intT] voidT
+  , just $ mkProp "text" $ objT c_QString
+  , just $ mkConstMethod "textMargins" [] $ objT c_QMargins
+  , just $ mkMethod "undo" [] voidT
+  , just $ mkProp "validator" $ ptrT $ constT $ objT c_QValidator
   ]
 
 signals =

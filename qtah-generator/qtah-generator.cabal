@@ -116,6 +116,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QRasterWindow
     , Graphics.UI.Qtah.Generator.Interface.Gui.QRegion
     , Graphics.UI.Qtah.Generator.Interface.Gui.QShowEvent
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QStandardItemModel
     , Graphics.UI.Qtah.Generator.Interface.Gui.QSurface
     , Graphics.UI.Qtah.Generator.Interface.Gui.QTransform
     , Graphics.UI.Qtah.Generator.Interface.Gui.QValidator
@@ -189,6 +190,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout
