@@ -363,7 +363,7 @@ test-suite test-qtah
   build-depends:
       base >=4 && <5
     , hoppy-runtime >=0.3 && <0.4
-    , HUnit >=1.2 && <1.6
+    , HUnit >=1.2 && <1.7
     , qtah
   hs-source-dirs: tests
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind -dynamic
