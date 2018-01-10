@@ -63,7 +63,8 @@ c_QMainWindow =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
     -- TODO addDockWidget
-    -- TODO mkMethod' "addToolBar" "addToolBarWithArea" [e_ToolBarArea, ptrT $ objT c_QToolBar] voidT
+    -- TODO mkMethod' "addToolBar" "addToolBarWithArea" [e_ToolBarArea, ptrT $ objT c_QToolBar]
+    --      voidT
   , mkMethod "addToolBar" [ptrT $ objT c_QToolBar] voidT
   , mkMethod' "addToolBar" "addToolBarWithTitle" [objT c_QString] (ptrT $ objT c_QToolBar)
     -- TODO addToolBarBreak

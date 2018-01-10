@@ -32,7 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkBoolIsProp,
   mkMethod,
   )
-import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (intT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView (c_QAbstractItemView)

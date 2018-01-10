@@ -86,10 +86,11 @@ c_QTreeWidget =
   [ just $ mkCtor "new" []
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , test (qtVersion >= [4, 1]) $
-      mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
+    mkMethod "addTopLevelItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   , just $ mkConstMethod "currentItem" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkConstMethod "headerItem" [] (ptrT $ objT c_QTreeWidgetItem)
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "invisibleRootItem" [] (ptrT $ objT c_QTreeWidgetItem)
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "invisibleRootItem" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setCurrentItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   , just $ mkMethod "setHeaderItem" [ptrT $ objT c_QTreeWidgetItem] voidT
   , test (qtVersion >= [4, 2]) $

@@ -96,7 +96,6 @@ modules =
   , QStandardItemModel.aModule
   , QStandardItemModel.itemModule
   , QStandardItemModel.itemListModule
-  
   , QSurface.aModule
   , QTransform.aModule
   , QValidator.aModule

@@ -198,7 +198,8 @@ c_QWidget =
   , test (qtVersion >= [4, 3]) $
     mkMethod' "render" "renderWithTargetAndOffsetAndRegion"
       [ptrT $ objT c_QPaintDevice, objT c_QPoint, objT c_QRegion] voidT
-    -- TODO [4.3] void render(QPaintDevice *target, const QPoint &targetOffset, const QRegion &sourceRegion, RenderFlags renderFlags)
+    -- TODO [4.3] void render(QPaintDevice *target, const QPoint &targetOffset,
+    --      const QRegion &sourceRegion, RenderFlags renderFlags)
   , just $ mkMethod' "render" "renderWithPainter" [ptrT $ objT c_QPainter] voidT
   , just $
     mkMethod' "render" "renderWithPainterAndOffset"
@@ -206,7 +207,8 @@ c_QWidget =
   , just $
     mkMethod' "render" "renderWithPainterAndOffsetAndRegion"
       [ptrT $ objT c_QPainter, objT c_QPoint, objT c_QRegion] voidT
-    -- TODO void render(QPainter *painter, const QPoint &targetOffset, const QRegion &sourceRegion, RenderFlags renderFlags)
+    -- TODO void render(QPainter *painter, const QPoint &targetOffset, const QRegion &sourceRegion,
+    --      RenderFlags renderFlags)
   , just $ mkMethod' "repaint" "repaint" [] voidT
   , just $ mkMethod' "repaint" "repaintRaw" [intT, intT, intT, intT] voidT
   , just $ mkMethod' "repaint" "repaintRect" [objT c_QRect] voidT
