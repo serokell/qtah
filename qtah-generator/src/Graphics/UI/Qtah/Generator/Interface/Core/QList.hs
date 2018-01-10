@@ -288,7 +288,7 @@ inheritHasContents cls listClass t =
 -- | Converts an instantiation into a list of exports to be included in a
 -- module.
 toExports :: Contents -> [QtExport]
-toExports m = [QtExport . ExportClass $ c_QList m]
+toExports m = [QtExport $ ExportClass $ c_QList m]
 
 createModule :: String -> Contents -> QtModule
 createModule name contents = makeQtModule ["Core", "QList", name] $ toExports contents

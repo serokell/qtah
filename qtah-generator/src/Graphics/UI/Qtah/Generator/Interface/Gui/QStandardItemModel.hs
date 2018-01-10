@@ -32,8 +32,8 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkConstMethod,
   mkCtor,
-  mkMethod,
   mkMethod',
+  mkProp,
   )
 import Foreign.Hoppy.Generator.Types (
   bitspaceT, intT, objT, ptrT, voidT,
@@ -102,8 +102,8 @@ c_QStandardItem =
   , just $ mkCtor "newWithRows" [intT]
   , just $ mkCtor "newWithRowsAndColumns" [intT, intT]
   , just $ mkConstMethod "model" [] (ptrT $ objT c_QAbstractItemModel)
-  , just $ mkMethod "setText" [objT c_QString] voidT
-  , just $ mkMethod "setTextAlignment" [bitspaceT bs_Alignment] voidT
+  , just $ mkProp "text" $ objT c_QString
+  , just $ mkProp "textAlignment" $ bitspaceT bs_Alignment
   -- TODO other methods
   ]
 

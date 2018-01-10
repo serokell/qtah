@@ -86,7 +86,7 @@ import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), QtModule, makeQtM
 import Graphics.UI.Qtah.Generator.Types
 
 -- | Options for instantiating the vector classes.
-data Options = Options
+newtype Options = Options
   { optVectorClassFeatures :: [ClassFeature]
     -- ^ Additional features to add to the @QVector@ class.  Vectors are always
     -- 'Assignable' and 'Copyable', but you may want to add 'Equatable' if your
@@ -98,7 +98,7 @@ defaultOptions :: Options
 defaultOptions = Options []
 
 -- | A set of instantiated classes.
-data Contents = Contents
+newtype Contents = Contents
   { c_QVector :: Class  -- ^ @QVector\<T>@
   }
 
@@ -246,7 +246,7 @@ instantiate' vectorName t tReqs opts =
 -- | Converts an instantiation into a list of exports to be included in a
 -- module.
 toExports :: Contents -> [QtExport]
-toExports m = map (QtExport . ExportClass . ($ m)) [c_QVector]
+toExports m = [QtExport $ ExportClass $ c_QVector m]
 
 createModule :: String -> Contents -> QtModule
 createModule name contents = makeQtModule ["Core", "QVector", name] $ toExports contents

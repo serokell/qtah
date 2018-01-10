@@ -140,6 +140,7 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QPoint>'
     sayHpp '#include <QSize>'
     sayHpp '#include <QSystemTrayIcon>'
+    sayHpp '#include <QTreeWidgetItem>'
     sayHpp '#include <QVector>'
     sayHpp '#include <QWidget>'
     sayHpp '#if QT_VERSION >= 0x050000'
