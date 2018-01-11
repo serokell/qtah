@@ -94,7 +94,7 @@ On Debian and derivatives:
 
 On Fedora and derivatives:
 
-    dnf install gcc-g++ make
+    dnf install gcc-c++ make
     # For Qt 5:
     dnf install qt5-qtbase-devel  # Required.
     dnf install qt5-qtbase-doc qt5-qtdoc qt5-assistant  # For Assistant (Qt API documentation).
