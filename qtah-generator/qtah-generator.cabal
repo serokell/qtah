@@ -45,7 +45,7 @@ executable qtah-generator
     , hoppy-std >=0.3 && <0.4
     , haskell-src >=1.0 && <1.1
     , mtl >=2.1 && <2.3
-    , process >=1.2 && <1.5
+    , process >=1.2 && <1.7
     , transformers >=0.3 && <0.6
   hs-source-dirs: src
   main-is: Main.hs

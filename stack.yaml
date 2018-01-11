@@ -1,6 +1,6 @@
 # Copyright 2015-2018 The Qtah Authors.
 
-resolver: lts-7.19
+resolver: lts-10.3
 
 packages:
 - qtah

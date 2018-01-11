@@ -16,14 +16,23 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
+{-# LANGUAGE CPP #-}
 
 import Control.Applicative ((<|>))
 import Control.Monad (unless, when)
 import Data.Char (isDigit)
 import Data.List (isPrefixOf, isSuffixOf)
 import Data.Maybe (fromMaybe)
-import Distribution.Package (PackageName (PackageName), pkgName)
-import Distribution.PackageDescription (FlagName (FlagName), PackageDescription, package)
+import Distribution.Package (PackageName, pkgName, unPackageName)
+import Distribution.PackageDescription (
+  PackageDescription,
+  package,
+#if MIN_VERSION_Cabal(2,0,0)
+  FlagName, mkFlagName,
+#else
+  FlagName (FlagName),
+#endif
+  )
 import Distribution.Simple (defaultMainWithHooks, simpleUserHooks)
 import Distribution.Simple.LocalBuildInfo (
   LocalBuildInfo,
@@ -86,6 +95,10 @@ import System.Directory (
 import System.Environment (lookupEnv, setEnv)
 import System.FilePath ((</>), takeDirectory)
 import System.Process (callProcess)
+
+#if !MIN_VERSION_Cabal(2,0,0)
+mkFlagName = FlagName
+#endif
 
 packageName :: String
 -- Careful, this line is modified by set-qt-version.sh.
@@ -247,8 +260,8 @@ exportQtVersion configFlags localBuildInfo = do
   -- Determine what version of Qt to use.  If we have a Qt version preference
   -- specified, either through package flags or through QTAH_QT, then
   -- maybeQtMajor will get that value.
-  let PackageName myName = pkgName $ package $ localPkgDescr localBuildInfo
-  maybeQtMajor <- case reverse myName of
+  let myName = pkgName $ package $ localPkgDescr localBuildInfo
+  maybeQtMajor <- case reverse $ unPackageName myName of
     -- If the package name ends in "-qtX", then build for Qt X (whatever the
     -- available minor version is).  Ignore QTAH_QT and package flags.
     n:'t':'q':'-':_ | isDigit n -> do
@@ -260,8 +273,8 @@ exportQtVersion configFlags localBuildInfo = do
     _ -> do
       -- Inspect the 'qt4' and 'qt5' package flags.
       let flags = configConfigurationsFlags configFlags
-          qt4Flag = fromMaybe False $ lookup (FlagName "qt4") flags
-          qt5Flag = fromMaybe False $ lookup (FlagName "qt5") flags
+          qt4Flag = fromMaybe False $ lookup (mkFlagName "qt4") flags
+          qt5Flag = fromMaybe False $ lookup (mkFlagName "qt5") flags
           qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
       when (qt4Flag && qt5Flag) $
         die $ concat
