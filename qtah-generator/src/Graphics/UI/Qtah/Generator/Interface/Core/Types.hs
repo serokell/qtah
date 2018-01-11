@@ -68,6 +68,9 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_TextFormat,
   e_TextInteractionFlag,
   bs_TextInteractionFlags,
+  e_ToolBarArea,
+  bs_ToolBarAreas,
+  e_ToolButtonStyle,
   e_TransformationMode,
   e_WindowModality,
   e_WindowState,
@@ -148,6 +151,9 @@ exports =
   , just $ ExportEnum e_TextFormat
   , just $ ExportEnum e_TextInteractionFlag
   , just $ ExportBitspace bs_TextInteractionFlags
+  , just $ ExportEnum e_ToolBarArea
+  , just $ ExportBitspace bs_ToolBarAreas
+  , just $ ExportEnum e_ToolButtonStyle
   , just $ ExportEnum e_TransformationMode
   , just $ ExportEnum e_WindowModality
   , just $ ExportEnum e_WindowState
@@ -675,6 +681,25 @@ e_TextFormat =
      , (textEditorInteraction, ["text", "editor", "interaction"])
      , (textBrowserInteraction, ["text", "browser", "interaction"])
      ]
+
+(e_ToolBarArea, bs_ToolBarAreas) =
+  makeQtEnumBitspace (ident1 "Qt" "ToolBarArea") "ToolBarAreas" qtInclude
+  [ (0x0, ["no", "tool", "bar", "area"])
+  , (0x1, ["left", "tool", "bar", "area"])
+  , (0x2, ["right", "tool", "bar", "area"])
+  , (0x4, ["top", "tool", "bar", "area"])
+  , (0x8, ["bottom", "tool", "bar", "area"])
+  , (0xf, ["all", "tool", "bar", "areas"])
+  ]
+
+e_ToolButtonStyle =
+  makeQtEnum (ident1 "Qt" "ToolButtonStyle") qtInclude
+  [ (0, ["tool", "button", "icon", "only"])
+  , (1, ["tool", "button", "text", "only"])
+  , (2, ["tool", "button", "text", "beside", "icon"])
+  , (3, ["tool", "button", "text", "under", "icon"])
+  , (4, ["tool", "button", "follow", "style"])
+  ]
 
 e_TransformationMode =
   makeQtEnum (ident1 "Qt" "TransformationMode") qtInclude

@@ -28,6 +28,7 @@ import Foreign.Hoppy.Generator.Spec (
   toExtName,
   )
 import Foreign.Hoppy.Generator.Types (
+  bitspaceT,
   boolT,
   constT,
   doubleT,
@@ -51,8 +52,11 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVector (c_QVectorInt)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (
+  bs_ToolBarAreas,
+  e_Orientation,
   e_ScreenOrientation,
   e_ScreenOrientation_minVersion,
+  e_ToolButtonStyle,
   e_WindowModality,
   e_WindowState,
   qreal,
@@ -85,6 +89,7 @@ aModule =
       , just $ ExportCallback cb_IntVoid
       , just $ ExportCallback cb_IntBoolVoid
       , just $ ExportCallback cb_IntIntVoid
+      , just $ ExportCallback cb_OrientationVoid
       , just $ ExportCallback cb_PtrQAbstractButtonVoid
       , just $ ExportCallback cb_PtrQAbstractButtonBoolVoid
       , just $ ExportCallback cb_PtrQAbstractItemModelVoid
@@ -113,6 +118,8 @@ aModule =
       , just $ ExportCallback cb_RefConstQIconVoid
       , just $ ExportCallback cb_RefConstQItemSelectionRefConstQItemSelectionVoid
       , test (qtVersion >= e_ScreenOrientation_minVersion) $ ExportCallback cb_ScreenOrientationVoid
+      , just $ ExportCallback cb_ToolBarAreasVoid
+      , just $ ExportCallback cb_ToolButtonStyleVoid
       , just $ ExportCallback cb_WindowModalityVoid
       , just $ ExportCallback cb_WindowStateVoid
       , just $ ExportCallback cb_Void
@@ -137,6 +144,10 @@ cb_IntBoolVoid =
 cb_IntIntVoid =
   makeCallback (toExtName "CallbackIntIntVoid")
   [intT, intT] voidT
+
+cb_OrientationVoid =
+  makeCallback (toExtName "CallbackOrientationVoid")
+  [enumT e_Orientation] voidT
 
 cb_PtrQAbstractButtonVoid =
   makeCallback (toExtName "CallbackPtrQAbstractButtonVoid")
@@ -252,6 +263,14 @@ cb_RefConstQItemSelectionRefConstQItemSelectionVoid =
 cb_ScreenOrientationVoid =
   makeCallback (toExtName "CallbackScreenOrientationVoid")
   [enumT e_ScreenOrientation] voidT
+
+cb_ToolBarAreasVoid =
+  makeCallback (toExtName "CallbackToolBarAreasVoid")
+  [bitspaceT bs_ToolBarAreas] voidT
+
+cb_ToolButtonStyleVoid =
+  makeCallback (toExtName "CallbackToolButtonStyleVoid")
+  [enumT e_ToolButtonStyle] voidT
 
 cb_WindowModalityVoid =
   makeCallback (toExtName "CallbackWindowModalityVoid")

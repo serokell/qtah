@@ -28,11 +28,31 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
+  mkBoolIsProp,
+  mkConstMethod,
   mkCtor,
   mkMethod,
+  mkMethod',
+  mkProp,
   )
-import Foreign.Hoppy.Generator.Types (objT, ptrT)
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, objT, ptrT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (
+  bs_ToolBarAreas,
+  e_Orientation,
+  e_ToolBarArea,
+  e_ToolButtonStyle,
+  )
+import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_ListenerBool,
+  c_ListenerOrientation,
+  c_ListenerPtrQAction,
+  c_ListenerQSize,
+  c_ListenerToolBarAreas,
+  c_ListenerToolButtonStyle,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -56,12 +76,33 @@ c_QToolBar =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , mkCtor "newWithTitle" [objT c_QString]
   , mkCtor "newWithTitleAndParent" [objT c_QString, ptrT $ objT c_QWidget]
-  , mkMethod "addWidget" [ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
-  , mkMethod "insertWidget" [ptrT $ objT c_QAction, ptrT $ objT c_QWidget] (ptrT $ objT c_QAction)
-  -- TODO add methods
+  , mkMethod' "addAction" "addAction" [objT c_QString] $ ptrT $ objT c_QAction
+  , mkMethod' "addAction" "addActionWithIcon" [objT c_QIcon, objT c_QString] $ ptrT $ objT c_QAction
+  , mkMethod "addSeparator" [] $ ptrT $ objT c_QAction
+  , mkMethod "addWidget" [ptrT $ objT c_QWidget] $ ptrT $ objT c_QAction
+  , mkProp "allowedAreas" $ bitspaceT bs_ToolBarAreas
+  , mkMethod "clear" [] voidT
+  , mkBoolIsProp "floatable"
+  , mkProp "iconSize" $ objT c_QSize
+  , mkMethod "insertSeparator" [ptrT $ objT c_QAction] $ ptrT $ objT c_QAction
+  , mkMethod "insertWidget" [ptrT $ objT c_QAction, ptrT $ objT c_QWidget] $ ptrT $ objT c_QAction
+  , mkConstMethod "isAreaAllowed" [enumT e_ToolBarArea] boolT
+  , mkConstMethod "isFloating" [] boolT
+  , mkBoolIsProp "movable"
+  , mkProp "orientation" $ enumT e_Orientation
+  , mkMethod "toggleViewAction" [] $ ptrT $ objT c_QAction
+  , mkProp "toolButtonStyle" $ enumT e_ToolButtonStyle
+  , mkConstMethod "widgetForAction" [ptrT $ objT c_QAction] $ ptrT $ objT c_QWidget
   ]
 
 signals :: [Signal]
 signals =
-  [ -- TODO add signals
+  [ makeSignal c_QToolBar "actionTriggered" c_ListenerPtrQAction
+  , makeSignal c_QToolBar "allowedAreasChanged" c_ListenerToolBarAreas
+  , makeSignal c_QToolBar "iconSizeChanged" c_ListenerQSize
+  , makeSignal c_QToolBar "movableChanged" c_ListenerBool
+  , makeSignal c_QToolBar "orientationChanged" c_ListenerOrientation
+  , makeSignal c_QToolBar "toolButtonStyleChanged" c_ListenerToolButtonStyle
+  , makeSignal c_QToolBar "topLevelChanged" c_ListenerBool
+  , makeSignal c_QToolBar "visibilityChanged" c_ListenerBool
   ]

@@ -81,6 +81,7 @@ forEachListener() {
     $fn Int "int"
     $fn IntBool "int|bool"
     $fn IntInt "int|int"
+    $fn Orientation "Qt::Orientation"
     $fn PtrQAbstractButton "QAbstractButton*"
     $fn PtrQAbstractButtonBool "QAbstractButton*|bool"
     $fn PtrQAbstractItemModel "QAbstractItemModel*"
@@ -90,9 +91,6 @@ forEachListener() {
     $fn PtrQTreeWidgetItemInt "QTreeWidgetItem*|int"
     $fn PtrQTreeWidgetItemPtrQTreeWidgetItem "QTreeWidgetItem*|QTreeWidgetItem*"
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
-    $fn RefConstQIcon "const QIcon&"
-    $fn RefConstQItemSelectionRefConstQItemSelection "const QItemSelection&|const QItemSelection&"
-    $fn ScreenOrientation "Qt::ScreenOrientation" 0x050000 '[5, 0]'
     $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
     $fn QClipboardMode "QClipboard::Mode"
     $fn QModelIndex "QModelIndex"
@@ -106,6 +104,11 @@ forEachListener() {
     $fn QString "QString"
     $fn QSystemTrayIconActivationReason "QSystemTrayIcon::ActivationReason"
     $fn QWindowVisibility "QWindow::Visibility" 0x050000 '[5, 0]'
+    $fn RefConstQIcon "const QIcon&"
+    $fn RefConstQItemSelectionRefConstQItemSelection "const QItemSelection&|const QItemSelection&"
+    $fn ScreenOrientation "Qt::ScreenOrientation" 0x050000 '[5, 0]'
+    $fn ToolBarAreas "Qt::ToolBarAreas"
+    $fn ToolButtonStyle "Qt::ToolButtonStyle"
     $fn WindowModality "Qt::WindowModality"
     $fn WindowState "Qt::WindowState"
     $fn "" ""
