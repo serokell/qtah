@@ -42,8 +42,9 @@ import System.IO (IOMode (ReadMode), hGetContents, withFile)
 splitWhen :: (a -> Bool) -> [a] -> [[a]]
 splitWhen _ [] = []
 splitWhen f xs = case findIndex f xs of
-  Just index -> let (term, _:rest) = splitAt index xs
-                in term : splitWhen f rest
+  Just index -> case splitAt index xs of
+    (term, []) -> [term]
+    (term, _:rest) -> term : splitWhen f rest
   Nothing -> [xs]
 
 -- | Splits a list on a specified element.
@@ -60,7 +61,7 @@ maybeFail = fromMaybeM . fail
 
 -- | Runs a list of monadic actions until one returns a 'Just' value, then
 -- returning that value.  Returns 'Nothing' if all actions return 'Nothing'.
-firstM :: (Functor m, Monad m) => [m (Maybe a)] -> m (Maybe a)
+firstM :: Monad m => [m (Maybe a)] -> m (Maybe a)
 firstM = runMaybeT . asum . map MaybeT
 
 -- | If the file specified does not exist or its contents does not match the
