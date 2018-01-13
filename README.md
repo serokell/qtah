@@ -74,7 +74,7 @@ installing Qtah:
 - Qt 4.8 or 5.x with development files
 - make and a C++ compiler
 - bash 4.1 or newer
-- GHC 7.8-8.0
+- GHC 7.8-8.2
 - haskell-src
 - hoppy-generator
 - hoppy-runtime
