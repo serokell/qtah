@@ -23,7 +23,7 @@ import Control.Monad (unless, when)
 import Data.Char (isDigit)
 import Data.List (isPrefixOf, isSuffixOf)
 import Data.Maybe (fromMaybe)
-import Distribution.Package (PackageName, pkgName, unPackageName)
+import Distribution.Package (pkgName, unPackageName)
 import Distribution.PackageDescription (
   PackageDescription,
   package,
