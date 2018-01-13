@@ -74,7 +74,7 @@ main =
       args <- getArgs
       case args of
         ["--qt-version"] -> putStrLn $ intercalate "." $ map show qtVersion
-        ["--qmake-executable"] -> putStrLn $ unlines $ qmakeExecutable : qmakeArguments
+        ["--qmake-executable"] -> putStr $ unlines $ qmakeExecutable : qmakeArguments
         _ -> do
           _ <- run [iface] args
           return ()
