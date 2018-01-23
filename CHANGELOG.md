@@ -10,6 +10,11 @@
   requires features introduced in that version, and OS X doesn't ship a bash
   anywhere near that new (issue #19).
 
+- install.sh now defaults to Qt 5 when no `QTAH_QT_FLAGS` environment variable
+  is set, instead of selecting the system default (which is still Qt 4 on some
+  Linux distros).  To get the old behaviour, set `QTAH_QT_FLAGS` to an empty
+  value.
+
 ## (2017-06-10) *-0.3.0, qtah-cpp-0.3.1
 
 37 new classes and 10 new enums in this release!

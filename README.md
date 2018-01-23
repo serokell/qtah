@@ -44,12 +44,13 @@ second builds generated C++ code; and the third builds generated Haskell code.
 On Hackage, `qtah-cpp` and `qtah` have `-qtX` variants for specific major
 versions of Qt.
 
-To build and install locally, run `install.sh`, optionally specifying the
-version of Qt you want to build against.  There are a few ways to specify this;
-here is one way:
+To build and install locally, run:
 
-    Build and install for Qt 5:
-    $ QTAH_QT_FLAGS=qt5 ./install.sh
+    $ ./install.sh
+
+If you want to instead build against Qt 4, then run:
+
+    $ QTAH_QT_FLAGS=qt4 ./install.sh
 
 The `install.sh` script is just a thin wrapper around running `cabal configure`,
 `build`, `install` on each of the packages in turn.  For more information about
@@ -132,7 +133,8 @@ to set the `qt4` or `qt5` package flags on `qtah-cpp` and `qtah`.  This is
 equivalent to setting `QTAH_QT` but is tracked by Cabal.  At most one of these
 flags may be set, and if `QTAH_QT` is set as well, then they must agree.  When
 using `install.sh`, the environment variable `QTAH_QT_FLAGS` will be passed via
-`--flags` to these two packages.
+`--flags` to these two packages.  This variable defaults to `qt5` when unset
+(but not when empty).
 
 Whether using an environment variable or a flag to specify a Qt version, it
 needs to be specified for both `cabal configure` and `cabal install`.

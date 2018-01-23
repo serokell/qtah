@@ -42,13 +42,12 @@ control this script's operation:
 
   QTAH_QT_FLAGS:
     This value is passed as --flags to the qtah-cpp and qtah packages, and can
-    be used to set the qtX flags (e.g. qt4, qt5).
+    be used to set the qtX flags (e.g. qt4, qt5) for Qt version selection.
+    If unset, this variable defaults to qt5.  If it set to the empty string,
+    then the system default Qt is used.  See README.md for more information.
 
   QTAH_QMAKE:
     This overrides the QMake executable used to build qtah-cpp.
-
-  QTAH_QT and QT_SELECT and be used to select Qt versions.  See README.md for
-  more information.
 EOF
 }
 
@@ -64,6 +63,9 @@ sdist() {
         run cabal sdist
     fi
 }
+
+# Default to qt5 if no version preference has been specified.
+: ${QTAH_QT_FLAGS=qt5}
 
 echo
 msg "Building and installing qtah-generator."
