@@ -19,6 +19,8 @@
 -- Some classes use qualified imports that don't start with @\"Qtah\"@; such
 -- imports are one-off and are not listed here.
 module Graphics.UI.Qtah.Generator.Interface.Imports (
+  importForByteString,
+  importForByteStringUnsafe,
   importForChar,
   importForEvent,
   importForForeign,
@@ -30,6 +32,12 @@ module Graphics.UI.Qtah.Generator.Interface.Imports (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (HsImportSet, hsQualifiedImport)
+
+importForByteString :: HsImportSet
+importForByteString = hsQualifiedImport "Data.ByteString" "QtahDBS"
+
+importForByteStringUnsafe :: HsImportSet
+importForByteStringUnsafe = hsQualifiedImport "Data.ByteString.Unsafe" "QtahDBSU"
 
 importForChar :: HsImportSet
 importForChar = hsQualifiedImport "Data.Char" "QtahDC"

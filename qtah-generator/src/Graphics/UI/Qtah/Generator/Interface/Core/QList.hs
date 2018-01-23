@@ -29,6 +29,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   allModules,
   c_QListInt,
   c_QListQAbstractButton,
+  c_QListQByteArray,
   c_QListQItemSelectionRange,
   c_QListQModelIndex,
   c_QListQObject,
@@ -93,6 +94,7 @@ import Foreign.Hoppy.Generator.Spec.ClassFeature (
 import Foreign.Hoppy.Generator.Types (boolT, constT, intT, objT, ptrT, refT, toGcT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange (c_QItemSelectionRange)
 import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
@@ -298,6 +300,7 @@ allModules =
   map AQtModule
   [ qmod_Int
   , qmod_QAbstractButton
+  , qmod_QByteArray
   , qmod_QItemSelectionRange
   , qmod_QModelIndex
   , qmod_QObject
@@ -325,6 +328,15 @@ contents_QAbstractButton = instantiate "QListQAbstractButton" (ptrT $ objT c_QAb
 
 c_QListQAbstractButton :: Class
 c_QListQAbstractButton = c_QList contents_QAbstractButton
+
+qmod_QByteArray :: QtModule
+qmod_QByteArray = createModule "QByteArray" contents_QByteArray
+
+contents_QByteArray :: Contents
+contents_QByteArray = instantiate "QListQByteArray" (objT c_QByteArray) mempty
+
+c_QListQByteArray :: Class
+c_QListQByteArray = c_QList contents_QByteArray
 
 qmod_QItemSelectionRange :: QtModule
 qmod_QItemSelectionRange = createModule "QItemSelectionRange" contents_QItemSelectionRange

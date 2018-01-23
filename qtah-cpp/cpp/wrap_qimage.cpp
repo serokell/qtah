@@ -79,6 +79,11 @@ QImage* create(const QString& fileName, const QString& format) {
     return new QImage(fileName, formatStr.c_str());
 }
 
+QImage* fromData(const QByteArray& data, const QString& format) {
+    std::string formatStr(format.toStdString());
+    return new QImage(QImage::fromData(data, formatStr.c_str()));
+}
+
 QImage* fromData(const uchar* data, int len, const QString& format) {
     std::string formatStr(format.toStdString());
     return new QImage(QImage::fromData(data, len, formatStr.c_str()));
@@ -87,6 +92,11 @@ QImage* fromData(const uchar* data, int len, const QString& format) {
 bool load(QImage& image, const QString& fileName, const QString& format) {
     std::string formatStr(format.toStdString());
     return image.load(fileName, formatStr.c_str());
+}
+
+bool loadFromData(QImage& image, const QByteArray& data, const QString& format) {
+    std::string formatStr(format.toStdString());
+    return image.loadFromData(data, formatStr.c_str());
 }
 
 bool loadFromData(QImage& image, const uchar* data, int len, const QString& format) {

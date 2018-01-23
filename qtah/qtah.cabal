@@ -32,6 +32,7 @@ library
     , Graphics.UI.Qtah.Core.QAbstractItemModel
     , Graphics.UI.Qtah.Core.QAbstractListModel
     , Graphics.UI.Qtah.Core.QAbstractTableModel
+    , Graphics.UI.Qtah.Core.QByteArray
     , Graphics.UI.Qtah.Core.QChar
     , Graphics.UI.Qtah.Core.QChildEvent
     , Graphics.UI.Qtah.Core.QCoreApplication
@@ -42,6 +43,7 @@ library
     , Graphics.UI.Qtah.Core.QItemSelectionRange
     , Graphics.UI.Qtah.Core.QList.Int
     , Graphics.UI.Qtah.Core.QList.QAbstractButton
+    , Graphics.UI.Qtah.Core.QList.QByteArray
     , Graphics.UI.Qtah.Core.QList.QItemSelectionRange
     , Graphics.UI.Qtah.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Core.QList.QObject
@@ -64,6 +66,7 @@ library
     , Graphics.UI.Qtah.Core.QString
     , Graphics.UI.Qtah.Core.QStringList
     , Graphics.UI.Qtah.Core.QStringListModel
+    , Graphics.UI.Qtah.Core.QTextCodec
     , Graphics.UI.Qtah.Core.QTimer
     , Graphics.UI.Qtah.Core.QTimerEvent
     , Graphics.UI.Qtah.Core.QVariant
@@ -188,6 +191,7 @@ library
       Graphics.UI.Qtah.Generated.Core.QAbstractItemModel
     , Graphics.UI.Qtah.Generated.Core.QAbstractListModel
     , Graphics.UI.Qtah.Generated.Core.QAbstractTableModel
+    , Graphics.UI.Qtah.Generated.Core.QByteArray
     , Graphics.UI.Qtah.Generated.Core.QChar
     , Graphics.UI.Qtah.Generated.Core.QChildEvent
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
@@ -198,6 +202,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QItemSelectionRange
     , Graphics.UI.Qtah.Generated.Core.QList.Int
     , Graphics.UI.Qtah.Generated.Core.QList.QAbstractButton
+    , Graphics.UI.Qtah.Generated.Core.QList.QByteArray
     , Graphics.UI.Qtah.Generated.Core.QList.QItemSelectionRange
     , Graphics.UI.Qtah.Generated.Core.QList.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QList.QObject
@@ -220,6 +225,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QString
     , Graphics.UI.Qtah.Generated.Core.QStringList
     , Graphics.UI.Qtah.Generated.Core.QStringListModel
+    , Graphics.UI.Qtah.Generated.Core.QTextCodec
     , Graphics.UI.Qtah.Generated.Core.QTimer
     , Graphics.UI.Qtah.Generated.Core.QTimerEvent
     , Graphics.UI.Qtah.Generated.Core.QVariant

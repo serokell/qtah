@@ -20,6 +20,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core (modules) where
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel as QAbstractItemModel
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QAbstractListModel as QAbstractListModel
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QAbstractTableModel as QAbstractTableModel
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QByteArray as QByteArray
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent as QChildEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication as QCoreApplication
@@ -43,6 +44,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QSizeF as QSizeF
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QString as QString
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QStringList as QStringList
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QStringListModel as QStringListModel
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QTextCodec as QTextCodec
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QTimer as QTimer
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent as QTimerEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QVariant as QVariant
@@ -58,6 +60,7 @@ modules =
   [ [ QAbstractItemModel.aModule
     , QAbstractListModel.aModule
     , QAbstractTableModel.aModule
+    , QByteArray.aModule
     , QChar.aModule
     , QChildEvent.aModule
     , QCoreApplication.aModule
@@ -80,6 +83,7 @@ modules =
     , QString.aModule
     , QStringList.aModule
     , QStringListModel.aModule
+    , QTextCodec.aModule
     , QTimer.aModule
     , QTimerEvent.aModule
     , QVariant.aModule

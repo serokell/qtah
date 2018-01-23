@@ -61,6 +61,7 @@ import Foreign.Hoppy.Generator.Std.String (c_string)
 import Foreign.Hoppy.Generator.Types (charT, constT, intT, objT, ptrT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QChar (c_QChar)
 import Graphics.UI.Qtah.Generator.Interface.Imports
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -96,10 +97,16 @@ c_QString =
   classSetEntityPrefix "" $
   makeClass (ident "QString") Nothing [] $
   collect
-  [ just $ mkCtor "newFromCString" [ptrT $ constT charT]
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newFromByteArray" [objT c_QByteArray]
+  , just $ mkCtor "newFromCString" [ptrT $ constT charT]
   , just $ mkConstMethod' OpArray "at" [intT] $ objT c_QChar
   , just $ makeFnMethod (ident2 "qtah" "qstring" "set") "set" MNormal Nonpure
     [refT $ objT c_QString, intT, objT c_QChar] voidT
   , test (qtVersion >= [5, 0]) $ mkConstMethod "toHtmlEscaped" [] $ objT c_QString
+  , just $ mkConstMethod "toLatin1" [] $ objT c_QByteArray
+  , just $ mkConstMethod "toLocal8Bit" [] $ objT c_QByteArray
   , just $ mkConstMethod "toStdString" [] $ objT c_string
+  , just $ mkConstMethod "toUtf8" [] $ objT c_QByteArray
+    -- TODO Lots more method here.
   ]

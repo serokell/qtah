@@ -18,6 +18,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QByteArray>
 #include <QImage>
 #include <QtGlobal>
 #include "b_callback.hpp"
@@ -35,7 +36,11 @@ QImage* create(const QString&, const QString&);
 
 QImage* fromData(const uchar*, int, const QString&);
 
+QImage* fromData(const QByteArray&, const QString&);
+
 bool load(QImage&, const QString&, const QString&);
+
+bool loadFromData(QImage&, const QByteArray&, const QString&);
 
 bool loadFromData(QImage&, const uchar*, int, const QString&);
 

@@ -63,6 +63,7 @@ import Foreign.Hoppy.Generator.Types (
   )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
@@ -165,8 +166,12 @@ c_QImage =
   , just $ mkMethod' "fill" "fillWithColor" [objT c_QColor] voidT
   , just $ mkMethod' "fill" "fillWithGlobalColor" [enumT e_GlobalColor] voidT
   , just $ mkConstMethod "format" [] $ enumT e_Format
-  , just $ mkStaticMethod' "fromData" "fromData" [ptrT $ constT ucharT, intT] $ objToHeapT c_QImage
-  , just $ makeFnMethod (ident2 "qtah" "qimage" "fromData") "fromDataWithFormat" MStatic Nonpure
+  , just $ mkStaticMethod' "fromData" "fromDataByteArray" [objT c_QByteArray] $ objToHeapT c_QImage
+  , just $ makeFnMethod (ident2 "qtah" "qimage" "fromData") "fromDataByteArrayWithFormat"
+    MStatic Nonpure [objT c_QByteArray, objT c_QString] $ ptrT $ objT c_QImage
+  , just $ mkStaticMethod' "fromData" "fromDataRaw" [ptrT $ constT ucharT, intT] $
+    objToHeapT c_QImage
+  , just $ makeFnMethod (ident2 "qtah" "qimage" "fromData") "fromDataRawWithFormat" MStatic Nonpure
     [ptrT $ constT ucharT, intT, objT c_QString] $ ptrT $ objT c_QImage
   , just $ mkConstMethod "hasAlphaChannel" [] boolT
   , just $ mkConstMethod "height" [] intT
@@ -178,10 +183,12 @@ c_QImage =
   , just $ makeFnMethod (ident2 "qtah" "qimage" "load") "loadWithFormat" MStatic Nonpure
     [refT $ objT c_QImage, objT c_QString, objT c_QString] boolT
     -- TODO load(QIODevice*, ...)
-  , just $ mkMethod' "loadFromData" "loadFromData" [ptrT $ constT ucharT, intT] boolT
-  , just $ makeFnMethod (ident2 "qtah" "qimage" "loadFromData") "loadFromDataWithFormat"
+  , just $ mkMethod' "loadFromData" "loadFromDataByteArray" [objT c_QByteArray] boolT
+  , just $ makeFnMethod (ident2 "qtah" "qimage" "loadFromData") "loadFromDataByteArrayWithFormat"
+    MStatic Nonpure [refT $ objT c_QImage, objT c_QByteArray, objT c_QString] boolT
+  , just $ mkMethod' "loadFromData" "loadFromDataRaw" [ptrT $ constT ucharT, intT] boolT
+  , just $ makeFnMethod (ident2 "qtah" "qimage" "loadFromData") "loadFromDataRawWithFormat"
     MStatic Nonpure [refT $ objT c_QImage, ptrT $ constT ucharT, intT, objT c_QString] boolT
-    -- TODO loadFromData(const QByteArray&, ...)
   , just $ mkConstMethod "mirrored" [boolT, boolT] $ objT c_QImage  -- TODO Args optional?
   , just $ mkProp "offset" $ objT c_QPoint
   , just $ mkConstMethod' "pixel" "pixelAtPoint" [objT c_QPoint] qrgb
