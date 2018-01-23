@@ -130,8 +130,8 @@ c_QTreeWidgetItem =
   , test (qtVersion >= [4, 2]) $ mkConstMethod "isHidden" [] boolT
   , just $ mkConstMethod "parent" [] (ptrT $ objT c_QTreeWidgetItem)
   , just $ mkMethod "setChildIndicatorPolicy" [enumT e_ChildIndicatorPolicy] voidT
-  , just $ mkConstMethod "setData" [intT, intT, objT c_QVariant] voidT
-  , test (qtVersion >= [4, 2]) $ mkConstMethod "setHidden" [boolT] voidT
+  , just $ mkMethod "setData" [intT, intT, objT c_QVariant] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod "setHidden" [boolT] voidT
   , just $ mkMethod "setIcon" [intT, objT c_QIcon] voidT
   , just $ mkMethod "setText" [intT, objT c_QString] voidT
   , just $ mkConstMethod "text" [intT] (objT c_QString)

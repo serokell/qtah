@@ -66,5 +66,5 @@ c_QLayoutItem =
   , mkConstMethod "minimumSize" [] $ objT c_QSize
   , mkConstMethod "sizeHint" [] $ objT c_QSize
     -- TODO spacerItem
-  , mkConstMethod "widget" [] $ ptrT $ objT c_QWidget
+  , mkMethod "widget" [] $ ptrT $ objT c_QWidget
   ]
