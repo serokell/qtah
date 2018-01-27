@@ -27,7 +27,7 @@ executable qtah-examples
     , bytestring >=0.10 && <0.11
     , containers <0.6
     , filepath >=1.0 && <1.5
-    , hoppy-runtime >=0.3 && <0.4
+    , hoppy-runtime >=0.4 && <0.5
     , qtah >=0.4 && <0.5
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind -dynamic
   default-language: Haskell2010
