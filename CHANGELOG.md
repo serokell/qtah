@@ -2,9 +2,22 @@
 
 ## Unreleased
 
+## (2018-01-27) *-0.4.0
+
 - [API change] Changed QAction's constructors so that "new" and "newWithText"
   don't require parent parameters, and have "WithParent" forms instead, like
   normal.
+
+- [API change] `QImage::fromData*()` and `::loadFromData*()` were renamed to
+  `...DataRaw*()`, because there are QByteString versions of these functions
+  now.
+
+- New classes, many of these thanks to Yuriy Syrovetskiy:
+  - Core: QByteArray, QTextCodec
+  - Gui: QIcon, QPixmap, QStandardItem{,Model}
+  - Widgets: QSystemTrayIcon, QToolBar, QTreeView, QTreeWidget{,Item}
+
+- Added support for Cabal 2.0 and fixed building under macOS (thanks Yuriy).
 
 - qtah-listener-gen now checks that bash 4.1 or newer is available, as it
   requires features introduced in that version, and OS X doesn't ship a bash
