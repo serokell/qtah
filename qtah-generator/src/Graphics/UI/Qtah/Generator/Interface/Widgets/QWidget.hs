@@ -38,6 +38,7 @@ import Foreign.Hoppy.Generator.Spec (
 import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (keypadNavigation, qdoc, qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMargins (c_QMargins)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
@@ -215,8 +216,8 @@ c_QWidget =
     -- TODO repaint(const QRegion&)
   , just $ mkMethod' "resize" "resize" [objT c_QSize] voidT
   , just $ mkMethod' "resize" "resizeRaw" [intT, intT] voidT
-    -- TODO restoreGeometry
-    -- TODO saveGeometry
+  , just $ mkMethod "restoreGeometry" [objT c_QByteArray] boolT
+  , just $ mkConstMethod "saveGeometry" [] (objT c_QByteArray)
   , just $ mkMethod' "scroll" "scrollRaw" [intT, intT] voidT
   , just $ mkMethod' "scroll" "scrollRect" [intT, intT, objT c_QRect] voidT
   , just $ mkMethod "setAcceptDrops" [boolT] voidT

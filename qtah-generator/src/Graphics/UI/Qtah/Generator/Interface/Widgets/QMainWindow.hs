@@ -28,12 +28,15 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkBoolIsProp,
+  mkConstMethod,
+  mkConstMethod',
   mkCtor,
   mkMethod,
   mkMethod',
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQSize)
@@ -82,8 +85,10 @@ c_QMainWindow =
   , mkProp "menuBar" $ ptrT $ objT c_QMenuBar
   , mkProp "menuWidget" $ ptrT $ objT c_QWidget
     -- TODO removeDockWidget
-    -- TODO restoreState
-    -- TODO saveState
+  , mkMethod "restoreState" [objT c_QByteArray] boolT
+  , mkMethod' "restoreState" "restoreStateWithVersion" [objT c_QByteArray, intT] boolT
+  , mkConstMethod "saveState" [] (objT c_QByteArray)
+  , mkConstMethod' "saveState" "saveStateWithVersion" [intT] (objT c_QByteArray)
     -- TODO setCorner
     -- TODO setTabPosition
     -- TODO setTabShape
