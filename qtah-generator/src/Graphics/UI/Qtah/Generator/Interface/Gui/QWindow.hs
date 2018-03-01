@@ -134,7 +134,7 @@ c_QWindow =
   , just $ mkMethod "raise" [] voidT
   , just $ mkMethod "reportContentOrientationChange" [enumT e_ScreenOrientation] voidT
   , just $ mkMethod "requestActivate" [] voidT
-  , test (qtVersion >= [5, 1]) $ mkMethod "requestUpdate" [] voidT
+  , test (qtVersion >= [5, 5]) $ mkMethod "requestUpdate" [] voidT
     -- TODO mkConstMethod "requestedFormat" [] $ objT c_QSurfaceFormat
   , just $ mkMethod' "resize" "resize" [objT c_QSize] voidT
   , just $ mkMethod' "resize" "resizeRaw" [intT, intT] voidT
