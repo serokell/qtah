@@ -75,6 +75,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QPointF
     , Graphics.UI.Qtah.Generator.Interface.Core.QRect
     , Graphics.UI.Qtah.Generator.Interface.Core.QRectF
+    , Graphics.UI.Qtah.Generator.Interface.Core.QSettings
     , Graphics.UI.Qtah.Generator.Interface.Core.QSize
     , Graphics.UI.Qtah.Generator.Interface.Core.QSizeF
     , Graphics.UI.Qtah.Generator.Interface.Core.QString

@@ -61,6 +61,7 @@ library
     , Graphics.UI.Qtah.Core.QPointF
     , Graphics.UI.Qtah.Core.QRect
     , Graphics.UI.Qtah.Core.QRectF
+    , Graphics.UI.Qtah.Core.QSettings
     , Graphics.UI.Qtah.Core.QSize
     , Graphics.UI.Qtah.Core.QSizeF
     , Graphics.UI.Qtah.Core.QString
@@ -220,6 +221,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QPointF
     , Graphics.UI.Qtah.Generated.Core.QRect
     , Graphics.UI.Qtah.Generated.Core.QRectF
+    , Graphics.UI.Qtah.Generated.Core.QSettings
     , Graphics.UI.Qtah.Generated.Core.QSize
     , Graphics.UI.Qtah.Generated.Core.QSizeF
     , Graphics.UI.Qtah.Generated.Core.QString
