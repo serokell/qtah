@@ -31,7 +31,9 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkConstMethod,
+  mkConstMethod',
   mkCtor,
+  mkMethod,
   mkMethod',
   mkProp,
   )
@@ -48,6 +50,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QList (
   )
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Module (
@@ -111,7 +114,11 @@ c_QStandardItem =
     mkMethod' "appendRow" "appendRowItems" [objT c_QListQStandardItem] voidT
   , just $
     mkMethod' "appendRow" "appendRowItem" [ptrT $ objT c_QStandardItem] voidT
+  , just $ mkConstMethod' "data" "getData" [] (objT c_QVariant)
+  , just $ mkConstMethod' "data" "getDataWithRole" [intT] (objT c_QVariant)
   , just $ mkConstMethod "model" [] (ptrT $ objT c_QAbstractItemModel)
+  , just $ mkMethod "setData" [objT c_QVariant] voidT
+  , just $ mkMethod' "setData" "setDataWithRole" [objT c_QVariant, intT] voidT
   , just $ mkProp "text" $ objT c_QString
   , just $ mkProp "textAlignment" $ bitspaceT bs_Alignment
   -- TODO other methods
