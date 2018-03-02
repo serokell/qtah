@@ -46,6 +46,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (
 import Graphics.UI.Qtah.Generator.Interface.Core.QList (
   Contents, c_QList, instantiate,
   )
+import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
@@ -84,7 +85,12 @@ c_QStandardItemModel =
   classSetEntityPrefix "" $
   makeClass (ident "QStandardItemModel") Nothing [c_QAbstractItemModel] $
   collect
-  [ test (qtVersion >= [4, 2]) $
+  [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  , just $ mkCtor "newWithRowsAndColumns" [intT, intT]
+  , just $
+    mkCtor "newWithRowsAndColumnsAndParent" [intT, intT, ptrT $ objT c_QObject]
+  , test (qtVersion >= [4, 2]) $
     mkMethod' "appendRow" "appendRowItems" [objT c_QListQStandardItem] voidT
   , test (qtVersion >= [4, 2]) $
     mkMethod' "appendRow" "appendRowItem" [ptrT $ objT c_QStandardItem] voidT
