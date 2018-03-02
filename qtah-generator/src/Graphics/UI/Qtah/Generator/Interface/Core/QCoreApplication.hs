@@ -32,6 +32,8 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeFnMethod,
   makeClass,
+  mkBoolIsProp,
+  mkProp,
   mkStaticMethod,
   mkStaticMethod',
   )
@@ -40,6 +42,7 @@ import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -58,7 +61,12 @@ c_QCoreApplication =
   classSetEntityPrefix "" $
   makeClass (ident "QCoreApplication") Nothing [c_QObject] $
   collect
-  [ just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
+  [ just $ mkProp "applicationName" (objT c_QString)
+  , just $ mkProp "applicationVersion" (objT c_QString)
+  , just $ mkProp "organizationDomain" (objT c_QString)
+  , just $ mkProp "organizationName" (objT c_QString)
+  , just $ mkBoolIsProp "quitLockEnabled"
+  , just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
     [objT c_QStringList] $ ptrT $ objT c_QCoreApplication
   , test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ objT c_QStringList
   , just $ mkStaticMethod "exec" [] voidT
