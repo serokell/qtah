@@ -107,6 +107,10 @@ c_QStandardItem =
   , just $ mkCtor "newWithIconAndText" [objT c_QIcon, objT c_QString]
   , just $ mkCtor "newWithRows" [intT]
   , just $ mkCtor "newWithRowsAndColumns" [intT, intT]
+  , just $
+    mkMethod' "appendRow" "appendRowItems" [objT c_QListQStandardItem] voidT
+  , just $
+    mkMethod' "appendRow" "appendRowItem" [ptrT $ objT c_QStandardItem] voidT
   , just $ mkConstMethod "model" [] (ptrT $ objT c_QAbstractItemModel)
   , just $ mkProp "text" $ objT c_QString
   , just $ mkProp "textAlignment" $ bitspaceT bs_Alignment
