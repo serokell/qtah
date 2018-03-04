@@ -19,6 +19,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets (modules) where
 
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem as QAbstractGraphicsShapeItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate as QAbstractItemDelegate
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView as QAbstractItemView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider as QAbstractSlider
@@ -89,6 +90,7 @@ modules :: [AModule]
 modules =
   [ QAbstractButton.aModule
   , QAbstractGraphicsShapeItem.aModule
+  , QAbstractItemDelegate.aModule
   , QAbstractItemView.aModule
   , QAbstractScrollArea.aModule
   , QAbstractSlider.aModule

@@ -30,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkBoolHasProp,
   mkConstMethod,
+  mkConstMethod',
   mkMethod,
   mkMethod',
   mkProp,
@@ -59,6 +60,7 @@ import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   c_ListenerQModelIndex,
   c_ListenerQSize,
   )
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate (c_QAbstractItemDelegate)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -100,11 +102,14 @@ c_QAbstractItemView =
   , mkProp "iconSize" $ objT c_QSize
   , mkConstMethod "indexAt" [objT c_QPoint] $ objT c_QModelIndex
   , mkConstMethod "indexWidget" [objT c_QModelIndex] $ ptrT $ objT c_QWidget
-    -- TODO mkConstMethod' "itemDelegate" "itemDelegate" [] $ ptrT $ objT c_QAbstractItemDelegate
-    -- TODO mkConstMethod' "itemDelegate" "itemDelegateAt" [objT c_QModelIndex] $
-    --      ptrT $ objT c_QAbstractItemDelegate
-    -- TODO mkConstMethod "itemDelegateForColumn" [intT] $ ptrT $ objT c_QAbstractItemDelegate
-    -- TODO mkConstMethod "itemDelegateForRow" [intT] $ ptrT $ objT c_QAbstractItemDelegate
+  , mkConstMethod' "itemDelegate" "itemDelegate" [] $
+    ptrT $ objT c_QAbstractItemDelegate
+  , mkConstMethod' "itemDelegate" "itemDelegateAt" [objT c_QModelIndex] $
+    ptrT $ objT c_QAbstractItemDelegate
+  , mkConstMethod "itemDelegateForColumn" [intT] $
+    ptrT $ objT c_QAbstractItemDelegate
+  , mkConstMethod "itemDelegateForRow" [intT] $
+    ptrT $ objT c_QAbstractItemDelegate
   , mkMethod "keyboardSearch" [objT c_QString] voidT
   , mkProp "model" $ ptrT $ objT c_QAbstractItemModel
   , mkMethod "openPersistentEditor" [objT c_QModelIndex] voidT

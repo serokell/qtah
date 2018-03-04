@@ -125,6 +125,7 @@ library
     , Graphics.UI.Qtah.Std
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Widgets.QAbstractItemDelegate
     , Graphics.UI.Qtah.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Widgets.QAbstractSlider
@@ -280,6 +281,7 @@ library
     , Graphics.UI.Qtah.Generated.Internal.SceneEventListener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Generated.Widgets.QAbstractItemDelegate
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractSlider

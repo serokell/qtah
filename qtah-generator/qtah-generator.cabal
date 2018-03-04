@@ -136,6 +136,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider
