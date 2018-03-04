@@ -125,9 +125,9 @@ c_QAbstractItemView =
   , mkProp "selectionModel" $ ptrT $ objT c_QItemSelectionModel
   , mkMethod "setDropIndicatorShown" [boolT] voidT
   , mkMethod "setIndexWidget" [objT c_QModelIndex, ptrT $ objT c_QWidget] voidT
-    -- TODO mkMethod "setItemDelegate" [ptrT $ objT c_QAbstractItemDelegate] voidT
-    -- TODO mkMethod "setItemDelegateForColumn" [intT, ptrT $ objT c_QAbstractItemDelegate] voidT
-    -- TODO mkMethod "setItemDelegateForRow" [intT, ptrT $ objT c_QAbstractItemDelegate] voidT
+  , mkMethod "setItemDelegate" [ptrT $ objT c_QAbstractItemDelegate] voidT
+  , mkMethod "setItemDelegateForColumn" [intT, ptrT $ objT c_QAbstractItemDelegate] voidT
+  , mkMethod "setItemDelegateForRow" [intT, ptrT $ objT c_QAbstractItemDelegate] voidT
   , mkConstMethod "showDropIndicator" [] boolT
   , mkConstMethod "sizeHintForColumn" [intT] intT
   , mkConstMethod "sizeHintForIndex" [objT c_QModelIndex] $ objT c_QSize
