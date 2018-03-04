@@ -38,7 +38,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp,
   )
 import Foreign.Hoppy.Generator.Types (
-  bitspaceT, boolT, enumT, intT, objT, ptrT, voidT,
+  constT, bitspaceT, boolT, enumT, intT, objT, ptrT, voidT,
   )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
@@ -53,9 +53,10 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QStringList (c_QStringList)
 import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (
-  bs_Alignment, bs_ItemFlags, e_CheckState, e_SortOrder,
+  bs_Alignment, bs_ItemFlags, bs_MatchFlags, e_CheckState, e_SortOrder,
   )
 import Graphics.UI.Qtah.Generator.Interface.Gui.QBrush (c_QBrush)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
@@ -95,15 +96,98 @@ c_QStandardItemModel =
   classSetEntityPrefix "" $
   makeClass (ident "QStandardItemModel") Nothing [c_QAbstractItemModel] $
   collect
-  [ just $ mkCtor "new" []
+  [
+  -- Properties
+    test (qtVersion >= [4, 2]) $ mkProp "sortRole" intT
+  -- Public Functions
+  , just $ mkCtor "new" []
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QObject]
   , just $ mkCtor "newWithRowsAndColumns" [intT, intT]
   , just $
     mkCtor "newWithRowsAndColumnsAndParent" [intT, intT, ptrT $ objT c_QObject]
   , test (qtVersion >= [4, 2]) $
+    mkMethod "appendColumn" [objT c_QListQStandardItem] voidT
+  , test (qtVersion >= [4, 2]) $
     mkMethod' "appendRow" "appendRowItems" [objT c_QListQStandardItem] voidT
   , test (qtVersion >= [4, 2]) $
     mkMethod' "appendRow" "appendRowItem" [ptrT $ objT c_QStandardItem] voidT
+  , just $ mkMethod "clear" [] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "findItems" [objT c_QString] (objT c_QListQStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkConstMethod'
+      "findItems"
+      "findItemsWithFlags"
+      [objT c_QString, bitspaceT bs_MatchFlags]
+      (objT c_QListQStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkConstMethod'
+      "findItems"
+      "findItemsWithFlagsAndColumn"
+      [objT c_QString, bitspaceT bs_MatchFlags, intT]
+      (objT c_QListQStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "horizontalHeaderItem" [intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkConstMethod
+      "indexFromItem"
+      [ptrT . constT $ objT c_QStandardItem]
+      (objT c_QModelIndex)
+  , test (qtVersion >= [4, 2]) $ mkMethod'
+      "insertColumn"
+      "insertColumnWithItems"
+      [intT, objT c_QListQStandardItem]
+      voidT
+  , just $ mkMethod "insertColumn" [intT] boolT
+  , just $ mkMethod'
+      "insertColumn" "insertColumnWithParent" [intT, objT c_QModelIndex] boolT
+  , test (qtVersion >= [4, 2]) $ mkMethod'
+      "insertRow" "insertRowWithItems" [intT, objT c_QListQStandardItem] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod'
+      "insertRow" "insertRowWithItem" [intT, ptrT $ objT c_QStandardItem] voidT
+  , just $ mkMethod "insertRow" [intT] boolT
+  , just $
+    mkMethod' "insertRow" "insertRowWithParent" [intT, objT c_QModelIndex] boolT
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "invisibleRootItem" [] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "item" [intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkConstMethod'
+      "item" "itemWithColumn" [intT, intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkConstMethod
+      "itemFromIndex" [objT c_QModelIndex] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "itemPrototype" [] (ptrT . constT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkMethod "setColumnCount" [intT] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "setHorizontalHeaderItem" [intT, ptrT $ objT c_QStandardItem] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "setHorizontalHeaderLabels" [objT c_QStringList] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod'
+      "setItem"
+      "setItemWithColumn"
+      [intT, intT, ptrT $ objT c_QStandardItem]
+      voidT
+  , just $ mkMethod "setItem" [intT, ptrT $ objT c_QStandardItem] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "setItemPrototype" [ptrT . constT $ objT c_QStandardItem] voidT
+  -- TODO just $ mkMethod "setItemRoleNames" [objT c_QHash_int_QByteArray] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod "setRowCount" [intT] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "setVerticalHeaderItem" [intT, ptrT $ objT c_QStandardItem] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "setVerticalHeaderLabels" [objT c_QStringList] voidT
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "takeColumn" [intT] (objT c_QListQStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "takeHorizontalHeaderItem" [intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "takeItem" [intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $ mkMethod'
+      "takeItem" "takeItemWithColumn" [intT, intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "takeRow" [intT] (objT c_QListQStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkMethod "takeVerticalHeaderItem" [intT] (ptrT $ objT c_QStandardItem)
+  , test (qtVersion >= [4, 2]) $
+    mkConstMethod "verticalHeaderItem" [intT] (ptrT $ objT c_QStandardItem)
   ]
 
 c_QStandardItem :: Class
