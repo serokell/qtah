@@ -47,6 +47,8 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_KeyboardModifiers,
   e_LayoutDirection,
   e_MaskMode,
+  e_MatchFlag,
+  bs_MatchFlags,
   e_MouseButton,
   bs_MouseButtons,
   e_MouseEventFlag,
@@ -134,6 +136,8 @@ exports =
   , just $ ExportBitspace bs_KeyboardModifiers
   , just $ ExportEnum e_LayoutDirection
   , just $ ExportEnum e_MaskMode
+  , just $ ExportEnum e_MatchFlag
+  , just $ ExportBitspace bs_MatchFlags
   , just $ ExportEnum e_MouseButton
   , just $ ExportBitspace bs_MouseButtons
   , test (qtVersion >= e_MouseEventFlag_minVersion) $ ExportEnum e_MouseEventFlag
@@ -569,6 +573,20 @@ e_MaskMode =
   makeQtEnum (ident1 "Qt" "MaskMode") qtInclude
   [ (0, ["mask", "in", "color"])
   , (1, ["mask", "out", "color"])
+  ]
+
+(e_MatchFlag, bs_MatchFlags) =
+  makeQtEnumBitspace (ident1 "Qt" "MatchFlag") "MatchFlags" qtInclude
+  [ ( 0, ["match", "exactly"])
+  , ( 8, ["match", "fixed", "string"])
+  , ( 1, ["match", "contains"])
+  , ( 2, ["match", "starts", "with"])
+  , ( 3, ["match", "ends", "with"])
+  , (16, ["match", "case", "sensitive"])
+  , ( 4, ["match", "reg", "exp"])
+  , ( 5, ["match", "wildcard"])
+  , (32, ["match", "wrap"])
+  , (64, ["match", "recursive"])
   ]
 
 (e_MouseButton, bs_MouseButtons) =
