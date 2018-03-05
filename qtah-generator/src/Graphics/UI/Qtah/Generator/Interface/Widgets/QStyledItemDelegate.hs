@@ -30,6 +30,7 @@ import Foreign.Hoppy.Generator.Spec (
   makeClass,
   mkBoolHasProp,
   mkConstMethod,
+  mkCtor,
   mkMethod,
   mkMethod',
   mkProp,
@@ -45,12 +46,14 @@ import Foreign.Hoppy.Generator.Types (
   )
 import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (c_QAbstractItemModel)
 import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel (c_QItemSelectionModel)
+-- import Graphics.UI.Qtah.Generator.Interface.Core.QLocale (c_QLocale)
 import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_DropAction,
   e_TextElideMode,
@@ -78,15 +81,20 @@ aModule =
   AQtModule $
   makeQtModuleWithMinVersion ["Widgets", "QStyledItemDelegate"] minVersion $
   QtExport (ExportClass c_QStyledItemDelegate) :
-  map QtExportSignal signals ++
-  [
-  ]
+  map QtExportSignal signals
 
 c_QStyledItemDelegate =
   addReqIncludes [includeStd "QStyledItemDelegate"] $
   classSetEntityPrefix "" $
   makeClass (ident "QStyledItemDelegate") Nothing [c_QAbstractItemDelegate] $
   [
+  -- Public Functions
+    mkCtor "new" []
+  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  -- TODO mkConstMethod
+  --     "displayText" [objT c_QVariant, objT c_QLocale] (objT c_QString)
+  -- TODO QItemEditorFactory * itemEditorFactory() const
+  -- TODO void setItemEditorFactory(QItemEditorFactory *factory)
   ]
 
 signals =
