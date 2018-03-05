@@ -79,6 +79,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon as
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget as QTabWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar as QToolBar
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBox as QToolBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView as QTreeView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget as QTreeWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout as QVBoxLayout
@@ -151,6 +152,7 @@ modules =
   , QTabWidget.aModule
   , QTextEdit.aModule
   , QToolBar.aModule
+  , QToolBox.aModule
   , QTreeView.aModule
   , QTreeWidget.aModule
   , QTreeWidget.itemModule
