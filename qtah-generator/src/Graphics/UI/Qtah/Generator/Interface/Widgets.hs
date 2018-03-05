@@ -74,6 +74,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSplitter as QSpli
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout as QStackedLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedWidget as QStackedWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar as QStatusBar
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStyledItemDelegate as QStyledItemDelegate
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon as QSystemTrayIcon
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget as QTabWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit as QTextEdit
@@ -145,6 +146,7 @@ modules =
   , QStackedLayout.aModule
   , QStackedWidget.aModule
   , QStatusBar.aModule
+  , QStyledItemDelegate.aModule
   , QSystemTrayIcon.aModule
   , QTabWidget.aModule
   , QTextEdit.aModule
