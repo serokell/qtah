@@ -59,8 +59,10 @@ c_QSettings =
     , mkCtor "newWithOrganizationAndApplicationAndParent"
              [objT c_QString, objT c_QString, ptrT $ objT c_QObject]
     , mkCtor "newWithParent" [ptrT $ objT c_QObject]
-    -- TODO QSettings(Scope scope, const QString &organization, const QString &application = QString(), QObject *parent = Q_NULLPTR)
-    -- TODO QSettings(Format format, Scope scope, const QString &organization, const QString &application = QString(), QObject *parent = Q_NULLPTR)
+    -- TODO QSettings(Scope scope, const QString &organization,
+    --      const QString &application = QString(), QObject *parent = Q_NULLPTR)
+    -- TODO QSettings(Format format, Scope scope, const QString &organization,
+    --      const QString &application = QString(), QObject *parent = Q_NULLPTR)
     -- TODO QSettings(const QString &fileName, Format format, QObject *parent = Q_NULLPTR)
     , mkMethod      "setValue" [objT c_QString, objT c_QVariant] voidT
     , mkConstMethod "value" [objT c_QString] (objT c_QVariant)
