@@ -30,6 +30,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QApplication as QA
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QBoxLayout as QBoxLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup as QButtonGroup
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QCheckBox as QCheckBox
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDateEdit as QDateEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit as QDateTimeEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog as QDialog
@@ -104,6 +105,7 @@ modules =
   , QBoxLayout.aModule
   , QButtonGroup.aModule
   , QCheckBox.aModule
+  , QDateEdit.aModule
   , QDateTimeEdit.aModule
   , QDial.aModule
   , QDialog.aModule
