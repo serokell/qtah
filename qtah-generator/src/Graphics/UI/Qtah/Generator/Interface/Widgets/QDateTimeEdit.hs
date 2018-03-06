@@ -58,7 +58,8 @@ aModule =
   QtExport (ExportClass c_QDateTimeEdit) :
   map QtExportSignal signals ++
   (map QtExport . collect)
-  [
+  [ just $ ExportEnum e_Section
+  , just $ ExportBitspace bs_Sections
   ]
 
 c_QDateTimeEdit =
@@ -71,4 +72,19 @@ c_QDateTimeEdit =
 
 signals =
   [
+  ]
+
+(e_Section, bs_Sections) = makeQtEnumBitspace
+  (ident1 "QDateTimeEdit" "Section")
+  "Sections"
+  [includeStd "QDateTimeEdit"]
+  [ (0x0000, ["no", "section"])
+  , (0x0001, ["am", "pm", "section"])
+  , (0x0002, ["m", "sec", "section"])
+  , (0x0004, ["second", "section"])
+  , (0x0008, ["minute", "section"])
+  , (0x0010, ["hour", "section"])
+  , (0x0100, ["day", "section"])
+  , (0x0200, ["month", "section"])
+  , (0x0400, ["year", "section"])
   ]
