@@ -40,6 +40,7 @@ import Foreign.Hoppy.Generator.Types (
   )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
@@ -67,7 +68,28 @@ c_QDateTimeEdit =
   classSetEntityPrefix "" $
   makeClass (ident "QDateTimeEdit") Nothing [c_QAbstractSpinBox] $
   collect
-  [ just $ mkCtor "new" []
+  [
+  -- Properties
+    test (qtVersion >= [4, 2]) $ mkProp "calendarPopup" boolT
+  , just $ mkProp "currentSection" (enumT e_Section)
+  , test (qtVersion >= [4, 3]) $ mkProp "currentSectionIndex" intT
+  , just $ mkProp "date" (objT c_QDate)
+  -- TODO just $ mkProp "dateTime" (objT c_QDateTime)
+  , just $ mkProp "displayFormat" (objT c_QString)
+  , just $ mkConstMethod "displayedSections" [] (bitspaceT bs_Sections)
+  , just $ mkProp "maximumDate" (objT c_QDate)
+  -- TODO test (qtVersion >= [4, 4]) $
+  --      mkProp "maximumDateTime" (objT c_QDateTime)
+  -- TODO just $ mkProp "maximumTime" c_QTime
+  , just $ mkProp "minimumDate" (objT c_QDate)
+  -- TODO test (qtVersion >= [4, 4]) $
+  --      mkProp "minimumDateTime" (objT c_QDateTime)
+  -- TODO just $ mkProp "minimumTime" c_QTime
+  , test (qtVersion >= [4, 3]) $ mkConstMethod "sectionCount" [] intT
+  -- TODO just $ mkProp "time" c_QTime
+  -- TODO test (qtVersion >= [4, 4]) $ mkProp "timeSpec" Qt.TimeSpec
+  -- Public Functions
+  , just $ mkCtor "new" []
   ]
 
 signals =
