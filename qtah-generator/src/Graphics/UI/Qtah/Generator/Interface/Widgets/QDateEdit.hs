@@ -40,6 +40,7 @@ import Foreign.Hoppy.Generator.Types (
   )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
@@ -67,6 +68,9 @@ c_QDateEdit =
   makeClass (ident "QDateEdit") Nothing [c_QDateTimeEdit] $
   collect
   [ just $ mkCtor "new" []
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkCtor "newWithDate" [objT c_QDate]
+  , just $ mkCtor "newWithDateAndParent" [objT c_QDate, ptrT $ objT c_QWidget]
   ]
 
 signals =
