@@ -24,6 +24,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QByteArray as QByteAr
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChar as QChar
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent as QChildEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication as QCoreApplication
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QDate as QDate
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QDir as QDir
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QEvent as QEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QItemSelection as QItemSelection
@@ -65,6 +66,7 @@ modules =
     , QChar.aModule
     , QChildEvent.aModule
     , QCoreApplication.aModule
+    , QDate.aModule
     , QDir.aModule
     , QEvent.aModule
     , QItemSelection.aModule

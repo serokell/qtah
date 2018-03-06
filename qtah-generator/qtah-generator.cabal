@@ -60,6 +60,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QChar
     , Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication
+    , Graphics.UI.Qtah.Generator.Interface.Core.QDate
     , Graphics.UI.Qtah.Generator.Interface.Core.QDir
     , Graphics.UI.Qtah.Generator.Interface.Core.QEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelection
