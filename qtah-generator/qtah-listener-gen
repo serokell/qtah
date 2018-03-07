@@ -93,6 +93,7 @@ forEachListener() {
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
     $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
     $fn QClipboardMode "QClipboard::Mode"
+    $fn QDate "QDate"
     $fn QModelIndex "QModelIndex"
     $fn QModelIndexIntInt "QModelIndex|int|int"
     $fn QModelIndexIntIntQModelIndexInt "QModelIndex|int|int|QModelIndex|int"

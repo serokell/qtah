@@ -43,6 +43,7 @@ import Foreign.Hoppy.Generator.Types (
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (c_QAbstractItemModel)
+import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelection (c_QItemSelection)
 import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
@@ -104,6 +105,7 @@ aModule =
       , just $ ExportCallback cb_PtrQWidgetPtrQWidgetVoid
       , just $ ExportCallback cb_QAbstractSliderActionVoid
       , just $ ExportCallback cb_QClipboardModeVoid
+      , just $ ExportCallback cb_QDateVoid
       , just $ ExportCallback cb_QModelIndexVoid
       , just $ ExportCallback cb_QModelIndexIntIntVoid
       , just $ ExportCallback cb_QModelIndexIntIntQModelIndexIntVoid
@@ -207,6 +209,10 @@ cb_QAbstractSliderActionVoid =
 cb_QClipboardModeVoid =
   makeCallback (toExtName "CallbackQClipboardModeVoid")
   [enumT QClipboard.e_Mode] voidT
+
+cb_QDateVoid =
+  makeCallback (toExtName "CallbackQDateVoid")
+  [objT c_QDate] voidT
 
 cb_QModelIndexVoid =
   makeCallback (toExtName "CallbackQModelIndexVoid")

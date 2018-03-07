@@ -43,7 +43,7 @@ import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQDate)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSpinBox (
   c_QAbstractSpinBox,
   )
@@ -93,7 +93,9 @@ c_QDateTimeEdit =
   ]
 
 signals =
-  [
+  [ makeSignal c_QDateTimeEdit "dateChanged" c_ListenerQDate
+  -- TODO void dateTimeChanged(const QDateTime &datetime)
+  -- TODO void timeChanged(const QTime &time)
   ]
 
 (e_Section, bs_Sections) = makeQtEnumBitspace
