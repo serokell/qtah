@@ -23,7 +23,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QDate (
 import Data.Bits ((.|.))
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportBitspace, ExportEnum, ExportClass),
-  Operator (OpArray),
+  Operator (OpArray, OpNe),
   addReqIncludes,
   classSetConversionToGc,
   classSetEntityPrefix,
@@ -37,12 +37,15 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkProp,
   mkStaticMethod,
+  mkStaticMethod',
   )
 import Foreign.Hoppy.Generator.Spec.ClassFeature (
   ClassFeature (Assignable, Copyable, Equatable),
   classAddFeatures,
   )
-import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, intT, objT, refT, voidT)
+import Foreign.Hoppy.Generator.Types (
+  bitspaceT, boolT, intT, int64T, objT, refT, voidT,
+  )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QChar (c_QChar)
@@ -65,6 +68,40 @@ c_QDate =
   classSetEntityPrefix "" $
   makeClass (ident "QDate") Nothing [] $
   collect
-  [ just $ mkCtor "new" []
-  , just $ mkCtor "newWithYearMonthDay" [intT, intT, intT]
+  [
+  -- Public Functions
+    just $ mkCtor "new" []
+  , just $ mkCtor "newWithYMD" [intT, intT, intT]
+  , just $ mkConstMethod "addDays" [int64T] (objT c_QDate)
+  , just $ mkConstMethod "addMonths" [intT] (objT c_QDate)
+  , just $ mkConstMethod "addYears" [intT] (objT c_QDate)
+  , just $ mkConstMethod "day" [] intT
+  , just $ mkConstMethod "dayOfWeek" [] intT
+  , just $ mkConstMethod "dayOfYear" [] intT
+  , just $ mkConstMethod "daysInMonth" [] intT
+  , just $ mkConstMethod "daysInYear" [] intT
+  , just $ mkConstMethod "daysTo" [objT c_QDate] int64T
+  -- TODO test (qtVersion >= [4, 5]) $ mkConstMethod "getDate" (intT *year, intT *month, intT *day) voidT
+  , just $ mkConstMethod "isNull" [] boolT
+  , just $ mkConstMethod "isValid" [] boolT
+  , just $ mkConstMethod "month" [] intT
+  , test (qtVersion >= [4, 2]) $ mkMethod "setDate" [intT, intT, intT] boolT
+  , just $ mkConstMethod "toJulianDay" [] int64T
+  , just $ mkConstMethod'
+      "toString" "toStringWithStringFormat" [objT c_QString] (objT c_QString)
+  , just $ mkConstMethod "toString" [] (objT c_QString)
+  -- TODO just $ mkConstMethod' "toString" "toStringWithDateFormat" [DateFormat] (objT c_QString)
+  -- TODO just $ mkConstMethod' "toString" "toStringWithStringViewFormat" [objT c_QStringView] (objT c_QString)
+  , just $ mkConstMethod "weekNumber" [] intT
+  -- TODO just $ mkConstMethod' "weekNumber" "weekNumberWithYearNumber" (intT *yearNumber = Q_NULLPTR) intT
+  , just $ mkConstMethod "year" [] intT
+
+  -- Static Public Members
+  , just $ mkStaticMethod "currentDate" [] (objT c_QDate)
+  , just $ mkStaticMethod "fromJulianDay" [int64T] (objT c_QDate)
+  , just $ mkStaticMethod "fromString" [objT c_QString] (objT c_QDate)
+  -- TODO just $ mkStaticMethod' "fromString" "fromStringWithDateFormat" [objT c_QString, Qt::DateFormat] (objT c_QDate)
+  , just $ mkStaticMethod' "fromString" "fromStringWithStringFormat" [objT c_QString, objT c_QString] (objT c_QDate)
+  , just $ mkStaticMethod "isLeapYear" [intT] boolT
+  , just $ mkStaticMethod' "isValid" "isValidYMD" [intT, intT, intT] boolT
   ]
