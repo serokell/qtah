@@ -32,8 +32,6 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeFnMethod,
   makeClass,
-  mkBoolIsProp,
-  mkProp,
   mkStaticMethod,
   mkStaticMethod',
   )
@@ -61,22 +59,27 @@ c_QCoreApplication =
   classSetEntityPrefix "" $
   makeClass (ident "QCoreApplication") Nothing [c_QObject] $
   collect
-  [ just $ mkProp "applicationName" (objT c_QString)
-  , just $ mkProp "applicationVersion" (objT c_QString)
-  , just $ mkProp "organizationDomain" (objT c_QString)
-  , just $ mkProp "organizationName" (objT c_QString)
-  , just $ mkBoolIsProp "quitLockEnabled"
-  , just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
+  [ just $ makeFnMethod (ident2 "qtah" "qcoreapplication" "create") "new" MStatic Nonpure
     [objT c_QStringList] $ ptrT $ objT c_QCoreApplication
+  , just $ mkStaticMethod "applicationName" [] $ objT c_QString
+  , just $ mkStaticMethod "applicationVersion" [] $ objT c_QString
   , test (qtVersion >= [4, 1]) $ mkStaticMethod "arguments" [] $ objT c_QStringList
   , just $ mkStaticMethod "exec" [] voidT
   , just $ mkStaticMethod "exit" [intT] voidT
   , just $ mkStaticMethod' "instance" "getInstance" [] $ ptrT $ objT c_QCoreApplication
+  , test (qtVersion >= [5, 0]) $ mkStaticMethod "isQuitLockEnabled" [] boolT
+  , just $ mkStaticMethod "organizationDomain" [] $ objT c_QString
+  , just $ mkStaticMethod "organizationName" [] $ objT c_QString
   , test (qtVersion >= [4, 3]) $ mkStaticMethod' "postEvent" "postEvent"
     [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] voidT
   , test (qtVersion >= [4, 3]) $ mkStaticMethod' "postEvent" "postEventWithPriority"
     [ptrT $ objT c_QObject, ptrT $ objT c_QEvent, intT] voidT
   , just $ mkStaticMethod "quit" [] voidT
   , just $ mkStaticMethod "sendEvent" [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] boolT
+  , just $ mkStaticMethod "setApplicationName" [objT c_QString] voidT
+  , just $ mkStaticMethod "setApplicationVersion" [objT c_QString] voidT
+  , just $ mkStaticMethod "setOrganizationDomain" [objT c_QString] voidT
+  , just $ mkStaticMethod "setOrganizationName" [objT c_QString] voidT
+  , test (qtVersion >= [5, 0]) $ mkStaticMethod "setQuitLockEnabled" [boolT] voidT
     -- TODO Other methods.
   ]
