@@ -28,26 +28,18 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
-  mkBoolIsProp,
   mkConstMethod,
   mkCtor,
   mkMethod,
   mkMethod',
-  mkProp,
   )
 import Foreign.Hoppy.Generator.Types (
-  bitspaceT, boolT, constT, enumT, intT, objT, ptrT, voidT,
+  bitspaceT, boolT, intT, objT, ptrT, voidT,
   )
-import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (
-  e_Orientation,
-  e_ToolButtonStyle,
-  bs_WindowFlags,
-  )
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_WindowFlags)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerInt)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame (c_QFrame)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)

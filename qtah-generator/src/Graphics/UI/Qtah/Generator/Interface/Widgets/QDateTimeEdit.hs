@@ -28,26 +28,19 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   makeClass,
-  mkBoolIsProp,
-  mkBoolHasProp,
   mkConstMethod,
   mkCtor,
-  mkMethod,
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (
-  bitspaceT, boolT, enumT, intT, objT, ptrT, refT, voidT,
-  )
+import Foreign.Hoppy.Generator.Types (bitspaceT, boolT, enumT, intT, objT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQDate)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSpinBox (
   c_QAbstractSpinBox,
   )
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 

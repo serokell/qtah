@@ -19,55 +19,51 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QSettings (
   aModule,
   ) where
 
-import           Foreign.Hoppy.Generator.Spec                       (Class, Export (ExportClass),
-                                                                     addReqIncludes,
-                                                                     classSetEntityPrefix,
-                                                                     ident,
-                                                                     includeStd,
-                                                                     makeClass,
-                                                                     mkConstMethod,
-                                                                     mkConstMethod',
-                                                                     mkCtor,
-                                                                     mkMethod)
-import           Foreign.Hoppy.Generator.Types                      (intT, objT,
-                                                                     ptrT,
-                                                                     voidT)
-import           Graphics.UI.Qtah.Generator.Interface.Core.QEvent   (c_QEvent)
-import           Graphics.UI.Qtah.Generator.Interface.Core.QObject  (c_QObject)
-import           Graphics.UI.Qtah.Generator.Interface.Core.QString  (c_QString)
-import           Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
-import           Graphics.UI.Qtah.Generator.Module                  (AModule (AQtModule),
-                                                                     makeQtModule)
-import           Graphics.UI.Qtah.Generator.Types
+import Foreign.Hoppy.Generator.Spec (
+  Class,
+  Export (ExportClass),
+  addReqIncludes,
+  classSetEntityPrefix,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkConstMethod',
+  mkCtor,
+  mkMethod,
+  )
+import Foreign.Hoppy.Generator.Types (objT, ptrT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
+import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
+import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
 
 aModule :: AModule
-aModule = AQtModule
-  $ makeQtModule ["Core", "QSettings"] [QtExport $ ExportClass c_QSettings]
+aModule =
+  AQtModule $
+  makeQtModule ["Core", "QSettings"]
+  [QtExport $ ExportClass c_QSettings]
 
 c_QSettings :: Class
 c_QSettings =
-  addReqIncludes [includeStd "QSettings"] $ classSetEntityPrefix "" $ makeClass
-    (ident "QSettings")
-    Nothing
-    [c_QObject]
-    [ mkCtor "new"                 []
-    , mkCtor "newWithOrganization" [objT c_QString]
-    , mkCtor "newWithOrganizationAndApplication"
-             [objT c_QString, objT c_QString]
-    , mkCtor "newWithOrganizationAndApplicationAndParent"
-             [objT c_QString, objT c_QString, ptrT $ objT c_QObject]
-    , mkCtor "newWithParent" [ptrT $ objT c_QObject]
-    -- TODO QSettings(Scope scope, const QString &organization,
-    --      const QString &application = QString(), QObject *parent = Q_NULLPTR)
-    -- TODO QSettings(Format format, Scope scope, const QString &organization,
-    --      const QString &application = QString(), QObject *parent = Q_NULLPTR)
-    -- TODO QSettings(const QString &fileName, Format format, QObject *parent = Q_NULLPTR)
-    , mkMethod      "setValue" [objT c_QString, objT c_QVariant] voidT
-    , mkConstMethod "value" [objT c_QString] (objT c_QVariant)
-    , mkConstMethod' "value"
-                     "valueWithDefault"
-                     [objT c_QString, objT c_QVariant]
-                     (objT c_QVariant)
-    ]
+  addReqIncludes [includeStd "QSettings"] $
+  classSetEntityPrefix "" $
+  makeClass (ident "QSettings") Nothing [c_QObject]
+  [ mkCtor "new" []
+  , mkCtor "newWithOrganization" [objT c_QString]
+  , mkCtor "newWithOrganizationAndApplication" [objT c_QString, objT c_QString]
+  , mkCtor "newWithOrganizationAndApplicationAndParent"
+    [objT c_QString, objT c_QString, ptrT $ objT c_QObject]
+  , mkCtor "newWithParent" [ptrT $ objT c_QObject]
+  -- TODO QSettings(Scope scope, const QString &organization,
+  --      const QString &application = QString(), QObject *parent = Q_NULLPTR)
+  -- TODO QSettings(Format format, Scope scope, const QString &organization,
+  --      const QString &application = QString(), QObject *parent = Q_NULLPTR)
+  -- TODO QSettings(const QString &fileName, Format format, QObject *parent = Q_NULLPTR)
+  , mkMethod "setValue" [objT c_QString, objT c_QVariant] voidT
+  , mkConstMethod "value" [objT c_QString] (objT c_QVariant)
+  , mkConstMethod' "value" "valueWithDefault" [objT c_QString, objT c_QVariant] (objT c_QVariant)
+  ]

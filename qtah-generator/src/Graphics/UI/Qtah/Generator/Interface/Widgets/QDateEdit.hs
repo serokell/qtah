@@ -21,29 +21,17 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QDateEdit (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Export (ExportBitspace, ExportClass, ExportEnum),
+  Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
-  ident1,
   includeStd,
   makeClass,
-  mkBoolIsProp,
-  mkBoolHasProp,
-  mkConstMethod,
   mkCtor,
-  mkMethod,
-  mkProp,
   )
-import Foreign.Hoppy.Generator.Types (
-  bitspaceT, boolT, enumT, intT, objT, ptrT, refT, voidT,
-  )
-import Foreign.Hoppy.Generator.Version (collect, just, test)
-import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Foreign.Hoppy.Generator.Types (objT, ptrT)
+import Foreign.Hoppy.Generator.Version (collect, just)
 import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
-import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment)
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit (
   c_QDateTimeEdit,
   )

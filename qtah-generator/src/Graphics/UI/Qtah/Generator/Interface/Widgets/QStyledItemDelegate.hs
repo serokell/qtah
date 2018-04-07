@@ -21,56 +21,19 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QStyledItemDelegate (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Export (ExportBitspace, ExportEnum, ExportClass),
+  Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
-  ident1,
   includeStd,
   makeClass,
-  mkBoolHasProp,
-  mkConstMethod,
   mkCtor,
-  mkMethod,
-  mkMethod',
-  mkProp,
   )
-import Foreign.Hoppy.Generator.Types (
-  bitspaceT,
-  boolT,
-  enumT,
-  intT,
-  objT,
-  ptrT,
-  voidT,
-  )
-import Graphics.UI.Qtah.Generator.Interface.Core.QAbstractItemModel (c_QAbstractItemModel)
-import Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel (c_QItemSelectionModel)
+import Foreign.Hoppy.Generator.Types (objT, ptrT)
 -- import Graphics.UI.Qtah.Generator.Interface.Core.QLocale (c_QLocale)
-import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
-import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
-import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
-import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
-import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (
-  e_DropAction,
-  e_TextElideMode,
-  )
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
-  c_Listener,
-  c_ListenerQModelIndex,
-  c_ListenerQSize,
-  )
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate (
-  c_QAbstractItemDelegate,
-  )
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea (c_QAbstractScrollArea)
-import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
-import Graphics.UI.Qtah.Generator.Module (
-  AModule (AQtModule), makeQtModule, makeQtModuleWithMinVersion,
-  )
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate (c_QAbstractItemDelegate)
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModuleWithMinVersion)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
