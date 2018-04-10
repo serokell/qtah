@@ -93,6 +93,8 @@ generateSources localBuildInfo = do
 
   -- Cabal 1.24 (GHC 8?) seems to remove the executable bit from
   -- qtah-listener-gen before configuring, so we have to re-add it.
+  --
+  -- See: https://github.com/haskell/cabal/issues/4170
   perms <- getPermissions genPath
   unless (executable perms) $
     setPermissions genPath $ setOwnerExecutable True perms
