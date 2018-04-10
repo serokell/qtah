@@ -80,6 +80,7 @@ c_QTreeView =
   , just $ mkMethod "hideColumn" [intT] voidT
   , just $ mkMethod "resizeColumnToContents" [intT] voidT
   , just $ mkMethod "showColumn" [intT] voidT
+  -- TODO Other methods.
   ]
 
 signals :: [Signal]

@@ -66,7 +66,7 @@ c_QDate =
   [
   -- Public Functions
     just $ mkCtor "new" []
-  , just $ mkCtor "newWithYMD" [intT, intT, intT]
+  , just $ mkCtor "newWithYmd" [intT, intT, intT]
   , just $ mkConstMethod "addDays" [int64T] (objT c_QDate)
   , just $ mkConstMethod "addMonths" [intT] (objT c_QDate)
   , just $ mkConstMethod "addYears" [intT] (objT c_QDate)
@@ -104,5 +104,5 @@ c_QDate =
   , just $ mkStaticMethod' "fromString" "fromStringWithStringFormat"
     [objT c_QString, objT c_QString] (objT c_QDate)
   , just $ mkStaticMethod "isLeapYear" [intT] boolT
-  , just $ mkStaticMethod' "isValid" "isValidYMD" [intT, intT, intT] boolT
+  , just $ mkStaticMethod' "isValid" "isValidYmd" [intT, intT, intT] boolT
   ]

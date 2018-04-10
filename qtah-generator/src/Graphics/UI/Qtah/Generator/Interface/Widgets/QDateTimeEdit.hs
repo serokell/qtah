@@ -83,6 +83,7 @@ c_QDateTimeEdit =
   -- TODO test (qtVersion >= [4, 4]) $ mkProp "timeSpec" Qt.TimeSpec
   -- Public Functions
   , just $ mkCtor "new" []
+  -- TODO Other methods.
   ]
 
 signals =

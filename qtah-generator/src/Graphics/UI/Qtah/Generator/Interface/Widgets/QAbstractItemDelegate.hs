@@ -44,9 +44,9 @@ c_QAbstractItemDelegate =
   addReqIncludes [includeStd "QAbstractItemDelegate"] $
   classSetEntityPrefix "" $
   makeClass (ident "QAbstractItemDelegate") Nothing [c_QObject] $
-  [
+  [ -- TODO Methods.
   ]
 
 signals =
-  [
+  [ -- TODO Signals.
   ]

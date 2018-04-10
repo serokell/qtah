@@ -42,9 +42,8 @@ minVersion = [4, 4]
 
 aModule =
   AQtModule $
-  makeQtModuleWithMinVersion ["Widgets", "QStyledItemDelegate"] minVersion $
-  QtExport (ExportClass c_QStyledItemDelegate) :
-  map QtExportSignal signals
+  makeQtModuleWithMinVersion ["Widgets", "QStyledItemDelegate"] minVersion
+  [ QtExport $ ExportClass c_QStyledItemDelegate ]
 
 c_QStyledItemDelegate =
   addReqIncludes [includeStd "QStyledItemDelegate"] $
@@ -58,8 +57,4 @@ c_QStyledItemDelegate =
   --     "displayText" [objT c_QVariant, objT c_QLocale] (objT c_QString)
   -- TODO QItemEditorFactory * itemEditorFactory() const
   -- TODO void setItemEditorFactory(QItemEditorFactory *factory)
-  ]
-
-signals =
-  [
   ]

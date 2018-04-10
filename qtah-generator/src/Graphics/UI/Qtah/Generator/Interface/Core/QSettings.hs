@@ -66,4 +66,5 @@ c_QSettings =
   , mkMethod "setValue" [objT c_QString, objT c_QVariant] voidT
   , mkConstMethod "value" [objT c_QString] (objT c_QVariant)
   , mkConstMethod' "value" "valueWithDefault" [objT c_QString, objT c_QVariant] (objT c_QVariant)
+  -- TODO Other methods.
   ]

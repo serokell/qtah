@@ -43,12 +43,8 @@ import Graphics.UI.Qtah.Generator.Types
 
 aModule =
   AQtModule $
-  makeQtModule ["Widgets", "QDateEdit"] $
-  QtExport (ExportClass c_QDateEdit) :
-  map QtExportSignal signals ++
-  (map QtExport . collect)
-  [
-  ]
+  makeQtModule ["Widgets", "QDateEdit"]
+  [ QtExport $ ExportClass c_QDateEdit ]
 
 c_QDateEdit =
   addReqIncludes [includeStd "QDateEdit"] $
@@ -59,8 +55,4 @@ c_QDateEdit =
   , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
   , just $ mkCtor "newWithDate" [objT c_QDate]
   , just $ mkCtor "newWithDateAndParent" [objT c_QDate, ptrT $ objT c_QWidget]
-  ]
-
-signals =
-  [
   ]
