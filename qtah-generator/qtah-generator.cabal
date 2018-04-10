@@ -60,6 +60,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QChar
     , Graphics.UI.Qtah.Generator.Interface.Core.QChildEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QCoreApplication
+    , Graphics.UI.Qtah.Generator.Interface.Core.QDate
     , Graphics.UI.Qtah.Generator.Interface.Core.QDir
     , Graphics.UI.Qtah.Generator.Interface.Core.QEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelection
@@ -75,6 +76,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QPointF
     , Graphics.UI.Qtah.Generator.Interface.Core.QRect
     , Graphics.UI.Qtah.Generator.Interface.Core.QRectF
+    , Graphics.UI.Qtah.Generator.Interface.Core.QSettings
     , Graphics.UI.Qtah.Generator.Interface.Core.QSize
     , Graphics.UI.Qtah.Generator.Interface.Core.QSizeF
     , Graphics.UI.Qtah.Generator.Interface.Core.QString
@@ -135,6 +137,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider
@@ -145,6 +148,8 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QDateEdit
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDial
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox
@@ -189,10 +194,12 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QStyledItemDelegate
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout

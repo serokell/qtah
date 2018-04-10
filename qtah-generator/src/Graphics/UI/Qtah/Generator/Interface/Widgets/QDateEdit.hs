@@ -1,6 +1,6 @@
 -- This file is part of Qtah.
 --
--- Copyright 2015-2018 The Qtah Authors.
+-- Copyright 2018 The Qtah Authors.
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU Lesser General Public License as published by
@@ -15,29 +15,27 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-module Graphics.UI.Qtah.Generator.Interface.Gui.QFont (
+module Graphics.UI.Qtah.Generator.Interface.Widgets.QDateEdit (
   aModule,
-  c_QFont,
+  c_QDateEdit,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
   addReqIncludes,
-  classSetConversionToGc,
   classSetEntityPrefix,
   ident,
   includeStd,
   makeClass,
   mkCtor,
-  mkConstMethod,
-  mkMethod,
   )
-import Foreign.Hoppy.Generator.Spec.ClassFeature (
-  ClassFeature (Assignable, Copyable, Equatable),
-  classAddFeatures,
-  )
-import Foreign.Hoppy.Generator.Types (boolT, intT, voidT)
+import Foreign.Hoppy.Generator.Types (objT, ptrT)
 import Foreign.Hoppy.Generator.Version (collect, just)
+import Graphics.UI.Qtah.Generator.Interface.Core.QDate (c_QDate)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit (
+  c_QDateTimeEdit,
+  )
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QWidget (c_QWidget)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -45,24 +43,16 @@ import Graphics.UI.Qtah.Generator.Types
 
 aModule =
   AQtModule $
-  makeQtModule ["Gui", "QFont"]
-  [ QtExport $ ExportClass c_QFont
-  ]
+  makeQtModule ["Widgets", "QDateEdit"]
+  [ QtExport $ ExportClass c_QDateEdit ]
 
-c_QFont =
-  addReqIncludes [includeStd "QFont"] $
-  classSetConversionToGc $
-  classAddFeatures [Assignable, Copyable, Equatable] $
+c_QDateEdit =
+  addReqIncludes [includeStd "QDateEdit"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QFont") Nothing [] $
+  makeClass (ident "QDateEdit") Nothing [c_QDateTimeEdit] $
   collect
   [ just $ mkCtor "new" []
-  , just $ mkConstMethod "bold" [] boolT
-  , just $ mkMethod "setBold" [boolT] voidT
-  , just $ mkMethod "setPixelSize" [intT] voidT
-  , just $ mkMethod "setPointSize" [intT] voidT
-  , just $ mkMethod "setWeight" [intT] voidT
-  , just $ mkConstMethod "weight" [] intT
+  , just $ mkCtor "newWithParent" [ptrT $ objT c_QWidget]
+  , just $ mkCtor "newWithDate" [objT c_QDate]
+  , just $ mkCtor "newWithDateAndParent" [objT c_QDate, ptrT $ objT c_QWidget]
   ]
-
--- TODO The rest of QFont.

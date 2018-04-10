@@ -36,6 +36,7 @@ library
     , Graphics.UI.Qtah.Core.QChar
     , Graphics.UI.Qtah.Core.QChildEvent
     , Graphics.UI.Qtah.Core.QCoreApplication
+    , Graphics.UI.Qtah.Core.QDate
     , Graphics.UI.Qtah.Core.QDir
     , Graphics.UI.Qtah.Core.QEvent
     , Graphics.UI.Qtah.Core.QItemSelection
@@ -61,6 +62,7 @@ library
     , Graphics.UI.Qtah.Core.QPointF
     , Graphics.UI.Qtah.Core.QRect
     , Graphics.UI.Qtah.Core.QRectF
+    , Graphics.UI.Qtah.Core.QSettings
     , Graphics.UI.Qtah.Core.QSize
     , Graphics.UI.Qtah.Core.QSizeF
     , Graphics.UI.Qtah.Core.QString
@@ -124,6 +126,7 @@ library
     , Graphics.UI.Qtah.Std
     , Graphics.UI.Qtah.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Widgets.QAbstractItemDelegate
     , Graphics.UI.Qtah.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Widgets.QAbstractSlider
@@ -134,6 +137,8 @@ library
     , Graphics.UI.Qtah.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Widgets.QDateEdit
+    , Graphics.UI.Qtah.Widgets.QDateTimeEdit
     , Graphics.UI.Qtah.Widgets.QDial
     , Graphics.UI.Qtah.Widgets.QDialog
     , Graphics.UI.Qtah.Widgets.QDialogButtonBox
@@ -178,10 +183,12 @@ library
     , Graphics.UI.Qtah.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Widgets.QStackedWidget
     , Graphics.UI.Qtah.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Widgets.QStyledItemDelegate
     , Graphics.UI.Qtah.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Widgets.QTabWidget
     , Graphics.UI.Qtah.Widgets.QTextEdit
     , Graphics.UI.Qtah.Widgets.QToolBar
+    , Graphics.UI.Qtah.Widgets.QToolBox
     , Graphics.UI.Qtah.Widgets.QTreeView
     , Graphics.UI.Qtah.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Widgets.QTreeWidgetItem
@@ -195,6 +202,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QChar
     , Graphics.UI.Qtah.Generated.Core.QChildEvent
     , Graphics.UI.Qtah.Generated.Core.QCoreApplication
+    , Graphics.UI.Qtah.Generated.Core.QDate
     , Graphics.UI.Qtah.Generated.Core.QDir
     , Graphics.UI.Qtah.Generated.Core.QEvent
     , Graphics.UI.Qtah.Generated.Core.QItemSelection
@@ -220,6 +228,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QPointF
     , Graphics.UI.Qtah.Generated.Core.QRect
     , Graphics.UI.Qtah.Generated.Core.QRectF
+    , Graphics.UI.Qtah.Generated.Core.QSettings
     , Graphics.UI.Qtah.Generated.Core.QSize
     , Graphics.UI.Qtah.Generated.Core.QSizeF
     , Graphics.UI.Qtah.Generated.Core.QString
@@ -278,6 +287,7 @@ library
     , Graphics.UI.Qtah.Generated.Internal.SceneEventListener
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractButton
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractGraphicsShapeItem
+    , Graphics.UI.Qtah.Generated.Widgets.QAbstractItemDelegate
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractItemView
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractScrollArea
     , Graphics.UI.Qtah.Generated.Widgets.QAbstractSlider
@@ -288,6 +298,8 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Generated.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Generated.Widgets.QDateEdit
+    , Graphics.UI.Qtah.Generated.Widgets.QDateTimeEdit
     , Graphics.UI.Qtah.Generated.Widgets.QDial
     , Graphics.UI.Qtah.Generated.Widgets.QDialog
     , Graphics.UI.Qtah.Generated.Widgets.QDialogButtonBox
@@ -332,10 +344,12 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QStackedLayout
     , Graphics.UI.Qtah.Generated.Widgets.QStackedWidget
     , Graphics.UI.Qtah.Generated.Widgets.QStatusBar
+    , Graphics.UI.Qtah.Generated.Widgets.QStyledItemDelegate
     , Graphics.UI.Qtah.Generated.Widgets.QSystemTrayIcon
     , Graphics.UI.Qtah.Generated.Widgets.QTabWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QToolBar
+    , Graphics.UI.Qtah.Generated.Widgets.QToolBox
     , Graphics.UI.Qtah.Generated.Widgets.QTreeView
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidgetItem

@@ -54,6 +54,7 @@ import Foreign.Hoppy.Generator.Types (
   )
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QChar (c_QChar)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQVariant)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPoint (c_QPoint)
@@ -91,6 +92,7 @@ c_QVariant =
   collect
   [ just $ mkCtor "new" []
   , just $ mkCtor "newWithBool" [boolT]
+  , just $ mkCtor "newWithByteArray" [objT c_QByteArray]
   , just $ mkCtor "newWithChar" [objT c_QChar]
   , just $ mkCtor "newWithDouble" [doubleT]
   , test (qtVersion >= [4, 6]) $ mkCtor "newWithFloat" [floatT]
@@ -135,6 +137,7 @@ c_QVariant =
   , just $ mkMethod' "setValue" "setToULongLong" [ullongT] voidT
   , test (qtVersion >= [4, 8]) $ mkMethod' "setValue" "swap" [refT $ objT c_QVariant] voidT
   , just $ mkConstMethod "toBool" [] boolT
+  , just $ mkConstMethod "toByteArray" [] (objT c_QByteArray)
   , just $ mkConstMethod "toChar" [] $ objT c_QChar
   , just $ mkConstMethod "toDouble" [] doubleT
   , test (qtVersion >= [4, 6]) $ mkConstMethod "toFloat" [] floatT

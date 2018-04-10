@@ -28,13 +28,15 @@ import Foreign.Hoppy.Generator.Spec (
   ident,
   includeStd,
   makeClass,
-  mkCtor,
   mkBoolIsProp,
+  mkCtor,
   mkMethod,
+  mkProp,
   )
-import Foreign.Hoppy.Generator.Types (intT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
+import Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex (c_QModelIndex)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView (c_QAbstractItemView)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
@@ -54,11 +56,31 @@ c_QTreeView =
   classSetEntityPrefix "" $
   makeClass (ident "QTreeView") Nothing [c_QAbstractItemView] $
   collect
-  [ just $ mkCtor "new" []
-  , just $ mkBoolIsProp "headerHidden"
-  , just $ mkMethod "resizeColumnToContents" [intT] voidT
+  [
+  -- Properties
+    test (qtVersion >= [4, 2]) $ mkProp "allColumnsShowFocus" boolT
+  , test (qtVersion >= [4, 2]) $ mkBoolIsProp "animated"
+  , test (qtVersion >= [4, 3]) $ mkProp "autoExpandDelay" intT
+  , test (qtVersion >= [4, 4]) $ mkProp "expandsOnDoubleClick" boolT
+  , test (qtVersion >= [4, 4]) $ mkBoolIsProp "headerHidden"
+  , just $ mkProp "indentation" intT
+  , just $ mkProp "itemsExpandable" boolT
+  , just $ mkProp "rootIsDecorated" boolT
   , test (qtVersion >= [4, 2]) $ mkBoolIsProp "sortingEnabled"
-  -- TODO add more methods
+  , just $ mkProp "uniformRowHeights" boolT
+  , test (qtVersion >= [4, 3]) $ mkProp "wordWrap" boolT
+  -- Public Functions
+  , just $ mkCtor "new" []
+  -- Public Slots
+  , just $ mkMethod "collapse" [objT c_QModelIndex] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod "collapseAll" [] voidT
+  , just $ mkMethod "expand" [objT c_QModelIndex] voidT
+  , test (qtVersion >= [4, 2]) $ mkMethod "expandAll" [] voidT
+  , test (qtVersion >= [4, 3]) $ mkMethod "expandToDepth" [intT] voidT
+  , just $ mkMethod "hideColumn" [intT] voidT
+  , just $ mkMethod "resizeColumnToContents" [intT] voidT
+  , just $ mkMethod "showColumn" [intT] voidT
+  -- TODO Other methods.
   ]
 
 signals :: [Signal]

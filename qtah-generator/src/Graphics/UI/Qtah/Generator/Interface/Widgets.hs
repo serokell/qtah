@@ -19,6 +19,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets (modules) where
 
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButton as QAbstractButton
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractGraphicsShapeItem as QAbstractGraphicsShapeItem
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemDelegate as QAbstractItemDelegate
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractItemView as QAbstractItemView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractScrollArea as QAbstractScrollArea
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider as QAbstractSlider
@@ -29,6 +30,8 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QApplication as QA
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QBoxLayout as QBoxLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup as QButtonGroup
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QCheckBox as QCheckBox
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDateEdit as QDateEdit
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit as QDateTimeEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog as QDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox as QDialogButtonBox
@@ -73,10 +76,12 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSplitter as QSpli
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedLayout as QStackedLayout
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStackedWidget as QStackedWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar as QStatusBar
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QStyledItemDelegate as QStyledItemDelegate
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon as QSystemTrayIcon
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget as QTabWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar as QToolBar
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBox as QToolBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView as QTreeView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget as QTreeWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout as QVBoxLayout
@@ -89,6 +94,7 @@ modules :: [AModule]
 modules =
   [ QAbstractButton.aModule
   , QAbstractGraphicsShapeItem.aModule
+  , QAbstractItemDelegate.aModule
   , QAbstractItemView.aModule
   , QAbstractScrollArea.aModule
   , QAbstractSlider.aModule
@@ -99,6 +105,8 @@ modules =
   , QBoxLayout.aModule
   , QButtonGroup.aModule
   , QCheckBox.aModule
+  , QDateEdit.aModule
+  , QDateTimeEdit.aModule
   , QDial.aModule
   , QDialog.aModule
   , QDialogButtonBox.aModule
@@ -143,10 +151,12 @@ modules =
   , QStackedLayout.aModule
   , QStackedWidget.aModule
   , QStatusBar.aModule
+  , QStyledItemDelegate.aModule
   , QSystemTrayIcon.aModule
   , QTabWidget.aModule
   , QTextEdit.aModule
   , QToolBar.aModule
+  , QToolBox.aModule
   , QTreeView.aModule
   , QTreeWidget.aModule
   , QTreeWidget.itemModule
