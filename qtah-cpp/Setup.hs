@@ -39,6 +39,7 @@ import Distribution.Simple.LocalBuildInfo (
   absoluteInstallDirs,
   buildDir,
   libdir,
+  dynlibdir,
   localPkgDescr,
   withPrograms,
   )
@@ -202,10 +203,16 @@ doInstall verbosity packageDesc localBuildInfo copyDest = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
       libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
+      dynlibDir = dynlibdir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
       programDb = withPrograms localBuildInfo
 
   -- Call the makefile to install the C++ shared library into the package's
   -- libdir.
+  -- XXX maksbotan: I'm done with this. When compiling TH, GHC searches for libraries
+  -- in `dynlibdir`, but when configuring depending packages Cabal searches for libraries
+  -- only in `libdir`. Hacking it away right now with this duplication.
+  runDbProgram verbosity makeProgram programDb
+    ["-C", cppSourceDir, "install", "INSTALL_ROOT=" ++ dynlibDir]
   runDbProgram verbosity makeProgram programDb
     ["-C", cppSourceDir, "install", "INSTALL_ROOT=" ++ libDir]
 
