@@ -47,6 +47,7 @@ import Distribution.Simple.Program (
   ProgramConfiguration,
   getProgramOutput,
   lookupProgram,
+  programPath,
   runDbProgram,
   simpleProgram,
   )
@@ -70,9 +71,9 @@ import Distribution.Simple.Setup (
 import Distribution.Simple.UserHooks (
   UserHooks (
     buildHook,
-    hookedPrograms,
     cleanHook,
     copyHook,
+    hookedPrograms,
     instHook,
     postConf
     ),
@@ -109,7 +110,7 @@ main = defaultMainWithHooks qtahHooks
 
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
-  { hookedPrograms = [generatorProgram, listenerGenProgram, makeProgram]
+  { hookedPrograms = [bashProgram, generatorProgram, listenerGenProgram, makeProgram]
   , postConf = \args cf pd lbi -> do generateSources cf lbi
                                      postConf simpleUserHooks args cf pd lbi
   , buildHook = \pd lbi uh bf -> do doBuild lbi bf
@@ -126,6 +127,9 @@ qtahHooks = simpleUserHooks
   , cleanHook = \pd z uh cf -> do doClean cf
                                   cleanHook simpleUserHooks pd z uh cf
   }
+
+bashProgram :: Program
+bashProgram = simpleProgram "bash"
 
 generatorProgram :: Program
 generatorProgram = simpleProgram "qtah-generator"
@@ -159,9 +163,15 @@ generateSources configFlags localBuildInfo = do
   -- to the generator.
   _ <- exportQtVersion configFlags localBuildInfo
 
+  listenerGenPath <- case lookupProgram listenerGenProgram programDb of
+    Nothing ->
+      die $ packageName ++
+      ": Couldn't find qtah-listener-gen.  Is qtah-generator installed and on the path?"
+    Just configuredProgram -> return $ programPath configuredProgram
+
   -- Generate binding source code.
   runDbProgram verbosity generatorProgram programDb ["--gen-cpp", "cpp"]
-  runDbProgram verbosity listenerGenProgram programDb ["--gen-cpp-dir", "cpp"]
+  runDbProgram verbosity bashProgram programDb [listenerGenPath, "--gen-cpp-dir", "cpp"]
 
   -- Run qmake to generate the makefile.
   setCurrentDirectory cppSourceDir

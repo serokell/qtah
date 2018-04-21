@@ -25,16 +25,15 @@ import Distribution.Simple.LocalBuildInfo (
   absoluteInstallDirs,
   bindir,
   pkgDescrFile,
+  withPrograms,
   )
-import Distribution.Simple.Program (runProgram)
-import Distribution.Simple.Program.Types (
-  ProgramLocation (FoundOnSystem),
-  simpleConfiguredProgram,
-  )
+import Distribution.Simple.Program (Program, runDbProgram, simpleProgram)
 import Distribution.Simple.Setup (
+  ConfigFlags,
   CleanFlags,
   CopyDest (CopyTo, NoCopyDest),
   cleanVerbosity,
+  configVerbosity,
   copyDest,
   flagToMaybe,
   fromFlagOrDefault,
@@ -44,6 +43,7 @@ import Distribution.Simple.UserHooks (
   UserHooks (
     cleanHook,
     copyHook,
+    hookedPrograms,
     instHook,
     postConf
     ),
@@ -67,7 +67,8 @@ main = defaultMainWithHooks qtahHooks
 
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
-  { postConf = \_ _ _ lbi -> generateSources lbi
+  { hookedPrograms = [bashProgram]
+  , postConf = \_ cf _ lbi -> generateSources cf lbi
   , copyHook = \pd lbi uh cf -> do let dest = fromFlagOrDefault NoCopyDest $ copyDest cf
                                    doInstall pd lbi dest
                                    copyHook simpleUserHooks pd lbi uh cf
@@ -79,17 +80,21 @@ qtahHooks = simpleUserHooks
                                   cleanHook simpleUserHooks pd z uh cf
   }
 
+bashProgram :: Program
+bashProgram = simpleProgram "bash"
+
 findProjectRootDir :: LocalBuildInfo -> IO FilePath
 findProjectRootDir localBuildInfo = case pkgDescrFile localBuildInfo of
   Just path -> return $ takeDirectory path
   Nothing -> die "Couldn't find the project root path."
 
-generateSources :: LocalBuildInfo -> IO ()
-generateSources localBuildInfo = do
+generateSources :: ConfigFlags -> LocalBuildInfo -> IO ()
+generateSources configFlags localBuildInfo = do
   -- Generate binding sources for the generated C++ listener classes.
   projectRootDir <- findProjectRootDir localBuildInfo
   let genPath = projectRootDir </> "qtah-listener-gen"
-      program = simpleConfiguredProgram "qtah-listener-gen" $ FoundOnSystem genPath
+      programDb = withPrograms localBuildInfo
+      verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
 
   -- Cabal 1.24 (GHC 8?) seems to remove the executable bit from
   -- qtah-listener-gen before configuring, so we have to re-add it.
@@ -99,7 +104,7 @@ generateSources localBuildInfo = do
   unless (executable perms) $
     setPermissions genPath $ setOwnerExecutable True perms
 
-  runProgram normal program ["--gen-hs-dir", "."]
+  runDbProgram verbosity bashProgram programDb [genPath, "--gen-hs-dir", "."]
 
 doInstall :: PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
 doInstall packageDesc localBuildInfo copyDest = do
