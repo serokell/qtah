@@ -21,9 +21,9 @@
 import Control.Applicative ((<|>))
 import Control.Monad (unless, when)
 import Data.Char (isDigit)
-import Data.List (isInfixOf, isPrefixOf)
+import Data.List (isPrefixOf)
 import Data.Maybe (fromMaybe)
-import Distribution.InstalledPackageInfo (libraryDirs)
+import Distribution.InstalledPackageInfo (dataDir, libraryDynDirs)
 import Distribution.Package (
   pkgName, unPackageName,
 #if MIN_VERSION_Cabal(2,0,0)
@@ -37,6 +37,7 @@ import Distribution.PackageDescription (
   PackageDescription,
   emptyBuildInfo,
   extraLibDirs,
+  extraLibs,
   package,
 #if MIN_VERSION_Cabal(2,0,0)
   FlagName, mkFlagName,
@@ -123,9 +124,9 @@ main = defaultMainWithHooks qtahHooks
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [generatorProgram]
-  , postConf = \args cf pd lbi -> do libDir <- lookupQtahCppLibDir lbi
-                                     storeQtahCppLibDir libDir
-                                     generateSources cf lbi libDir
+  , postConf = \args cf pd lbi -> do (dynLibDirs, dataDir') <- lookupQtahCppDynLibDir lbi
+                                     storeQtahCppDynLibDir dynLibDirs
+                                     generateSources cf lbi dataDir'
                                      postConf simpleUserHooks args cf pd lbi
   , preBuild = \_ _ -> addLibDir
   , preTest = \_ _ -> addLibDir
@@ -145,11 +146,11 @@ qtahHooks = simpleUserHooks
                                   cleanHook simpleUserHooks pd z uh cf
   }
 
-qtahCppLibDirFile :: FilePath
-qtahCppLibDirFile = "dist/build/qtah-cpp-libdir"
+qtahCppDynLibDirFile :: FilePath
+qtahCppDynLibDirFile = "dist/build/qtah-cpp-dynlibdir"
 
-lookupQtahCppLibDir :: LocalBuildInfo -> IO String
-lookupQtahCppLibDir localBuildInfo = do
+lookupQtahCppDynLibDir :: LocalBuildInfo -> IO ([String], String)
+lookupQtahCppDynLibDir localBuildInfo = do
   -- Look for an installed qtah-cpp package.
   qtahCppPkg <- case lookupPackageName (installedPkgs localBuildInfo) $
                      mkPackageName cppPackageName of
@@ -159,29 +160,29 @@ lookupQtahCppLibDir localBuildInfo = do
       [packageName, ": Failed to find a unique ", cppPackageName, " installation.  Found ",
        show results, "."]
 
-  -- Look up the libDir of the qtah-cpp we found.  The filter here is for NixOS,
-  -- where libraryDirs includes the library directories of dependencies as well.
-  case filter (\x -> cppPackageName `isInfixOf` x) $ libraryDirs qtahCppPkg of
-    [libDir] -> return libDir
-    libDirs -> die $ concat
-               [packageName, ": Expected a single library directory for ",
-                cppPackageName, ", got ", show libDirs, "."]
+  return (libraryDynDirs qtahCppPkg, dataDir qtahCppPkg)
 
-storeQtahCppLibDir :: FilePath -> IO ()
-storeQtahCppLibDir libDir = do
-  createDirectoryIfMissing True $ takeDirectory qtahCppLibDirFile
-  writeFile qtahCppLibDirFile libDir
+storeQtahCppDynLibDir :: [FilePath] -> IO ()
+storeQtahCppDynLibDir dynLibDirs = do
+  createDirectoryIfMissing True $ takeDirectory qtahCppDynLibDirFile
+  writeFile qtahCppDynLibDirFile $ unlines dynLibDirs
 
 addLibDir :: IO HookedBuildInfo
 addLibDir = do
-  qtahCppLibDir <- readFile qtahCppLibDirFile
-  return (Just emptyBuildInfo {extraLibDirs = [qtahCppLibDir]}, [])
+  qtahCppDynLibDirs <- fmap lines $ readFile qtahCppDynLibDirFile
+  -- We add qtah to extra-libraries here, because we only know its path now,
+  -- after the configure step.  If we put "extra-libraries: qtah" in qtah.cabal,
+  -- then "cabal configure" fails because it can't find libqtah.so.
+  return (Just emptyBuildInfo { extraLibDirs = qtahCppDynLibDirs
+                              , extraLibs = ["qtah"]
+                              },
+          [])
 
 generatorProgram :: Program
 generatorProgram = simpleProgram "qtah-generator"
 
 generateSources :: ConfigFlags -> LocalBuildInfo -> FilePath -> IO ()
-generateSources configFlags localBuildInfo qtahCppLibDir = do
+generateSources configFlags localBuildInfo dataDir' = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
 
@@ -190,7 +191,7 @@ generateSources configFlags localBuildInfo qtahCppLibDir = do
   qtVersion <- exportQtVersion configFlags localBuildInfo
 
   -- Ensure that we're using the same version of Qt that qtah-cpp is.
-  let qtahCppQtVersionFile = qtahCppLibDir </> "qtah-qt-version"
+  let qtahCppQtVersionFile = dataDir' </> "qtah-qt-version"
   qtahCppQtVersion <-
     (\contents -> case lines contents of
        [line] -> return line

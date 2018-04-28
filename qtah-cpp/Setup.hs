@@ -38,7 +38,8 @@ import Distribution.Simple.LocalBuildInfo (
   LocalBuildInfo,
   absoluteInstallDirs,
   buildDir,
-  libdir,
+  datadir,
+  dynlibdir,
   localPkgDescr,
   withPrograms,
   )
@@ -201,19 +202,22 @@ doInstall :: Verbosity -> PackageDescription -> LocalBuildInfo -> CopyDest -> IO
 doInstall verbosity packageDesc localBuildInfo copyDest = do
   startDir <- getCurrentDirectory
   let cppSourceDir = startDir </> "cpp"
-      libDir = libdir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
+      dirs = absoluteInstallDirs packageDesc localBuildInfo copyDest
+      dynLibDir = dynlibdir dirs
+      dataDir = datadir dirs
       programDb = withPrograms localBuildInfo
 
   -- Call the makefile to install the C++ shared library into the package's
   -- libdir.
   runDbProgram verbosity makeProgram programDb
-    ["-C", cppSourceDir, "install", "INSTALL_ROOT=" ++ libDir]
+    ["-C", cppSourceDir, "install", "INSTALL_ROOT=" ++ dynLibDir]
 
   -- Also record what version of Qt we are using, so that qtah can check that
   -- it's using the same version.
+  createDirectoryIfMissing True dataDir
   installOrdinaryFile verbosity
                       (buildDir localBuildInfo </> "qtah-qt-version")
-                      (libDir </> "qtah-qt-version")
+                      (dataDir </> "qtah-qt-version")
 
 doClean :: CleanFlags -> IO ()
 doClean cleanFlags = do

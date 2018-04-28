@@ -372,7 +372,8 @@ library
   hs-source-dirs: src
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind
   default-language: Haskell2010
-  extra-libraries: qtah
+  -- There would be an "extra-libraries: qtah" here, but we need to add it from
+  -- Setup.hs instead.
 
 test-suite test-qtah
   type: exitcode-stdio-1.0
@@ -388,7 +389,8 @@ test-suite test-qtah
   hs-source-dirs: tests
   ghc-options: -W -fwarn-incomplete-patterns -fwarn-unused-do-bind -dynamic
   default-language: Haskell2010
-  extra-libraries: qtah
+  -- There would be an "extra-libraries: qtah" here, but we need to add it from
+  -- Setup.hs instead.
 
 custom-setup
   setup-depends:
