@@ -21,7 +21,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = qtah
 TEMPLATE = lib
-VERSION = 0.3.1
+VERSION = 0.4.0
 # Doesn't seem to work here: CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++11
 
