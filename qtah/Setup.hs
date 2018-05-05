@@ -37,6 +37,7 @@ import Distribution.PackageDescription (
   PackageDescription,
   emptyBuildInfo,
   extraLibDirs,
+  extraLibs,
   package,
 #if MIN_VERSION_Cabal(2,0,0)
   FlagName, mkFlagName,
@@ -175,7 +176,13 @@ storeQtahCppLibDir libDir = do
 addLibDir :: IO HookedBuildInfo
 addLibDir = do
   qtahCppLibDir <- readFile qtahCppLibDirFile
-  return (Just emptyBuildInfo {extraLibDirs = [qtahCppLibDir]}, [])
+  -- We add qtah to extra-libraries here, because we only know its path now,
+  -- after the configure step.  If we put "extra-libraries: qtah" in qtah.cabal,
+  -- then "cabal configure" fails because it can't find libqtah.so.
+  return (Just emptyBuildInfo { extraLibDirs = [qtahCppLibDir]
+                              , extraLibs = ["qtah"]
+                              },
+          [])
 
 generatorProgram :: Program
 generatorProgram = simpleProgram "qtah-generator"
