@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   gluint,
   e_AlignmentFlag,
   bs_Alignment,
+  e_ArrowType,
   e_AspectRatioMode,
   e_BrushStyle,
   e_CaseSensitivity,
@@ -111,6 +112,7 @@ exports =
   (map QtExport . collect)
   [ just $ ExportEnum e_AlignmentFlag
   , just $ ExportBitspace bs_Alignment
+  , just $ ExportEnum e_ArrowType
   , just $ ExportEnum e_AspectRatioMode
   , just $ ExportEnum e_BrushStyle
   , just $ ExportEnum e_CaseSensitivity
@@ -189,6 +191,15 @@ gluint = word32T
   , (0x80, ["align", "v", "center"])
     -- Useful in right-to-left mode.
   , (0x10, ["align", "absolute"])
+  ]
+
+e_ArrowType =
+  makeQtEnum (ident1 "Qt" "ArrowType") qtInclude
+  [ (0, ["no", "arrow"])
+  , (1, ["up", "arrow"])
+  , (2, ["down", "arrow"])
+  , (3, ["left", "arrow"])
+  , (4, ["right", "arrow"])
   ]
 
 e_AspectRatioMode =
