@@ -200,6 +200,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout
