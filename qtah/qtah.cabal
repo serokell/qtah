@@ -57,6 +57,7 @@ library
     , Graphics.UI.Qtah.Core.QMarginsF
     , Graphics.UI.Qtah.Core.QModelIndex
     , Graphics.UI.Qtah.Core.QObject
+    , Graphics.UI.Qtah.Core.QPalette
     , Graphics.UI.Qtah.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Core.QPoint
     , Graphics.UI.Qtah.Core.QPointF
@@ -224,6 +225,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
     , Graphics.UI.Qtah.Generated.Core.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QObject
+    , Graphics.UI.Qtah.Generated.Core.QPalette
     , Graphics.UI.Qtah.Generated.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Generated.Core.QPoint
     , Graphics.UI.Qtah.Generated.Core.QPointF

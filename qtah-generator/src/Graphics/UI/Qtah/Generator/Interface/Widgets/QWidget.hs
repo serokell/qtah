@@ -54,6 +54,9 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_WindowType,
   qreal,
   )
+import Graphics.UI.Qtah.Generator.Interface.Core.QPalette (
+  e_ColorRole
+  )
 import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice (c_QPaintDevice)
@@ -94,7 +97,7 @@ c_QWidget =
     -- TODO addActions
   , just $ mkMethod "adjustSize" [] voidT
   , just $ mkConstMethod "autoFillBackground" [] boolT
-    -- TODO backgroundRole
+  , just $ mkProp "backgroundRole" $ enumT e_ColorRole
   , just $ mkConstMethod "baseSize" [] $ objT c_QSize
   , just $ mkConstMethod' "childAt" "childAtRaw" [intT, intT] $ ptrT $ objT c_QWidget
   , just $ mkConstMethod' "childAt" "childAtPoint" [objT c_QPoint] $ ptrT $ objT c_QWidget
