@@ -49,6 +49,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_WindowFlags,
   bs_WindowStates,
   e_ContextMenuPolicy,
+  e_CursorShape,
   e_LayoutDirection,
   e_WindowModality,
   e_WindowType,
@@ -109,7 +110,8 @@ c_QWidget =
   , just $ mkConstMethod "contentsMargins" [] $ objT c_QMargins
   , just $ mkConstMethod "contentsRect" [] $ objT c_QRect
   , just $ mkProp "contextMenuPolicy" $ enumT e_ContextMenuPolicy
-    -- TODO cursor
+    -- TODO cursor property made proper
+  , just $ mkMethod "setCursor" [enumT e_CursorShape] voidT
     -- TODO effectiveWinId
   , just $ mkConstMethod "ensurePolished" [] voidT
     -- TODO find

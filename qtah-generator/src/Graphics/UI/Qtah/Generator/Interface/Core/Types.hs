@@ -30,6 +30,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_ContextMenuPolicy,
   e_Corner,
   e_CursorMoveStyle,
+  e_CursorShape,
   e_DropAction,
   bs_DropActions,
   e_EventPriority,
@@ -120,6 +121,7 @@ exports =
   , just $ ExportEnum e_ContextMenuPolicy
   , just $ ExportEnum e_Corner
   , just $ ExportEnum e_CursorMoveStyle
+  , just $ ExportEnum e_CursorShape
   , just $ ExportEnum e_DropAction
   , just $ ExportBitspace bs_DropActions
   , just $ ExportEnum e_EventPriority
@@ -267,6 +269,33 @@ e_CursorMoveStyle =
   makeQtEnum (ident1 "Qt" "CursorMoveStyle") qtInclude
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
+  ]
+
+e_CursorShape =
+  makeQtEnum (ident1 "Qt" "CursorShape") qtInclude
+  [ (0,  ["arrow", "cursor"])
+  , (1,  ["up", "arrow", "cursor"])
+  , (2,  ["cross", "cursor"])
+  , (3,  ["wait", "cursor"])
+  , (4,  ["i", "beam", "cursor"])
+  , (5,  ["size", "ver", "cursor"])
+  , (6,  ["size", "hor", "cursor"])
+  , (7,  ["size", "b", "diag", "cursor"])
+  , (8,  ["size", "f", "diag", "cursor"])
+  , (9,  ["size", "all", "cursor"])
+  , (10, ["blank", "cursor"])
+  , (11, ["split", "v", "cursor"])
+  , (12, ["split", "h", "cursor"])
+  , (13, ["pointing", "hand", "cursor"])
+  , (14, ["forbidden", "cursor"])
+  , (15, ["whats", "this", "cursor"])
+  , (16, ["busy", "cursor"])
+  , (17, ["open", "hand", "cursor"])
+  , (18, ["closed", "hand", "cursor"])
+  , (19, ["drag", "copy", "cursor"])
+  , (20, ["drag", "move", "cursor"])
+  , (21, ["drag", "link", "cursor"])
+  , (24, ["bitmap", "cursor"])
   ]
 
 (e_DropAction, bs_DropActions) =
