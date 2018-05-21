@@ -35,6 +35,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit as Q
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog as QDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox as QDialogButtonBox
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget as QDockWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDoubleSpinBox as QDoubleSpinBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout as QFormLayout
@@ -111,6 +112,7 @@ modules =
   , QDial.aModule
   , QDialog.aModule
   , QDialogButtonBox.aModule
+  , QDockWidget.aModule
   , QDoubleSpinBox.aModule
   , QFileDialog.aModule
   , QFormLayout.aModule

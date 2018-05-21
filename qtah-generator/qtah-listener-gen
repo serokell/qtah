@@ -78,6 +78,8 @@ forEachListener() {
     # Keep the includes in the C++ section up-to-date with the types used here.
     $fn Bool "bool"
     $fn Double "double"
+    $fn DockWidgetArea "Qt::DockWidgetArea"
+    $fn DockWidgetAreas "Qt::DockWidgetAreas"
     $fn Int "int"
     $fn IntBool "int|bool"
     $fn IntInt "int|int"
@@ -93,6 +95,7 @@ forEachListener() {
     $fn PtrQWidgetPtrQWidget "QWidget*|QWidget*"
     $fn QAbstractSliderAction "QAbstractSlider::SliderAction"
     $fn QClipboardMode "QClipboard::Mode"
+    $fn QDockWidgetFeatures "QDockWidget::DockWidgetFeatures"
     $fn QDate "QDate"
     $fn QModelIndex "QModelIndex"
     $fn QModelIndexIntInt "QModelIndex|int|int"
@@ -137,6 +140,7 @@ if [[ -n $cppDir ]]; then
     sayHpp '#include <QAbstractSlider>'
     sayHpp '#include <QAction>'
     sayHpp '#include <QClipboard>'
+    sayHpp '#include <QDockWidget>'
     sayHpp '#include <QIcon>'
     sayHpp '#include <QItemSelection>'
     sayHpp '#include <QModelIndex>'

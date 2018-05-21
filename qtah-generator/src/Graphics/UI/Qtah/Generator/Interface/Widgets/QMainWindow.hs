@@ -35,11 +35,17 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod',
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, enumT, intT, objT, ptrT, voidT)
 import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (
+  e_Corner,
+  e_DockWidgetArea,
+  e_Orientation,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQSize)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget (c_QDockWidget)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenu (c_QMenu)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QMenuBar (c_QMenuBar)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QStatusBar (c_QStatusBar)
@@ -65,7 +71,8 @@ c_QMainWindow =
   [ mkCtor "new" []
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
-    -- TODO addDockWidget
+  , mkMethod "addDockWidget" [enumT e_DockWidgetArea, ptrT $ objT c_QDockWidget] voidT
+  , mkMethod' "addDockWidget" "addDockWidgetWithOrientation" [enumT e_DockWidgetArea, ptrT $ objT c_QDockWidget, enumT e_Orientation] voidT
     -- TODO mkMethod' "addToolBar" "addToolBarWithArea" [e_ToolBarArea, ptrT $ objT c_QToolBar]
     --      voidT
   , mkMethod "addToolBar" [ptrT $ objT c_QToolBar] voidT
@@ -73,26 +80,27 @@ c_QMainWindow =
     -- TODO addToolBarBreak
   , mkBoolIsProp "animated"
   , mkProp "centralWidget" $ ptrT $ objT c_QWidget
-    -- TODO corner
+  , mkConstMethod "corner" [enumT e_Corner] $ enumT e_DockWidgetArea
   , mkMethod "createPopupMenu" [] $ ptrT $ objT c_QMenu
   , mkBoolIsProp "dockNestingEnabled"
     -- TODO dockOptions
-    -- TODO dockWidgetArea
+  , mkConstMethod "dockWidgetArea" [ptrT $ objT c_QDockWidget] $ enumT e_DockWidgetArea
   , mkProp "documentMode" boolT
   , mkProp "iconSize" $ objT c_QSize
     -- TODO insertToolBar
     -- TODO insertToolBarBreak
   , mkProp "menuBar" $ ptrT $ objT c_QMenuBar
   , mkProp "menuWidget" $ ptrT $ objT c_QWidget
-    -- TODO removeDockWidget
+  , mkMethod "removeDockWidget" [ptrT $ objT c_QDockWidget] voidT
+  , mkMethod "restoreDockWidget" [ptrT $ objT c_QDockWidget] boolT
   , mkMethod "restoreState" [objT c_QByteArray] boolT
   , mkMethod' "restoreState" "restoreStateWithVersion" [objT c_QByteArray, intT] boolT
   , mkConstMethod "saveState" [] (objT c_QByteArray)
   , mkConstMethod' "saveState" "saveStateWithVersion" [intT] (objT c_QByteArray)
-    -- TODO setCorner
+  , mkMethod "setCorner" [enumT e_Corner, enumT e_DockWidgetArea] voidT
     -- TODO setTabPosition
     -- TODO setTabShape
-    -- TODO splitDockWidget
+  , mkMethod "splitDockWidget" [ptrT $ objT c_QDockWidget, ptrT $ objT c_QDockWidget, enumT e_Orientation] voidT
   , mkProp "statusBar" $ ptrT $ objT c_QStatusBar
     -- TODO tabifiedDockWidgets
     -- TODO tabifyDockWidget

@@ -31,6 +31,8 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_Corner,
   e_CursorMoveStyle,
   e_CursorShape,
+  e_DockWidgetArea,
+  bs_DockWidgetAreas,
   e_DropAction,
   bs_DropActions,
   e_EventPriority,
@@ -122,6 +124,8 @@ exports =
   , just $ ExportEnum e_Corner
   , just $ ExportEnum e_CursorMoveStyle
   , just $ ExportEnum e_CursorShape
+  , just $ ExportEnum e_DockWidgetArea
+  , just $ ExportBitspace bs_DockWidgetAreas
   , just $ ExportEnum e_DropAction
   , just $ ExportBitspace bs_DropActions
   , just $ ExportEnum e_EventPriority
@@ -296,6 +300,16 @@ e_CursorShape =
   , (20, ["drag", "move", "cursor"])
   , (21, ["drag", "link", "cursor"])
   , (24, ["bitmap", "cursor"])
+  ]
+
+(e_DockWidgetArea, bs_DockWidgetAreas) =
+  makeQtEnumBitspace (ident1 "Qt" "DockWidgetArea") "DockWidgetAreas" qtInclude
+  [ (0x0, ["no", "dock", "widget", "area"])
+  , (0x1, ["left", "dock", "widget", "area"])
+  , (0x2, ["right", "dock", "widget", "area"])
+  , (0x4, ["top", "dock", "widget", "area"])
+  , (0x8, ["bottom", "dock", "widget", "area"])
+  , (0xf, ["all", "dock", "widget", "areas"])
   ]
 
 (e_DropAction, bs_DropActions) =

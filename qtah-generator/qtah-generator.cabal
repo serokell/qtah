@@ -154,6 +154,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDial
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout

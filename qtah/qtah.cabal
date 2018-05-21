@@ -143,6 +143,7 @@ library
     , Graphics.UI.Qtah.Widgets.QDial
     , Graphics.UI.Qtah.Widgets.QDialog
     , Graphics.UI.Qtah.Widgets.QDialogButtonBox
+    , Graphics.UI.Qtah.Widgets.QDockWidget
     , Graphics.UI.Qtah.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Widgets.QFileDialog
     , Graphics.UI.Qtah.Widgets.QFormLayout
@@ -306,6 +307,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QDial
     , Graphics.UI.Qtah.Generated.Widgets.QDialog
     , Graphics.UI.Qtah.Generated.Widgets.QDialogButtonBox
+    , Graphics.UI.Qtah.Generated.Widgets.QDockWidget
     , Graphics.UI.Qtah.Generated.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Generated.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generated.Widgets.QFormLayout
