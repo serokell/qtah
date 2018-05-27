@@ -28,7 +28,7 @@ import Distribution.PackageDescription (
   PackageDescription,
   package,
 #if MIN_VERSION_Cabal(2,0,0)
-  FlagName, mkFlagName,
+  mkFlagName,
 #else
   FlagName (FlagName),
 #endif
@@ -45,13 +45,15 @@ import Distribution.Simple.LocalBuildInfo (
   )
 import Distribution.Simple.Program (
   Program,
-  ProgramConfiguration,
   getProgramOutput,
   lookupProgram,
   programPath,
   runDbProgram,
   simpleProgram,
   )
+-- I don't think Distribution.Simple.Program exported ProgramDb back in
+-- Cabal-1.22.5.0, so we import it from the Db submodule:
+import Distribution.Simple.Program.Db (ProgramDb)
 import Distribution.Simple.Setup (
   BuildFlags,
   CleanFlags,
@@ -79,8 +81,12 @@ import Distribution.Simple.UserHooks (
     postConf
     ),
   )
+#if MIN_VERSION_Cabal(2,0,0)
+import Distribution.Simple.Utils (die')
+#else
+import Distribution.Simple.Utils (die)
+#endif
 import Distribution.Simple.Utils (
-  die,
   info,
   installOrdinaryFile,
   notice,
@@ -141,10 +147,15 @@ listenerGenProgram = simpleProgram "qtah-listener-gen"
 makeProgram :: Program
 makeProgram = simpleProgram "make"
 
-findQmake :: ProgramConfiguration -> Verbosity -> IO (FilePath, [String])
+findQmake :: ProgramDb -> Verbosity -> IO (FilePath, [String])
 findQmake programDb verbosity = do
+#if MIN_VERSION_Cabal(2,0,0)
+  let dieFn = die' verbosity
+#else
+  let dieFn = die
+#endif
   generatorConfiguredProgram <-
-    maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
+    maybe (dieFn $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
     lookupProgram generatorProgram programDb
   output <- fmap lines $
             getProgramOutput verbosity generatorConfiguredProgram ["--qmake-executable"]
@@ -159,6 +170,11 @@ generateSources configFlags localBuildInfo = do
   let cppSourceDir = startDir </> "cpp"
       programDb = withPrograms localBuildInfo
       verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
+#if MIN_VERSION_Cabal(2,0,0)
+      dieFn = die' verbosity
+#else
+      dieFn = die
+#endif
 
   -- Parse the Qt version to use from flags and the environment, and export it
   -- to the generator.
@@ -166,7 +182,7 @@ generateSources configFlags localBuildInfo = do
 
   listenerGenPath <- case lookupProgram listenerGenProgram programDb of
     Nothing ->
-      die $ packageName ++
+      dieFn $ packageName ++
       ": Couldn't find qtah-listener-gen.  Is qtah-generator installed and on the path?"
     Just configuredProgram -> return $ programPath configuredProgram
 
@@ -273,6 +289,11 @@ exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO String
 exportQtVersion configFlags localBuildInfo = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
+#if MIN_VERSION_Cabal(2,0,0)
+      dieFn = die' verbosity
+#else
+      dieFn = die
+#endif
 
   -- Determine what version of Qt to use.  If we have a Qt version preference
   -- specified, either through package flags or through QTAH_QT, then
@@ -294,7 +315,7 @@ exportQtVersion configFlags localBuildInfo = do
           qt5Flag = fromMaybe False $ lookup (mkFlagName "qt5") flags
           qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
       when (qt4Flag && qt5Flag) $
-        die $ concat
+        dieFn $ concat
         [packageName, ": The qt4 and qt5 flags are mutually exclusive.  Please select at most one."]
 
       -- Inspect the QTAH_QT environment variable.
@@ -303,8 +324,8 @@ exportQtVersion configFlags localBuildInfo = do
         Just s | not $ null s -> do
           let majorStr = takeWhile (/= '.') s
           unless (all isDigit majorStr) $
-            die $ concat [packageName, ": Invalid QTAH_QT value ", show s,
-                          ".  Expected a numeric version string."]
+            dieFn $ concat [packageName, ": Invalid QTAH_QT value ", show s,
+                            ".  Expected a numeric version string."]
           return $ Just (read majorStr :: Int)
         _ -> return Nothing
 
@@ -314,7 +335,7 @@ exportQtVersion configFlags localBuildInfo = do
         -- If both QTAH_QT and one of the qtX flags above is set, then they must agree.
         (Just m, Just n) -> do
           when (m /= n) $
-            die $ concat
+            dieFn $ concat
             [packageName, ": QTAH_QT=", show $ fromMaybe "" qtahQtStr, " and the qt",
              show n, " flag conflict."]
         -- Otherwise, if QTAH_QT is not already set but we have a flag preference,
@@ -344,12 +365,12 @@ exportQtVersion configFlags localBuildInfo = do
 
   -- Log a message showing which Qt qtah-generator is actually using.
   generatorConfiguredProgram <-
-    maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
+    maybe (dieFn $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
     lookupProgram generatorProgram programDb
   qtVersionOutput <- getProgramOutput verbosity generatorConfiguredProgram ["--qt-version"]
   qtVersion <- case lines qtVersionOutput of
     [line] -> return line
-    _ -> die $ concat
+    _ -> dieFn $ concat
          [packageName, ": Couldn't understand qtah-generator --qt-version output: ",
           show qtVersionOutput]
   notice verbosity $

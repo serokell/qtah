@@ -16,6 +16,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
+{-# LANGUAGE CPP, RankNTypes #-}
 
 import Control.Monad (unless, when)
 import Distribution.PackageDescription (PackageDescription)
@@ -35,9 +36,15 @@ import Distribution.Simple.Setup (
   cleanVerbosity,
   configVerbosity,
   copyDest,
+#if MIN_VERSION_Cabal(2,0,0)
+  copyVerbosity,
+#endif
   flagToMaybe,
   fromFlagOrDefault,
   installDistPref,
+#if MIN_VERSION_Cabal(2,0,0)
+  installVerbosity,
+#endif
   )
 import Distribution.Simple.UserHooks (
   UserHooks (
@@ -48,7 +55,12 @@ import Distribution.Simple.UserHooks (
     postConf
     ),
   )
-import Distribution.Simple.Utils (die, info, installExecutableFile)
+#if MIN_VERSION_Cabal(2,0,0)
+import Distribution.Simple.Utils (die')
+#else
+import Distribution.Simple.Utils (die)
+#endif
+import Distribution.Simple.Utils (info, installExecutableFile)
 import Distribution.Verbosity (normal, verbose)
 import System.Directory (
   createDirectoryIfMissing,
@@ -62,6 +74,8 @@ import System.Directory (
   )
 import System.FilePath ((</>), joinPath, takeDirectory)
 
+type DieFn = forall a. String -> IO a
+
 main :: IO ()
 main = defaultMainWithHooks qtahHooks
 
@@ -71,10 +85,21 @@ qtahHooks = simpleUserHooks
   , postConf = \_ cf _ lbi -> generateSources cf lbi
   , copyHook = \pd lbi uh cf -> do let dest = fromFlagOrDefault NoCopyDest $ copyDest cf
                                    doInstall pd lbi dest
+#if MIN_VERSION_Cabal(2,0,0)
+                                     (die' $ fromFlagOrDefault normal $ copyVerbosity cf)
+#else
+                                     die
+#endif
+
                                    copyHook simpleUserHooks pd lbi uh cf
   , instHook = \pd lbi uh if' -> do let dest = maybe NoCopyDest CopyTo $
                                                flagToMaybe $ installDistPref if'
                                     doInstall pd lbi dest
+#if MIN_VERSION_Cabal(2,0,0)
+                                      (die' $ fromFlagOrDefault normal $ installVerbosity if')
+#else
+                                      die
+#endif
                                     instHook simpleUserHooks pd lbi uh if'
   , cleanHook = \pd z uh cf -> do doClean cf
                                   cleanHook simpleUserHooks pd z uh cf
@@ -83,18 +108,27 @@ qtahHooks = simpleUserHooks
 bashProgram :: Program
 bashProgram = simpleProgram "bash"
 
-findProjectRootDir :: LocalBuildInfo -> IO FilePath
-findProjectRootDir localBuildInfo = case pkgDescrFile localBuildInfo of
+findProjectRootDir :: LocalBuildInfo -> DieFn -> IO FilePath
+findProjectRootDir localBuildInfo dieFn = case pkgDescrFile localBuildInfo of
   Just path -> return $ takeDirectory path
-  Nothing -> die "Couldn't find the project root path."
+  Nothing -> dieFn "Couldn't find the project root path."
 
 generateSources :: ConfigFlags -> LocalBuildInfo -> IO ()
 generateSources configFlags localBuildInfo = do
   -- Generate binding sources for the generated C++ listener classes.
-  projectRootDir <- findProjectRootDir localBuildInfo
+  let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
+
+  projectRootDir <-
+    findProjectRootDir
+    localBuildInfo
+#if MIN_VERSION_Cabal(2,0,0)
+    (die' verbosity)
+#else
+    die
+#endif
+
   let genPath = projectRootDir </> "qtah-listener-gen"
       programDb = withPrograms localBuildInfo
-      verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
 
   -- Cabal 1.24 (GHC 8?) seems to remove the executable bit from
   -- qtah-listener-gen before configuring, so we have to re-add it.
@@ -106,9 +140,9 @@ generateSources configFlags localBuildInfo = do
 
   runDbProgram verbosity bashProgram programDb [genPath, "--gen-hs-dir", "."]
 
-doInstall :: PackageDescription -> LocalBuildInfo -> CopyDest -> IO ()
-doInstall packageDesc localBuildInfo copyDest = do
-  projectRootDir <- findProjectRootDir localBuildInfo
+doInstall :: PackageDescription -> LocalBuildInfo -> CopyDest -> DieFn -> IO ()
+doInstall packageDesc localBuildInfo copyDest dieFn = do
+  projectRootDir <- findProjectRootDir localBuildInfo dieFn
   let binDir = bindir $ absoluteInstallDirs packageDesc localBuildInfo copyDest
   createDirectoryIfMissing True binDir
   installExecutableFile verbose

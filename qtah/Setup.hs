@@ -16,7 +16,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 {-# OPTIONS_GHC -W -fwarn-incomplete-patterns -fwarn-unused-do-bind #-}
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE CPP, RankNTypes #-}
 
 import Control.Applicative ((<|>))
 import Control.Monad (unless, when)
@@ -27,7 +27,7 @@ import Distribution.InstalledPackageInfo (libraryDirs)
 import Distribution.Package (
   pkgName, unPackageName,
 #if MIN_VERSION_Cabal(2,0,0)
-  PackageName, mkPackageName,
+  mkPackageName,
 #else
   PackageName (PackageName),
 #endif
@@ -40,7 +40,7 @@ import Distribution.PackageDescription (
   extraLibs,
   package,
 #if MIN_VERSION_Cabal(2,0,0)
-  FlagName, mkFlagName,
+  mkFlagName,
 #else
   FlagName (FlagName),
 #endif
@@ -91,7 +91,12 @@ import Distribution.Simple.UserHooks (
     preTest
     ),
   )
-import Distribution.Simple.Utils (die, info, installOrdinaryFile, notice)
+#if MIN_VERSION_Cabal(2,0,0)
+import Distribution.Simple.Utils (die')
+#else
+import Distribution.Simple.Utils (die)
+#endif
+import Distribution.Simple.Utils (info, installOrdinaryFile, notice)
 import Distribution.Verbosity (Verbosity, normal)
 import System.Directory (
   createDirectoryIfMissing,
@@ -104,6 +109,8 @@ import System.Directory (
   )
 import System.Environment (lookupEnv, setEnv)
 import System.FilePath ((</>), joinPath, takeDirectory)
+
+type DieFn = forall a. String -> IO a
 
 #if !MIN_VERSION_Cabal(2,0,0)
 mkPackageName = PackageName
@@ -124,7 +131,13 @@ main = defaultMainWithHooks qtahHooks
 qtahHooks :: UserHooks
 qtahHooks = simpleUserHooks
   { hookedPrograms = [generatorProgram]
-  , postConf = \args cf pd lbi -> do libDir <- lookupQtahCppLibDir lbi
+  , postConf = \args cf pd lbi -> do libDir <-
+                                       lookupQtahCppLibDir lbi
+#if MIN_VERSION_Cabal(2,0,0)
+                                       (die' $ fromFlagOrDefault normal $ configVerbosity cf)
+#else
+                                       die
+#endif
                                      storeQtahCppLibDir libDir
                                      generateSources cf lbi libDir
                                      postConf simpleUserHooks args cf pd lbi
@@ -149,14 +162,14 @@ qtahHooks = simpleUserHooks
 qtahCppLibDirFile :: FilePath
 qtahCppLibDirFile = "dist/build/qtah-cpp-libdir"
 
-lookupQtahCppLibDir :: LocalBuildInfo -> IO String
-lookupQtahCppLibDir localBuildInfo = do
+lookupQtahCppLibDir :: LocalBuildInfo -> DieFn -> IO String
+lookupQtahCppLibDir localBuildInfo dieFn = do
   -- Look for an installed qtah-cpp package.
   qtahCppPkg <- case lookupPackageName (installedPkgs localBuildInfo) $
                      mkPackageName cppPackageName of
     [(_, [qtahCppPkg])] -> return qtahCppPkg
     results ->
-      die $ concat
+      dieFn $ concat
       [packageName, ": Failed to find a unique ", cppPackageName, " installation.  Found ",
        show results, "."]
 
@@ -164,7 +177,7 @@ lookupQtahCppLibDir localBuildInfo = do
   -- where libraryDirs includes the library directories of dependencies as well.
   case filter (\x -> cppPackageName `isInfixOf` x) $ libraryDirs qtahCppPkg of
     [libDir] -> return libDir
-    libDirs -> die $ concat
+    libDirs -> dieFn $ concat
                [packageName, ": Expected a single library directory for ",
                 cppPackageName, ", got ", show libDirs, "."]
 
@@ -191,6 +204,11 @@ generateSources :: ConfigFlags -> LocalBuildInfo -> FilePath -> IO ()
 generateSources configFlags localBuildInfo qtahCppLibDir = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
+#if MIN_VERSION_Cabal(2,0,0)
+      dieFn = die' verbosity
+#else
+      dieFn = die
+#endif
 
   -- Parse the Qt version to use from flags and the environment, and export it
   -- to the generator.
@@ -201,12 +219,12 @@ generateSources configFlags localBuildInfo qtahCppLibDir = do
   qtahCppQtVersion <-
     (\contents -> case lines contents of
        [line] -> return line
-       _ -> die $ concat
+       _ -> dieFn $ concat
             [packageName, ": Expected a single line in ", qtahCppQtVersionFile, ", got ",
              show contents, "."]) =<<
     readFile qtahCppQtVersionFile
   when (qtVersion /= qtahCppQtVersion) $
-    die $ concat
+    dieFn $ concat
     [packageName, ": Qt version mismatch between ", packageName, " (", qtVersion, ") and ",
      cppPackageName, " (", qtahCppQtVersion, ").  Please reconfigure one or the other."]
 
@@ -292,6 +310,11 @@ exportQtVersion :: ConfigFlags -> LocalBuildInfo -> IO String
 exportQtVersion configFlags localBuildInfo = do
   let verbosity = fromFlagOrDefault normal $ configVerbosity configFlags
       programDb = withPrograms localBuildInfo
+#if MIN_VERSION_Cabal(2,0,0)
+      dieFn = die' verbosity
+#else
+      dieFn = die
+#endif
 
   -- Determine what version of Qt to use.  If we have a Qt version preference
   -- specified, either through package flags or through QTAH_QT, then
@@ -313,7 +336,7 @@ exportQtVersion configFlags localBuildInfo = do
           qt5Flag = fromMaybe False $ lookup (mkFlagName "qt5") flags
           qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
       when (qt4Flag && qt5Flag) $
-        die $ concat
+        dieFn $ concat
         [packageName, ": The qt4 and qt5 flags are mutually exclusive.  Please select at most one."]
 
       -- Inspect the QTAH_QT environment variable.
@@ -322,7 +345,7 @@ exportQtVersion configFlags localBuildInfo = do
         Just s | not $ null s -> do
           let majorStr = takeWhile (/= '.') s
           unless (all isDigit majorStr) $
-            die $ concat [packageName, ": Invalid QTAH_QT value ", show s,
+            dieFn $ concat [packageName, ": Invalid QTAH_QT value ", show s,
                           ".  Expected a numeric version string."]
           return $ Just (read majorStr :: Int)
         _ -> return Nothing
@@ -333,7 +356,7 @@ exportQtVersion configFlags localBuildInfo = do
         -- If both QTAH_QT and one of the qtX flags above is set, then they must agree.
         (Just m, Just n) -> do
           when (m /= n) $
-            die $ concat
+            dieFn $ concat
             [packageName, ": QTAH_QT=", show $ fromMaybe "" qtahQtStr, " and the qt",
              show n, " flag conflict."]
         -- Otherwise, if QTAH_QT is not already set but we have a flag preference,
@@ -363,12 +386,12 @@ exportQtVersion configFlags localBuildInfo = do
 
   -- Log a message showing which Qt qtah-generator is actually using.
   generatorConfiguredProgram <-
-    maybe (die $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
+    maybe (dieFn $ packageName ++ ": Couldn't find qtah-generator.  Is it installed?") return $
     lookupProgram generatorProgram programDb
   qtVersionOutput <- getProgramOutput verbosity generatorConfiguredProgram ["--qt-version"]
   qtVersion <- case lines qtVersionOutput of
     [line] -> return line
-    _ -> die $ concat
+    _ -> dieFn $ concat
          [packageName, ": Couldn't understand qtah-generator --qt-version output: ",
           show qtVersionOutput]
   notice verbosity $
