@@ -32,10 +32,11 @@ import Foreign.Hoppy.Generator.Spec (
   ident1,
   includeStd,
   makeClass,
-  mkMethod,
   mkConstMethod,
+  mkConstMethod',
+  mkMethod,
   mkMethod',
-  mkConstMethod'
+  mkProp,
   )
 import Foreign.Hoppy.Generator.Types (voidT, objT, ptrT, boolT, constT, intT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
@@ -44,6 +45,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (qreal)
 import Graphics.UI.Qtah.Generator.Interface.Core.QPointF (c_QPointF)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRectF (c_QRectF)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import Graphics.UI.Qtah.Generator.Interface.Gui.QCursor (c_QCursor)
 -- import Graphics.UI.Qtah.Generator.Interface.Gui.QPolygonF (c_QPolygonF)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPainterPath (c_QPainterPath)
 -- import Graphics.UI.Qtah.Generator.Interface.Gui.QTransform (c_QTransform)
@@ -95,7 +97,7 @@ c_QGraphicsItem =
   , mkConstMethod "commonAncestorItem" [ptrT $ constT $ objT c_QGraphicsItem] $
       ptrT $ objT c_QGraphicsItem
   , mkConstMethod "contains" [objT c_QPointF] boolT
-  -- TODO mkConstMethod "cursor" [] $ objT c_QCursor
+  , mkProp "cursor" $ objT c_QCursor
   -- TODO mkConstMethod "data" [intT] $ objT c_QVariant
   -- TODO mkConstMethod "deviceTransform" [objT c_QTransform] $ objT c_QTransform
   , mkConstMethod "effectiveOpacity" [] qreal
@@ -270,7 +272,6 @@ c_QGraphicsItem =
   , mkMethod "setBoundingRegionGranularity" [qreal] voidT
   -- TODO mkMethod "setCacheMode" [objT c_CacheMode] voidT
   -- TODO mkMethod' "setCacheMode" "setCacheModeAll" [objT c_CacheMode, objT c_QSize] voidT
-  -- TODO mkMethod "setCursor" [objT c_QCursor] voidT
   -- TODO mkMethod "setData" [intT, objT c_QVariant] voidT
   , mkMethod "setEnabled" [boolT] voidT
   , mkMethod "setFiltersChildEvents" [boolT] voidT

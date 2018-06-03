@@ -22,6 +22,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QBrush as QBrush
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard as QClipboard
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QCloseEvent as QCloseEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QColor as QColor
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QCursor as QCursor
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QDoubleValidator as QDoubleValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent as QEnterEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent as QExposeEvent
@@ -67,6 +68,7 @@ modules =
   , QClipboard.aModule
   , QCloseEvent.aModule
   , QColor.aModule
+  , QCursor.aModule
   , QDoubleValidator.aModule
   , QEnterEvent.aModule
   , QExposeEvent.aModule

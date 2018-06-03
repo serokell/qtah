@@ -95,6 +95,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard
     , Graphics.UI.Qtah.Generator.Interface.Gui.QCloseEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QColor
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QCursor
     , Graphics.UI.Qtah.Generator.Interface.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent

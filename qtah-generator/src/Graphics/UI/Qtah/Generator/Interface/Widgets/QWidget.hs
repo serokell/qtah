@@ -49,7 +49,6 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   bs_WindowFlags,
   bs_WindowStates,
   e_ContextMenuPolicy,
-  e_CursorShape,
   e_LayoutDirection,
   e_WindowModality,
   e_WindowType,
@@ -58,6 +57,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
 import Graphics.UI.Qtah.Generator.Interface.Core.QPalette (
   e_ColorRole
   )
+import Graphics.UI.Qtah.Generator.Interface.Gui.QCursor (c_QCursor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QFont (c_QFont)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice (c_QPaintDevice)
@@ -110,8 +110,7 @@ c_QWidget =
   , just $ mkConstMethod "contentsMargins" [] $ objT c_QMargins
   , just $ mkConstMethod "contentsRect" [] $ objT c_QRect
   , just $ mkProp "contextMenuPolicy" $ enumT e_ContextMenuPolicy
-    -- TODO cursor property made proper
-  , just $ mkMethod "setCursor" [enumT e_CursorShape] voidT
+  , just $ mkProp "cursor" $ objT c_QCursor
     -- TODO effectiveWinId
   , just $ mkConstMethod "ensurePolished" [] voidT
     -- TODO find
@@ -131,7 +130,7 @@ c_QWidget =
     -- TODO grabGesture
   , just $ mkMethod "grabKeyboard" [] voidT
   , just $ mkMethod "grabMouse" [] voidT
-    -- TODO grabMouse(const QCursor&)
+  , just $ mkMethod' "grabMouse" "grabMouseWithCursor" [objT c_QCursor] voidT
     -- TODO grabShortcut
     -- TODO graphicsEffect
     -- TODO graphicsProxyWidget

@@ -85,6 +85,7 @@ library
     , Graphics.UI.Qtah.Gui.QClipboard
     , Graphics.UI.Qtah.Gui.QCloseEvent
     , Graphics.UI.Qtah.Gui.QColor
+    , Graphics.UI.Qtah.Gui.QCursor
     , Graphics.UI.Qtah.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Gui.QEnterEvent
     , Graphics.UI.Qtah.Gui.QExposeEvent
@@ -252,6 +253,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QClipboard
     , Graphics.UI.Qtah.Generated.Gui.QCloseEvent
     , Graphics.UI.Qtah.Generated.Gui.QColor
+    , Graphics.UI.Qtah.Generated.Gui.QCursor
     , Graphics.UI.Qtah.Generated.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Generated.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generated.Gui.QExposeEvent
