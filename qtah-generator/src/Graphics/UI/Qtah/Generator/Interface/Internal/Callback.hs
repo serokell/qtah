@@ -20,6 +20,8 @@ module Graphics.UI.Qtah.Generator.Interface.Internal.Callback where
 import Foreign.Hoppy.Generator.Spec (
   Callback,
   Export (ExportCallback),
+  addReqIncludes,
+  includeStd,
   makeCallback,
   makeModule,
   moduleAddExports,
@@ -53,6 +55,8 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVector (c_QVectorInt)
 import Graphics.UI.Qtah.Generator.Interface.Core.Types (
+  e_DockWidgetArea,
+  bs_DockWidgetAreas,
   bs_ToolBarAreas,
   e_Orientation,
   e_ScreenOrientation,
@@ -70,6 +74,9 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButt
   (c_QAbstractButton)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (e_SliderAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget (
+  bs_DockWidgetFeatures,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon (
   e_ActivationReason,
@@ -86,6 +93,8 @@ aModule =
     moduleAddHaskellName ["Internal", "Callback"]
     moduleAddExports $ collect
       [ just $ ExportCallback cb_BoolVoid
+      , just $ ExportCallback cb_DockWidgetAreaVoid
+      , just $ ExportCallback cb_DockWidgetAreasVoid
       , just $ ExportCallback cb_DoubleVoid
       , just $ ExportCallback cb_IntVoid
       , just $ ExportCallback cb_IntBoolVoid
@@ -106,6 +115,7 @@ aModule =
       , just $ ExportCallback cb_QAbstractSliderActionVoid
       , just $ ExportCallback cb_QClipboardModeVoid
       , just $ ExportCallback cb_QDateVoid
+      , just $ ExportCallback cb_QDockWidgetFeaturesVoid
       , just $ ExportCallback cb_QModelIndexVoid
       , just $ ExportCallback cb_QModelIndexIntIntVoid
       , just $ ExportCallback cb_QModelIndexIntIntQModelIndexIntVoid
@@ -130,6 +140,14 @@ aModule =
 cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")
   [boolT] voidT
+
+cb_DockWidgetAreaVoid =
+  makeCallback (toExtName "CallbackDockWidgetAreaVoid")
+  [enumT e_DockWidgetArea] voidT
+
+cb_DockWidgetAreasVoid =
+  makeCallback (toExtName "CallbackDockWidgetAreasVoid")
+  [bitspaceT bs_DockWidgetAreas] voidT
 
 cb_DoubleVoid =
   makeCallback (toExtName "CallbackDoubleVoid")
@@ -213,6 +231,11 @@ cb_QClipboardModeVoid =
 cb_QDateVoid =
   makeCallback (toExtName "CallbackQDateVoid")
   [objT c_QDate] voidT
+
+cb_QDockWidgetFeaturesVoid =
+  addReqIncludes [includeStd "QDockWidget"] $
+  makeCallback (toExtName "CallbackQDockWidgetFeaturesVoid")
+  [bitspaceT bs_DockWidgetFeatures] voidT
 
 cb_QModelIndexVoid =
   makeCallback (toExtName "CallbackQModelIndexVoid")

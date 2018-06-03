@@ -149,6 +149,7 @@ c_QVariant =
   , just $ mkConstMethod "toRectF" [] $ objT c_QRectF
   , just $ mkConstMethod "toSize" [] $ objT c_QSize
   , just $ mkConstMethod "toSizeF" [] $ objT c_QSizeF
+  , just $ mkConstMethod "toList" [] $ objT c_QListQVariant
   , just $ mkConstMethod "toStringList" [] $ objT c_QStringList
   , just $ mkConstMethod "toString" [] $ objT c_QString
   , just $ mkConstMethod "toUInt" [] uintT

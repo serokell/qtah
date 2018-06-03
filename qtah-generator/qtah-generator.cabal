@@ -87,6 +87,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QTimerEvent
     , Graphics.UI.Qtah.Generator.Interface.Core.QVariant
     , Graphics.UI.Qtah.Generator.Interface.Core.QVector
+    , Graphics.UI.Qtah.Generator.Interface.Core.QPalette
     , Graphics.UI.Qtah.Generator.Interface.Core.Types
     , Graphics.UI.Qtah.Generator.Interface.Gui
     , Graphics.UI.Qtah.Generator.Interface.Gui.QActionEvent
@@ -94,6 +95,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QClipboard
     , Graphics.UI.Qtah.Generator.Interface.Gui.QCloseEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QColor
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QCursor
     , Graphics.UI.Qtah.Generator.Interface.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent
@@ -153,6 +155,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDial
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout
@@ -200,6 +203,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QToolButton
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout

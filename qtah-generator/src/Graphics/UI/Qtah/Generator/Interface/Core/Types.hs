@@ -22,6 +22,7 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   gluint,
   e_AlignmentFlag,
   bs_Alignment,
+  e_ArrowType,
   e_AspectRatioMode,
   e_BrushStyle,
   e_CaseSensitivity,
@@ -29,6 +30,9 @@ module Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_ContextMenuPolicy,
   e_Corner,
   e_CursorMoveStyle,
+  e_CursorShape,
+  e_DockWidgetArea,
+  bs_DockWidgetAreas,
   e_DropAction,
   bs_DropActions,
   e_EventPriority,
@@ -111,6 +115,7 @@ exports =
   (map QtExport . collect)
   [ just $ ExportEnum e_AlignmentFlag
   , just $ ExportBitspace bs_Alignment
+  , just $ ExportEnum e_ArrowType
   , just $ ExportEnum e_AspectRatioMode
   , just $ ExportEnum e_BrushStyle
   , just $ ExportEnum e_CaseSensitivity
@@ -118,6 +123,9 @@ exports =
   , just $ ExportEnum e_ContextMenuPolicy
   , just $ ExportEnum e_Corner
   , just $ ExportEnum e_CursorMoveStyle
+  , just $ ExportEnum e_CursorShape
+  , just $ ExportEnum e_DockWidgetArea
+  , just $ ExportBitspace bs_DockWidgetAreas
   , just $ ExportEnum e_DropAction
   , just $ ExportBitspace bs_DropActions
   , just $ ExportEnum e_EventPriority
@@ -191,6 +199,15 @@ gluint = word32T
   , (0x10, ["align", "absolute"])
   ]
 
+e_ArrowType =
+  makeQtEnum (ident1 "Qt" "ArrowType") qtInclude
+  [ (0, ["no", "arrow"])
+  , (1, ["up", "arrow"])
+  , (2, ["down", "arrow"])
+  , (3, ["left", "arrow"])
+  , (4, ["right", "arrow"])
+  ]
+
 e_AspectRatioMode =
   makeQtEnum (ident1 "Qt" "AspectRatioMode") qtInclude
   [ (0, ["ignore", "aspect", "ratio"])
@@ -256,6 +273,43 @@ e_CursorMoveStyle =
   makeQtEnum (ident1 "Qt" "CursorMoveStyle") qtInclude
   [ (0, ["logical", "move", "style"])
   , (1, ["visual", "move", "style"])
+  ]
+
+e_CursorShape =
+  makeQtEnum (ident1 "Qt" "CursorShape") qtInclude
+  [ (0,  ["arrow", "cursor"])
+  , (1,  ["up", "arrow", "cursor"])
+  , (2,  ["cross", "cursor"])
+  , (3,  ["wait", "cursor"])
+  , (4,  ["i", "beam", "cursor"])
+  , (5,  ["size", "ver", "cursor"])
+  , (6,  ["size", "hor", "cursor"])
+  , (7,  ["size", "b", "diag", "cursor"])
+  , (8,  ["size", "f", "diag", "cursor"])
+  , (9,  ["size", "all", "cursor"])
+  , (10, ["blank", "cursor"])
+  , (11, ["split", "v", "cursor"])
+  , (12, ["split", "h", "cursor"])
+  , (13, ["pointing", "hand", "cursor"])
+  , (14, ["forbidden", "cursor"])
+  , (15, ["whats", "this", "cursor"])
+  , (16, ["busy", "cursor"])
+  , (17, ["open", "hand", "cursor"])
+  , (18, ["closed", "hand", "cursor"])
+  , (19, ["drag", "copy", "cursor"])
+  , (20, ["drag", "move", "cursor"])
+  , (21, ["drag", "link", "cursor"])
+  , (24, ["bitmap", "cursor"])
+  ]
+
+(e_DockWidgetArea, bs_DockWidgetAreas) =
+  makeQtEnumBitspace (ident1 "Qt" "DockWidgetArea") "DockWidgetAreas" qtInclude
+  [ (0x0, ["no", "dock", "widget", "area"])
+  , (0x1, ["left", "dock", "widget", "area"])
+  , (0x2, ["right", "dock", "widget", "area"])
+  , (0x4, ["top", "dock", "widget", "area"])
+  , (0x8, ["bottom", "dock", "widget", "area"])
+  , (0xf, ["all", "dock", "widget", "areas"])
   ]
 
 (e_DropAction, bs_DropActions) =

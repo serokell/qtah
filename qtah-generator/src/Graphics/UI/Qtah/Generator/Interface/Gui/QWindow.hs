@@ -55,6 +55,7 @@ import Graphics.UI.Qtah.Generator.Interface.Core.Types (
   e_WindowType,
   qreal,
   )
+import Graphics.UI.Qtah.Generator.Interface.Gui.QCursor (c_QCursor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QRegion (c_QRegion)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QSurface (c_QSurface, e_SurfaceType)
@@ -99,7 +100,7 @@ c_QWindow =
   , just $ mkMethod "close" [] voidT
   , just $ mkConstMethod "contentOrientation" [] $ enumT e_ScreenOrientation
   , just $ mkMethod "create" [] voidT
-    -- TODO mkProp "cursor" $ objT c_QCursor
+  , just $ mkProp "cursor" $ objT c_QCursor
   , just $ mkMethod "destroy" [] voidT
   , just $ mkConstMethod "devicePixelRatio" [] qreal
   , just $ mkProp "filePath" $ objT c_QString

@@ -35,6 +35,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit as Q
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDial as QDial
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialog as QDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDialogButtonBox as QDialogButtonBox
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget as QDockWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QDoubleSpinBox as QDoubleSpinBox
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFileDialog as QFileDialog
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QFormLayout as QFormLayout
@@ -82,6 +83,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTabWidget as QTab
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTextEdit as QTextEdit
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBar as QToolBar
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolBox as QToolBox
+import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QToolButton as QToolButton
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeView as QTreeView
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QTreeWidget as QTreeWidget
 import qualified Graphics.UI.Qtah.Generator.Interface.Widgets.QVBoxLayout as QVBoxLayout
@@ -110,6 +112,7 @@ modules =
   , QDial.aModule
   , QDialog.aModule
   , QDialogButtonBox.aModule
+  , QDockWidget.aModule
   , QDoubleSpinBox.aModule
   , QFileDialog.aModule
   , QFormLayout.aModule
@@ -157,6 +160,7 @@ modules =
   , QTextEdit.aModule
   , QToolBar.aModule
   , QToolBox.aModule
+  , QToolButton.aModule
   , QTreeView.aModule
   , QTreeWidget.aModule
   , QTreeWidget.itemModule

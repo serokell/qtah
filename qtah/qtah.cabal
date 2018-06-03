@@ -57,6 +57,7 @@ library
     , Graphics.UI.Qtah.Core.QMarginsF
     , Graphics.UI.Qtah.Core.QModelIndex
     , Graphics.UI.Qtah.Core.QObject
+    , Graphics.UI.Qtah.Core.QPalette
     , Graphics.UI.Qtah.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Core.QPoint
     , Graphics.UI.Qtah.Core.QPointF
@@ -84,6 +85,7 @@ library
     , Graphics.UI.Qtah.Gui.QClipboard
     , Graphics.UI.Qtah.Gui.QCloseEvent
     , Graphics.UI.Qtah.Gui.QColor
+    , Graphics.UI.Qtah.Gui.QCursor
     , Graphics.UI.Qtah.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Gui.QEnterEvent
     , Graphics.UI.Qtah.Gui.QExposeEvent
@@ -142,6 +144,7 @@ library
     , Graphics.UI.Qtah.Widgets.QDial
     , Graphics.UI.Qtah.Widgets.QDialog
     , Graphics.UI.Qtah.Widgets.QDialogButtonBox
+    , Graphics.UI.Qtah.Widgets.QDockWidget
     , Graphics.UI.Qtah.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Widgets.QFileDialog
     , Graphics.UI.Qtah.Widgets.QFormLayout
@@ -189,6 +192,7 @@ library
     , Graphics.UI.Qtah.Widgets.QTextEdit
     , Graphics.UI.Qtah.Widgets.QToolBar
     , Graphics.UI.Qtah.Widgets.QToolBox
+    , Graphics.UI.Qtah.Widgets.QToolButton
     , Graphics.UI.Qtah.Widgets.QTreeView
     , Graphics.UI.Qtah.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Widgets.QTreeWidgetItem
@@ -223,6 +227,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
     , Graphics.UI.Qtah.Generated.Core.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QObject
+    , Graphics.UI.Qtah.Generated.Core.QPalette
     , Graphics.UI.Qtah.Generated.Core.QPersistentModelIndex
     , Graphics.UI.Qtah.Generated.Core.QPoint
     , Graphics.UI.Qtah.Generated.Core.QPointF
@@ -248,6 +253,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QClipboard
     , Graphics.UI.Qtah.Generated.Gui.QCloseEvent
     , Graphics.UI.Qtah.Generated.Gui.QColor
+    , Graphics.UI.Qtah.Generated.Gui.QCursor
     , Graphics.UI.Qtah.Generated.Gui.QDoubleValidator
     , Graphics.UI.Qtah.Generated.Gui.QEnterEvent
     , Graphics.UI.Qtah.Generated.Gui.QExposeEvent
@@ -303,6 +309,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QDial
     , Graphics.UI.Qtah.Generated.Widgets.QDialog
     , Graphics.UI.Qtah.Generated.Widgets.QDialogButtonBox
+    , Graphics.UI.Qtah.Generated.Widgets.QDockWidget
     , Graphics.UI.Qtah.Generated.Widgets.QDoubleSpinBox
     , Graphics.UI.Qtah.Generated.Widgets.QFileDialog
     , Graphics.UI.Qtah.Generated.Widgets.QFormLayout
@@ -350,6 +357,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QTextEdit
     , Graphics.UI.Qtah.Generated.Widgets.QToolBar
     , Graphics.UI.Qtah.Generated.Widgets.QToolBox
+    , Graphics.UI.Qtah.Generated.Widgets.QToolButton
     , Graphics.UI.Qtah.Generated.Widgets.QTreeView
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidget
     , Graphics.UI.Qtah.Generated.Widgets.QTreeWidgetItem

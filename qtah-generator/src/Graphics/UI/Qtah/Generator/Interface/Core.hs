@@ -35,6 +35,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF as QMarginsF
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex as QModelIndex
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QObject as QObject
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPalette as QPalette
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPersistentModelIndex as QPersistentModelIndex
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPoint as QPoint
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPointF as QPointF
@@ -76,6 +77,7 @@ modules =
     , QMarginsF.aModule
     , QModelIndex.aModule
     , QObject.aModule
+    , QPalette.aModule
     , QPersistentModelIndex.aModule
     , QPoint.aModule
     , QPointF.aModule
