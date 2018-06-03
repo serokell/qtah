@@ -46,9 +46,7 @@ exports =
 e_ColorRole =
   makeQtEnum (ident1 "QPalette" "ColorRole") qPaletteInclude
   [ (10, ["window"])
-  , (10, ["background"])
   , (0,  ["window", "text"])
-  , (0,  ["foreground"])
   , (9,  ["base"])
   , (16, ["alternate", "base"])
   , (18, ["tool", "tip", "base"])
