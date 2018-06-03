@@ -74,7 +74,9 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractButt
   (c_QAbstractButton)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAbstractSlider (e_SliderAction)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
-import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget (bs_DockWidgetFeatures)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QDockWidget (
+  bs_DockWidgetFeatures,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QGraphicsItem (c_QGraphicsItem)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Widgets.QSystemTrayIcon (
   e_ActivationReason,
@@ -91,9 +93,9 @@ aModule =
     moduleAddHaskellName ["Internal", "Callback"]
     moduleAddExports $ collect
       [ just $ ExportCallback cb_BoolVoid
-      , just $ ExportCallback cb_DoubleVoid
       , just $ ExportCallback cb_DockWidgetAreaVoid
       , just $ ExportCallback cb_DockWidgetAreasVoid
+      , just $ ExportCallback cb_DoubleVoid
       , just $ ExportCallback cb_IntVoid
       , just $ ExportCallback cb_IntBoolVoid
       , just $ ExportCallback cb_IntIntVoid
@@ -139,10 +141,6 @@ cb_BoolVoid =
   makeCallback (toExtName "CallbackBoolVoid")
   [boolT] voidT
 
-cb_DoubleVoid =
-  makeCallback (toExtName "CallbackDoubleVoid")
-  [doubleT] voidT
-
 cb_DockWidgetAreaVoid =
   makeCallback (toExtName "CallbackDockWidgetAreaVoid")
   [enumT e_DockWidgetArea] voidT
@@ -150,6 +148,10 @@ cb_DockWidgetAreaVoid =
 cb_DockWidgetAreasVoid =
   makeCallback (toExtName "CallbackDockWidgetAreasVoid")
   [bitspaceT bs_DockWidgetAreas] voidT
+
+cb_DoubleVoid =
+  makeCallback (toExtName "CallbackDoubleVoid")
+  [doubleT] voidT
 
 cb_IntVoid =
   makeCallback (toExtName "CallbackIntVoid")

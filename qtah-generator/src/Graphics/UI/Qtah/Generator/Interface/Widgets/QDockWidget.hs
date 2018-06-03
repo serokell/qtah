@@ -88,14 +88,16 @@ c_QDockWidget =
 signals =
   collect
   [ just $ makeSignal c_QDockWidget "allowedAreasChanged" c_ListenerDockWidgetAreas
-  , test (qtVersion >= [4, 3]) $ makeSignal c_QDockWidget "dockLocationChanged" c_ListenerDockWidgetArea
+  , test (qtVersion >= [4, 3]) $
+    makeSignal c_QDockWidget "dockLocationChanged" c_ListenerDockWidgetArea
   , just $ makeSignal c_QDockWidget "featuresChanged" c_ListenerQDockWidgetFeatures
   , just $ makeSignal c_QDockWidget "topLevelChanged" c_ListenerBool
   , just $ makeSignal c_QDockWidget "visibilityChanged" c_ListenerBool
   ]
 
 (e_DockWidgetFeature, bs_DockWidgetFeatures) =
-  makeQtEnumBitspace (ident1 "QDockWidget" "DockWidgetFeature") "DockWidgetFeatures" [includeStd "QDockWidget"] $
+  makeQtEnumBitspace (ident1 "QDockWidget" "DockWidgetFeature") "DockWidgetFeatures"
+  [includeStd "QDockWidget"] $
   [ (0x0, ["no", "dock", "widget", "features"])
   , (0x1, ["dock", "widget", "closable"])
   , (0x2, ["dock", "widget", "movable"])

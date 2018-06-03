@@ -45,7 +45,11 @@ import Foreign.Hoppy.Generator.Types (
   voidT,
   )
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
-import Graphics.UI.Qtah.Generator.Interface.Core.Types (bs_Alignment, bs_TextInteractionFlags, e_TextFormat)
+import Graphics.UI.Qtah.Generator.Interface.Core.Types (
+  bs_Alignment,
+  bs_TextInteractionFlags,
+  e_TextFormat,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_ListenerQString)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QFrame (c_QFrame)

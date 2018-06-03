@@ -21,9 +21,8 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QPalette (
   e_ColorRole
   ) where
 
-import Foreign.Hoppy.Generator.Spec
-  (Export(ExportBitspace, ExportEnum, ExportFn), Include, ident1, includeStd)
-import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Foreign.Hoppy.Generator.Spec (Export (ExportEnum), Include, ident1, includeStd)
+import Foreign.Hoppy.Generator.Version (collect, just)
 import Graphics.UI.Qtah.Generator.Module (AModule(AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -42,6 +41,8 @@ exports =
   [ just $ ExportEnum e_ColorRole
   ]
 
+-- TODO QPalette
+
 e_ColorRole =
   makeQtEnum (ident1 "QPalette" "ColorRole") qPaletteInclude
   [ (10, ["window"])
@@ -56,6 +57,5 @@ e_ColorRole =
   , (1,  ["button"])
   , (8,  ["button", "text"])
   , (7,  ["bright", "text"])
-
   ]
 

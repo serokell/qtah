@@ -72,7 +72,8 @@ c_QMainWindow =
   , mkCtor "newWithParent" [ptrT $ objT c_QWidget]
     -- TODO Ctor with Qt::WindowFlags.
   , mkMethod "addDockWidget" [enumT e_DockWidgetArea, ptrT $ objT c_QDockWidget] voidT
-  , mkMethod' "addDockWidget" "addDockWidgetWithOrientation" [enumT e_DockWidgetArea, ptrT $ objT c_QDockWidget, enumT e_Orientation] voidT
+  , mkMethod' "addDockWidget" "addDockWidgetWithOrientation"
+    [enumT e_DockWidgetArea, ptrT $ objT c_QDockWidget, enumT e_Orientation] voidT
     -- TODO mkMethod' "addToolBar" "addToolBarWithArea" [e_ToolBarArea, ptrT $ objT c_QToolBar]
     --      voidT
   , mkMethod "addToolBar" [ptrT $ objT c_QToolBar] voidT
@@ -100,7 +101,8 @@ c_QMainWindow =
   , mkMethod "setCorner" [enumT e_Corner, enumT e_DockWidgetArea] voidT
     -- TODO setTabPosition
     -- TODO setTabShape
-  , mkMethod "splitDockWidget" [ptrT $ objT c_QDockWidget, ptrT $ objT c_QDockWidget, enumT e_Orientation] voidT
+  , mkMethod "splitDockWidget"
+    [ptrT $ objT c_QDockWidget, ptrT $ objT c_QDockWidget, enumT e_Orientation] voidT
   , mkProp "statusBar" $ ptrT $ objT c_QStatusBar
     -- TODO tabifiedDockWidgets
     -- TODO tabifyDockWidget
