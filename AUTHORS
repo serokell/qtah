@@ -1,10 +1,14 @@
-Code has been contributed to Qtah by the following people.
+Qtah was created and is maintained by:
 
-Bryan Gardiner <bog@khumba.net>
-- Creator and maintainer.
+- Bryan Gardiner <bog@khumba.net>
 
-effectfully <effectfully@gmail.com>
-- Qt graphics view framework classes.
+Thanks to the following people, who have contributed code to make Qtah better
+for everyone:
 
-Yuriy Syrovetskiy <cblp@cblp.su>
-- Filling some holes.
+- effectfully <effectfully@gmail.com>
+
+- Maxim Koltsov <kolmax94@gmail.com>
+
+- Paul Tsupikoff <goodsoft@goodsoft.lv>
+
+- Yuriy Syrovetskiy <cblp@cblp.su>

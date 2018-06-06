@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+## (2018-06-05) *-0.5.0
+
+Thanks to Yuriy Syrovetskiy, Maxim Koltsov, and Paul Tsupikoff for contributions
+to this release.
+
+- New coverage of the Qt API, plus some version range fixes, totalling 10 new
+  classes, 8 new enums, and 12 other classes expanded upon.
+
+- Fixed the invocation of qtah-listener-gen under Windows/MSYS (issue #25).
+
+- Fixed a linking issue with the use of Qtah data types via Template Haskell,
+  such as in lenses (MR !13).
+
+- Changed qtah.cabal's "extra-libaries: qtah" to be specified dynamically by
+  Setup.hs, since Setup.hs is needed to be able to find this library.  This
+  fixes an issue for cabal2nix (part of issue #27, MR !13).
+
 ## (2018-01-27) *-0.4.0
 
 - [API change] Changed QAction's constructors so that "new" and "newWithText"
