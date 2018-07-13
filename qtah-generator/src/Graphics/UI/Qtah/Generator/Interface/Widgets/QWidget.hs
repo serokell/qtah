@@ -71,6 +71,7 @@ import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
   )
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QAction (c_QAction)
 import Graphics.UI.Qtah.Generator.Interface.Widgets.QLayout (c_QLayout)
+import Graphics.UI.Qtah.Generator.Interface.Widgets.QSizePolicy (c_QSizePolicy, e_Policy)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -276,7 +277,7 @@ c_QWidget =
     -- TODO setShortcutEnabled
   , just $ mkMethod' "setSizeIncrement" "setSizeIncrement" [objT c_QSize] voidT
   , just $ mkMethod' "setSizeIncrement" "setSizeIncrementRaw" [intT, intT] voidT
-    -- TODO setSizePolicy
+  , just $ mkMethod' "setSizePolicy" "setSizePolicyRaw" [enumT e_Policy, enumT e_Policy] voidT
   , just $ mkMethod "setStatusTip" [objT c_QString] voidT
     -- TODO setStyle
   , just $ mkMethod "setStyleSheet" [objT c_QString] voidT
@@ -299,7 +300,7 @@ c_QWidget =
   , just $ mkConstMethod "size" [] $ objT c_QSize
   , just $ mkConstMethod "sizeHint" [] $ objT c_QSize
   , just $ mkConstMethod "sizeIncrement" [] $ objT c_QSize
-    -- TODO sizePolicy
+  , just $ mkProp "sizePolicy" $ objT c_QSizePolicy
   , just $ mkMethod "stackUnder" [ptrT $ objT c_QWidget] voidT
   , just $ mkConstMethod "statusTip" [] $ objT c_QString
   , just $ mkConstMethod "styleSheet" [] $ objT c_QString
