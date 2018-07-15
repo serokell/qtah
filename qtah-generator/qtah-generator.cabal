@@ -69,6 +69,11 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QList
     , Graphics.UI.Qtah.Generator.Interface.Core.QMargins
     , Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF
+    , Graphics.UI.Qtah.Generator.Interface.Core.QMetaClassInfo
+    , Graphics.UI.Qtah.Generator.Interface.Core.QMetaEnum
+    , Graphics.UI.Qtah.Generator.Interface.Core.QMetaMethod
+    , Graphics.UI.Qtah.Generator.Interface.Core.QMetaObject
+    , Graphics.UI.Qtah.Generator.Interface.Core.QMetaProperty
     , Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex
     , Graphics.UI.Qtah.Generator.Interface.Core.QObject
     , Graphics.UI.Qtah.Generator.Interface.Core.QPersistentModelIndex

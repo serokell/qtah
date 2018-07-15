@@ -33,6 +33,11 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange a
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QList as QList
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMargins as QMargins
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF as QMarginsF
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMetaClassInfo as QMetaClassInfo
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMetaEnum as QMetaEnum
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMetaMethod as QMetaMethod
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMetaObject as QMetaObject
+import qualified Graphics.UI.Qtah.Generator.Interface.Core.QMetaProperty as QMetaProperty
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QModelIndex as QModelIndex
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QObject as QObject
 import qualified Graphics.UI.Qtah.Generator.Interface.Core.QPalette as QPalette
@@ -75,6 +80,11 @@ modules =
     , QItemSelectionRange.aModule
     , QMargins.aModule
     , QMarginsF.aModule
+    , QMetaClassInfo.aModule
+    , QMetaEnum.aModule
+    , QMetaMethod.aModule
+    , QMetaObject.aModule
+    , QMetaProperty.aModule
     , QModelIndex.aModule
     , QObject.aModule
     , QPalette.aModule

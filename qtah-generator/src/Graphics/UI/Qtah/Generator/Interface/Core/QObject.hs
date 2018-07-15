@@ -37,16 +37,19 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, refT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, constT, intT, objT, ptrT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener
-                        (c_ListenerPtrQObject, c_ListenerQString)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_ListenerPtrQObject,
+  c_ListenerQString,
+  )
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (
   c_QListQByteArray,
   c_QListQObject,
   )
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
+import Graphics.UI.Qtah.Generator.Interface.Core.QMetaObject (c_QMetaObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -82,13 +85,13 @@ c_QObject =
     -- TODO findChild
     -- TODO findChildren
   , just $ makeFnMethod (ident2 "qtah" "qobject" "inherits") "inherits" MConst Nonpure
-    [objT c_QString] boolT
+    [objT c_QObject, objT c_QString] boolT
   , just $ mkMethod "installEventFilter" [ptrT $ objT c_QObject] voidT
   , just $ mkConstMethod "isWidgetType" [] boolT
   , -- This is a guess on the version bound.
     test (qtVersion >= [5, 0]) $ mkConstMethod "isWindowType" [] boolT
   , just $ mkMethod "killTimer" [intT] voidT
-    -- TODO metaObject
+  , just $ mkConstMethod "metaObject" [] $ ptrT $ constT $ objT c_QMetaObject
     -- TODO moveToThread
   , just $ mkProp "objectName" $ objT c_QString
   , just $ mkProp "parent" $ ptrT $ objT c_QObject

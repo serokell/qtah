@@ -55,6 +55,11 @@ library
     , Graphics.UI.Qtah.Core.QList.QWidget
     , Graphics.UI.Qtah.Core.QMargins
     , Graphics.UI.Qtah.Core.QMarginsF
+    , Graphics.UI.Qtah.Core.QMetaClassInfo
+    , Graphics.UI.Qtah.Core.QMetaEnum
+    , Graphics.UI.Qtah.Core.QMetaMethod
+    , Graphics.UI.Qtah.Core.QMetaObject
+    , Graphics.UI.Qtah.Core.QMetaProperty
     , Graphics.UI.Qtah.Core.QModelIndex
     , Graphics.UI.Qtah.Core.QObject
     , Graphics.UI.Qtah.Core.QPalette
@@ -225,6 +230,11 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
     , Graphics.UI.Qtah.Generated.Core.QMargins
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
+    , Graphics.UI.Qtah.Generated.Core.QMetaClassInfo
+    , Graphics.UI.Qtah.Generated.Core.QMetaEnum
+    , Graphics.UI.Qtah.Generated.Core.QMetaMethod
+    , Graphics.UI.Qtah.Generated.Core.QMetaObject
+    , Graphics.UI.Qtah.Generated.Core.QMetaProperty
     , Graphics.UI.Qtah.Generated.Core.QModelIndex
     , Graphics.UI.Qtah.Generated.Core.QObject
     , Graphics.UI.Qtah.Generated.Core.QPalette

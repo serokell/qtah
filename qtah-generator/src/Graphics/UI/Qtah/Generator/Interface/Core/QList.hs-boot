@@ -17,11 +17,14 @@
 
 -- | Bindings for @QList@.
 module Graphics.UI.Qtah.Generator.Interface.Core.QList (
+  c_QListQByteArray,
   c_QListQModelIndex,
   c_QListQObject,
   ) where
 
 import Foreign.Hoppy.Generator.Spec (Class)
+
+c_QListQByteArray :: Class
 
 c_QListQModelIndex :: Class
 
