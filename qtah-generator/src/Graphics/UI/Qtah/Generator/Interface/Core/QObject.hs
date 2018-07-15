@@ -22,24 +22,33 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QObject (
 
 import Foreign.Hoppy.Generator.Spec (
   Export (ExportClass),
+  MethodApplicability (MConst, MNormal),
+  Purity (Nonpure),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
+  ident2,
+  includeLocal,
   includeStd,
   makeClass,
+  makeFnMethod,
   mkConstMethod,
   mkCtor,
   mkMethod,
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener
                         (c_ListenerPtrQObject, c_ListenerQString)
-import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQObject)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (
+  c_QListQByteArray,
+  c_QListQObject,
+  )
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -52,7 +61,9 @@ aModule =
   ] ++ map QtExportSignal signals
 
 c_QObject =
-  addReqIncludes [includeStd "QObject"] $
+  addReqIncludes [ includeStd "QObject"
+                 , includeLocal "wrap_qobject.hpp"
+                 ] $
   classSetEntityPrefix "" $
   makeClass (ident "QObject") Nothing [] $
   collect
@@ -65,12 +76,13 @@ c_QObject =
     -- TODO disconnect
   , just $ mkMethod "dumpObjectInfo" [] voidT
   , just $ mkMethod "dumpObjectTree" [] voidT
-    -- TODO dynamicPropertyNames (>=4.2)
+  , just $ mkConstMethod "dynamicPropertyNames" [] $ objT c_QListQByteArray
   , just $ mkMethod "event" [ptrT $ objT c_QEvent] boolT
   , just $ mkMethod "eventFilter" [ptrT $ objT c_QObject, ptrT $ objT c_QEvent] boolT
     -- TODO findChild
     -- TODO findChildren
-    -- TODO inherits
+  , just $ makeFnMethod (ident2 "qtah" "qobject" "inherits") "inherits" MConst Nonpure
+    [objT c_QString] boolT
   , just $ mkMethod "installEventFilter" [ptrT $ objT c_QObject] voidT
   , just $ mkConstMethod "isWidgetType" [] boolT
   , -- This is a guess on the version bound.
@@ -80,9 +92,11 @@ c_QObject =
     -- TODO moveToThread
   , just $ mkProp "objectName" $ objT c_QString
   , just $ mkProp "parent" $ ptrT $ objT c_QObject
-    -- TODO property
+  , just $ makeFnMethod (ident2 "qtah" "qobject" "property") "property" MConst Nonpure
+    [objT c_QObject, objT c_QString] $ objT c_QVariant
   , just $ mkMethod "removeEventFilter" [ptrT $ objT c_QObject] voidT
-    -- TODO setProperty
+  , just $ makeFnMethod (ident2 "qtah" "qobject" "setProperty") "setProperty" MNormal Nonpure
+    [refT $ objT c_QObject, objT c_QString, objT c_QVariant] voidT
   , just $ mkConstMethod "signalsBlocked" [] boolT
   , just $ mkMethod "startTimer" [intT] intT
     -- TODO thread
