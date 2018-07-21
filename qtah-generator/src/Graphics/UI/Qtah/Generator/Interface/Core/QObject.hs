@@ -40,10 +40,6 @@ import Foreign.Hoppy.Generator.Spec (
 import Foreign.Hoppy.Generator.Types (boolT, constT, intT, objT, ptrT, refT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
-import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
-  c_ListenerPtrQObject,
-  c_ListenerQString,
-  )
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (
   c_QListQByteArray,
   c_QListQObject,
@@ -51,7 +47,12 @@ import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QMetaObject (c_QMetaObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QThread (c_QThread)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_ListenerPtrQObject,
+  c_ListenerQString,
+  )
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
@@ -92,7 +93,7 @@ c_QObject =
     test (qtVersion >= [5, 0]) $ mkConstMethod "isWindowType" [] boolT
   , just $ mkMethod "killTimer" [intT] voidT
   , just $ mkConstMethod "metaObject" [] $ ptrT $ constT $ objT c_QMetaObject
-    -- TODO moveToThread
+  , just $ mkMethod "moveToThread" [ptrT $ objT c_QThread] voidT
   , just $ mkProp "objectName" $ objT c_QString
   , just $ mkProp "parent" $ ptrT $ objT c_QObject
   , just $ makeFnMethod (ident2 "qtah" "qobject" "property") "property" MConst Nonpure
@@ -102,7 +103,7 @@ c_QObject =
     [refT $ objT c_QObject, objT c_QString, objT c_QVariant] voidT
   , just $ mkConstMethod "signalsBlocked" [] boolT
   , just $ mkMethod "startTimer" [intT] intT
-    -- TODO thread
+  , just $ mkConstMethod "thread" [] $ ptrT $ objT c_QThread
   ]
 
 signals =
