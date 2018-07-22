@@ -32,12 +32,13 @@ import Foreign.Hoppy.Generator.Spec (
   mkMethod,
   mkProp,
   )
-import Foreign.Hoppy.Generator.Types (boolT, intT, objT, ptrT, voidT)
+import Foreign.Hoppy.Generator.Types (boolT, charT, constT, intT, objT, ptrT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just, test)
 import Graphics.UI.Qtah.Generator.Flags (qtVersion)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Internal.Listener
                         (c_ListenerPtrQObject, c_ListenerQString)
 import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QList (c_QListQObject)
+import {-# SOURCE #-} Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Core.QEvent (c_QEvent)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
@@ -83,6 +84,7 @@ c_QObject =
     -- TODO property
   , just $ mkMethod "removeEventFilter" [ptrT $ objT c_QObject] voidT
     -- TODO setProperty
+  , just $ mkMethod "setProperty" [ptrT $ constT charT, objT c_QVariant] boolT
   , just $ mkConstMethod "signalsBlocked" [] boolT
   , just $ mkMethod "startTimer" [intT] intT
     -- TODO thread
