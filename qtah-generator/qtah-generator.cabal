@@ -107,6 +107,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QFont
+    , Graphics.UI.Qtah.Generator.Interface.Gui.QFontDatabase
     , Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent
     , Graphics.UI.Qtah.Generator.Interface.Gui.QIcon

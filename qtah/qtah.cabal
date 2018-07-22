@@ -97,6 +97,7 @@ library
     , Graphics.UI.Qtah.Gui.QExposeEvent
     , Graphics.UI.Qtah.Gui.QFocusEvent
     , Graphics.UI.Qtah.Gui.QFont
+    , Graphics.UI.Qtah.Gui.QFontDatabase
     , Graphics.UI.Qtah.Gui.QHideEvent
     , Graphics.UI.Qtah.Gui.QHoverEvent
     , Graphics.UI.Qtah.Gui.QIcon
@@ -271,6 +272,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QExposeEvent
     , Graphics.UI.Qtah.Generated.Gui.QFocusEvent
     , Graphics.UI.Qtah.Generated.Gui.QFont
+    , Graphics.UI.Qtah.Generated.Gui.QFontDatabase
     , Graphics.UI.Qtah.Generated.Gui.QHideEvent
     , Graphics.UI.Qtah.Generated.Gui.QHoverEvent
     , Graphics.UI.Qtah.Generated.Gui.QIcon
