@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Removed uses of CPP from qtah-generator, except for Setup.hs.  This bumps
+  minimum version requirements to base >= 4.8.0 (GHC 8.0) and mtl >= 2.2.1, both
+  of which have been available for over two years.
+
 ## (2018-06-05) *-0.5.0
 
 Thanks to Yuriy Syrovetskiy, Maxim Koltsov, and Paul Tsupikoff for contributions

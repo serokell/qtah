@@ -71,20 +71,20 @@ c_QMetaObject =
   , mkConstMethod "enumerator" [intT] $ objT c_QMetaEnum
   , mkConstMethod "enumeratorCount" [] intT
   , mkConstMethod "enumeratorOffset" [] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfClassInfo") "indexOfClassInfo" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfConstructor") "indexOfConstructor" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfEnumerator") "indexOfEnumerator" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfMethod") "indexOfMethod" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfProperty") "indexOfProperty" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfSignal") "indexOfSignal" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
-  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfSlot") "indexOfSlot" MConst Nonpure
-    [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfClassInfo") "indexOfClassInfo"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfConstructor") "indexOfConstructor"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfEnumerator") "indexOfEnumerator"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfMethod") "indexOfMethod"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfProperty") "indexOfProperty"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfSignal") "indexOfSignal"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
+  , makeFnMethod (ident2 "qtah" "qmetaobject" "indexOfSlot") "indexOfSlot"
+    MConst Nonpure [objT c_QMetaObject, objT c_QString] intT
   , mkConstMethod "inherits" [ptrT $ constT $ objT c_QMetaObject] boolT
   , mkConstMethod "method" [intT] $ objT c_QMetaMethod
   , mkConstMethod "methodCount" [] intT

@@ -15,8 +15,6 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{-# LANGUAGE CPP #-}
-
 -- | Bindings for @QList@.
 module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   -- * Template
@@ -40,9 +38,6 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QList (
   ) where
 
 import Control.Monad (forM_, when)
-#if !MIN_VERSION_base(4,8,0)
-import Data.Monoid (mconcat, mempty)
-#endif
 import Foreign.Hoppy.Generator.Language.Haskell (
   Generator,
   HsTypeSide (HsHsSide),

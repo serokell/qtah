@@ -15,8 +15,6 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{-# LANGUAGE CPP #-}
-
 -- | Bindings for @QVector@.
 module Graphics.UI.Qtah.Generator.Interface.Core.QVector (
   -- * Template
@@ -32,9 +30,6 @@ module Graphics.UI.Qtah.Generator.Interface.Core.QVector (
   ) where
 
 import Control.Monad (forM_, when)
-#if !MIN_VERSION_base(4,8,0)
-import Data.Monoid (mconcat, mempty)
-#endif
 import Foreign.Hoppy.Generator.Language.Haskell (
   HsTypeSide (HsHsSide),
   addImports,

@@ -15,8 +15,6 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-{-# LANGUAGE CPP #-}
-
 -- | General routines.
 module Graphics.UI.Qtah.Generator.Common (
   splitOn,
@@ -26,9 +24,6 @@ module Graphics.UI.Qtah.Generator.Common (
   writeFileIfDifferent,
   ) where
 
-#if !MIN_VERSION_base(4,8,0)
-import Control.Applicative ((<$>))
-#endif
 import Control.Exception (evaluate)
 import Control.Monad (when)
 import Control.Monad.Trans.Maybe (MaybeT (MaybeT), runMaybeT)
