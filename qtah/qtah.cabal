@@ -140,6 +140,7 @@ library
     , Graphics.UI.Qtah.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Widgets.QComboBox
     , Graphics.UI.Qtah.Widgets.QDateEdit
     , Graphics.UI.Qtah.Widgets.QDateTimeEdit
     , Graphics.UI.Qtah.Widgets.QDial
@@ -306,6 +307,7 @@ library
     , Graphics.UI.Qtah.Generated.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Generated.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Generated.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Generated.Widgets.QComboBox
     , Graphics.UI.Qtah.Generated.Widgets.QDateEdit
     , Graphics.UI.Qtah.Generated.Widgets.QDateTimeEdit
     , Graphics.UI.Qtah.Generated.Widgets.QDial
