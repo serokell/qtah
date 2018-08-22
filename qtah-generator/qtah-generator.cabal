@@ -157,6 +157,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QBoxLayout
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QButtonGroup
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QCheckBox
+    , Graphics.UI.Qtah.Generator.Interface.Widgets.QComboBox
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDateEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDateTimeEdit
     , Graphics.UI.Qtah.Generator.Interface.Widgets.QDial
