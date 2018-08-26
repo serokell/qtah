@@ -97,6 +97,9 @@ import Distribution.Simple.Utils (die')
 import Distribution.Simple.Utils (die)
 #endif
 import Distribution.Simple.Utils (info, installOrdinaryFile, notice)
+#if MIN_VERSION_Cabal(2,2,0)
+import Distribution.Types.GenericPackageDescription (lookupFlagAssignment)
+#endif
 import Distribution.Verbosity (Verbosity, normal)
 import System.Directory (
   createDirectoryIfMissing,
@@ -332,8 +335,13 @@ exportQtVersion configFlags localBuildInfo = do
     _ -> do
       -- Inspect the 'qt4' and 'qt5' package flags.
       let flags = configConfigurationsFlags configFlags
-          qt4Flag = fromMaybe False $ lookup (mkFlagName "qt4") flags
-          qt5Flag = fromMaybe False $ lookup (mkFlagName "qt5") flags
+#if MIN_VERSION_Cabal(2,2,0)
+          lookupFlag = lookupFlagAssignment
+#else
+          lookupFlag = lookup
+#endif
+          qt4Flag = fromMaybe False $ lookupFlag (mkFlagName "qt4") flags
+          qt5Flag = fromMaybe False $ lookupFlag (mkFlagName "qt5") flags
           qtFlag = if qt4Flag then Just 4 else if qt5Flag then Just 5 else Nothing
       when (qt4Flag && qt5Flag) $
         dieFn $ concat
