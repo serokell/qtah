@@ -26,4 +26,13 @@ myDir=$(readlink -f "$0")
 myDir=$(dirname "$myDir")
 cd "$myDir"
 
-sed -i 's/-W -f/-W -Werror -f/g' $(git grep -l -e '-W -f')
+# The "-Wwarn=missing-home-modules" is to prevent "cabal haddock" from issuing
+# the following warning as an error.  I started hitting this after upgrading
+# from Cabal 1.24.2.0 to 2.2.0.1 (and GHC 8.0.2 to 8.4.3).
+#
+#     <no location info>: warning: [-Wmissing-home-modules]
+#         These modules are needed for compilation but not listed in your .cabal
+#         file's other-modules: ...
+#
+# This is a bug: https://github.com/haskell/cabal/issues/4513
+sed -i 's/-W -f/-W -Werror -Wwarn=missing-home-modules -f/g' $(git grep -l -e '-W -f')
