@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## (2018-09-07) qtah-0.5.1
+
+- Fixed the build under Cabal 2.2.
+
 ## (2018-09-06) qtah-cpp-0.5.1
 
 - Fixed the build under Cabal 2.2.

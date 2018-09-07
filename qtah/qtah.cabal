@@ -1,5 +1,5 @@
 name: qtah
-version: 0.5.0
+version: 0.5.1
 synopsis: Qt bindings for Haskell
 homepage: http://khumba.net/projects/qtah
 license: LGPL-3
