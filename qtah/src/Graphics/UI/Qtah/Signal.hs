@@ -43,7 +43,7 @@ connect = flip internalConnectSignal
 
 -- | Registers a handler function to listen to a signal an object emits, via
 -- 'connect'.  If the connection fails, then the program aborts.
-connect_ :: Show (Signal object handler) => object -> Signal object handler -> handler -> IO ()
+connect_ :: object -> Signal object handler -> handler -> IO ()
 connect_ object signal handler = do
   success <- connect object signal handler
   unless success $ fail $ "connect_: Failed to connect signal " ++ show signal ++ "."
