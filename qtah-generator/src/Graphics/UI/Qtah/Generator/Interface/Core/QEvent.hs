@@ -168,6 +168,7 @@ e_Type =
   , (131, ["parent", "about", "to", "change"])
   , (21, ["parent", "change"])
   , (212, ["platform", "panel"])
+  , (217, ["platform", "surface"])
   , (75, ["polish"])
   , (74, ["polish", "request"])
   , (123, ["query", "whats", "this"])
