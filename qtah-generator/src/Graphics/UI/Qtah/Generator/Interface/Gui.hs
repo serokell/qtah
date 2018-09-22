@@ -28,6 +28,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QEnterEvent as QEnterE
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QExposeEvent as QExposeEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFocusEvent as QFocusEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFont as QFont
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QFontDatabase as QFontDatabase
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHideEvent as QHideEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QHoverEvent as QHoverEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QIcon as QIcon
@@ -74,6 +75,7 @@ modules =
   , QExposeEvent.aModule
   , QFocusEvent.aModule
   , QFont.aModule
+  , QFontDatabase.aModule
   , QHideEvent.aModule
   , QHoverEvent.aModule
   , QIcon.aModule
