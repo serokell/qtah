@@ -20,7 +20,7 @@ module Graphics.UI.Qtah.Generator.Interface.Widgets.QComboBox (
   ) where
 
 import Foreign.Hoppy.Generator.Spec (
-  Export (ExportEnum, ExportClass),
+  Export (ExportClass),
   addReqIncludes,
   classSetEntityPrefix,
   ident,
@@ -32,7 +32,7 @@ import Foreign.Hoppy.Generator.Spec (
   mkProp
   )
 import Foreign.Hoppy.Generator.Types (intT, objT, ptrT, voidT)
-import Foreign.Hoppy.Generator.Version (collect, just, test)
+import Foreign.Hoppy.Generator.Version (collect, just)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Core.QVariant (c_QVariant)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QIcon (c_QIcon)
@@ -62,7 +62,8 @@ c_QComboBox =
   , just $ mkMethod "addItem" [objT c_QString] voidT
   , just $ mkMethod' "addItem" "addItemWithData" [objT c_QString, objT c_QVariant] voidT
   , just $ mkMethod' "addItem" "addItemWithIcon" [objT c_QIcon, objT c_QString] voidT
-  , just $ mkMethod' "addItem" "addItemWithIconAndData" [objT c_QIcon, objT c_QString, objT c_QVariant] voidT
+  , just $ mkMethod' "addItem" "addItemWithIconAndData"
+    [objT c_QIcon, objT c_QString, objT c_QVariant] voidT
   , just $ mkProp "currentIndex" intT
   , just $ mkProp "currentText" $ objT c_QString
   ]
