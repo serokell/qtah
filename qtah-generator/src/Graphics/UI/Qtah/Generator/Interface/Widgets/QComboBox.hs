@@ -74,3 +74,5 @@ signals =
   , makeSignal c_QComboBox "currentIndexChanged" c_ListenerInt
   , makeSignal' c_QComboBox "currentIndexChanged" "currentIndexChangedString" c_ListenerQString
   ]
+
+-- TODO The rest of QComboBox.
