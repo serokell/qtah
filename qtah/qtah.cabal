@@ -53,6 +53,7 @@ library
     , Graphics.UI.Qtah.Core.QList.QString
     , Graphics.UI.Qtah.Core.QList.QVariant
     , Graphics.UI.Qtah.Core.QList.QWidget
+    , Graphics.UI.Qtah.Core.QLocale
     , Graphics.UI.Qtah.Core.QMargins
     , Graphics.UI.Qtah.Core.QMarginsF
     , Graphics.UI.Qtah.Core.QMetaClassInfo
@@ -231,6 +232,7 @@ library
     , Graphics.UI.Qtah.Generated.Core.QList.QString
     , Graphics.UI.Qtah.Generated.Core.QList.QVariant
     , Graphics.UI.Qtah.Generated.Core.QList.QWidget
+    , Graphics.UI.Qtah.Generated.Core.QLocale
     , Graphics.UI.Qtah.Generated.Core.QMargins
     , Graphics.UI.Qtah.Generated.Core.QMarginsF
     , Graphics.UI.Qtah.Generated.Core.QMetaClassInfo

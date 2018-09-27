@@ -30,8 +30,10 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkConstMethod,
+  mkProp
   )
 import Foreign.Hoppy.Generator.Types (enumT, intT, objT, refT, voidT)
+import Graphics.UI.Qtah.Generator.Interface.Core.QLocale (c_QLocale)
 import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)
 import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (c_Listener)
@@ -52,8 +54,7 @@ c_QValidator =
   classSetEntityPrefix "" $
   makeClass (ident "QValidator") Nothing [c_QObject] $
   [ mkConstMethod "fixup" [refT $ objT c_QString] voidT
-    -- TODO locale
-    -- TODO setLocale
+  ,  mkProp "locale" $ objT c_QLocale
   , mkConstMethod "validate" [refT $ objT c_QString, refT intT] $ enumT e_State
   ]
 

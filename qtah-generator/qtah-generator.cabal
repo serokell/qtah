@@ -67,6 +67,7 @@ executable qtah-generator
     , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionModel
     , Graphics.UI.Qtah.Generator.Interface.Core.QItemSelectionRange
     , Graphics.UI.Qtah.Generator.Interface.Core.QList
+    , Graphics.UI.Qtah.Generator.Interface.Core.QLocale
     , Graphics.UI.Qtah.Generator.Interface.Core.QMargins
     , Graphics.UI.Qtah.Generator.Interface.Core.QMarginsF
     , Graphics.UI.Qtah.Generator.Interface.Core.QMetaClassInfo
