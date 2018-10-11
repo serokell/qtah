@@ -107,6 +107,7 @@ library
     , Graphics.UI.Qtah.Gui.QIntValidator
     , Graphics.UI.Qtah.Gui.QKeyEvent
     , Graphics.UI.Qtah.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Gui.QMovie
     , Graphics.UI.Qtah.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Gui.QPaintDevice
     , Graphics.UI.Qtah.Gui.QPaintDeviceWindow
@@ -284,6 +285,7 @@ library
     , Graphics.UI.Qtah.Generated.Gui.QIntValidator
     , Graphics.UI.Qtah.Generated.Gui.QKeyEvent
     , Graphics.UI.Qtah.Generated.Gui.QMouseEvent
+    , Graphics.UI.Qtah.Generated.Gui.QMovie
     , Graphics.UI.Qtah.Generated.Gui.QOpenGLWindow
     , Graphics.UI.Qtah.Generated.Gui.QPaintDevice
     , Graphics.UI.Qtah.Generated.Gui.QPaintDeviceWindow
