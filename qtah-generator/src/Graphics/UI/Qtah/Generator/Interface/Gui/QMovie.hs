@@ -81,6 +81,8 @@ c_QMovie =
   , just $ mkMethod "setFormat" [objT c_QByteArray] voidT
   , just $ mkMethod "setScaledSize" [objT c_QSize] voidT
   , just $ mkConstMethod "speed" [] intT
+  , just $ mkMethod "start" [] voidT
+  , just $ mkMethod "stop" [] voidT
   ]
 
 signals =
