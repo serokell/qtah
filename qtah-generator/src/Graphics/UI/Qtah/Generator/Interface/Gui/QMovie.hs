@@ -20,12 +20,20 @@ module Graphics.UI.Qtah.Generator.Interface.Gui.QMovie(
   c_QMovie,
   ) where
 
-import Foreign.Hoppy.Generator.Spec
-  (Export(ExportClass), addReqIncludes, classSetEntityPrefix, ident,
-  includeStd, makeClass, mkConstMethod, mkCtor, mkMethod)
+import Foreign.Hoppy.Generator.Spec (
+  Export (ExportClass),
+  addReqIncludes,
+  classSetEntityPrefix,
+  ident,
+  includeStd,
+  makeClass,
+  mkConstMethod,
+  mkCtor, mkMethod
+  )
 
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, voidT)
 import Foreign.Hoppy.Generator.Version (collect, just)
+import Graphics.UI.Qtah.Generator.Interface.Core.QObject (c_QObject)1
 import Graphics.UI.Qtah.Generator.Interface.Core.QByteArray (c_QByteArray)
 import Graphics.UI.Qtah.Generator.Interface.Core.QRect (c_QRect)
 import Graphics.UI.Qtah.Generator.Interface.Core.QSize (c_QSize)
@@ -33,9 +41,11 @@ import Graphics.UI.Qtah.Generator.Interface.Core.QString (c_QString)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QColor (c_QColor)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QImage (c_QImage)
 import Graphics.UI.Qtah.Generator.Interface.Gui.QPixmap (c_QPixmap)
-import Graphics.UI.Qtah.Generator.Interface.Internal.Listener
-  (c_Listener, c_ListenerInt)
-import Graphics.UI.Qtah.Generator.Module (AModule(AQtModule), makeQtModule)
+import Graphics.UI.Qtah.Generator.Interface.Internal.Listener (
+  c_Listener,
+  c_ListenerInt,
+  )
+import Graphics.UI.Qtah.Generator.Module (AModule (AQtModule), makeQtModule)
 import Graphics.UI.Qtah.Generator.Types
 
 {-# ANN module "HLint: ignore Use camelCase" #-}
@@ -49,7 +59,7 @@ aModule =
 c_QMovie =
   addReqIncludes [includeStd "QMovie"] $
   classSetEntityPrefix "" $
-  makeClass (ident "QMovie") Nothing [] $
+  makeClass (ident "QMovie") Nothing [c_QObject] $
   collect
   [ just $ mkCtor "new" []
   , just $ mkCtor "newWithFile" [objT c_QString]
