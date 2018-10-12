@@ -28,7 +28,8 @@ import Foreign.Hoppy.Generator.Spec (
   includeStd,
   makeClass,
   mkConstMethod,
-  mkCtor, mkMethod
+  mkCtor,
+  mkMethod
   )
 
 import Foreign.Hoppy.Generator.Types (boolT, intT, objT, voidT)
