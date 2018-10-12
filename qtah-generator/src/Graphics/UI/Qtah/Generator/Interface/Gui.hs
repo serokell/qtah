@@ -37,6 +37,7 @@ import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QInputEvent as QInputE
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QIntValidator as QIntValidator
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QKeyEvent as QKeyEvent
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QMouseEvent as QMouseEvent
+import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QMovie as QMovie
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QOpenGLWindow as QOpenGLWindow
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDevice as QPaintDevice
 import qualified Graphics.UI.Qtah.Generator.Interface.Gui.QPaintDeviceWindow as QPaintDeviceWindow
@@ -84,6 +85,7 @@ modules =
   , QIntValidator.aModule
   , QKeyEvent.aModule
   , QMouseEvent.aModule
+  , QMovie.aModule
   , QOpenGLWindow.aModule
   , QPaintDevice.aModule
   , QPaintDeviceWindow.aModule
